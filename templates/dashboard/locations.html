@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory - Dashboard{% endblock title %}
+
+{% block content %}
+
+<h1>
+    Locations
+    <a class="f6 link dim ba ph3 pv2 dib black fr" href="#0">Add a location</a>
+</h1>
+
+<div class="overflow-auto">
+    <table class="f6 w-100 center" cellspacing="0">
+        <thead>
+            <tr>
+                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Name</th>
+                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white" width="400px">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="lh-copy">
+            <tr>
+                <td class="pt2 pr3 bb b--black-20">Neude 0</td>
+                <td class="pt2 pr3 bb b--black-20">
+                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">See Inventory</a>
+                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Add</a>
+                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Remove</a>
+                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Transfer</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="pt2 pr3 bb b--black-20">Woudrichem</td>
+                <td class="pt2 pr3 bb b--black-20">
+                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">See Inventory</a>
+                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Add</a>
+                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Remove</a>
+                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Transfer</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
