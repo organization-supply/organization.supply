@@ -1,0 +1,13 @@
+[html]
+directory = tests/reports
+
+[run]
+omit =
+    */.local/*
+    */__init__.py
+    */tests.py
+    */apps.py
+    inventory/wsgi.py
+    manage.py
+
+    
