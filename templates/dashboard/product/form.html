@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory - Products{% endblock title %}
+
+{% block content %}
+
+{% if product%}
+    <h1>
+        Edit: {{ product.name }}
+    </h1>
+{% else %}
+    <h1>
+        Add a product
+    </h1>
+{% endif %}
+
+{% endblock %}

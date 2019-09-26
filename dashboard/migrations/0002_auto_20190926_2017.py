@@ -7,24 +7,30 @@ import model_utils.fields
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('dashboard', '0001_initial'),
-    ]
+    dependencies = [("dashboard", "0001_initial")]
 
     operations = [
         migrations.AddField(
-            model_name='mutation',
-            name='contra_mutation',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='dashboard.Mutation'),
+            model_name="mutation",
+            name="contra_mutation",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="dashboard.Mutation",
+            ),
         ),
         migrations.AddField(
-            model_name='mutation',
-            name='operation',
-            field=model_utils.fields.StatusField(choices=[(0, 'dummy')], default='add', max_length=100, no_check_for_status=True),
+            model_name="mutation",
+            name="operation",
+            field=model_utils.fields.StatusField(
+                choices=[(0, "dummy")],
+                default="add",
+                max_length=100,
+                no_check_for_status=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='inventory',
-            name='amount',
-            field=models.FloatField(default=0.0),
+            model_name="inventory", name="amount", field=models.FloatField(default=0.0)
         ),
     ]

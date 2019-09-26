@@ -1,36 +1,36 @@
-
 import unittest
 import pytest
 from dashboard.models import Location, Product, Inventory, Mutation
+
 
 @pytest.mark.django_db
 class TestLocation(unittest.TestCase):
     def test_create_location(self):
         location = Location(name="Test Location")
         location.save()
-    
+
         self.assertEqual(Location.objects.count(), 1)
         self.assertEqual(Location.objects.get().name, "Test Location")
 
     def test_delete_location(self):
         location = Location(name="Test Location")
         location.save()
-    
+
         self.assertEqual(Location.objects.count(), 1)
 
-        location.delete()    
+        location.delete()
 
         self.assertEqual(Location.objects.count(), 0)
 
     def test_delete_location_with_inventory(self):
         location = Location(name="Test Location")
         location.save()
-    
+
         self.assertEqual(Location.objects.count(), 1)
 
         product = Product(name="Test Product")
         product.save()
-    
+
         self.assertEqual(Product.objects.count(), 1)
 
         inventory = Inventory(location=location, product=product)
@@ -43,7 +43,10 @@ class TestLocation(unittest.TestCase):
         with pytest.raises(Exception) as deletion_error:
             location.delete()
 
-        self.assertEqual(str(deletion_error.value), 'We cannot delete a location if it still has inventory.')
+        self.assertEqual(
+            str(deletion_error.value),
+            "We cannot delete a location if it still has inventory.",
+        )
 
         # Removing inventory should make the location deletable
         inventory.remove(1)
@@ -51,13 +54,14 @@ class TestLocation(unittest.TestCase):
         location.delete()
 
         self.assertEqual(Location.objects.count(), 0)
-        
+
+
 @pytest.mark.django_db
 class TestProduct(unittest.TestCase):
     def test_create_product(self):
         product = Product(name="Test Product")
         product.save()
-    
+
         self.assertEqual(Product.objects.count(), 1)
         self.assertEqual(Product.objects.get().name, "Test Product")
 
@@ -70,7 +74,7 @@ class TestInventory(unittest.TestCase):
     def test_create_inventory(self):
         location = Location(name="Test Location")
         location.save()
-    
+
         product = Product(name="Test Product")
         product.save()
 
@@ -78,11 +82,11 @@ class TestInventory(unittest.TestCase):
         inventory.save()
 
         self.assertEqual(inventory.amount, 0)
-    
+
     def test_delete_inventory(self):
         location = Location(name="Test Location")
         location.save()
-    
+
         product = Product(name="Test Product")
         product.save()
 
@@ -93,13 +97,13 @@ class TestInventory(unittest.TestCase):
         self.assertEqual(Inventory.objects.count(), 1)
 
         inventory.delete()
-    
+
         self.assertEqual(Inventory.objects.count(), 0)
 
     def test_delete_empty_inventory(self):
         location = Location(name="Test Location")
         location.save()
-    
+
         product = Product(name="Test Product")
         product.save()
 
@@ -111,15 +115,16 @@ class TestInventory(unittest.TestCase):
         self.assertEqual(Inventory.objects.count(), 1)
 
         inventory.remove(1)
-    
+
         self.assertEqual(Inventory.objects.count(), 0)
+
 
 @pytest.mark.django_db
 class TestMutation(unittest.TestCase):
     def test_mutations(self):
         location = Location(name="Test Location")
         location.save()
-    
+
         product = Product(name="Test Product")
         product.save()
 
@@ -135,7 +140,7 @@ class TestMutation(unittest.TestCase):
 
         mutation_add = Mutation.objects.filter(operation="add").get()
 
-        self.assertEqual(mutation_add.operation, 'add')
+        self.assertEqual(mutation_add.operation, "add")
         self.assertEqual(mutation_add.product, inventory.product)
         self.assertEqual(mutation_add.location, inventory.location)
         self.assertEqual(mutation_add.amount, 3)
@@ -147,7 +152,7 @@ class TestMutation(unittest.TestCase):
 
         mutation_remove = Mutation.objects.filter(operation="remove").get()
 
-        self.assertEqual(mutation_remove.operation, 'remove')
+        self.assertEqual(mutation_remove.operation, "remove")
         self.assertEqual(mutation_remove.product, inventory.product)
         self.assertEqual(mutation_add.location, inventory.location)
         self.assertEqual(mutation_remove.amount, 1)
@@ -169,9 +174,3 @@ class TestMutation(unittest.TestCase):
 
         for inventory in Inventory.objects.all():
             self.assertEqual(inventory.amount, 1)
-
-
-
-
-
-

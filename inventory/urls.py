@@ -21,17 +21,15 @@ from dashboard import views_users
 
 urlpatterns = [
     # Inventory urls
-    path('', views.index, name="index"),
-    path('dashboard', views.dashboard, name="dashboard"),
-    path('locations', views.locations, name="locations"),
-    path('inventory', views.inventory, name="inventory"),
-    path('mutations', views.mutations, name="mutations"),
-    path('products', views.products, name="products"),
-    
+    path("", views.index, name="index"),
+    path("dashboard", views.dashboard, name="dashboard"),
+    path("locations", views.locations, name="locations"),
+    path("inventory", views.inventory, name="inventory"),
+    path("mutations", views.mutations, name="mutations"),
+    path("products", views.products, name="products"),
     # User urls
-    path('login', views_users.login, name="users_login"),
-    path('logout', views_users.logout, name="users_logout"),
-    
+    path("login", views_users.login, name="users_login"),
+    path("logout", views_users.logout, name="users_logout"),
     # Admin
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
 ]
