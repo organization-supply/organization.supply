@@ -10,12 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
-import sentry_sdk
+from decouple import config
 from sentry_sdk.integrations.django import DjangoIntegration
+import sentry_sdk
+import os
 
 sentry_sdk.init(
-    dsn="https://04806af24fb74216b8f989b7bcda44d7@sentry.io/1763098",
+    dsn=config('SENTRY_DSN'),
     integrations=[DjangoIntegration()]
 )
 
