@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from dashboard.models import Product, Location
+from dashboard.models import Product, Location, Mutation
 
 
 class ProductForm(ModelForm):

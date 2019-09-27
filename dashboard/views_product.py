@@ -36,13 +36,16 @@ def product_form(request, product_id=None):
 
     # Deleting a product
     elif request.method == "DELETE":
-        pass
+        instance = get_object_or_404(Product, id=product_id)
+        instance.delete()
+        messages.add_message(request, messages.INFO, "Product deleted!")
 
     # Otherwise: get form
     elif product_id:
         instance = get_object_or_404(Product, id=product_id)
         form = ProductForm(instance=instance)
         return render(request, "dashboard/product/form.html", {"form": form})
+
     else:
         form = ProductForm()
         return render(request, "dashboard/product/form.html", {"form": form})
