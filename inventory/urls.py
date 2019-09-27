@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 from dashboard import views
-from dashboard import views_users
 from dashboard import views_product
 from dashboard import views_location
 
@@ -56,8 +55,7 @@ urlpatterns = [
         name="product_delete",
     ),
     # User urls
-    path('accounts/', include('django.contrib.auth.urls')),
-
+    path("accounts/", include("django.contrib.auth.urls")),
     # Admin
     path("admin/", admin.site.urls),
 ]
