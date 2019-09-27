@@ -17,11 +17,20 @@ class TestProductPages(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_create_product(self):
+        response = self.client.get("/product/new")
+        self.assertEqual(response.status_code, 200)
+
         response = self.client.post(
             "/product/new", {"name": "Test Product", "desc": "Test Description"}
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Product.objects.count(), 1)
+
+        product = Product.objects.get()
+        response = self.client.get(
+            "/product/{}".format(product.id)
+        )
+        self.assertEqual(response.status_code, 200)
 
     def test_edit_product(self):
         response = self.client.post(

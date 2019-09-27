@@ -17,11 +17,20 @@ class TestLocationPages(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_create_location(self):
+        response = self.client.get("/location/new")
+        self.assertEqual(response.status_code, 200)
+
         response = self.client.post(
             "/location/new", {"name": "Test Location", "desc": "Test Description"}
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Location.objects.count(), 1)
+
+        location = Location.objects.get()
+        response = self.client.get(
+            "/location/{}".format(location.id)
+        )
+        self.assertEqual(response.status_code, 200)
 
     def test_edit_location(self):
         response = self.client.post(
