@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory - Location{% endblock title %}
+
+{% block content %}
+
+    <h1>
+        {{ location.name }}
+        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'location_edit' location.id %}">Edit</a>
+    </h1>
+
+    <p>
+        {{ product.desc }}
+    </p>
+{% endblock %}

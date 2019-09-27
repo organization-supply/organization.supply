@@ -6,7 +6,7 @@
 
 <h1>
     Products
-    <a class="f6 link dim ba ph3 pv2 mb2 dib black fr" href="#0">Add a product</a>
+    <a class="f6 link dim ba ph3 pv2 mb2 dib black fr" href="{% url 'product_new' %}">Add a product</a>
 </h1>
 
 <div class="overflow-auto">
@@ -18,20 +18,17 @@
             </tr>
         </thead>
         <tbody class="lh-copy">
-            <tr>
-                <td class="pt2 pr3 bb b--black-20">Nooit Op</td>
-                <td class="pt2 pr3 bb b--black-20">
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Edit</a>
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <td class="pt2 pr3 bb b--black-20">Nooit Genoeg</td>
-                <td class="pt2 pr3 bb b--black-20">
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Edit</a>
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Delete</a>
-                </td>
-            </tr>
+            {% for product in products %}
+                <tr>
+                    <td class="pt2 pr3 bb b--black-20">
+                        <a href="{% url 'product_view' product.id %}">{{ product.name }}</a>
+                    </td>
+                    <td class="pt2 pr3 bb b--black-20">
+                        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'product_edit' product.id %}">Edit</a>
+                        <!-- <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Delete</a> -->
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

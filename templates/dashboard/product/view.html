@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory - Products{% endblock title %}
+
+{% block content %}
+
+    <h1>
+        {{ product.name }}
+        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'product_edit' product.id %}">Edit</a>
+    </h1>
+
+    <p>
+        {{ product.desc }}
+    </p>
+{% endblock %}

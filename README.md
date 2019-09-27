@@ -12,7 +12,6 @@ Errors are tracked with Sentry. This is configured trough the .env file in which
 
 Testing is done with pytest: `pytest`. If you want the coverage reports, run `pytest --cov-report html .` and look in the `tests/reports` directory to see the HTML output. The aim is to keep the coverage as high as possible.
 
-
 # Deployment
 
 TBD.

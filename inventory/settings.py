@@ -15,10 +15,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 import sentry_sdk
 import os
 
-sentry_sdk.init(
-    dsn=config('SENTRY_DSN'),
-    integrations=[DjangoIntegration()]
-)
+sentry_sdk.init(dsn=config("SENTRY_DSN"), integrations=[DjangoIntegration()])
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -46,6 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "dashboard",
+    # Utilities
+    "crispy_forms",
 ]
 
 MIDDLEWARE = [

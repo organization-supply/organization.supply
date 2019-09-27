@@ -18,15 +18,43 @@ from django.urls import path
 
 from dashboard import views
 from dashboard import views_users
+from dashboard import views_product
+from dashboard import views_location
 
 urlpatterns = [
     # Inventory urls
     path("", views.index, name="index"),
     path("dashboard", views.dashboard, name="dashboard"),
-    path("locations", views.locations, name="locations"),
     path("inventory", views.inventory, name="inventory"),
     path("mutations", views.mutations, name="mutations"),
-    path("products", views.products, name="products"),
+    # Locations
+    path("locations", views_location.locations, name="locations"),
+    path("location/new", views_location.location_form, name="location_new"),
+    path(
+        "location/<int:location_id>", views_location.location_view, name="location_view"
+    ),
+    path(
+        "location/<int:location_id>/edit",
+        views_location.location_form,
+        name="location_edit",
+    ),
+    path(
+        "location/<int:location_id>/delete",
+        views_location.location_form,
+        name="location_delete",
+    ),
+    # Products
+    path("products", views_product.products, name="products"),
+    path("product/new", views_product.product_form, name="product_new"),
+    path("product/<int:product_id>", views_product.product_view, name="product_view"),
+    path(
+        "product/<int:product_id>/edit", views_product.product_form, name="product_edit"
+    ),
+    path(
+        "product/<int:product_id>/delete",
+        views_product.product_form,
+        name="product_delete",
+    ),
     # User urls
     path("login", views_users.login, name="users_login"),
     path("logout", views_users.logout, name="users_logout"),

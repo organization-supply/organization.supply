@@ -6,7 +6,7 @@
 
 <h1>
     Locations
-    <a class="f6 link dim ba ph3 pv2 dib black fr" href="#0">Add a location</a>
+    <a class="f6 link dim ba ph3 pv2 dib black fr" href="{% url 'location_new' %}">Add a location</a>
 </h1>
 
 <div class="overflow-auto">
@@ -18,24 +18,19 @@
             </tr>
         </thead>
         <tbody class="lh-copy">
-            <tr>
-                <td class="pt2 pr3 bb b--black-20">Neude 0</td>
-                <td class="pt2 pr3 bb b--black-20">
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">See Inventory</a>
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Add</a>
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Remove</a>
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Transfer</a>
-                </td>
-            </tr>
-            <tr>
-                <td class="pt2 pr3 bb b--black-20">Woudrichem</td>
-                <td class="pt2 pr3 bb b--black-20">
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">See Inventory</a>
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Add</a>
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Remove</a>
-                    <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Transfer</a>
-                </td>
-            </tr>
+            {% for location in locations %}
+                <tr>
+                    <td class="pt2 pr3 bb b--black-20">
+                        <a href="{% url 'location_view' location.id %}">{{ location.name }}</a>
+                    </td>
+                    <td class="pt2 pr3 bb b--black-20">
+                        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">See Inventory</a>
+                        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Add</a>
+                        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Remove</a>
+                        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="#0">Transfer</a>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
