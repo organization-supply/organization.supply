@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from dashboard import views
 from dashboard import views_users
@@ -56,8 +56,8 @@ urlpatterns = [
         name="product_delete",
     ),
     # User urls
-    path("login", views_users.login, name="users_login"),
-    path("logout", views_users.logout, name="users_logout"),
+    path('accounts/', include('django.contrib.auth.urls')),
+
     # Admin
     path("admin/", admin.site.urls),
 ]
