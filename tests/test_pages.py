@@ -19,8 +19,12 @@ class TestDashboardPages(TestCase):
         response = self.client.get("/dashboard")
         self.assertEqual(response.status_code, 200)
 
-    def test_inventory(self):
-        response = self.client.get("/inventory")
+    def test_inventory_location(self):
+        response = self.client.get("/inventory/location")
+        self.assertEqual(response.status_code, 200)
+
+    def test_inventory_product(self):
+        response = self.client.get("/inventory/product")
         self.assertEqual(response.status_code, 200)
 
     def test_products(self):
