@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from dashboard.models import Product
+from django.db.models import Sum
+from dashboard.models import Product, Inventory
 from dashboard.forms import ProductForm
 
 
@@ -12,7 +13,11 @@ def products(request):
 
 def product_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    return render(request, "dashboard/product/view.html", {"product": product})
+    product_total = Inventory.objects.filter(product=product).aggregate(Sum('amount'))
+    return render(request, "dashboard/product/view.html", {
+        "product_total": product_total,
+        "product": product
+    })
 
 
 def product_form(request, product_id=None):

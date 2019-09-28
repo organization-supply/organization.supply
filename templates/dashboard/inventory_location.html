@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory - Inventory{% endblock title %}
+
+{% block content %}
+
+<h1>📋 Inventory <small class="gray">(per location)</small></h1>
+
+<div class="fl w-100">
+    <div class="overflow-auto">
+        <table class="f6 w-100 center" cellspacing="0">
+            <thead>
+                <tr>
+                    <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Location</th>
+                    <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Inventory</th>
+                </tr>
+            </thead>
+            <tbody class="lh-copy">
+                {% regroup inventories|dictsort:"product.name" by location as location_inventory %}
+            
+                {% for inventory in location_inventory %}
+                <tr>
+                    <td class="pv3 bb b--black-20">
+                        <a href="{% url 'location_view' inventory.grouper.id %}">
+                            {{ inventory.grouper.name }}
+                        </a>
+                    </td>   
+                    <td class="pv3 bb b--black-20">
+                        <ul>
+                        {% for inventory in inventory.list %}
+                            <li>
+                                {{ inventory.amount }}
+                                <a href="{% url 'product_view' inventory.product.id %}">{{ inventory.product.name }}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% endfor %}
+            
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

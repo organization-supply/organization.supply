@@ -6,40 +6,59 @@
 
 <h1>🧮 Transactions</h1>
 
-<form method="POST" action="{% url 'mutation_insert' %}">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit">
-</form>
-
 <div class="overflow-auto">
     <table class="f6 w-100 center" cellspacing="0">
-        
         <thead>
             <tr>
-                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Amount</th>
-                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Product</th>
-                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Location</th>
-                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Description</th>
+                <th class="fw6 bb b--black-20 tl pt3 pr3 pb3 bg-white">Date</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Amount</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Product</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Location</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Description</th>
             </tr>
         </thead>
         <tbody class="lh-copy">
+            <tr>
+                <form method="POST" action="{% url 'mutation_insert' %}">
+                    <td class="pt3 pr3 pb3 bb b--black-20">
+                        {% now "Y-m-d" %}
+                        {% csrf_token %}
+                    </td>
+                    <td class="pa3 bb b--black-20">
+                        {{ form.operation }}
+                        {{ form.amount }}
+                    </df>
+                    <td class="pa3 bb b--black-20">
+                        {{ form.product }}
+                    </td>
+                    <td class="pa3 bb b--black-20">
+                        {{ form.location }}
+                    </td>
+                    <td class="pa3 bb b--black-20">
+                        <input type="submit" value="Save Transaction">
+                    </td>
+                </form>
+            </tr>
+
             {% for mutation in mutations %}
                 <tr>
-                    <td class="pt2 pr3 bb b--black-20">
+                    <td class="pt3 pr3 pb3 bb b--black-20">
+                        {{ mutation.created|date:"Y-m-d" }}
+                    </td>
+                    <td class="pa3 bb b--black-20">
                         {% if mutation.operation == 'remove' %}
                             -{{ mutation.amount }}
                         {% else %}
                             {{ mutation.amount }}
                         {% endif %}
                     </td>
-                    <td class="pt2 pr3 bb b--black-20">
-                        {{ mutation.product.name }}
+                    <td class="pa3 bb b--black-20">
+                        <a href="{% url 'product_view' mutation.product.id %}">{{ mutation.product.name }}</a>
                     </td>
-                    <td class="pt2 pr3 bb b--black-20">
-                        {{ mutation.location.name }}
+                    <td class="pa3 bb b--black-20">
+                        <a href="{% url 'location_view' mutation.location.id %}">{{ mutation.location.name }}</a>
                     </td>
-                    <td class="pt2 pr3 bb b--black-20">
+                    <td class="pa3 bb b--black-20">
                         {{ mutation.desc }}
                     </td>      
                 </tr>

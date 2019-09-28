@@ -24,7 +24,12 @@ urlpatterns = [
     # Inventory urls
     path("", views.index, name="index"),
     path("dashboard", views.dashboard, name="dashboard"),
-    path("inventory", views.inventory, name="inventory"),
+
+
+    path("inventory/location", views.inventory_location, name="inventory_location"),
+    path("inventory/product", views.inventory_product, name="inventory_product"),
+    
+    # Mutations
     path("mutations", views.mutations, name="mutations"),
     path("mutations/insert", views.mutation_insert, name="mutation_insert"),
     
