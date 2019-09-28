@@ -5,11 +5,37 @@
 {% block content %}
 
     <h1>
-        {{ product.name }}
-        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'product_edit' product.id %}">Edit</a>
+        📦 {{ product.name|title }}
+        <a class="f6 link dim ba ph3 fr pv2 mb2 dib black" href="{% url 'product_edit' product.id %}">Edit</a>
     </h1>
 
-    <p>
+    <p class="f4 bg-near-white br3 black-60 mv0 pv2 ph3">
         {{ product.desc }}
     </p>
+
+    {% if product.inventory %}
+    <div class="fl w-100 pa2">
+        <div class="overflow-auto">
+            <table class="f6 w-100 center" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Amount</th>
+                        <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Location</th>
+                    </tr>
+                </thead>
+                <tbody class="lh-copy">
+                    {% for inventory in product.inventory %}
+                    <tr>
+                        <td class="pv3 bb b--black-20">{{ inventory.amount }}</td>
+                        <td class="pv3 bb b--black-20">{{ inventory.location.name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <p>No inventory found for this product.</p>
+    {% endif %}
+        
 {% endblock %}

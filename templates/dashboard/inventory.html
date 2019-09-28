@@ -4,12 +4,12 @@
 
 {% block content %}
 
-<h1>Inventory</h1>
+<h1>📋 Inventory</h1>
 <div class="fl w-20">
     <p>Group inventory by: </p>
     <ul class="list pl0 mt0 ba mr1 b--light-silver br2">
         <li class="ph3 pv3 bb b--light-silver">Location</li>
-        <li class="ph3 pv3 bb b--light-silver">Product</li>
+        <!-- <li class="ph3 pv3 bb b--light-silver">Product</li> -->
     </ul>
 </div>
 <div class="fl w-80 pa2">
@@ -22,14 +22,12 @@
                 </tr>
             </thead>
             <tbody class="lh-copy">
+                {% for inventory in inventories %}
                 <tr>
-                    <td class="pv3 bb b--black-20">Neude 0</td>
-                    <td class="pv3 bb b--black-20">test</td>
+                    <td class="pv3 bb b--black-20">{{ inventory.location.name }}</td>
+                    <td class="pv3 bb b--black-20">{{ inventory.amount }}</td>
                 </tr>
-                <tr>
-                    <td class="pv3 bb b--black-20">Woudrichem</td>
-                    <td class="pv3 bb b--black-20">test</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

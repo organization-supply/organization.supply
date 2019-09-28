@@ -15,13 +15,25 @@ class Location(TimeStampedModel):
             super(Location, self).delete()
         else:
             raise Exception("We cannot delete a location if it still has inventory.")
+    
+    @property
+    def inventory(self):
+        return Inventory.objects.filter(location_id=self.id)
 
+    def __str__(self):
+        return self.name
 
 class Product(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="")
 
+    @property
+    def inventory(self):
+        return Inventory.objects.filter(product=self)
 
+    def __str__(self):
+        return self.name
+        
 class Mutation(TimeStampedModel):
     OPERATION_CHOICES = Choices("add", "remove")
     operation = StatusField(choices_name="OPERATION_CHOICES")
@@ -33,7 +45,22 @@ class Mutation(TimeStampedModel):
         "self", on_delete=models.CASCADE, blank=True, null=True
     )
 
-
+    def apply(self):
+        inventory, created = Inventory.objects.get_or_create(
+            product=self.product, location=self.location
+        )
+        if self.operation == 'add':
+            inventory.amount = inventory.amount + self.amount
+        elif self.operation == 'remove':
+            inventory.amount = inventory.amount - self.amount
+        
+        # If the inventory is empty, we should delete it's record.
+        if inventory.amount == 0:
+            inventory.delete()
+        # Otherwise we save it
+        else:
+            inventory.save()
+        
 class Inventory(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -54,6 +81,9 @@ class Inventory(models.Model):
         return mutation
 
     def remove(self, amount: float, desc: str = "") -> Mutation:
+        if self.amount - amount < 0:
+            raise Exception("Unable to have less then 0 self")
+
         # Utility function for removing product inventory, returns the mutation
         mutation = Mutation(
             operation="remove",

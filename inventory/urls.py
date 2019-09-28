@@ -26,6 +26,8 @@ urlpatterns = [
     path("dashboard", views.dashboard, name="dashboard"),
     path("inventory", views.inventory, name="inventory"),
     path("mutations", views.mutations, name="mutations"),
+    path("mutations/insert", views.mutation_insert, name="mutation_insert"),
+    
     # Locations
     path("locations", views_location.locations, name="locations"),
     path("location/new", views_location.location_form, name="location_new"),
