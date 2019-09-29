@@ -17,4 +17,4 @@ class LocationForm(ModelForm):
 class MutationForm(ModelForm):
     class Meta:
         model = Mutation
-        fields = ["amount", "operation", "product", "location"]
+        fields = ["amount", "operation", "product", "location", "desc"]

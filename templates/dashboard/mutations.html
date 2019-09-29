@@ -14,7 +14,7 @@
                 <th class="fw6 bb b--black-20 tl pa3 bg-white">Amount</th>
                 <th class="fw6 bb b--black-20 tl pa3 bg-white">Product</th>
                 <th class="fw6 bb b--black-20 tl pa3 bg-white">Location</th>
-                <th class="fw6 bb b--black-20 tl pa3 bg-white">Description</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white" colspan="2">Description</th>
             </tr>
         </thead>
         <tbody class="lh-copy">
@@ -33,6 +33,9 @@
                     </td>
                     <td class="pa3 bb b--black-20">
                         {{ form.location }}
+                    </td>
+                    <td class="pa3 bb b--black-20">
+                        {{ form.desc }}
                     </td>
                     <td class="pa3 bb b--black-20">
                         <input type="submit" value="Save Transaction">
@@ -58,7 +61,7 @@
                     <td class="pa3 bb b--black-20">
                         <a href="{% url 'location_view' mutation.location.id %}">{{ mutation.location.name }}</a>
                     </td>
-                    <td class="pa3 bb b--black-20">
+                    <td class="pa3 bb b--black-20" colspan="2">
                         {{ mutation.desc }}
                     </td>      
                 </tr>

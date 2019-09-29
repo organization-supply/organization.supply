@@ -6,4 +6,53 @@
 
 <h1>🏠 Dashboard</h1>
 
+<h1 class="f4 bold mw6">Quick actions</h1>
+<ul class="list pl0 ml0  mw6 ba b--light-silver br2">
+    <a href="" class="black no-underline">
+        <li class="ph3 pv3 bb b--light-silver bg-animate hover-bg-black hover-white">
+            Ik heb een product verkocht
+            <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                <title>chevronRight icon</title>
+                <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+            </svg>
+        </li>
+    </a>
+    <a href="" class="black no-underline">
+        <li class="ph3 pv3 bb b--light-silver bg-animate hover-bg-black hover-white">
+            Ik heb iets verplaatst
+            <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                <title>chevronRight icon</title>
+                <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+            </svg>
+        </li>
+    </a>
+    <a href="" class="black no-underline">
+        <li class="ph3 pv3 bb b--light-silver bg-animate hover-bg-black hover-white">
+            Ik wil nieuwe voorraad toevoegen
+            <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                <title>chevronRight icon</title>
+                <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+            </svg>
+        </li>
+    </a>
+    <a href="{% url 'product_new' %}" class="black no-underline">
+        <li class="ph3 pv3 bb b--light-silver bg-animate hover-bg-black hover-white">
+            Ik wil een nieuw product toevoegen
+            <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                <title>chevronRight icon</title>
+                <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+            </svg>
+        </li>
+    </a>
+    <a href="{% url 'location_new' %}" class="black no-underline">
+        <li class="ph3 pv3 bb b--light-silver bg-animate hover-bg-black hover-white">
+            Ik wil een nieuwe locatie toevoegen
+            <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                <title>chevronRight icon</title>
+                <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+            </svg>
+        </li>
+    </a>
+</ul>
+
 {% endblock %}

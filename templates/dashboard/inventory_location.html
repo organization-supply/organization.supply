@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h1>📋 Inventory <small class="gray">(per location)</small></h1>
+<h1>📋 Inventory <small class="gray">(per location / <a href="{% url 'inventory_product' %}">per product</a>)</small></h1>
 
 <div class="fl w-100">
     <div class="overflow-auto">
@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody class="lh-copy">
-                {% regroup inventories|dictsort:"product.name" by location as location_inventory %}
+                {% regroup inventories|dictsort:"location.name" by location as location_inventory %}
             
                 {% for inventory in location_inventory %}
                 <tr>
