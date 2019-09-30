@@ -27,9 +27,7 @@ class TestLocationPages(TestCase):
         self.assertEqual(Location.objects.count(), 1)
 
         location = Location.objects.get()
-        response = self.client.get(
-            "/location/{}".format(location.id)
-        )
+        response = self.client.get("/location/{}".format(location.id))
         self.assertEqual(response.status_code, 200)
 
     def test_edit_location(self):

@@ -26,14 +26,18 @@ def dashboard(request):
 @login_required
 def inventory_location(request):
     return render(
-        request, "dashboard/inventory_location.html", {"inventories": Inventory.objects.all()}
+        request,
+        "dashboard/inventory_location.html",
+        {"inventories": Inventory.objects.all()},
     )
 
 
 @login_required
 def inventory_product(request):
     return render(
-        request, "dashboard/inventory_product.html", {"inventories": Inventory.objects.all()}
+        request,
+        "dashboard/inventory_product.html",
+        {"inventories": Inventory.objects.all()},
     )
 
 
@@ -46,11 +50,14 @@ def mutation_insert(request):
         messages.add_message(request, messages.INFO, "Transaction added!")
     return redirect("mutations")
 
+
 @login_required
 def mutations(request):
     return render(
-        request, "dashboard/mutations.html", {
+        request,
+        "dashboard/mutations.html",
+        {
             "form": MutationForm(),
-            "mutations": Mutation.objects.all().order_by("-created")
-        }
+            "mutations": Mutation.objects.all().order_by("-created"),
+        },
     )

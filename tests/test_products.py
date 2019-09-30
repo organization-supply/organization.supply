@@ -27,9 +27,7 @@ class TestProductPages(TestCase):
         self.assertEqual(Product.objects.count(), 1)
 
         product = Product.objects.get()
-        response = self.client.get(
-            "/product/{}".format(product.id)
-        )
+        response = self.client.get("/product/{}".format(product.id))
         self.assertEqual(response.status_code, 200)
 
     def test_edit_product(self):

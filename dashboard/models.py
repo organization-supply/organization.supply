@@ -15,13 +15,14 @@ class Location(TimeStampedModel):
             super(Location, self).delete()
         else:
             raise Exception("We cannot delete a location if it still has inventory.")
-    
+
     @property
     def inventory(self):
         return Inventory.objects.filter(location_id=self.id)
 
     def __str__(self):
         return self.name
+
 
 class Product(TimeStampedModel):
     name = models.CharField(max_length=200)
@@ -33,7 +34,8 @@ class Product(TimeStampedModel):
 
     def __str__(self):
         return self.name
-        
+
+
 class Mutation(TimeStampedModel):
     OPERATION_CHOICES = Choices("add", "remove")
     operation = StatusField(choices_name="OPERATION_CHOICES")
@@ -49,18 +51,19 @@ class Mutation(TimeStampedModel):
         inventory, created = Inventory.objects.get_or_create(
             product=self.product, location=self.location
         )
-        if self.operation == 'add':
+        if self.operation == "add":
             inventory.amount = inventory.amount + self.amount
-        elif self.operation == 'remove':
+        elif self.operation == "remove":
             inventory.amount = inventory.amount - self.amount
-        
+
         # If the inventory is empty, we should delete it's record.
         if inventory.amount == 0:
             inventory.delete()
         # Otherwise we save it
         else:
             inventory.save()
-        
+
+
 class Inventory(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
