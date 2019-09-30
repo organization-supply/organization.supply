@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, ModelChoiceField
 from dashboard.models import Product, Location, Mutation
 
 
@@ -15,6 +15,8 @@ class LocationForm(ModelForm):
 
 
 class MutationForm(ModelForm):
+    product = ModelChoiceField(Product.objects.all(), empty_label=None)
+    location = ModelChoiceField(Location.objects.all(), empty_label=None)
     class Meta:
         model = Mutation
         fields = ["amount", "operation", "product", "location", "desc"]

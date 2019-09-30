@@ -19,6 +19,7 @@ from django.urls import path, include
 from dashboard import views
 from dashboard import views_product
 from dashboard import views_location
+from dashboard import views_shortcuts
 
 urlpatterns = [
     # Inventory urls
@@ -57,6 +58,11 @@ urlpatterns = [
         views_product.product_form,
         name="product_delete",
     ),
+
+    # Shortcuts 
+    path("shortcuts/sales", views_shortcuts.shortcut_sales, name="shortcut_sales"),
+    path("shortcuts/move", views_shortcuts.shortcut_move, name="shortcut_move"),
+
     # User urls
     path("accounts/", include("django.contrib.auth.urls")),
     # Admin

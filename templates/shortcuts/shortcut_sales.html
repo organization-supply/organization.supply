@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory - Record Sale{% endblock title %}
+
+{% block content %}
+
+<h1>
+    Shortcut: Add a sale
+</h1>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form.amount }}
+
+    {{ form.product }}
+
+    {{ form.location }}
+    
+    <input type="submit" value="Save">
+</form>
+
+{% endblock %}
