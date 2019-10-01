@@ -11,7 +11,7 @@ class Location(TimeStampedModel):
     desc = models.TextField(default="")
 
     def delete(self):
-        if Inventory.objects.filter(location=self).count() == 0:
+        if Inventory.objects.filter(location=self, amount__gt=0).count() == 0:
             super(Location, self).delete()
         else:
             raise Exception("We cannot delete a location if it still has inventory.")
@@ -55,13 +55,11 @@ class Mutation(TimeStampedModel):
             inventory.amount = inventory.amount + self.amount
         elif self.operation == "remove":
             inventory.amount = inventory.amount - self.amount
+        inventory.save()
 
-        # If the inventory is empty, we should delete it's record.
-        if inventory.amount == 0:
-            inventory.delete()
-        # Otherwise we save it
-        else:
-            inventory.save()
+    def save(self, *args, **kwargs):
+        self.apply()
+        super(Mutation, self).save(*args, **kwargs)
 
 
 class Inventory(models.Model):
@@ -69,41 +67,23 @@ class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.FloatField(default=0.0)
 
-    def add(self, amount: float, desc: str = "") -> Mutation:
-        # Utility function for adding product inventory, returns the mutation
+    def _create_mutation(self, amount: float, operation: str, desc: str = ""):
         mutation = Mutation(
-            operation="add",
+            operation=operation,
             location=self.location,
             product=self.product,
             amount=amount,
             desc=desc,
         )
-        mutation.save()
-        self.amount = self.amount + amount
-        self.save()
-        return mutation
+        return mutation.save()
+
+    def add(self, amount: float, desc: str = "") -> Mutation:
+        self._create_mutation(amount, "add", desc)
 
     def remove(self, amount: float, desc: str = "") -> Mutation:
         if self.amount - amount < 0:
-            raise Exception("Unable to have less then 0 self")
-
-        # Utility function for removing product inventory, returns the mutation
-        mutation = Mutation(
-            operation="remove",
-            location=self.location,
-            product=self.product,
-            amount=amount,
-            desc=desc,
-        )
-        mutation.save()
-        self.amount = self.amount - amount
-        self.save()
-
-        # If the inventory is empty, we should delete it's record.
-        if self.amount == 0:
-            self.delete()
-
-        return mutation
+            raise Exception("Unable to have less then 0 in inventory")
+        self._create_mutation(amount, "remove", desc)
 
     def transfer(
         self, amount: float, other_location: Location, desc: str = ""
@@ -121,5 +101,4 @@ class Inventory(models.Model):
         mutation_add.save()
         mutation_remove.contra_mutation = mutation_add
         mutation_remove.save()
-
         return mutation_remove, mutation_add

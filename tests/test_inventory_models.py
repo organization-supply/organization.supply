@@ -83,7 +83,10 @@ class TestInventory(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 0)
 
-    def test_delete_inventory(self):
+
+@pytest.mark.django_db
+class TestInventoryOperations(unittest.TestCase):
+    def test_inventory_add(self):
         location = Location(name="Test Location")
         location.save()
 
@@ -93,14 +96,14 @@ class TestInventory(unittest.TestCase):
         inventory = Inventory(location=location, product=product)
         inventory.save()
 
-        self.assertEqual(inventory.amount, 0)
-        self.assertEqual(Inventory.objects.count(), 1)
+        self.assertEqual(inventory.amount, 0.0)
 
-        inventory.delete()
+        inventory.add(1)
+        inventory.refresh_from_db()
 
-        self.assertEqual(Inventory.objects.count(), 0)
+        self.assertEqual(inventory.amount, 1.0)
 
-    def test_delete_empty_inventory(self):
+    def test_inventory_remove(self):
         location = Location(name="Test Location")
         location.save()
 
@@ -108,15 +111,19 @@ class TestInventory(unittest.TestCase):
         product.save()
 
         inventory = Inventory(location=location, product=product)
-        inventory.amount = 1
         inventory.save()
 
-        self.assertEqual(inventory.amount, 1)
-        self.assertEqual(Inventory.objects.count(), 1)
+        self.assertEqual(inventory.amount, 0.0)
+
+        inventory.add(1)
+        inventory.refresh_from_db()
+
+        self.assertEqual(inventory.amount, 1.0)
 
         inventory.remove(1)
+        inventory.refresh_from_db()
 
-        self.assertEqual(Inventory.objects.count(), 0)
+        self.assertEqual(inventory.amount, 0.0)
 
 
 @pytest.mark.django_db
@@ -131,46 +138,13 @@ class TestMutation(unittest.TestCase):
         inventory = Inventory(location=location, product=product)
         inventory.save()
 
-        self.assertEqual(inventory.amount, 0)
+        self.assertEqual(inventory.amount, 0.0)
 
-        # Adding stuff to inventory
-        inventory.add(3)
+        mutation = Mutation(
+            product=product, location=location, operation="add", amount=3.0
+        )
+        mutation.save()
 
-        self.assertEqual(inventory.amount, 3)
+        inventory = Inventory.objects.get()
 
-        mutation_add = Mutation.objects.filter(operation="add").get()
-
-        self.assertEqual(mutation_add.operation, "add")
-        self.assertEqual(mutation_add.product, inventory.product)
-        self.assertEqual(mutation_add.location, inventory.location)
-        self.assertEqual(mutation_add.amount, 3)
-
-        # Removing stuff from inventory
-        inventory.remove(1)
-
-        self.assertEqual(inventory.amount, 2)
-
-        mutation_remove = Mutation.objects.filter(operation="remove").get()
-
-        self.assertEqual(mutation_remove.operation, "remove")
-        self.assertEqual(mutation_remove.product, inventory.product)
-        self.assertEqual(mutation_add.location, inventory.location)
-        self.assertEqual(mutation_remove.amount, 1)
-
-        location_2 = Location(name="Test Location 2")
-        location_2.save()
-
-        # Transfer to other location, should result in 1 at each inventory
-        mutation_remove_2, mutation_add_2 = inventory.transfer(1, location_2)
-
-        # Mutations should be connected
-        self.assertEqual(mutation_remove_2.contra_mutation, mutation_add_2)
-        self.assertEqual(mutation_add_2.contra_mutation, mutation_remove_2)
-
-        self.assertEqual(inventory.amount, 1)
-        self.assertEqual(Mutation.objects.count(), 4)
-
-        self.assertEqual(Inventory.objects.count(), 2)
-
-        for inventory in Inventory.objects.all():
-            self.assertEqual(inventory.amount, 1)
+        self.assertEqual(inventory.amount, 3.0)

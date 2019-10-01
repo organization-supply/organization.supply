@@ -20,7 +20,7 @@
             <h3>
                 Inventory
             </h3>
-            {% if product.inventory %}
+            {% if inventories %}
             <div class="fl w-100 pa2">
                 <div class="overflow-auto">
                     <table class="f6 w-100 center" cellspacing="0">
@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody class="lh-copy">
-                            {% for inventory in product.inventory %}
+                            {% for inventory in inventories %}
                             <tr>
                                 {{ total|add:inventory.amount }}
                                 <td class="pv3 bb b--black-20">{{ inventory.amount }}</td>

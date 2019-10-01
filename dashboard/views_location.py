@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from dashboard.models import Location
+from dashboard.models import Location, Inventory
 from dashboard.forms import LocationForm
 
 
@@ -12,7 +12,12 @@ def locations(request):
 
 def location_view(request, location_id):
     location = get_object_or_404(Location, id=location_id)
-    return render(request, "dashboard/location/view.html", {"location": location})
+    inventories = Inventory.objects.filter(amount__gt=0, location=location)
+    return render(
+        request,
+        "dashboard/location/view.html",
+        {"location": location, "inventories": inventories},
+    )
 
 
 def location_form(request, location_id=None):

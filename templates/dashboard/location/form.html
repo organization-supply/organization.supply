@@ -4,20 +4,35 @@
 
 {% block content %}
 
-{% if form.instance.id %}
-    <h1>
-        Edit: {{ form.instance.name }}
-    </h1>
-{% else %}
-    <h1>
-        Add a location
-    </h1>
-{% endif %}
+<main class="pa4 black-80">
+    <form class="measure center" action="" method="POST">
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit">
-</form>
+        {% if form.instance.id %}
+            <h1 class="center">
+                Edit: {{ form.instance.name }}
+            </h1>
+        {% else %}
+            <h1>
+                Add a location
+            </h1>
+        {% endif %}
+
+        {% csrf_token %}
+
+        <fieldset id="location_form" class="ba b--transparent ph0 mh0">
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="email-address">Name</label>
+                {{ form.name }}
+            </div>
+            <div class="mv3">
+                <label class="db fw6 lh-copy f6" for="password">Description</label>
+                {{ form.desc }}
+            </div>
+        </fieldset>
+        <div class="">
+            <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save">
+        </div>
+    </form>
+</main>
 
 {% endblock %}

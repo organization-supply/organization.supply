@@ -13,11 +13,16 @@ def products(request):
 
 def product_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    inventories = Inventory.objects.filter(amount__gt=0, product=product)
     product_total = Inventory.objects.filter(product=product).aggregate(Sum("amount"))
     return render(
         request,
         "dashboard/product/view.html",
-        {"product_total": product_total, "product": product},
+        {
+            "product_total": product_total,
+            "product": product,
+            "inventories": inventories,
+        },
     )
 
 
@@ -28,7 +33,7 @@ def product_form(request, product_id=None):
         # check whether it's valid:
         if form.is_valid():
             form.save()
-            messages.add_message(request, messages.INFO, "Product created!")
+            messages.add_message(request, messages.SUCCESS, "Product created!")
             return redirect("products")
 
     # Updating a product

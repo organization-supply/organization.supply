@@ -18,7 +18,7 @@ def dashboard(request):
         {
             "products": Product.objects.all(),
             "locations": Location.objects.all(),
-            "inventory": Inventory.objects.all(),
+            "inventory": Inventory.objects.filter(amount__gt=0),
         },
     )
 
@@ -28,7 +28,7 @@ def inventory_location(request):
     return render(
         request,
         "dashboard/inventory_location.html",
-        {"inventories": Inventory.objects.all()},
+        {"inventories": Inventory.objects.filter(amount__gt=0)},
     )
 
 
@@ -37,7 +37,7 @@ def inventory_product(request):
     return render(
         request,
         "dashboard/inventory_product.html",
-        {"inventories": Inventory.objects.all()},
+        {"inventories": Inventory.objects.filter(amount__gt=0)},
     )
 
 
@@ -46,7 +46,6 @@ def mutation_insert(request):
     form = MutationForm(request.POST)
     if form.is_valid():
         mutation = form.save()
-        mutation.apply()
         messages.add_message(request, messages.INFO, "Transaction added!")
     return redirect("mutations")
 
@@ -57,7 +56,7 @@ def mutations(request):
         request,
         "dashboard/mutations.html",
         {
-            "form": MutationForm(),
+            "form": MutationForm(initial={"amount": 1.0}),
             "mutations": Mutation.objects.all().order_by("-created"),
         },
     )

@@ -19,7 +19,7 @@
         </thead>
         <tbody class="lh-copy">
             <tr>
-                <form method="POST" action="{% url 'mutation_insert' %}">
+                <form method="POST" id="mutation_form" action="{% url 'mutation_insert' %}">
                     <td class="pt3 pr3 pb3 bb b--black-20">
                         {% now "Y-m-d" %}
                         {% csrf_token %}
@@ -38,7 +38,7 @@
                         {{ form.desc }}
                     </td>
                     <td class="pa3 bb b--black-20">
-                        <input type="submit" value="Save Transaction">
+                            <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save Transaction">
                     </td>
                 </form>
             </tr>
@@ -46,7 +46,7 @@
             {% for mutation in mutations %}
                 <tr>
                     <td class="pt3 pr3 pb3 bb b--black-20">
-                        {{ mutation.created|date:"Y-m-d" }}
+                        {{ mutation.created|date:"Y-m-d h:i:s" }}
                     </td>
                     <td class="pa3 bb b--black-20">
                         {% if mutation.operation == 'remove' %}
@@ -69,4 +69,26 @@
         </tbody>
     </table>
 </div>
+
+<style>
+#mutation_form select {
+    border: 1px solid grey;
+    padding: 3px;
+    background-color: white;
+}
+
+#id_amount{
+    border: 1px solid grey;
+    height: 26px;
+}
+#id_desc{
+    border: 1px solid grey;
+    height: 26px;
+    resize: none;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+}
+</style>
 {% endblock %}
