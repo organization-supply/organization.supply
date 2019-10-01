@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 from decouple import config
-from sentry_sdk.integrations.django import DjangoIntegration
-import sentry_sdk
 import os
 
-sentry_sdk.init(dsn=config("SENTRY_DSN"), integrations=[DjangoIntegration()])
+# If the SENTRY_DSN env var is set, we enable the Django integration for Sentry
+if config("SENTRY_DSN"):
+    from sentry_sdk.integrations.django import DjangoIntegration
+    import sentry_sdk
+    sentry_sdk.init(dsn=config("SENTRY_DSN"), integrations=[DjangoIntegration()])
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
