@@ -85,20 +85,20 @@ class Inventory(models.Model):
             raise Exception("Unable to have less then 0 in inventory")
         self._create_mutation(amount, "remove", desc)
 
-    def transfer(
-        self, amount: float, other_location: Location, desc: str = ""
-    ) -> (Mutation, Mutation):
-        # Try and see if we can get or create the inventory at the other location,
-        # and then we try to add that amount. if that succeeds we remove inventory
-        other_inventory, created = Inventory.objects.get_or_create(
-            product=self.product, location=other_location
-        )
-        mutation_add = other_inventory.add(amount, desc)
-        mutation_remove = self.remove(amount, desc)
+    # def transfer(
+    #     self, amount: float, other_location: Location, desc: str = ""
+    # ) -> (Mutation, Mutation):
+    #     # Try and see if we can get or create the inventory at the other location,
+    #     # and then we try to add that amount. if that succeeds we remove inventory
+    #     other_inventory, created = Inventory.objects.get_or_create(
+    #         product=self.product, location=other_location
+    #     )
+    #     mutation_add = other_inventory.add(amount, desc)
+    #     mutation_remove = self.remove(amount, desc)
 
-        # Connect the mutation both ways
-        mutation_add.contra_mutation = mutation_remove
-        mutation_add.save()
-        mutation_remove.contra_mutation = mutation_add
-        mutation_remove.save()
-        return mutation_remove, mutation_add
+    #     # Connect the mutation both ways
+    #     mutation_add.contra_mutation = mutation_remove
+    #     mutation_add.save()
+    #     mutation_remove.contra_mutation = mutation_add
+    #     mutation_remove.save()
+    #     return mutation_remove, mutation_add

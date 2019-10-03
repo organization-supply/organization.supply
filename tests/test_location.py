@@ -39,6 +39,10 @@ class TestLocationPages(TestCase):
 
         location = Location.objects.get()
 
+        response = self.client.get("/location/{}/edit".format(location.id))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Edit: Test Location')
+
         response = self.client.post(
             "/location/{}/edit".format(location.id),
             {"name": "Updated test Location", "desc": "Updated test Description"},
