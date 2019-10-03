@@ -44,7 +44,6 @@ def shortcut_move(request):
         amount = float(mutable_form["amount"])
 
         # From
-        print("from")
         mutable_form["operation"] = "remove"
         mutable_form["amount"] = amount
         mutable_form["desc"] = "Moved {} {} to {}".format(
@@ -59,7 +58,6 @@ def shortcut_move(request):
             return render(request, "shortcuts/shortcut_move.html", {"form": form_from})
 
         # To
-        print("to")
         mutable_form["operation"] = "add"
         mutable_form["amount"] = amount
         mutable_form["desc"] = "Received {} {} from {}".format(
@@ -73,7 +71,6 @@ def shortcut_move(request):
             )
             return render(request, "shortcuts/shortcut_move.html", {"form": form_from})
 
-        print("saving")
         # If all is valid, save and apply
         if form_from.is_valid() and form_to.is_valid():
             mutation_from = form_from.save()
