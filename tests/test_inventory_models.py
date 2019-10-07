@@ -49,7 +49,7 @@ class TestLocation(unittest.TestCase):
         )
 
         # Removing inventory should make the location deletable
-        inventory.remove(1)
+        inventory.add(-1)
 
         location.delete()
 
@@ -120,7 +120,7 @@ class TestInventoryOperations(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 1.0)
 
-        inventory.remove(1)
+        inventory.add(-1)
         inventory.refresh_from_db()
 
         self.assertEqual(inventory.amount, 0.0)
@@ -141,7 +141,7 @@ class TestMutation(unittest.TestCase):
         self.assertEqual(inventory.amount, 0.0)
 
         mutation = Mutation(
-            product=product, location=location, operation="add", amount=3.0
+            product=product, location=location, amount=3.0
         )
         mutation.save()
 

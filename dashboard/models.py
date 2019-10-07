@@ -20,6 +20,10 @@ class Location(TimeStampedModel):
     def inventory(self):
         return Inventory.objects.filter(location_id=self.id)
 
+    def inventory_history(self):
+        inventories = Inventory.objects.filter(location_id=self.id)
+        return inventories
+
     def __str__(self):
         return self.name
 
@@ -51,13 +55,16 @@ class Mutation(TimeStampedModel):
         inventory, created = Inventory.objects.get_or_create(
             product=self.product, location=self.location
         )
-        if self.operation == "add":
-            inventory.amount = inventory.amount + self.amount
-        elif self.operation == "remove":
-            inventory.amount = inventory.amount - self.amount
+        inventory.amount = inventory.amount + self.amount
         inventory.save()
 
     def save(self, *args, **kwargs):
+        if self.amount < 0:
+            self.operation = "remove"
+        elif self.amount > 0: 
+            self.operation = "add"
+        elif self.amount == 0.0:
+            return
         self.apply()
         super(Mutation, self).save(*args, **kwargs)
 
@@ -69,36 +76,12 @@ class Inventory(models.Model):
 
     def _create_mutation(self, amount: float, operation: str, desc: str = ""):
         mutation = Mutation(
-            operation=operation,
-            location=self.location,
-            product=self.product,
             amount=amount,
+            product=self.product,
+            location=self.location,
             desc=desc,
         )
         return mutation.save()
 
     def add(self, amount: float, desc: str = "") -> Mutation:
-        self._create_mutation(amount, "add", desc)
-
-    def remove(self, amount: float, desc: str = "") -> Mutation:
-        if self.amount - amount < 0:
-            raise Exception("Unable to have less then 0 in inventory")
-        self._create_mutation(amount, "remove", desc)
-
-    # def transfer(
-    #     self, amount: float, other_location: Location, desc: str = ""
-    # ) -> (Mutation, Mutation):
-    #     # Try and see if we can get or create the inventory at the other location,
-    #     # and then we try to add that amount. if that succeeds we remove inventory
-    #     other_inventory, created = Inventory.objects.get_or_create(
-    #         product=self.product, location=other_location
-    #     )
-    #     mutation_add = other_inventory.add(amount, desc)
-    #     mutation_remove = self.remove(amount, desc)
-
-    #     # Connect the mutation both ways
-    #     mutation_add.contra_mutation = mutation_remove
-    #     mutation_add.save()
-    #     mutation_remove.contra_mutation = mutation_add
-    #     mutation_remove.save()
-    #     return mutation_remove, mutation_add
+        self._create_mutation(amount, desc)

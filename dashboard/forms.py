@@ -59,9 +59,9 @@ class MutationForm(ModelForm):
             inventory, created = Inventory.objects.get_or_create(
                 product=product, location=location
             )
-            if inventory.amount - amount < 0:
+            if inventory.amount + amount < 0:
                 raise ValidationError(
                     "Insufficient inventory of {} {} at {}".format(
-                        amount, product.name, location.name
+                        abs(amount), product.name, location.name
                     )
                 )

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from dashboard.models import Location, Inventory, Product, Mutation
 from dashboard.forms import MutationForm
-
+import datetime
 
 @login_required
 def index(request):
@@ -12,6 +12,11 @@ def index(request):
 
 @login_required
 def dashboard(request):
+    # today = datetime.date.today()
+    # data = Mutation.objects.filter(created__lte=today).values('amount', 'created', 'operation').order_by("-created")
+    # changes = list(map(lambda m: m['amount'] if m['operation'] == 'add' else -m['amount'], data))
+    # dates = list(map(lambda m: m['created'], data))
+    # print(list(zip(dates, changes)))
     return render(
         request,
         "dashboard/dashboard.html",
