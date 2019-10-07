@@ -41,7 +41,7 @@ class TestLocationPages(TestCase):
 
         response = self.client.get("/location/{}/edit".format(location.id))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Edit: Test Location')
+        self.assertContains(response, "Edit: Test Location")
 
         response = self.client.post(
             "/location/{}/edit".format(location.id),

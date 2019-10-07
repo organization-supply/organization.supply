@@ -5,6 +5,7 @@ from dashboard.models import Location, Inventory, Product, Mutation
 from dashboard.forms import MutationForm
 import datetime
 
+
 @login_required
 def index(request):
     return redirect("dashboard")

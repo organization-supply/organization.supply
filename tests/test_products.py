@@ -38,11 +38,11 @@ class TestProductPages(TestCase):
         self.assertEqual(Product.objects.count(), 1)
 
         product = Product.objects.get()
-        
+
         response = self.client.get("/product/{}/edit".format(product.id))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Edit: Test Product')
-        
+        self.assertContains(response, "Edit: Test Product")
+
         response = self.client.post(
             "/product/{}/edit".format(product.id),
             {"name": "Updated test Product", "desc": "Updated test Description"},

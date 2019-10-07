@@ -61,7 +61,7 @@ class Mutation(TimeStampedModel):
     def save(self, *args, **kwargs):
         if self.amount < 0:
             self.operation = "remove"
-        elif self.amount > 0: 
+        elif self.amount > 0:
             self.operation = "add"
         elif self.amount == 0.0:
             return
@@ -76,10 +76,7 @@ class Inventory(models.Model):
 
     def _create_mutation(self, amount: float, operation: str, desc: str = ""):
         mutation = Mutation(
-            amount=amount,
-            product=self.product,
-            location=self.location,
-            desc=desc,
+            amount=amount, product=self.product, location=self.location, desc=desc
         )
         return mutation.save()
 

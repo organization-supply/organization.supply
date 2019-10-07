@@ -3,6 +3,7 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 from dashboard.models import Location, Inventory, Product, Mutation
 
+
 class TestDashboardPages(TestCase):
     def setUp(self):
         self.client = Client()
@@ -46,21 +47,22 @@ class TestDashboardPages(TestCase):
         product = Product(name="Test Product")
         product.save()
 
-        response = self.client.post("/mutations/insert", {
-            "amount": 1.0,
-            "operation": "add",
-            "location": location.id,
-            "product": product.id,
-            "desc": "Test transaction"
-        }, follow=True)
+        response = self.client.post(
+            "/mutations/insert",
+            {
+                "amount": 1.0,
+                "operation": "add",
+                "location": location.id,
+                "product": product.id,
+                "desc": "Test transaction",
+            },
+            follow=True,
+        )
         self.assertEqual(response.status_code, 200)
 
         messages = list(response.context["messages"])
 
         self.assertEqual(len(messages), 1)
-        self.assertEqual(
-            str(messages[0]),
-            "Transaction added!",
-        )
+        self.assertEqual(str(messages[0]), "Transaction added!")
 
         self.assertEqual(Mutation.objects.count(), 1)

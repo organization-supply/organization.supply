@@ -9,5 +9,3 @@ omit =
     */apps.py
     inventory/wsgi.py
     manage.py
-
-    

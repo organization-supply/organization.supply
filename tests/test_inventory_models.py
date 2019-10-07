@@ -140,9 +140,7 @@ class TestMutation(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 0.0)
 
-        mutation = Mutation(
-            product=product, location=location, amount=3.0
-        )
+        mutation = Mutation(product=product, location=location, amount=3.0)
         mutation.save()
 
         inventory = Inventory.objects.get()

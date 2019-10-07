@@ -10,19 +10,17 @@ def shortcut_sales(request):
     if request.method == "POST":
         mutable_form = request.POST.copy()
         mutable_form["operation"] = "remove"
-        original_amount = mutable_form['amount']
+        original_amount = mutable_form["amount"]
         product = Product.objects.get(id=mutable_form.get("product"))
 
         # inverse if is positive
         if float(mutable_form.get("amount")) > 0:
-            mutable_form['amount'] = -float(mutable_form['amount'])
-
-        
+            mutable_form["amount"] = -float(mutable_form["amount"])
 
         mutable_form["desc"] = "Sold {} {}".format(
             mutable_form.get("amount"), product.name
         )
-        
+
         form = MutationForm(mutable_form)
         if form.is_valid():
             mutation = form.save()
@@ -54,7 +52,7 @@ def shortcut_move(request):
 
         # From
         mutable_form["amount"] = -amount
-        mutable_form["operation"] = 'remove'
+        mutable_form["operation"] = "remove"
         mutable_form["desc"] = "Moved {} {} to {}".format(
             amount, product.name, location_to.name
         )
@@ -68,7 +66,7 @@ def shortcut_move(request):
 
         # To
         mutable_form["amount"] = amount
-        mutable_form["operation"] = 'add'
+        mutable_form["operation"] = "add"
         mutable_form["desc"] = "Received {} {} from {}".format(
             amount, product.name, location_from.name
         )
