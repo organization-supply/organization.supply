@@ -55,8 +55,8 @@ class MutationForm(ModelForm):
         product = cleaned_data.get("product")
         location = cleaned_data.get("location")
 
-        if float(cleaned_data['amount']) < 0.0:
-            cleaned_data['operation'] = "remove"
+        if float(cleaned_data["amount"]) < 0.0:
+            cleaned_data["operation"] = "remove"
             inventory, created = Inventory.objects.get_or_create(
                 product=product, location=location
             )
@@ -67,4 +67,4 @@ class MutationForm(ModelForm):
                     )
                 )
         else:
-            cleaned_data['operation'] = "add"
+            cleaned_data["operation"] = "add"
