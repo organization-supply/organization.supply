@@ -47,15 +47,16 @@ class MutationForm(ModelForm):
 
     class Meta:
         model = Mutation
-        fields = ["amount", "operation", "product", "location", "desc"]
+        fields = ["amount", "product", "location", "desc"]
 
     def clean(self):
         cleaned_data = super().clean()
         amount = cleaned_data.get("amount")
         product = cleaned_data.get("product")
         location = cleaned_data.get("location")
-        operation = cleaned_data.get("operation")
-        if operation == "remove":
+
+        if float(cleaned_data['amount']) < 0.0:
+            cleaned_data['operation'] = "remove"
             inventory, created = Inventory.objects.get_or_create(
                 product=product, location=location
             )
@@ -65,3 +66,5 @@ class MutationForm(ModelForm):
                         abs(amount), product.name, location.name
                     )
                 )
+        else:
+            cleaned_data['operation'] = "add"
