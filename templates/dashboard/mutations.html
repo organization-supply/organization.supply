@@ -49,7 +49,7 @@
                     </td>
                     <td class="pa3 bb b--black-20">
                         {% if mutation.operation == 'remove' %}
-                            -{{ mutation.amount }}
+                            {{ mutation.amount }}
                         {% else %}
                             +{{ mutation.amount }}
                         {% endif %}
