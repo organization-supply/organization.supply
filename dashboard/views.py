@@ -7,7 +7,6 @@ import datetime
 from django.db.models import Func, Sum, Window, F
 
 
-
 @login_required
 def index(request):
     return redirect("dashboard")
@@ -20,8 +19,12 @@ def dashboard(request):
 
     mutations = {}
     for product in products:
-        mutations[product.name] = Mutation.objects.filter(product=product).annotate(cumsum=Window(Sum('amount'), order_by=F('id').asc()))\
-              .values('id', 'cumsum', 'amount', 'desc', 'created').order_by('-created')
+        mutations[product.name] = (
+            Mutation.objects.filter(product=product)
+            .annotate(cumsum=Window(Sum("amount"), order_by=F("id").asc()))
+            .values("id", "cumsum", "amount", "desc", "created")
+            .order_by("-created")
+        )
 
     return render(
         request,
@@ -30,7 +33,7 @@ def dashboard(request):
             "products": products,
             "locations": Location.objects.all(),
             "inventory": Inventory.objects.filter(amount__gt=0),
-            "mutations": mutations
+            "mutations": mutations,
         },
     )
 
