@@ -4,6 +4,7 @@ from django.contrib import messages
 from dashboard.models import Location, Inventory, Product, Mutation
 from dashboard.forms import MutationForm
 import datetime
+from django.db.models import Func, Sum, Window, F
 
 
 @login_required
@@ -13,18 +14,26 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    # today = datetime.date.today()
-    # data = Mutation.objects.filter(created__lte=today).values('amount', 'created', 'operation').order_by("-created")
-    # changes = list(map(lambda m: m['amount'] if m['operation'] == 'add' else -m['amount'], data))
-    # dates = list(map(lambda m: m['created'], data))
-    # print(list(zip(dates, changes)))
+
+    products = Product.objects.all()
+
+    mutations = {}
+    for product in products:
+        mutations[product.name] = (
+            Mutation.objects.filter(product=product)
+            .annotate(cumsum=Window(Sum("amount"), order_by=F("id").asc()))
+            .values("id", "cumsum", "amount", "desc", "created")
+            .order_by("-created")
+        )
+
     return render(
         request,
         "dashboard/dashboard.html",
         {
-            "products": Product.objects.all(),
+            "products": products,
             "locations": Location.objects.all(),
             "inventory": Inventory.objects.filter(amount__gt=0),
+            "mutations": mutations,
         },
     )
 
