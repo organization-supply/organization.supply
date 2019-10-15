@@ -1,51 +1,59 @@
-{% if debug %}
-<pre>
-    {{  mutations }}
-</pre>
-{% endif %}
+<div class="ba b--light-silver br2 pa2">
+    {% if debug %}<pre><code>{{  mutations }}</code></pre>{% endif %}
 
-<canvas id="{{ wrapper }}"></canvas>
+    <canvas id="{{ wrapper }}"></canvas>
 
-<script>
-
-var ctx = document.getElementById('{{ wrapper }}').getContext('2d');
-var chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            datasets: [
-                {% for product, product_mutations in mutations.items %}
-                {
-                    label: '{{ product }}',
-                    data: [
-                        {% for point in product_mutations %}
-                        {
-                            x: "{{ point.created|date:"Y-m-d" }}",
-                            y: {{ point.cumsum }}
-                        },
-                        {% endfor %}
-                    ]
-                },
-                {% endfor %}
-            ]
-        },
-
-        // Configuration options go here
-        options: {
-            responsive: true,
-            scales:     {
-                xAxes: [{
-                    type: "time",
-                    time: {
-                        format: 'YYYY-MM-DD',
-                        tooltipFormat: 'll'
+    <script>
+        
+    const days = [...new Array(30)].map((i, idx) => moment().startOf("day").subtract(idx, "days"))
+    const context = document.getElementById('{{ wrapper }}').getContext('2d');
+    const chart = new Chart(context, {
+            type: 'line',
+            data: {
+                labels: days.map(day => day.format("YYYY-MM-DD")),
+                datasets: [
+                    {% for product, product_mutations in mutations.items %}
+                    {% if product_mutations %}
+                    {
+                        label: '{{ product }}',
+                        lineTension: 0,
+                        data: [
+                            {% for point in product_mutations %}
+                            {
+                                x: "{{ point.created|date:"Y-m-d H:i:s" }}",
+                                y: {{ point.cumsum }}
+                            },
+                            {% endfor %}
+                        ]
                     },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Date'
-                    }
-                }],
-            }
-        }
-    });
+                    {% endif %}
+                    {% endfor %}
+                ]
+            },
 
-</script>
+            // Configuration options go here
+            options: {
+                
+                scales: {
+                    xAxes: [{
+                        type: "time",
+                        time: {
+                            parser: "YYYY-MM-DD HH:mm:ss"
+                        },
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                plugins: {
+                    colorschemes: {
+                        scheme: 'brewer.Paired12'
+                    }
+                }
+            }
+        });
+
+    </script>
+</div>
