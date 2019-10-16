@@ -4,19 +4,38 @@
 
 {% block content %}
 
-<h1>
-    Shortcut: Add a sale
-</h1>
+<main class="pa4 black-80">
+    <form class="measure center" action="" method="POST">
+        <h1>
+            Add a sale
+        </h1>
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form.amount }}
+        {% csrf_token %}
 
-    {{ form.product }}
+        {{ form.errors }}
 
-    {{ form.location }}
+        <fieldset id="product_form" class="ba b--transparent ph0 mh0 mb1">
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="amount">Amount</label>
+                {{ form.amount }}
+            </div>
+
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="product">Product</label>
+                {{ form.product }}
+            </div>
+
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="location_from">Van locatie</label>
+                {{ form.location }}
+            </div>
+
+            <div class="mt3">
+                <input class="b ph3 pv2 input-reset w-100 ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save">
+            </div>
     
-    <input type="submit" value="Save">
-</form>
+        </fieldset>
+    </form>
+</main>
 
 {% endblock %}
