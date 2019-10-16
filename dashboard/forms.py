@@ -110,12 +110,12 @@ class ShortcutMoveForm(Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        amount = cleaned_data.get("amount")
+        amount = -cleaned_data.get("amount")
         product = cleaned_data.get("product")
         location_from = cleaned_data.get("location_from")
         location_to = cleaned_data.get("location_to")
 
-        if float(cleaned_data["amount"]) < 0.0:
+        if float(amount) < 0.0:
             cleaned_data["operation"] = "remove"
             inventory, created = Inventory.objects.get_or_create(
                 product=product, location=location_from

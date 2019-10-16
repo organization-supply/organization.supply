@@ -111,7 +111,8 @@ class TestShortcuts(unittest.TestCase):
             {
                 "amount": 5.0,
                 "product": product.id,
-                "location": [location.id, location_2.id],
+                "location_from": location.id,
+                "location_to": location_2.id,
             },
             follow=True,
         )
@@ -156,7 +157,8 @@ class TestShortcuts(unittest.TestCase):
             {
                 "amount": 5.0,
                 "product": product.id,
-                "location": [location.id, location_2.id],
+                "location_from": location.id,
+                "location_to": location_2.id,
             },
             follow=True,
         )
