@@ -5,9 +5,6 @@ from model_utils import Choices
 from model_utils.fields import StatusField
 
 
-# Create your models here.
-
-
 class Location(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="")
@@ -16,11 +13,19 @@ class Location(TimeStampedModel):
         if Inventory.objects.filter(location=self, amount__gt=0).count() == 0:
             super(Location, self).delete()
         else:
-            raise Exception("We cannot delete a location if it still has inventory.")
+            raise ValueError("We cannot delete a location if it still has inventory.")
 
     @property
     def inventory(self):
         return Inventory.objects.filter(location_id=self.id)
+
+    @property
+    def inventory_total(self):
+        return (
+            Inventory.objects.filter(location=self)
+            .aggregate(total=Sum("amount"))
+            .get("total")
+        )
 
     @property
     def available_products(self):
@@ -32,6 +37,14 @@ class Location(TimeStampedModel):
     def __str__(self):
         return self.name
 
+    def delete(self, *args, **kwargs):
+        if self.inventory_total == 0 or self.inventory_total == None:
+            # Delete all inventory objects and then the location
+            Inventory.objects.filter(location=self).delete()
+            super(Location, self).delete(*args, **kwargs)
+        else:
+            raise ValueError("We cannot delete a location if it still has inventory.")
+
 
 class Product(TimeStampedModel):
     name = models.CharField(max_length=200)
@@ -42,13 +55,6 @@ class Product(TimeStampedModel):
         return Inventory.objects.filter(product_id=self.id)
 
     @property
-    def available_locations(self):
-        location_ids = Inventory.objects.filter(product_id=self.id).values_list(
-            "location_id", flat=True
-        )
-        return Location.objects.filter(id__in=location_ids)
-
-    @property
     def inventory_total(self):
         return (
             Inventory.objects.filter(product=self)
@@ -56,8 +62,25 @@ class Product(TimeStampedModel):
             .get("total")
         )
 
+    @property
+    def available_locations(self):
+        location_ids = Inventory.objects.filter(product_id=self.id).values_list(
+            "location_id", flat=True
+        )
+        return Location.objects.filter(id__in=location_ids)
+
     def __str__(self):
         return self.name
+
+    def delete(self, *args, **kwargs):
+        if self.inventory_total == 0 or self.inventory_total == None:
+            # Delete all inventory objects and then the product
+            Inventory.objects.filter(product=self).delete()
+            super(Product, self).delete(*args, **kwargs)
+        else:
+            raise ValueError(
+                "Unable to delete this product, we currently have it in inventory"
+            )
 
 
 class Mutation(TimeStampedModel):

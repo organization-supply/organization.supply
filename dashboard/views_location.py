@@ -30,6 +30,17 @@ def location_form(request, location_id=None):
             messages.add_message(request, messages.INFO, "Location created!")
             return redirect("locations")
 
+    # Deleting a location
+    elif (
+        request.method == "POST"
+        and location_id
+        and request.POST.get("action") == "delete"
+    ):
+        instance = get_object_or_404(Location, id=location_id)
+        instance.delete()
+        messages.add_message(request, messages.INFO, "Location deleted!")
+        return redirect("locations")
+
     # Updating a location
     elif request.method == "POST" and location_id != None:
         instance = get_object_or_404(Location, id=location_id)
@@ -38,10 +49,6 @@ def location_form(request, location_id=None):
             form.save()
             messages.add_message(request, messages.INFO, "Location updated!")
             return redirect("locations")
-
-    # Deleting a location
-    elif request.method == "DELETE":
-        pass
 
     # Otherwise: get form
     elif location_id:

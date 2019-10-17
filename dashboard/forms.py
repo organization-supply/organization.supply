@@ -55,7 +55,7 @@ class MutationForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Amount",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "lh-copy pa2 input-reset ba bg-transparent w-100",
             }
         )
     )

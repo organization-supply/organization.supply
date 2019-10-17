@@ -45,6 +45,12 @@
                         <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'location_view' location.id %}">
                             Details
                         </a>
+                        <!-- Django doesn't support DELETE requests -->
+                        <form method="POST" action="{% url 'location_edit' location.id %}" class="dib">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="delete">
+                            <input type="submit" value="Delete" class="ba hover-bg-red b--black lh-copy f6 link bg-transparent ph3 pv2 mb2 pointer dib black input-reset">
+                        </form>
                     </td>
                 </tr>
             {% endfor %}

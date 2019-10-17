@@ -36,6 +36,17 @@ def product_form(request, product_id=None):
             messages.add_message(request, messages.SUCCESS, "Product created!")
             return redirect("products")
 
+    # Deleting a product
+    elif (
+        request.method == "POST"
+        and product_id
+        and request.POST.get("action") == "delete"
+    ):
+        instance = get_object_or_404(Product, id=product_id)
+        instance.delete()
+        messages.add_message(request, messages.INFO, "Product deleted!")
+        return redirect("products")
+
     # Updating a product
     elif request.method == "POST" and product_id != None:
         instance = get_object_or_404(Product, id=product_id)
@@ -44,12 +55,6 @@ def product_form(request, product_id=None):
             form.save()
             messages.add_message(request, messages.INFO, "Product updated!")
             return redirect("products")
-
-    # Deleting a product
-    elif request.method == "DELETE":
-        instance = get_object_or_404(Product, id=product_id)
-        instance.delete()
-        messages.add_message(request, messages.INFO, "Product deleted!")
 
     # Otherwise: get form
     elif product_id:
