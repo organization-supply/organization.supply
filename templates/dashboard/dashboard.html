@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<h1>🏠 Dashboard</h1>
+<h1 class="ph3">🏠 Dashboard</h1>
 
-<div class="fl w-third">
+<div class="fl ph3 w-100 w-50-m w-third-l">
     <h1 class="f4 bold">Quick actions</h1>
     
     <ul style="margin-block-end: 0; margin-block-start: 0;" class="list pl0 ml0 ba b--light-silver br2">
@@ -58,12 +58,12 @@
     </ul>
 </div>
 
-<div class="fl w-third pl3">
+<div class="fl ph3 w-100 w-50-m w-third-l">
     <h1 class="f4 bold">Inventory in the last month</h1>
     {% include 'charts/inventory_month.html' with data=product_mutations wrapper='mutations' debug=False %}
 </div>
 
-<div class="fl w-third pl3">
+<div class="fl ph3 w-100 w-50-m w-third-l">
     <h1 class="f4 bold">Last transactions</h1>
     <ul style="margin-block-end: 0; margin-block-start: 0;" class="list pl0 ml0 ba b--light-silver br2">
         {% for mutation in mutations %}
