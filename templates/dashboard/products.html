@@ -32,8 +32,8 @@
                         {{ product.desc }}
                     </td>
                     <td class="pt2 pr3 bb b--black-20">
-                        {% if product.inventory_total.total %}
-                            {{ product.inventory_total.total }}
+                        {% if product.inventory_total %}
+                            {{ product.inventory_total }}
                         {% else %}
                             -
                         {% endif %}

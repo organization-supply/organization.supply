@@ -29,10 +29,6 @@ class Location(TimeStampedModel):
         )
         return Product.objects.filter(id__in=product_ids)
 
-    def inventory_history(self):
-        inventories = Inventory.objects.filter(location_id=self.id)
-        return inventories
-
     def __str__(self):
         return self.name
 
@@ -43,7 +39,7 @@ class Product(TimeStampedModel):
 
     @property
     def inventory(self):
-        return Inventory.objects.filter(product=self)
+        return Inventory.objects.filter(product_id=self.id)
 
     @property
     def available_locations(self):
@@ -54,7 +50,11 @@ class Product(TimeStampedModel):
 
     @property
     def inventory_total(self):
-        return Inventory.objects.filter(product=self).aggregate(total=Sum("amount"))
+        return (
+            Inventory.objects.filter(product=self)
+            .aggregate(total=Sum("amount"))
+            .get("total")
+        )
 
     def __str__(self):
         return self.name

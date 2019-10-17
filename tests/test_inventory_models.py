@@ -103,6 +103,12 @@ class TestInventoryOperations(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 1.0)
 
+        self.assertEqual(len([location]), product.available_locations.count())
+        self.assertEqual(location, product.available_locations[0])
+
+        self.assertEqual(len([product]), location.available_products.count())
+        self.assertEqual(product, location.available_products[0])
+
     def test_inventory_remove(self):
         location = Location(name="Test Location")
         location.save()
@@ -125,6 +131,25 @@ class TestInventoryOperations(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 0.0)
 
+    def test_inventory_total(self):
+        location = Location(name="Test Location")
+        location.save()
+
+        location_2 = Location(name="Test Location 2")
+        location_2.save()
+
+        product = Product(name="Test Product")
+        product.save()
+
+        inventory = Inventory(location=location, product=product, amount=1.0)
+        inventory.save()
+
+        inventory = Inventory(location=location_2, product=product, amount=1.0)
+        inventory.save()
+
+        self.assertEqual(product.inventory.count(), 2)
+        self.assertEqual(product.inventory_total, 2)
+
 
 @pytest.mark.django_db
 class TestMutation(unittest.TestCase):
@@ -146,3 +171,13 @@ class TestMutation(unittest.TestCase):
         inventory = Inventory.objects.get()
 
         self.assertEqual(inventory.amount, 3.0)
+
+    def test_mutation_zero_amount(self):
+        location = Location(name="Test Location")
+        location.save()
+
+        product = Product(name="Test Product")
+        product.save()
+
+        mutation = Mutation(product=product, location=location, amount=0.0).save()
+        self.assertEqual(mutation, None)

@@ -139,7 +139,7 @@ class ShortcutMoveForm(Form):
 
         # Get all locations where a product is available
         if selected_product_id:
-            selected_product = Product.objects.get(id=product)
+            selected_product = Product.objects.get(id=selected_product_id)
             self.fields["location_from"].queryset = selected_product.available_locations
 
         # Get all products available for a certain location
@@ -148,7 +148,7 @@ class ShortcutMoveForm(Form):
             self.fields["product"].queryset = selected_location.available_products
             # We cannot move inventory to the same location
             self.fields["location_to"].queryset = Location.objects.filter(
-                ~Q(id=selected_location_id)
+                ~Q(id=selected_location.id)
             )
 
     # This validates the data and sets the right fields before saving
