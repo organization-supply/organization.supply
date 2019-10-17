@@ -1,5 +1,5 @@
 <div class="ba b--light-silver br2 pa2">
-    {% if debug %}<pre><code>{{  mutations }}</code></pre>{% endif %}
+    {% if debug %}<pre><code>{{  product_mutations }}</code></pre>{% endif %}
 
     <canvas id="{{ wrapper }}"></canvas>
 
@@ -12,7 +12,7 @@
             data: {
                 labels: days.map(day => day.format("YYYY-MM-DD")),
                 datasets: [
-                    {% for product, product_mutations in mutations.items %}
+                    {% for product, product_mutations in product_mutations.items %}
                     {% if product_mutations %}
                     {
                         label: '{{ product }}',

@@ -17,9 +17,9 @@ def dashboard(request):
 
     products = Product.objects.all()
 
-    mutations = {}
+    product_mutations = {}
     for product in products:
-        mutations[product.name] = (
+        product_mutations[product.name] = (
             Mutation.objects.filter(product=product)
             .annotate(cumsum=Window(Sum("amount"), order_by=F("id").asc()))
             .values("id", "cumsum", "amount", "desc", "created")
@@ -33,7 +33,8 @@ def dashboard(request):
             "products": products,
             "locations": Location.objects.all(),
             "inventory": Inventory.objects.filter(amount__gt=0),
-            "mutations": mutations,
+            "mutations": Mutation.objects.all().order_by("-created")[:5],
+            "product_mutations": product_mutations,
         },
     )
 
