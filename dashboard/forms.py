@@ -71,22 +71,23 @@ class MutationForm(ModelForm):
         ),
     )
 
-    # We want to override the init, because we want to filter the 
-    # products available for sale based location. Or based on the 
+    # We want to override the init, because we want to filter the
+    # products available for sale based location. Or based on the
     # location we allow only the sale of certain products
-    def __init__(self, selected_product_id=None, selected_location_id=None, *args, **kwargs):
+    def __init__(
+        self, selected_product_id=None, selected_location_id=None, *args, **kwargs
+    ):
         super(MutationForm, self).__init__(*args, **kwargs)
 
         # Get all locations where a product is available
-        if selected_product_id:        
+        if selected_product_id:
             selected_product = Product.objects.get(id=selected_product_id)
-            self.fields['location'].queryset = selected_product.available_locations
-            
+            self.fields["location"].queryset = selected_product.available_locations
 
         # Get all products available for a certain location
         if selected_location_id:
             selected_location = Location.objects.get(id=selected_location_id)
-            self.fields['product'].queryset = selected_location.available_products
+            self.fields["product"].queryset = selected_location.available_products
 
     class Meta:
         model = Mutation
@@ -128,24 +129,27 @@ class ShortcutMoveForm(Form):
     product = ModelChoiceField(Product.objects.all(), empty_label=None)
     location_from = ModelChoiceField(Location.objects.all(), empty_label=None)
     location_to = ModelChoiceField(Location.objects.all(), empty_label=None)
-    
-    # Override the init so we can filter products or locations if either 
-    # is supplied by the user in the GET request. 
-    def __init__(self, selected_product_id=None, selected_location_id=None, *args, **kwargs):
+
+    # Override the init so we can filter products or locations if either
+    # is supplied by the user in the GET request.
+    def __init__(
+        self, selected_product_id=None, selected_location_id=None, *args, **kwargs
+    ):
         super(ShortcutMoveForm, self).__init__(*args, **kwargs)
 
         # Get all locations where a product is available
-        if selected_product_id:        
+        if selected_product_id:
             selected_product = Product.objects.get(id=product)
-            self.fields['location_from'].queryset = selected_product.available_locations
-            
+            self.fields["location_from"].queryset = selected_product.available_locations
 
         # Get all products available for a certain location
         if selected_location_id:
             selected_location = Location.objects.get(id=selected_location_id)
-            self.fields['product'].queryset = selected_location.available_products
+            self.fields["product"].queryset = selected_location.available_products
             # We cannot move inventory to the same location
-            self.fields['location_to'].queryset = Location.objects.filter(~Q(id=selected_location_id))
+            self.fields["location_to"].queryset = Location.objects.filter(
+                ~Q(id=selected_location_id)
+            )
 
     # This validates the data and sets the right fields before saving
     # the mutations. It also checks if there is sufficient inventory
@@ -189,7 +193,7 @@ class ShortcutMoveForm(Form):
         )
         mutation_from.save()
 
-        # Create a mutation for add inventory 
+        # Create a mutation for add inventory
         mutation_to = Mutation(
             amount=amount,
             product=product,

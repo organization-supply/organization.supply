@@ -22,9 +22,7 @@ def shortcut_sales(request):
         )
 
         form = MutationForm(
-            data=mutable_form,
-            selected_location_id=None,
-            selected_product_id=None,
+            data=mutable_form, selected_location_id=None, selected_product_id=None
         )
 
         if form.is_valid():
@@ -44,7 +42,8 @@ def shortcut_sales(request):
         form = MutationForm(
             selected_product_id=request.GET.get("product"),
             selected_location_id=request.GET.get("location"),
-            initial={"amount": 1, **request.GET.dict()})
+            initial={"amount": 1, **request.GET.dict()},
+        )
         return render(request, "shortcuts/shortcut_sales.html", {"form": form})
 
 
@@ -52,9 +51,7 @@ def shortcut_sales(request):
 def shortcut_move(request):
     if request.method == "POST":
         form = ShortcutMoveForm(
-            data=request.POST,
-            selected_product_id=None,
-            selected_location_id=None,
+            data=request.POST, selected_product_id=None, selected_location_id=None
         )
 
         # If the form is valid:
@@ -79,5 +76,6 @@ def shortcut_move(request):
         form = ShortcutMoveForm(
             selected_product_id=request.GET.get("product"),
             selected_location_id=request.GET.get("location_from"),
-            initial={"amount": 1, **request.GET.dict()})
+            initial={"amount": 1, **request.GET.dict()},
+        )
         return render(request, "shortcuts/shortcut_move.html", {"form": form})

@@ -24,7 +24,9 @@ class Location(TimeStampedModel):
 
     @property
     def available_products(self):
-        product_ids = Inventory.objects.filter(location_id=self.id).values_list('product_id', flat=True)
+        product_ids = Inventory.objects.filter(location_id=self.id).values_list(
+            "product_id", flat=True
+        )
         return Product.objects.filter(id__in=product_ids)
 
     def inventory_history(self):
@@ -41,17 +43,19 @@ class Product(TimeStampedModel):
 
     @property
     def inventory(self):
-        return Inventory.objects.filter(product=self) 
+        return Inventory.objects.filter(product=self)
 
     @property
     def available_locations(self):
-        location_ids = Inventory.objects.filter(product_id=self.id).values_list('location_id', flat=True)
+        location_ids = Inventory.objects.filter(product_id=self.id).values_list(
+            "location_id", flat=True
+        )
         return Location.objects.filter(id__in=location_ids)
-   
+
     @property
     def inventory_total(self):
-        return Inventory.objects.filter(product=self).aggregate(total=Sum('amount'))
-        
+        return Inventory.objects.filter(product=self).aggregate(total=Sum("amount"))
+
     def __str__(self):
         return self.name
 
@@ -81,8 +85,8 @@ class Mutation(TimeStampedModel):
             self.operation = "add"
         elif self.amount == 0.0:
             return
-        
-        # This allows us to update mutation without applying 
+
+        # This allows us to update mutation without applying
         # them again. Used for connecting contra mutation.
         if apply:
             self.apply()
@@ -103,4 +107,3 @@ class Inventory(models.Model):
 
     def add(self, amount: float, desc: str = "") -> Mutation:
         self._create_mutation(amount, desc)
-
