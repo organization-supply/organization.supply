@@ -58,7 +58,7 @@ def inventory_product(request):
 
 @login_required
 def mutation_insert(request):
-    form = MutationForm(request.POST)
+    form = MutationForm(data=request.POST)
     if form.is_valid():
         mutation = form.save()
         messages.add_message(request, messages.INFO, "Transaction added!")

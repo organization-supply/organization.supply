@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}Inventory - Products{% endblock title %}
@@ -15,6 +16,8 @@
             <tr>
                 <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Name</th>
                 <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Description</th>
+                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Total inventory</th>
+                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Shortcuts</th>
                 <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white" width="400px">Actions</th>
             </tr>
         </thead>
@@ -23,14 +26,34 @@
                 <tr>
                     <td class="pt2 pr3 bb b--black-20">
                         <a href="{% url 'product_view' product.id %}">{{ product.name }}</a>
+                        
                     </td>
                     <td class="pt2 pr3 bb b--black-20">
                         {{ product.desc }}
                     </td>
                     <td class="pt2 pr3 bb b--black-20">
-                        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'product_edit' product.id %}">Edit</a>
+                        {% if product.inventory_total.total %}
+                            {{ product.inventory_total.total }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="pt2 pr3 bb b--black-20">
+                        {% if product.inventory_total.total %}
+                            <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'shortcut_move' %}?product={{product.id}}">
+                                Move
+                            </a>
+                            <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'shortcut_sales' %}?product={{product.id}}">
+                                Sale
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td class="pt2 pr3 bb b--black-20">
+                        <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'product_edit' product.id %}">
+                            Edit
+                        </a>
                         <a class="f6 link dim ba ph3 pv2 mb2 dib black" href="{% url 'product_view' product.id %}">
-                            See Inventory
+                            Details
                         </a>
                     </td>
                 </tr>

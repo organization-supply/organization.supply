@@ -1,7 +1,9 @@
+from django.db.models import Sum
 from django.db import models
 from model_utils.models import TimeStampedModel
 from model_utils import Choices
 from model_utils.fields import StatusField
+
 
 # Create your models here.
 
@@ -20,6 +22,11 @@ class Location(TimeStampedModel):
     def inventory(self):
         return Inventory.objects.filter(location_id=self.id)
 
+    @property
+    def available_products(self):
+        product_ids = Inventory.objects.filter(location_id=self.id).values_list('product_id', flat=True)
+        return Product.objects.filter(id__in=product_ids)
+
     def inventory_history(self):
         inventories = Inventory.objects.filter(location_id=self.id)
         return inventories
@@ -34,8 +41,17 @@ class Product(TimeStampedModel):
 
     @property
     def inventory(self):
-        return Inventory.objects.filter(product=self)
+        return Inventory.objects.filter(product=self) 
 
+    @property
+    def available_locations(self):
+        location_ids = Inventory.objects.filter(product_id=self.id).values_list('location_id', flat=True)
+        return Location.objects.filter(id__in=location_ids)
+   
+    @property
+    def inventory_total(self):
+        return Inventory.objects.filter(product=self).aggregate(total=Sum('amount'))
+        
     def __str__(self):
         return self.name
 
@@ -58,14 +74,19 @@ class Mutation(TimeStampedModel):
         inventory.amount = inventory.amount + self.amount
         inventory.save()
 
-    def save(self, *args, **kwargs):
+    def save(self, apply=True, *args, **kwargs):
         if self.amount < 0:
             self.operation = "remove"
         elif self.amount > 0:
             self.operation = "add"
         elif self.amount == 0.0:
             return
-        self.apply()
+        
+        # This allows us to update mutation without applying 
+        # them again. Used for connecting contra mutation.
+        if apply:
+            self.apply()
+
         super(Mutation, self).save(*args, **kwargs)
 
 
@@ -82,3 +103,4 @@ class Inventory(models.Model):
 
     def add(self, amount: float, desc: str = "") -> Mutation:
         self._create_mutation(amount, desc)
+

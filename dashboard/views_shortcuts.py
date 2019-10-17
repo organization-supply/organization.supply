@@ -21,7 +21,12 @@ def shortcut_sales(request):
             mutable_form.get("amount"), product.name
         )
 
-        form = MutationForm(mutable_form)
+        form = MutationForm(
+            data=mutable_form,
+            selected_location_id=None,
+            selected_product_id=None,
+        )
+
         if form.is_valid():
             mutation = form.save()
             messages.add_message(
@@ -36,14 +41,21 @@ def shortcut_sales(request):
             )
             return render(request, "shortcuts/shortcut_sales.html", {"form": form})
     else:
-        form = MutationForm(initial={"amount": 1.0})
+        form = MutationForm(
+            selected_product_id=request.GET.get("product"),
+            selected_location_id=request.GET.get("location"),
+            initial={"amount": 1, **request.GET.dict()})
         return render(request, "shortcuts/shortcut_sales.html", {"form": form})
 
 
 @login_required
 def shortcut_move(request):
     if request.method == "POST":
-        form = ShortcutMoveForm(request.POST)
+        form = ShortcutMoveForm(
+            data=request.POST,
+            selected_product_id=None,
+            selected_location_id=None,
+        )
 
         # If the form is valid:
         if form.is_valid():
@@ -64,5 +76,8 @@ def shortcut_move(request):
 
     # When we are just getting the form
     else:
-        form = ShortcutMoveForm(initial={"amount": 1, **request.GET.dict()})
+        form = ShortcutMoveForm(
+            selected_product_id=request.GET.get("product"),
+            selected_location_id=request.GET.get("location_from"),
+            initial={"amount": 1, **request.GET.dict()})
         return render(request, "shortcuts/shortcut_move.html", {"form": form})
