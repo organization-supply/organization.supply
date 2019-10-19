@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-from decouple import config
 import os
+
+from decouple import config
 
 # If the SENTRY_DSN env var is set, we enable the Django integration for Sentry
 if config("SENTRY_DSN"):

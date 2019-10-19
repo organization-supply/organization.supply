@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Sum
-from dashboard.models import Product, Inventory
+from django.shortcuts import get_object_or_404, redirect, render
+
 from dashboard.forms import ProductForm
+from dashboard.models import Inventory, Product
 
 
 def products(request):

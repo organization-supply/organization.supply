@@ -1,8 +1,8 @@
-from django.db.models import Sum
 from django.db import models
-from model_utils.models import TimeStampedModel
+from django.db.models import Sum
 from model_utils import Choices
 from model_utils.fields import StatusField
+from model_utils.models import TimeStampedModel
 
 
 class Location(TimeStampedModel):

@@ -14,12 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 
-from dashboard import views
-from dashboard import views_product
-from dashboard import views_location
-from dashboard import views_shortcuts
+from dashboard import views, views_location, views_product, views_shortcuts
 
 urlpatterns = [
     # Inventory urls

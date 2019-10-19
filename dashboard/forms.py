@@ -1,7 +1,8 @@
 from django import forms
-from django.forms import ModelForm, ModelChoiceField, ValidationError, Form
 from django.db.models import Q
-from dashboard.models import Product, Location, Mutation, Inventory
+from django.forms import Form, ModelChoiceField, ModelForm, ValidationError
+
+from dashboard.models import Inventory, Location, Mutation, Product
 
 
 class ProductForm(ModelForm):

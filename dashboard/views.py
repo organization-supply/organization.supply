@@ -1,10 +1,12 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from dashboard.models import Location, Inventory, Product, Mutation
-from dashboard.forms import MutationForm
 import datetime
-from django.db.models import Func, Sum, Window, F
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.db.models import F, Func, Sum, Window
+from django.shortcuts import redirect, render
+
+from dashboard.forms import MutationForm
+from dashboard.models import Inventory, Location, Mutation, Product
 
 
 @login_required

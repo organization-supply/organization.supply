@@ -1,6 +1,8 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+
 from dashboard.models import Location
+
 
 # Create your models here.
 class UserProfile(models.Model):

@@ -1,6 +1,8 @@
 import unittest
+
 import pytest
-from dashboard.models import Location, Product, Inventory, Mutation
+
+from dashboard.models import Inventory, Location, Mutation, Product
 
 
 @pytest.mark.django_db

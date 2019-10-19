@@ -1,7 +1,8 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
-from django.contrib.auth.models import User
-from dashboard.models import Location, Inventory, Product, Mutation
+
+from dashboard.models import Inventory, Location, Mutation, Product
 
 
 class TestDashboardPages(TestCase):

@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from dashboard.models import Location, Inventory
+from django.shortcuts import get_object_or_404, redirect, render
+
 from dashboard.forms import LocationForm
+from dashboard.models import Inventory, Location
 
 
 def locations(request):

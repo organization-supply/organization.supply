@@ -1,8 +1,9 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from django.contrib import messages
-from dashboard.models import Location, Inventory, Product, Mutation
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+
 from dashboard.forms import MutationForm, ShortcutMoveForm
+from dashboard.models import Inventory, Location, Mutation, Product
 
 
 @login_required
@@ -17,9 +18,14 @@ def shortcut_sales(request):
         if float(mutable_form.get("amount")) > 0:
             mutable_form["amount"] = -float(mutable_form["amount"])
 
-        mutable_form["desc"] = "Sold {} {}".format(
-            mutable_form.get("amount"), product.name
-        )
+        if mutable_form["desc"]:
+            mutable_form["desc"] = "Sold {} {}: {}".format(
+                abs(mutable_form.get("amount")), product.name, mutable_form["desc"]
+            )
+        else:
+            mutable_form["desc"] = "Sold {} {}".format(
+                abs(mutable_form.get("amount")), product.name
+            )
 
         form = MutationForm(
             data=mutable_form, selected_location_id=None, selected_product_id=None
