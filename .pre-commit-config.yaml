@@ -14,3 +14,11 @@ repos:
     language: system
     entry: black .
     types: [python]
+
+  - id: pytest-cov
+    name: pytest
+    stages: [push]
+    language: system
+    entry: pytest --cov . && coverals
+    types: [python]
+    pass_filenames: false

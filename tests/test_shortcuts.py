@@ -38,7 +38,7 @@ class TestShortcuts(unittest.TestCase):
 
         response = self.client.post(
             "/shortcuts/sales",
-            {"amount": 1.0, "product": product.id, "location": location.id},
+            {"amount": 1.0, "product": product.id, "location": location.id, "desc": ""},
             follow=True,
         )
 
@@ -71,7 +71,12 @@ class TestShortcuts(unittest.TestCase):
 
         response = self.client.post(
             "/shortcuts/sales",
-            {"amount": 10.0, "product": product.id, "location": location.id},
+            {
+                "amount": 10.0,
+                "product": product.id,
+                "location": location.id,
+                "desc": "",
+            },
             follow=True,
         )
 
