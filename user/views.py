@@ -8,7 +8,8 @@ from user.forms import UserForm, UserProfileForm
 def settings(request):
     user_form = UserForm()
     user_profile_form = UserProfileForm()
-    return render(request, "user/settings.html", {
-        "user_form": user_form,
-        "user_profile_form": user_profile_form
-    })
+    return render(
+        request,
+        "user/settings.html",
+        {"user_form": user_form, "user_profile_form": user_profile_form},
+    )

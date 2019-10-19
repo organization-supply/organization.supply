@@ -8,7 +8,6 @@ from user.models import UserProfile
 
 
 class UserForm(ModelForm):
-
     class Meta:
         model = User
         fields = ["first_name", "last_name"]
@@ -32,7 +31,6 @@ class UserForm(ModelForm):
 
 
 class UserProfileForm(ModelForm):
-
     class Meta:
         model = UserProfile
         fields = ["location"]

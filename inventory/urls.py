@@ -58,14 +58,9 @@ urlpatterns = [
     # Shortcuts
     path("shortcuts/sales", views_shortcuts.shortcut_sales, name="shortcut_sales"),
     path("shortcuts/move", views_shortcuts.shortcut_move, name="shortcut_move"),
-    
     # User urls
     path("accounts/", include("django.contrib.auth.urls")),
-
-    path('user/', include('user.urls')),
-
-
-
+    path("user/", include("user.urls")),
     # Admin
     path("admin/", admin.site.urls),
 ]
