@@ -19,6 +19,14 @@ repos:
     name: pytest
     stages: [push]
     language: system
-    entry: pytest --cov . && coverals
+    entry: pytest --cov .
+    types: [python]
+    pass_filenames: false
+
+  - id: coveralls
+    name: coveralls
+    stages: [push]
+    language: system
+    entry: coveralls
     types: [python]
     pass_filenames: false
