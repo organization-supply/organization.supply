@@ -1,7 +1,6 @@
 import unittest
 
 import pytest
-
 from dashboard.models import Inventory, Location, Mutation, Product
 
 
