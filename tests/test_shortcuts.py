@@ -1,10 +1,10 @@
 import unittest
 
+import pytest
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
 
-import pytest
 from dashboard.forms import MutationForm, ShortcutMoveForm
 from dashboard.models import Inventory, Location, Mutation, Product
 
