@@ -22,7 +22,7 @@ def dashboard(request):
     product_mutations = {}
     for product in products:
         product_mutations[product.name] = (
-            Mutation.objects.filter(product=product)
+            Mutation.objects.filter(product=product, contra_mutation__isnull=True)
             .annotate(cumsum=Window(Sum("amount"), order_by=F("id").asc()))
             .values("id", "cumsum", "amount", "desc", "created")
             .order_by("-created")

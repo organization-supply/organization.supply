@@ -59,3 +59,4 @@ tests/reports/
 .env
 
 .coveralls.yml
+db.sqlite3
