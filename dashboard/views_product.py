@@ -3,7 +3,7 @@ from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 
 from dashboard.forms import ProductForm
-from dashboard.models import Inventory, Product
+from dashboard.models import Inventory, Mutation, Product
 
 
 def products(request):
@@ -16,6 +16,7 @@ def product_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     inventories = Inventory.objects.filter(amount__gt=0, product=product)
     product_total = Inventory.objects.filter(product=product).aggregate(Sum("amount"))
+    mutations = Mutation.objects.filter(product=product).order_by("-created")
     return render(
         request,
         "dashboard/product/view.html",
@@ -23,6 +24,7 @@ def product_view(request, product_id):
             "product_total": product_total,
             "product": product,
             "inventories": inventories,
+            "mutations": mutations,
         },
     )
 

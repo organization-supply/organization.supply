@@ -52,6 +52,54 @@ class LocationForm(ModelForm):
 
 
 class MutationForm(ModelForm):
+    # We want to override the init, because we want to filter the
+    # products available for sale based location. Or based on the
+    # location we allow only the sale of certain products
+    def __init__(
+        self, selected_product_id=None, selected_location_id=None, *args, **kwargs
+    ):
+        super(MutationForm, self).__init__(*args, **kwargs)
+
+        # Get all locations where a product is available
+        if selected_product_id:
+            selected_product = Product.objects.get(id=selected_product_id)
+            self.fields["location"].queryset = selected_product.available_locations
+
+        # Get all products available for a certain location
+        if selected_location_id:
+            selected_location = Location.objects.get(id=selected_location_id)
+            self.fields["product"].queryset = selected_location.available_products
+
+    class Meta:
+        model = Mutation
+        fields = ["amount", "product", "location", "desc", "user"]
+
+    # This validates the data and sets the right fields before saving
+    # the mutation. It also checks if there is sufficient inventory
+    # of a product on which we apply the mutation for the sale
+    def clean(self):
+        cleaned_data = super().clean()
+        amount = cleaned_data.get("amount")
+        product = cleaned_data.get("product")
+        location = cleaned_data.get("location")
+        if float(cleaned_data["amount"]) < 0.0:
+            cleaned_data["operation"] = "remove"
+            inventory, created = Inventory.objects.get_or_create(
+                product=product, location=location
+            )
+            if inventory.amount + amount < 0:
+                raise ValidationError(
+                    "Insufficient inventory of {} {} at {}".format(
+                        abs(amount), product.name, location.name
+                    )
+                )
+        else:
+            cleaned_data["operation"] = "add"
+
+        # Lastly, set the user if provided:
+        user = cleaned_data.get("user")
+        cleaned_data["user"] = user
+
     amount = forms.FloatField(
         widget=forms.TextInput(
             attrs={
@@ -72,52 +120,6 @@ class MutationForm(ModelForm):
         ),
     )
 
-    # We want to override the init, because we want to filter the
-    # products available for sale based location. Or based on the
-    # location we allow only the sale of certain products
-    def __init__(
-        self, selected_product_id=None, selected_location_id=None, *args, **kwargs
-    ):
-        super(MutationForm, self).__init__(*args, **kwargs)
-
-        # Get all locations where a product is available
-        if selected_product_id:
-            selected_product = Product.objects.get(id=selected_product_id)
-            self.fields["location"].queryset = selected_product.available_locations
-
-        # Get all products available for a certain location
-        if selected_location_id:
-            selected_location = Location.objects.get(id=selected_location_id)
-            print("select", selected_location)
-            self.fields["product"].queryset = selected_location.available_products
-
-    class Meta:
-        model = Mutation
-        fields = ["amount", "product", "location", "desc"]
-
-    # This validates the data and sets the right fields before saving
-    # the mutation. It also checks if there is sufficient inventory
-    # of a product on which we apply the mutation for the sale
-    def clean(self):
-        cleaned_data = super().clean()
-        amount = cleaned_data.get("amount")
-        product = cleaned_data.get("product")
-        location = cleaned_data.get("location")
-
-        if float(cleaned_data["amount"]) < 0.0:
-            cleaned_data["operation"] = "remove"
-            inventory, created = Inventory.objects.get_or_create(
-                product=product, location=location
-            )
-            if inventory.amount + amount < 0:
-                raise ValidationError(
-                    "Insufficient inventory of {} {} at {}".format(
-                        abs(amount), product.name, location.name
-                    )
-                )
-        else:
-            cleaned_data["operation"] = "add"
-
 
 class ShortcutMoveForm(Form):
     amount = forms.FloatField(
@@ -135,9 +137,17 @@ class ShortcutMoveForm(Form):
     # Override the init so we can filter products or locations if either
     # is supplied by the user in the GET request.
     def __init__(
-        self, selected_product_id=None, selected_location_id=None, *args, **kwargs
+        self,
+        user=None,
+        selected_product_id=None,
+        selected_location_id=None,
+        *args,
+        **kwargs
     ):
         super(ShortcutMoveForm, self).__init__(*args, **kwargs)
+
+        # Get the current user if supplied
+        self.user = user
 
         # Get all locations where a product is available
         if selected_product_id:
@@ -147,7 +157,10 @@ class ShortcutMoveForm(Form):
         # Get all products available for a certain location
         if selected_location_id:
             selected_location = Location.objects.get(id=selected_location_id)
-            self.fields["product"].queryset = selected_location.available_products
+            # But only if that location has any inventory
+            if selected_location.inventory_total > 0:
+                self.fields["product"].queryset = selected_location.available_products
+
             # We cannot move inventory to the same location
             self.fields["location_to"].queryset = Location.objects.filter(
                 ~Q(id=selected_location.id)
@@ -163,11 +176,15 @@ class ShortcutMoveForm(Form):
         location_from = cleaned_data.get("location_from")
         location_to = cleaned_data.get("location_to")
 
+        # If the amount is negative, we are removing inventory
+        # thus extra checks are needed, for example too see if there
+        # is enough inventory to be moved.
         if float(amount) < 0.0:
             cleaned_data["operation"] = "remove"
             inventory, created = Inventory.objects.get_or_create(
                 product=product, location=location_from
             )
+            # If there is nog enough inventory, raise an error:
             if inventory.amount + amount < 0:
                 raise ValidationError(
                     "Insufficient inventory of {} {} at {}".format(
@@ -191,6 +208,7 @@ class ShortcutMoveForm(Form):
             product=product,
             location=location_from,
             operation="remove",
+            user=self.user,
             desc="Moved {} {} to {}".format(amount, product.name, location_to.name),
         )
         mutation_from.save()
@@ -201,6 +219,7 @@ class ShortcutMoveForm(Form):
             product=product,
             location=location_to,
             operation="remove",
+            user=self.user,
             desc="Received {} {} from {}".format(
                 amount, product.name, location_from.name
             ),

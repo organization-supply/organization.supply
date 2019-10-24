@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
 from model_utils import Choices
@@ -89,6 +90,7 @@ class Mutation(TimeStampedModel):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.FloatField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     desc = models.TextField(default="")
     contra_mutation = models.ForeignKey(
         "self", on_delete=models.CASCADE, blank=True, null=True

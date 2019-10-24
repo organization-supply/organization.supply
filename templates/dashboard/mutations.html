@@ -59,9 +59,16 @@
                     <td class="pa3 bb b--black-20">
                         <a href="{% url 'location_view' mutation.location.id %}">{{ mutation.location.name }}</a>
                     </td>
-                    <td class="pa3 bb b--black-20" colspan="2">
+                    <td class="pa3 bb b--black-20">
                         {{ mutation.desc }}
-                    </td>      
+                    </td>
+                    <td class="pa3 bb b--black-20">
+                        {% if mutation.user.first_name %}
+                            {{ mutation.user.first_name }} {{ mutation.user.last_name }}
+                        {% else %}
+                            {{ mutation.user.username }}
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             {% else %}

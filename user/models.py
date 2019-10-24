@@ -13,6 +13,5 @@ class UserProfile(models.Model):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):
-    if kwargs.get("created"):
-        print("created user profile for {}".format(instance.username))
+    if created:
         UserProfile.objects.create(user=instance)

@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from dashboard.forms import LocationForm
-from dashboard.models import Inventory, Location
+from dashboard.models import Inventory, Location, Mutation
 
 
 def locations(request):
@@ -14,10 +14,11 @@ def locations(request):
 def location_view(request, location_id):
     location = get_object_or_404(Location, id=location_id)
     inventories = Inventory.objects.filter(amount__gt=0, location=location)
+    mutations = Mutation.objects.filter(location=location).order_by("-created")
     return render(
         request,
         "dashboard/location/view.html",
-        {"location": location, "inventories": inventories},
+        {"location": location, "inventories": inventories, "mutations": mutations},
     )
 
 

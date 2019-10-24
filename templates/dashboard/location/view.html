@@ -56,23 +56,31 @@
                         <th class="fw6 bb b--black-20 tl pt3 pr3 pb3 bg-white">Date</th>
                         <th class="fw6 bb b--black-20 tl pa3 bg-white">Amount</th>
                         <th class="fw6 bb b--black-20 tl pa3 bg-white">Product</th>
+                        <th class="fw6 bb b--black-20 tl pa3 bg-white">User</th>
                     </tr>
                 </thead>
                 <tbody class="lh-copy">
-                    {% for mutation in location.mutation_set.all %}
+                    {% for mutation in mutations %}
                     <tr>
                         <td class="pt3 pr3 pb3 bb b--black-20">
                             {{ mutation.created|date:"Y-m-d" }}
                         </td>
                         <td class="pa3 bb b--black-20">
                             {% if mutation.operation == 'remove' %}
-                                -{{ mutation.amount }}
+                                {{ mutation.amount }}
                             {% else %}
                                 +{{ mutation.amount }}
                             {% endif %}
                         </td>
                         <td class="pa3 bb b--black-20">
                             <a href="{% url 'product_view' mutation.product.id %}">{{ mutation.product.name }}</a>
+                        </td>
+                        <td class="pa3 bb b--black-20">
+                            {% if mutation.user.first_name %}
+                                {{ mutation.user.first_name }} {{ mutation.user.last_name }}
+                            {% else %}
+                                {{ mutation.user.username }}
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
