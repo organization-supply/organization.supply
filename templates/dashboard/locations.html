@@ -20,6 +20,7 @@
             </tr>
         </thead>
         <tbody class="lh-copy">
+            {% if locations %}
             {% for location in locations %}
                 <tr>
                     <td class="pt2 pr3 bb b--black-20">
@@ -54,6 +55,13 @@
                     </td>
                 </tr>
             {% endfor %}
+            {% else %}
+                <tr>
+                    <td class="pt2 pr3 bb b--black-20" colspan="5">
+                        <p>No location found. Want to <a href="{% url 'location_new' %}">add a location</a>?</p>
+                    </td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 </div>

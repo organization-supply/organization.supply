@@ -66,6 +66,7 @@
 <div class="fl ph3 w-100 w-50-m w-third-l">
     <h1 class="f4 bold">Last transactions</h1>
     <ul style="margin-block-end: 0; margin-block-start: 0;" class="list pl0 ml0 ba b--light-silver br2">
+        {% if mutations %}
         {% for mutation in mutations %}
         <li class="ph3 pv3 b--light-silver">
             <strong>
@@ -76,6 +77,9 @@
             <span class="fr">{{ mutation.created|date:"Y-m-d" }}</span>
         </li>
         {% endfor %}
+        {% else %}
+        <li class="ph3 pv3 b--light-silver">No transactions found.</li>
+        {% endif %}
     </ul>
 </div>
     

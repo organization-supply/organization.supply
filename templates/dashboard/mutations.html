@@ -43,7 +43,8 @@
                     </fieldset>
                 </form>
             </tr>
-
+            
+            {% if mutations %}
             {% for mutation in mutations %}
                 <tr>
                     <td class="pt3 pr3 pb3 bb b--black-20">
@@ -63,6 +64,13 @@
                     </td>      
                 </tr>
             {% endfor %}
+            {% else %}
+                <tr>
+                    <td class="pt2 pr3 bb b--black-20" colspan="5">
+                        <p>No transactions found. Add one with the form above.</p>
+                    </td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 </div>

@@ -22,6 +22,7 @@
             </tr>
         </thead>
         <tbody class="lh-copy">
+            {% if products %}
             {% for product in products %}
                 <tr>
                     <td class="pt2 pr3 bb b--black-20">
@@ -64,6 +65,13 @@
                     </td>
                 </tr>
             {% endfor %}
+            {% else %}
+                <tr>
+                    <td class="pt2 pr3 bb b--black-20" colspan="5">
+                        <p>No products found. Want to <a href="{% url 'product_new' %}">add a product</a>?</p>
+                    </td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 </div>
