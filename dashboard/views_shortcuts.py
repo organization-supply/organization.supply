@@ -45,10 +45,11 @@ def shortcut_sales(request):
             )
             return render(request, "shortcuts/shortcut_sales.html", {"form": form})
     else:
+        location = request.GET.get("location") or request.user.profile.location_id
         form = MutationForm(
             selected_product_id=request.GET.get("product"),
-            selected_location_id=request.GET.get("location"),
-            initial={"amount": 1, **request.GET.dict()},
+            selected_location_id=location,
+            initial={"amount": 1, "location": location, **request.GET.dict()},
         )
         return render(request, "shortcuts/shortcut_sales.html", {"form": form})
 
@@ -79,9 +80,10 @@ def shortcut_move(request):
 
     # When we are just getting the form
     else:
+        location = request.GET.get("location") or request.user.profile.location_id
         form = ShortcutMoveForm(
             selected_product_id=request.GET.get("product"),
             selected_location_id=request.GET.get("location_from"),
-            initial={"amount": 1, **request.GET.dict()},
+            initial={"amount": 1, "location_from": location, **request.GET.dict()},
         )
         return render(request, "shortcuts/shortcut_move.html", {"form": form})

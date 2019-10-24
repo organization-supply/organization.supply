@@ -88,6 +88,7 @@ class MutationForm(ModelForm):
         # Get all products available for a certain location
         if selected_location_id:
             selected_location = Location.objects.get(id=selected_location_id)
+            print("select", selected_location)
             self.fields["product"].queryset = selected_location.available_products
 
     class Meta:
