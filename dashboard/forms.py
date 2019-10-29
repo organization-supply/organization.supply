@@ -180,7 +180,6 @@ class ShortcutMoveForm(Form):
         # thus extra checks are needed, for example too see if there
         # is enough inventory to be moved.
         if float(amount) < 0.0:
-            cleaned_data["operation"] = "remove"
             inventory, created = Inventory.objects.get_or_create(
                 product=product, location=location_from
             )
@@ -191,8 +190,6 @@ class ShortcutMoveForm(Form):
                         abs(amount), product.name, location_from.name
                     )
                 )
-        else:
-            cleaned_data["operation"] = "add"
 
     def save(self):
         # Get all the relevant data

@@ -41,7 +41,7 @@ class TestDashboardPages(TestCase):
         response = self.client.get("/mutations")
         self.assertEqual(response.status_code, 200)
 
-    def test_mutations_inser(self):
+    def test_mutations_insert(self):
         location = Location(name="Test Location")
         location.save()
 
@@ -67,3 +67,22 @@ class TestDashboardPages(TestCase):
         self.assertEqual(str(messages[0]), "Transaction added!")
 
         self.assertEqual(Mutation.objects.count(), 1)
+
+    def test_mutations_insert_with_missing_location(self):
+
+        product = Product(name="Test Product")
+        product.save()
+
+        response = self.client.post(
+            "/mutations/insert",
+            {
+                "amount": 1.0,
+                "operation": "add",
+                "product": product.id,
+                # Missing location
+                "desc": "Test transaction",
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Mutation.objects.count(), 0)

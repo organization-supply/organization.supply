@@ -58,4 +58,15 @@ class TestProductPages(TestCase):
         self.assertEqual(product.desc, "Updated test Description")
 
     def test_delete_product(self):
-        pass
+        product = Product(name="Test Product")
+        product.save()
+
+        response = self.client.post(
+            "/product/{}/edit".format(product.id), {"action": "delete"}, follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        messages = list(response.context["messages"])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), "Product deleted!")
+        self.assertEqual(Product.objects.count(), 0)

@@ -64,7 +64,9 @@ def mutation_insert(request):
     mutable_form = request.POST.copy()
     mutable_form["user"] = request.user.id
     form = MutationForm(data=mutable_form)
+    print(form)
     if form.is_valid():
+
         mutation = form.save()
         messages.add_message(request, messages.INFO, "Transaction added!")
     else:

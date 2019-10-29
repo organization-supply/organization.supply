@@ -70,6 +70,39 @@ class TestProduct(unittest.TestCase):
     def test_delete_product(self):
         pass
 
+    def test_delete_product_with_inventory(self):
+        product = Product(name="Test Product")
+        product.save()
+
+        self.assertEqual(Product.objects.count(), 1)
+
+        location = Location(name="Test Location")
+        location.save()
+
+        self.assertEqual(Location.objects.count(), 1)
+
+        inventory = Inventory(location=location, product=product)
+        inventory.amount = 1.0
+        inventory.save()
+
+        self.assertEqual(inventory.amount, 1.0)
+
+        # Deleting it should fail since we have inventory
+        with pytest.raises(Exception) as deletion_error:
+            product.delete()
+
+        self.assertEqual(
+            str(deletion_error.value),
+            "Unable to delete this product, we currently have it in inventory",
+        )
+
+        # Removing inventory should make the product deletable
+        inventory.add(-1)
+
+        product.delete()
+
+        self.assertEqual(Product.objects.count(), 0)
+
 
 @pytest.mark.django_db
 class TestInventory(unittest.TestCase):

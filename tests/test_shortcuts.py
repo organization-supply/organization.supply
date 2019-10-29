@@ -38,7 +38,12 @@ class TestShortcuts(unittest.TestCase):
 
         response = self.client.post(
             "/shortcuts/sales",
-            {"amount": 1.0, "product": product.id, "location": location.id, "desc": ""},
+            {
+                "amount": 1.0,
+                "product": product.id,
+                "location": location.id,
+                "desc": "Testing",
+            },
             follow=True,
         )
 
@@ -47,6 +52,11 @@ class TestShortcuts(unittest.TestCase):
         messages = list(response.context["messages"])
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), "1.0 Test Product sold!")
+
+        mutation = Mutation.objects.filter(amount=-1.0)[0]
+        self.assertEqual(
+            mutation.desc, "Sold {} {}: {}".format(1.0, product.name, "Testing")
+        )
 
         inventory.refresh_from_db()
         self.assertEqual(inventory.amount, 9.0)

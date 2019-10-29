@@ -10,12 +10,6 @@ class Location(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="")
 
-    def delete(self):
-        if Inventory.objects.filter(location=self, amount__gt=0).count() == 0:
-            super(Location, self).delete()
-        else:
-            raise ValueError("We cannot delete a location if it still has inventory.")
-
     @property
     def inventory(self):
         return Inventory.objects.filter(location_id=self.id)

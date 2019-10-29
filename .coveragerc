@@ -8,4 +8,5 @@ omit =
     */tests.py
     */apps.py
     inventory/wsgi.py
+    inventory/settings.py
     manage.py

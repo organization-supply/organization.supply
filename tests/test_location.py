@@ -58,4 +58,17 @@ class TestLocationPages(TestCase):
         self.assertEqual(location.desc, "Updated test Description")
 
     def test_delete_location(self):
-        pass
+        location = Location(name="Test Location")
+        location.save()
+
+        self.assertEqual(Location.objects.count(), 1)
+
+        response = self.client.post(
+            "/location/{}/edit".format(location.id), {"action": "delete"}, follow=True
+        )
+
+        self.assertEqual(response.status_code, 200)
+        messages = list(response.context["messages"])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), "Location deleted!")
+        self.assertEqual(Location.objects.count(), 0)
