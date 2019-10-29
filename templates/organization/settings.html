@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}{{ global_preferences.title }} - Organization{% endblock title %}
+
+{% block content %}
+
+<h1 class="pl3">🛠️ Organization</h1>
+
+<div class="fl w-100 w-50-m w-third-l ph3">
+    <h1 class="f4 bold">Users</h1>
+
+    <table class="f6 w-100 center" cellspacing="0">
+        <thead>
+            <tr>
+                <th class="fw6 bb b--black-20 tl pv3 bg-white">Name</th>
+                <th class="fw6 bb b--black-20 tl pv3 bg-white">Email</th>
+            </tr>
+        </thead>
+        <tbody class="lh-copy">
+            {% for user in users %}
+            <tr>
+                <td class="pv2 pr3 bb b--black-20">
+                {% if user.first_name and user.last_name %}
+                    {{ user.first_name }} {{ user.last_name }}
+                {% else %}
+                    {{ user.username }}
+                {% endif %}
+                </td>
+                <td class="pv2 pr3 bb b--black-20">
+                    {{ user.email }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+<div class="fl w-100 w-50-m w-third-l ph3">
+    <h1 class="f4 bold">Organization details</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <fieldset id="location_form" class="ba b--transparent ph0 mh0">
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="email-address">Organization name</label>
+                {{ organization_preference_form.title }}
+            </div>
+        </fieldset>
+        <div class="">
+            <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save details">
+        </div>
+    </form>
+</div>
+
+<div class="fl w-100 w-50-m w-third-l ph3">
+    <h1 class="f4 bold">External Services</h1>
+
+    <p class="lh-copy">To be build...</p>
+</div>
+
+
+{% endblock %}

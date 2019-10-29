@@ -50,10 +50,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Installed apps
     "dynamic_preferences",
     "dynamic_preferences.users.apps.UserPreferencesConfig",
-    "dashboard",
-    "user",
+    # Apps
+    "organization",  # Organization views
+    "dashboard",  # Main application for inventory
+    "user",  # User pages and settings
 ]
 
 MIDDLEWARE = [

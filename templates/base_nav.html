@@ -9,4 +9,8 @@
     <!-- Right -->
     <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/accounts/logout" title="Logout">Logout</a>
     <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/user/settings" title="Settings">Settings</a>
+
+    {% if request.user.is_superuser %}
+    <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/organization/settings" title="Organization">Organization</a>
+    {% endif %}
 </nav>

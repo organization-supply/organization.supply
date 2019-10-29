@@ -21,7 +21,6 @@ def settings(request):
             messages.add_message(request, messages.INFO, "Profile updated!")
 
         # User Profile for location
-        # print(request.POST)
         user_preference_form = user_preference_form(request.POST)
         if user_preference_form.is_valid():
             user_preference_form.update_preferences()
