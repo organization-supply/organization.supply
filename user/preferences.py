@@ -1,4 +1,4 @@
-from dynamic_preferences.types import ModelChoicePreference
+from dynamic_preferences.types import FilePreference, ModelChoicePreference
 from dynamic_preferences.users.registries import user_preferences_registry
 
 from dashboard.models import Location
@@ -12,6 +12,11 @@ class DefaultLocation(ModelChoicePreference):
     label = "Default Location"
     default = None
     required = False
+
+
+@user_preferences_registry.register
+class ProfileImage(FilePreference):
+    name = "profile_image"
 
 
 def get_default_location(request):

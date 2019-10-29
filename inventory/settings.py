@@ -154,10 +154,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = config(
-    "DJANGO_STATIC_ROOT", default=os.path.join(os.path.dirname(BASE_DIR), "static")
-)
-MEDIA_URL = "/media/"
+STATIC_ROOT = config("DJANGO_STATIC_ROOT", default=os.path.join(BASE_DIR, "static/"))
+MEDIA_URL = "/"
 MEDIA_ROOT = config(
-    "DJANGO_MEDIA_ROOT", default=os.path.join(os.path.dirname(BASE_DIR), "media")
+    "DJANGO_MEDIA_ROOT",
+    default=os.path.join(os.path.dirname(os.path.dirname(__file__)), "media/"),
 )
+
+# Update dynamic preferences to use the MEEDIA ROOT
+DYNAMIC_PREFERENCES.update(FILE_PREFERENCE_UPLOAD_DIR="media/")

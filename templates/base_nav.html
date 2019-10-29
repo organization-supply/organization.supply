@@ -1,4 +1,4 @@
-<nav class="pa3 pa4-ns">
+<nav class="pa2 pa4-ns">
     <!-- Left -->
     <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/dashboard" title="Dashboard">Dashboard</a>
     <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/products" title="Producten">Products</a>
@@ -7,7 +7,13 @@
     <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/mutations" title="Transacties">Transactions</a>
 
     <!-- Right -->
-    <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/accounts/logout" title="Logout">Logout</a>
+    {% if request.user.preferences.profile_image %}
+    <div class="fr tc pl3 nt3">
+        <img class="br-pill h3 w3 dib" alt="avatar" src="{{ request.user.preferences.profile_image.url }}" alt="">
+    </div>
+    {% endif %}
+    
+    <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/accounts/logout" title="Logout">Logout</a>    
     <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/user/settings" title="Settings">Settings</a>
 
     {% if request.user.is_superuser %}

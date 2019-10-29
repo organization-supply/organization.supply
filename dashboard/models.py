@@ -79,7 +79,7 @@ class Product(TimeStampedModel):
 
 
 class Mutation(TimeStampedModel):
-    OPERATION_CHOICES = Choices("add", "remove")
+    OPERATION_CHOICES = Choices("add", "remove", "reserved")
     operation = StatusField(choices_name="OPERATION_CHOICES")
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
