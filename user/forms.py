@@ -1,10 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.db.models import Q
-from django.forms import Form, ModelChoiceField, ModelForm, ValidationError
-
-from dashboard.models import Location
-from user.models import UserProfile
+from django.forms import ModelForm
 
 
 class UserForm(ModelForm):
@@ -28,9 +24,3 @@ class UserForm(ModelForm):
             }
         )
     )
-
-
-class UserProfileForm(ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ["location"]

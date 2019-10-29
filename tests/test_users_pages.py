@@ -39,8 +39,8 @@ class TestUserPages(TestCase):
 
         # Test if the profile is saved
         response = self.client.post(
-            "/user/settings", {"location": location.id}, follow=True
+            "/user/settings", {"default_location": location.id}, follow=True
         )
         self.assertEqual(response.status_code, 200)
 
-        self.assertEqual(user.profile.location, location)
+        self.assertEqual(user.preferences["default_location"], location)

@@ -2,16 +2,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
+from dynamic_preferences.forms import global_preference_form_builder
+from dynamic_preferences.users.forms import user_preference_form_builder
 
-from user.forms import UserForm, UserProfileForm
-from user.models import UserProfile
+from user.forms import UserForm
 
 
 @login_required
 def settings(request):
     user_form = UserForm(instance=request.user)
-    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
-    user_profile_form = UserProfileForm(instance=user_profile)
+    user_preference_form = user_preference_form_builder(instance=request.user)
 
     if request.method == "POST":
         # First and last name
@@ -21,14 +21,15 @@ def settings(request):
             messages.add_message(request, messages.INFO, "Profile updated!")
 
         # User Profile for location
-        user_profile_form = UserProfileForm(request.POST, instance=user_profile)
-        if user_profile_form.is_valid():
-            user_profile_form.save()
-            messages.add_message(request, messages.INFO, "Settings updated!")
+        # print(request.POST)
+        user_preference_form = user_preference_form(request.POST)
+        if user_preference_form.is_valid():
+            user_preference_form.update_preferences()
+            messages.add_message(request, messages.INFO, "Preferences updated!")
         return redirect("user_settings")
 
     return render(
         request,
         "user/settings.html",
-        {"user_form": user_form, "user_profile_form": user_profile_form},
+        {"user_form": user_form, "user_preference_form": user_preference_form},
     )

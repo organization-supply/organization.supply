@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 
 from dashboard.forms import MutationForm, ShortcutMoveForm
 from dashboard.models import Inventory, Location, Mutation, Product
+from dashboard.preferences import get_default_location
 
 
 @login_required
@@ -44,7 +45,7 @@ def shortcut_sales(request):
             )
             return render(request, "shortcuts/shortcut_sales.html", {"form": form})
     else:
-        location = request.GET.get("location") or request.user.profile.location_id
+        location = get_default_location(request)
         form = MutationForm(
             selected_product_id=request.GET.get("product"),
             selected_location_id=location,
@@ -83,7 +84,7 @@ def shortcut_move(request):
             )
 
     # When we are just getting the form
-    location = request.GET.get("location") or request.user.profile.location_id
+    location = get_default_location(request)
     form = ShortcutMoveForm(
         selected_product_id=request.GET.get("product"),
         selected_location_id=request.GET.get("location_from"),
