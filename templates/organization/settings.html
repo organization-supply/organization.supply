@@ -37,13 +37,18 @@
     
 <div class="fl w-100 w-50-m w-third-l ph3">
     <h1 class="f4 bold">Organization details</h1>
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
         <fieldset id="location_form" class="ba b--transparent ph0 mh0">
             <div class="mt3">
                 <label class="db fw6 lh-copy f6" for="email-address">Organization name</label>
-                {{ organization_preference_form.title }}
+                {{ organization_preference_form.name }}
+            </div>
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="email-address">Organization logo</label>
+                <img src="{{ global_preferences.logo.url }}" alt="">
+                {{ organization_preference_form.logo }}
             </div>
         </fieldset>
         <div class="">

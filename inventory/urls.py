@@ -67,7 +67,7 @@ urlpatterns = [
         name="reservation_action",
     ),
     # User urls
-    path("accounts/", include("django.contrib.auth.urls")),
+    path("user/", include("django.contrib.auth.urls")),
     path("user/", include("user.urls")),
     path("organization/", include("organization.urls")),
     # Admin

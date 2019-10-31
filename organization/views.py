@@ -12,7 +12,9 @@ from dynamic_preferences.forms import global_preference_form_builder
 def settings(request):
     organization_preference_form = global_preference_form_builder()
     if request.method == "POST":
-        organization_preference_form = organization_preference_form(request.POST)
+        organization_preference_form = organization_preference_form(
+            request.POST, request.FILES
+        )
         if organization_preference_form.is_valid():
             organization_preference_form.update_preferences()
             messages.add_message(request, messages.INFO, "Preferences updated!")
