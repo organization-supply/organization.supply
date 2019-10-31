@@ -83,5 +83,37 @@
     </ul>
 </div>
     
+{% if reservations %}
+<div class="fl ph3 w-100 w-100-m w-100-l">
+    <h1 class="f4 bold">Reservations</h1>
+    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
+        <thead>
+            <tr>
+                <th class="fw6 bb b--black-20 tl pa2 bg-white">Date</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Amount</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Description</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="lh-copy">
+            {% for reservation in reservations %}
+            <tr>
+                <td class="pa2 bb b--black-20">{{ reservation.created|date:"Y-m-d h:i:s" }}</td>
+                <td class="pa2 bb b--black-20">{{ reservation.amount }}</td>
+                <td class="pa2 bb b--black-20">{{ reservation.desc }}</td>
+                <td class="pa2 bb b--black-20">
+                    <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'reservation_action' reservation.id %}?action=confirm">
+                        Confirm
+                    </a>
+                    <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'reservation_action' reservation.id %}?action=cancel">
+                        Cancel
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
 
 {% endblock %}
