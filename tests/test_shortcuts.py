@@ -51,13 +51,105 @@ class TestShortcuts(unittest.TestCase):
 
         messages = list(response.context["messages"])
         self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), "1.0 Test Product sold!")
+        self.assertEqual(str(messages[0]), "Sold 1.0 Test Product!")
 
         mutation = Mutation.objects.filter(amount=-1.0)[0]
         self.assertEqual(
-            mutation.desc, "Sold {} {}: {}".format(1.0, product.name, "Testing")
+            mutation.desc, "Sold {} {} - {}".format(1.0, product.name, "Testing")
         )
 
+        inventory.refresh_from_db()
+        self.assertEqual(inventory.amount, 9.0)
+
+    def test_shortcut_sale_reservation(self):
+        location = Location(name="Test Location")
+        location.save()
+
+        product = Product(name="Test Product")
+        product.save()
+
+        inventory = Inventory(location=location, product=product)
+        inventory.save()
+
+        inventory.add(10)
+        inventory.refresh_from_db()
+
+        self.assertEqual(inventory.amount, 10.0)
+
+        response = self.client.get("/shortcuts/sales")
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.post(
+            "/shortcuts/sales",
+            {
+                "reserved": "on",
+                "amount": 1.0,
+                "product": product.id,
+                "location": location.id,
+                "desc": "Reservation for Joost",
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        messages = list(response.context["messages"])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), "Reserved 1.0 Test Product!")
+
+        mutation = Mutation.objects.filter(amount=-1.0)[0]
+        self.assertEqual(
+            mutation.desc,
+            "Reserved {} {} - {}".format(1.0, product.name, "Reservation for Joost"),
+        )
+
+        # It should not subtract from inventory just yet...
+        inventory.refresh_from_db()
+        self.assertEqual(inventory.amount, 10.0)
+
+        response = self.client.get(
+            "/reservation/{}?action=confirm".format(mutation.id), follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        messages = list(response.context["messages"])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), "Reservation confirmed!")
+
+        # It should be subtracted from inventory now..
+        inventory.refresh_from_db()
+        self.assertEqual(inventory.amount, 9.0)
+
+        # And it should have aremove operation
+        mutation.refresh_from_db()
+        self.assertEqual(mutation.operation, "remove")
+
+        # Create another reservation
+        response = self.client.post(
+            "/shortcuts/sales",
+            {
+                "reserved": "on",
+                "amount": 1.0,
+                "product": product.id,
+                "location": location.id,
+                "desc": "Reservation for Joost to cancel",
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        # It should not subtract from inventory just yet...
+        inventory.refresh_from_db()
+        self.assertEqual(inventory.amount, 9.0)
+
+        response = self.client.get(
+            "/reservation/{}?action=cancel".format(mutation.id), follow=True
+        )
+        messages = list(response.context["messages"])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), "Reservation cancelled!")
+
+        # The mutation should be deleted... and no inventory removed
         inventory.refresh_from_db()
         self.assertEqual(inventory.amount, 9.0)
 

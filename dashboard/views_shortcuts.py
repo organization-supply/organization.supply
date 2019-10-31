@@ -12,25 +12,23 @@ def shortcut_sales(request):
     if request.method == "POST":
         data = request.POST.copy()
         data["user"] = request.user.id
+        data["amount"] = float(data["amount"])
+        product = Product.objects.get(id=data.get("product"))
 
         if data.get("reserved") == "on":
             data["operation"] = "reserved"
+            message = "Reserved {} {}".format(abs(data.get("amount")), product.name)
         else:
             data["operation"] = "remove"
-
-        original_amount = data["amount"]
-        product = Product.objects.get(id=data.get("product"))
+            message = "Sold {} {}".format(abs(data.get("amount")), product.name)
 
         # inverse if is positive, since we are selling, its always negative
-        if float(data.get("amount")) > 0:
-            data["amount"] = -float(data["amount"])
+        if data.get("amount") > 0:
+            data["amount"] = -data["amount"]
 
+        # Append the description if supplied
         if data["desc"]:
-            data["desc"] = "Sold {} {}: {}".format(
-                abs(data.get("amount")), product.name, data["desc"]
-            )
-        else:
-            data["desc"] = "Sold {} {}".format(abs(data.get("amount")), product.name)
+            data["desc"] = "{} - {}".format(message, data["desc"])
 
         form = MutationForm(
             data=data, selected_location_id=None, selected_product_id=None
@@ -38,11 +36,7 @@ def shortcut_sales(request):
 
         if form.is_valid():
             mutation = form.save()
-            messages.add_message(
-                request,
-                messages.SUCCESS,
-                "{} {} sold!".format(original_amount, product.name),
-            )
+            messages.add_message(request, messages.SUCCESS, message + "!")
             return redirect("dashboard")
         else:
             messages.add_message(
