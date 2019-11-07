@@ -98,17 +98,18 @@ class Mutation(TimeStampedModel):
         inventory.save()
 
     def save(self, apply=True, *args, **kwargs):
-        if self.amount < 0:
-            self.operation = "remove"
-        elif self.amount > 0:
-            self.operation = "add"
-        elif self.amount == 0.0:
-            return
+        if self.operation != "reserved":
+            if self.amount < 0:
+                self.operation = "remove"
+            elif self.amount > 0:
+                self.operation = "add"
+            elif self.amount == 0.0:
+                return
 
-        # This allows us to update mutation without applying
-        # them again. Used for connecting contra mutation.
-        if apply:
-            self.apply()
+            # This allows us to update mutation without applying
+            # them again. Used for connecting contra mutation.
+            if apply:
+                self.apply()
 
         super(Mutation, self).save(*args, **kwargs)
 

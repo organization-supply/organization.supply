@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ global_preferences.title }} - Transactions{% endblock title %}
+{% block title %}{{ global_preferences.name }} - Transactions{% endblock title %}
 
 {% block content %}
 
@@ -51,7 +51,9 @@
                         {{ mutation.created|date:"Y-m-d h:i:s" }}
                     </td>
                     <td class="pa3 bb b--black-20">
-                        {% if mutation.operation == 'add' %}+{% endif %}{{ mutation.amount }}
+                        {% if mutation.operation == 'add' %}+{% endif %}
+                        {{ mutation.amount }}
+                        {% if mutation.operation == 'reserved' %}(reserved){% endif %}
                     </td>
                     <td class="pa3 bb b--black-20">
                         <a href="{% url 'product_view' mutation.product.id %}">{{ mutation.product.name }}</a>

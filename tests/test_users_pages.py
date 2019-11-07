@@ -14,11 +14,12 @@ class TestUserPages(TestCase):
         self.client.login(username="john", password="johnpassword")
 
     def test_login(self):
-        response = self.client.get("/accounts/login/")
+        response = self.client.get("/user/login/")
         self.assertEqual(response.status_code, 200)
 
     def test_logout(self):
-        pass
+        response = self.client.get("/user/logout/", follow=True)
+        self.assertEqual(response.status_code, 200)
 
     def test_settings(self):
         response = self.client.get("/user/settings")

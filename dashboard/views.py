@@ -2,7 +2,7 @@ import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Func, Sum, Window
+from django.db.models import F, Func, Q, Sum, Window
 from django.shortcuts import redirect, render
 
 from dashboard.forms import MutationForm
@@ -16,13 +16,15 @@ def index(request):
 
 @login_required
 def dashboard(request):
-
     products = Product.objects.all()
-
     product_mutations = {}
     for product in products:
         product_mutations[product.name] = (
-            Mutation.objects.filter(product=product, contra_mutation__isnull=True)
+            Mutation.objects.filter(
+                product=product,
+                contra_mutation__isnull=True,
+                operation__in=["add", "remove"],
+            )
             .annotate(cumsum=Window(Sum("amount"), order_by=F("id").asc()))
             .values("id", "cumsum", "amount", "desc", "created")
             .order_by("-created")
@@ -32,6 +34,9 @@ def dashboard(request):
         request,
         "dashboard/dashboard.html",
         {
+            "reservations": Mutation.objects.filter(operation="reserved").order_by(
+                "-created"
+            )[:5],
             "products": products,
             "locations": Location.objects.all(),
             "inventory": Inventory.objects.filter(amount__gt=0),

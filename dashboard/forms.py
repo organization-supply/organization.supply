@@ -72,7 +72,7 @@ class MutationForm(ModelForm):
 
     class Meta:
         model = Mutation
-        fields = ["amount", "product", "location", "desc", "user"]
+        fields = ["amount", "product", "location", "desc", "user", "operation"]
 
     # This validates the data and sets the right fields before saving
     # the mutation. It also checks if there is sufficient inventory
@@ -82,6 +82,14 @@ class MutationForm(ModelForm):
         amount = cleaned_data.get("amount")
         product = cleaned_data.get("product")
         location = cleaned_data.get("location")
+
+        # Lastly, set the user if provided:
+        user = cleaned_data.get("user")
+        cleaned_data["user"] = user
+        # If the operation is reserved
+        if cleaned_data.get("operation") == "reserved":
+            return
+
         if float(cleaned_data["amount"]) < 0.0:
             cleaned_data["operation"] = "remove"
             inventory, created = Inventory.objects.get_or_create(
@@ -95,10 +103,6 @@ class MutationForm(ModelForm):
                 )
         else:
             cleaned_data["operation"] = "add"
-
-        # Lastly, set the user if provided:
-        user = cleaned_data.get("user")
-        cleaned_data["user"] = user
 
     amount = forms.FloatField(
         widget=forms.TextInput(

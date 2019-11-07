@@ -1,4 +1,8 @@
 <nav class="pa2 pa4-ns">
+
+    <div class="fl nt3 nl3 mr3">
+        <img class="h3 w3" src="{{ global_preferences.logo.url }}" alt="">
+    </div>
     <!-- Left -->
     <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/dashboard" title="Dashboard">Dashboard</a>
     <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/products" title="Producten">Products</a>
@@ -13,7 +17,7 @@
     </div>
     {% endif %}
     
-    <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/accounts/logout" title="Logout">Logout</a>    
+    <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/user/logout/" title="Logout">Logout</a>    
     <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/user/settings" title="Settings">Settings</a>
 
     {% if request.user.is_superuser %}

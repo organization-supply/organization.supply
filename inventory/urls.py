@@ -60,8 +60,14 @@ urlpatterns = [
     # Shortcuts
     path("shortcuts/sales", views_shortcuts.shortcut_sales, name="shortcut_sales"),
     path("shortcuts/move", views_shortcuts.shortcut_move, name="shortcut_move"),
+    # Reservations
+    path(
+        "reservation/<int:mutation_id>",
+        views_shortcuts.reservation_action,
+        name="reservation_action",
+    ),
     # User urls
-    path("accounts/", include("django.contrib.auth.urls")),
+    path("user/", include("django.contrib.auth.urls")),
     path("user/", include("user.urls")),
     path("organization/", include("organization.urls")),
     # Admin
