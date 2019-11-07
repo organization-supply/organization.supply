@@ -5,6 +5,10 @@
 
 This is a small Django application that provides our brewery an inventory tool. The primary goals is to have one simple interface to manage inventory with. And build integrations as our brewery requires. For example integration with financial parts or our webshop which runs woocommerce.
 
+# Documentation & landing pages
+
+Documentation and landing pages work with Github Pages. They are generated from the `hugo` folder into the docs folder with the `docs.sh` script. You will need [Hugo](https://gohugo.io/) installed for this to work.
+
 # Development
 
 It's a django app, so you will need python and other things installed (all in requirements.txt). Once installed run `python manage.py runserver` for local development. Code is formatted by `black`. Which you can run easily after installing with `black .`.

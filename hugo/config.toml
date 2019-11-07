@@ -1,0 +1,25 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+title = "Inventory"
+themesDir = "themes"
+theme = "ananke"
+
+[params]
+body_classes = "avenir bg-near-white"
+
+[menu]
+  [[menu.main]]
+    identifier = "Home"
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    identifier = "About"
+    name = "About"
+    url = "/about/"
+    weight = 10
+  [[menu.main]]
+    identifier = "Features"
+    name = "Features"
+    url = "/features/"
+    weight = 20
