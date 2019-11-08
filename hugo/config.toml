@@ -1,11 +1,12 @@
-baseURL = "http://example.org/"
+baseURL = "https://organization.supply/"
 languageCode = "en-us"
-title = "Inventory"
+title = "Organization Supply"
 themesDir = "themes"
 theme = "ananke"
 
 [params]
 body_classes = "avenir bg-near-white"
+github = "https://github.com/jplattel/inventory"
 
 [menu]
   [[menu.main]]
@@ -14,12 +15,12 @@ body_classes = "avenir bg-near-white"
     url = "/"
     weight = 1
   [[menu.main]]
-    identifier = "About"
-    name = "About"
-    url = "/about/"
-    weight = 10
-  [[menu.main]]
     identifier = "Features"
     name = "Features"
     url = "/features/"
+    weight = 10
+  [[menu.main]]
+    identifier = "Pricing"
+    name = "Pricing"
+    url = "/pricing/"
     weight = 20

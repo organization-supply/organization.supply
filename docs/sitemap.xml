@@ -1,17 +1,1 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <url>
-    <loc>http://example.org/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>http://example.org/</loc>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/</loc>
-  </url>
-  
-</urlset>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url><loc>https://organization.supply/features/</loc><lastmod>2019-11-08T10:34:23+01:00</lastmod></url><url><loc>https://organization.supply/</loc><lastmod>2019-11-08T10:34:23+01:00</lastmod></url><url><loc>https://organization.supply/pricing/</loc><lastmod>2019-11-08T10:34:23+01:00</lastmod></url><url><loc>https://organization.supply/categories/</loc></url><url><loc>https://organization.supply/tags/</loc></url></urlset>

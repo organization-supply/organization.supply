@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Inventory</title>
-    <link>http://example.org/</link>
-    <description>Recent content on Inventory</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    
-	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Organization Supply</title><link>https://organization.supply/</link><description>Recent content on Organization Supply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 08 Nov 2019 10:34:23 +0100</lastBuildDate><atom:link href="https://organization.supply/index.xml" rel="self" type="application/rss+xml"/><item><title>Features</title><link>https://organization.supply/features/</link><pubDate>Fri, 08 Nov 2019 10:34:23 +0100</pubDate><guid>https://organization.supply/features/</guid><description> Create, modify and delete products Add locations where you keep your inventory Record transactions, sales and other mutations trough a simple interface A simple user management system Customization for colours and logo&amp;rsquo;s of your organization</description></item><item><title>Pricing</title><link>https://organization.supply/pricing/</link><pubDate>Fri, 08 Nov 2019 10:34:23 +0100</pubDate><guid>https://organization.supply/pricing/</guid><description>TBD.</description></item></channel></rss>

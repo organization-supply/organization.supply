@@ -1,1 +1,1 @@
-cd hugo && hugo --destination ../docs
+cd hugo && hugo --destination ../docs --minify
