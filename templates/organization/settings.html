@@ -42,12 +42,12 @@
 
         <fieldset id="location_form" class="ba b--transparent ph0 mh0">
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Organization name</label>
+                <label class="db fw6 lh-copy mb1 f6" for="email-address">Organization name</label>
                 {{ organization_preference_form.name }}
             </div>
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Organization logo</label>
-                <img src="{{ global_preferences.logo.url }}" alt="">
+                <label class="db fw6 lh-copy mb1 f6" for="email-address">Organization logo</label>
+                <img class="h2 mr2 fl" src="{{ global_preferences.logo.url }}" alt="">
                 {{ organization_preference_form.logo }}
             </div>
         </fieldset>

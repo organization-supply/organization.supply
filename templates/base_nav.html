@@ -1,24 +1,34 @@
-<nav class="pa2 pa4-ns">
+<nav class="pa3 bg-near-white">
 
-    <div class="fl nt3 nl3 mr3">
-        <img class="h3 w3" src="{{ global_preferences.logo.url }}" alt="">
+    {% if global_preferences.logo.url %}
+    <div class="fl nt2 mr3">
+        <img class="h2 mt2" src="{{ global_preferences.logo.url }}" alt="">
     </div>
+    {% elif global_preferences.name %}
+    <div class="fl nt2 mr2">
+        <h1 class="f4">{{ global_preferences.name  }}</h1>
+    </div>
+    {% else %}
+    <div class="fl nt3 nl3 mr3">
+        <h1>Organization.supply</h1>
+    </div>
+    {% endif %}
     <!-- Left -->
-    <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/dashboard" title="Dashboard">Dashboard</a>
-    <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/products" title="Producten">Products</a>
-    <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/locations" title="Locaties">Locations</a>
-    <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/inventory/location" title="Locaties">Inventory</a>
-    <a class="link dim gray    f6 f5-ns dib mh2 mv2" href="/mutations" title="Transacties">Transactions</a>
+    <a class="link dim mid-gray    f6 f5-ns dib mh2 mv2" href="/dashboard" title="Dashboard">Dashboard</a>
+    <a class="link dim mid-gray    f6 f5-ns dib mh2 mv2" href="/products" title="Producten">Products</a>
+    <a class="link dim mid-gray    f6 f5-ns dib mh2 mv2" href="/locations" title="Locaties">Locations</a>
+    <a class="link dim mid-gray    f6 f5-ns dib mh2 mv2" href="/inventory/location" title="Locaties">Inventory</a>
+    <a class="link dim mid-gray    f6 f5-ns dib mh2 mv2" href="/mutations" title="Transacties">Transactions</a>
 
     <!-- Right -->
     {% if request.user.preferences.profile_image %}
-    <div class="fr tc pl3 nt3">
-        <img class="br-pill h3 w3 dib" alt="avatar" src="{{ request.user.preferences.profile_image.url }}" alt="">
+    <div class="fr pl3 nt2">
+        <img class="br-pill h2 w2 mt2 dib" alt="avatar" src="{{ request.user.preferences.profile_image.url }}" alt="">
     </div>
     {% endif %}
     
-    <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/user/logout/" title="Logout">Logout</a>    
-    <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/user/settings" title="Settings">Settings</a>
+    <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="/user/logout/" title="Logout">Logout</a>    
+    <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="/user/settings" title="Settings">Settings</a>
 
     {% if request.user.is_superuser %}
     <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/organization/settings" title="Organization">Organization</a>

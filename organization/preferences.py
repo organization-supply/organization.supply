@@ -20,3 +20,9 @@ class OrganizationName(StringPreference):
 @global_preferences_registry.register
 class OrganizationLogo(FilePreference):
     name = "logo"
+    widget = forms.FileInput(
+        attrs={
+            "placeholder": "Organization logo",
+            "class": "pa2 input-reset ba bg-transparent",
+        }
+    )

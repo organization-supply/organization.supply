@@ -1,3 +1,4 @@
+from django import forms
 from dynamic_preferences.types import FilePreference, ModelChoicePreference
 from dynamic_preferences.users.registries import user_preferences_registry
 
@@ -17,6 +18,12 @@ class DefaultLocation(ModelChoicePreference):
 @user_preferences_registry.register
 class ProfileImage(FilePreference):
     name = "profile_image"
+    widget = forms.FileInput(
+        attrs={
+            "placeholder": "Organization logo",
+            "class": "pa2 input-reset ba bg-transparent",
+        }
+    )
 
 
 def get_default_location(request):

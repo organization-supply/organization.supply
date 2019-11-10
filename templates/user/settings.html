@@ -14,11 +14,11 @@
         {% csrf_token %}
         <fieldset id="location_form" class="ba b--transparent ph0 mh0">
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">First name</label>
+                <label class="db fw6 mb1 lh-copy f6" for="email-address">First name</label>
                 {{ user_form.first_name }}
             </div>
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Last name</label>
+                <label class="db fw6 mb1 lh-copy f6" for="email-address">Last name</label>
                 {{ user_form.last_name }}
             </div>
         </fieldset>
@@ -34,13 +34,13 @@
         {% csrf_token %}
         <fieldset id="location_form" class="ba b--transparent ph0 mh0">
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Profile Image</label>
-                <img src="{{ request.user.preferences.profile_image.url }}" alt="">
+                <label class="db fw6 mb1 lh-copy f6" for="email-address">Profile Image</label>
+                <img class="h2 mr2 fl br-pill pt1" src="{{ request.user.preferences.profile_image.url }}" alt="">
                 {{ user_preference_form.profile_image }}
             </div>
 
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Your default location</label>
+                <label class="db fw6 mb1 lh-copy f6" for="email-address">Your default location</label>
                 {{ user_preference_form.default_location }}
             </div>
         </fieldset>

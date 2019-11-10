@@ -18,13 +18,13 @@ def settings(request):
         user_form = UserForm(request.POST, instance=request.user)
         if user_form.is_valid():
             user_form.save()
-            messages.add_message(request, messages.INFO, "Profile updated!")
 
         # User Profile for location
         user_preference_form = user_preference_form(request.POST, request.FILES)
         if user_preference_form.is_valid():
             user_preference_form.update_preferences()
-            messages.add_message(request, messages.INFO, "Preferences updated!")
+
+        messages.add_message(request, messages.INFO, "Settings updated!")
         return redirect("user_settings")
 
     return render(

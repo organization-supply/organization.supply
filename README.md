@@ -22,3 +22,7 @@ Testing is done with pytest: `pytest`. If you want the coverage reports, run `py
 # Deployment
 
 TBD.
+
+# License
+
+TBD.
