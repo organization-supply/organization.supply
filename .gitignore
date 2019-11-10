@@ -61,3 +61,6 @@ tests/reports/
 .coveralls.yml
 db.sqlite3
 media/*/*
+
+# Theme for Hugo is ignored..
+hugo/themes/ananke/
