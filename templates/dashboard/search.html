@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ global_preferences.name }} - Products{% endblock title %}
+
+{% block content %}
+
+<h1 class="ph3 db">
+    🔍 Search
+</h1>
+
+<div class="mh3 overflow-auto">
+    
+    <form action="" method="GET">
+        <input type="text" name="q" class="lh-copy pa2 input-reset ba bg-transparent w-100" placeholder="Searchterms..">
+    </form>
+
+</div>
+
+{% endblock %}

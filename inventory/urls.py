@@ -24,6 +24,7 @@ urlpatterns = [
     # Inventory urls
     path("", views.index, name="index"),
     path("dashboard", views.dashboard, name="dashboard"),
+    path("search", views.search, name="search"),
     path("inventory/location", views.inventory_location, name="inventory_location"),
     path("inventory/product", views.inventory_product, name="inventory_product"),
     # Mutations

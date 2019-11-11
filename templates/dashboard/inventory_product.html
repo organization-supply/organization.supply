@@ -4,7 +4,13 @@
 
 {% block content %}
 
-<h1 class="ph3 db">📋 Inventory <small class="gray">(<a href="{% url 'inventory_location' %}">per location</a> / per product)</small></h1>
+<h1 class="ph3 db">
+    📋 Inventory 
+    <small class="gray fr">
+        <a href="{% url 'inventory_location' %}" class="f6 link dim ba ph3 pv2 mb2 fr dib black ml1">By location</a>
+        <a href="{% url 'inventory_product' %}" class="f6 link dim ba ph3 pv2 mb2 fr dib black ">By product</a>
+    </small>
+</h1>
 
 <div class="mh3 overflow-auto">
     <table class="f6 w-100 center" cellspacing="0">

@@ -47,6 +47,14 @@ def dashboard(request):
 
 
 @login_required
+def search(request):
+    if request.GET.get('q'):
+        return render(request, "dashboard/search.html", {})
+    else:
+        return render(request, "dashboard/search.html", {})
+
+
+@login_required
 def inventory_location(request):
     return render(
         request,
