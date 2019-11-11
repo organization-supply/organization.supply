@@ -48,52 +48,20 @@ def dashboard(request):
 
 @login_required
 def search(request):
-    if request.GET.get('q'):
-        return render(request, "dashboard/search.html", {})
+    if request.GET.get("q"):
+        q = request.GET.get("q")
+        results = []
+        products = Product.objects.filter(Q(name__icontains=q) | Q(desc__icontains=q))
+        locations = Location.objects.filter(Q(name__icontains=q) | Q(desc__icontains=q))
+        mutations = Mutation.objects.filter(desc__icontains=q)
+
+        if products:
+            results += products
+        if locations:
+            results += locations
+        if mutations:
+            results += mutations
+
+        return render(request, "dashboard/search.html", {"q": q, "results": results})
     else:
         return render(request, "dashboard/search.html", {})
-
-
-@login_required
-def inventory_location(request):
-    return render(
-        request,
-        "dashboard/inventory_location.html",
-        {"inventories": Inventory.objects.filter(amount__gt=0)},
-    )
-
-
-@login_required
-def inventory_product(request):
-    return render(
-        request,
-        "dashboard/inventory_product.html",
-        {"inventories": Inventory.objects.filter(amount__gt=0)},
-    )
-
-
-@login_required
-def mutation_insert(request):
-    mutable_form = request.POST.copy()
-    mutable_form["user"] = request.user.id
-    form = MutationForm(data=mutable_form)
-    print(form)
-    if form.is_valid():
-
-        mutation = form.save()
-        messages.add_message(request, messages.INFO, "Transaction added!")
-    else:
-        messages.add_message(request, messages.ERROR, form.non_field_errors().as_text())
-    return redirect("mutations")
-
-
-@login_required
-def mutations(request):
-    return render(
-        request,
-        "dashboard/mutations.html",
-        {
-            "form": MutationForm(initial={"amount": 1.0}),
-            "mutations": Mutation.objects.all().order_by("-created"),
-        },
-    )

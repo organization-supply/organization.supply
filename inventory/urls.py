@@ -18,18 +18,30 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from dashboard import views, views_location, views_product, views_shortcuts
+from dashboard import (
+    views,
+    views_inventory,
+    views_location,
+    views_product,
+    views_shortcuts,
+)
 
 urlpatterns = [
     # Inventory urls
     path("", views.index, name="index"),
     path("dashboard", views.dashboard, name="dashboard"),
     path("search", views.search, name="search"),
-    path("inventory/location", views.inventory_location, name="inventory_location"),
-    path("inventory/product", views.inventory_product, name="inventory_product"),
+    path(
+        "inventory/location",
+        views_inventory.inventory_location,
+        name="inventory_location",
+    ),
+    path(
+        "inventory/product", views_inventory.inventory_product, name="inventory_product"
+    ),
     # Mutations
-    path("mutations", views.mutations, name="mutations"),
-    path("mutations/insert", views.mutation_insert, name="mutation_insert"),
+    path("mutations", views_inventory.mutations, name="mutations"),
+    path("mutations/insert", views_inventory.mutation_insert, name="mutation_insert"),
     # Locations
     path("locations", views_location.locations, name="locations"),
     path("location/new", views_location.location_form, name="location_new"),

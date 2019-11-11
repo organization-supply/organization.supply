@@ -78,6 +78,7 @@ class MutationForm(ModelForm):
     # the mutation. It also checks if there is sufficient inventory
     # of a product on which we apply the mutation for the sale
     def clean(self):
+        print("cleaning...")
         cleaned_data = super().clean()
         amount = cleaned_data.get("amount")
         product = cleaned_data.get("product")
