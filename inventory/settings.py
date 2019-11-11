@@ -150,6 +150,18 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Email configuration 
+
+SENDGRID_API_KEY = config("SENDGRID_API_KEY")
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = "notification@organization.supply"
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
