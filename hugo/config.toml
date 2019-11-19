@@ -2,11 +2,7 @@ baseURL = "https://organization.supply/"
 languageCode = "en-us"
 title = "Organization Supply"
 themesDir = "themes"
-theme = "ananke"
-
-[params]
-body_classes = "avenir bg-near-white"
-github = "https://github.com/jplattel/inventory"
+theme = "hugo-serif-theme"
 
 [menu]
   [[menu.main]]
@@ -23,4 +19,15 @@ github = "https://github.com/jplattel/inventory"
     identifier = "Pricing"
     name = "Pricing"
     url = "/pricing/"
+    weight = 20
+  [[menu.main]]
+    identifier = "About"
+    name = "About"
+    url = "/about/"
+    weight = 21
+
+  [[menu.footer]]
+    identifier = "Github"
+    name = "Github"
+    url = "https://github.com/jplattel/organization.supply"
     weight = 20
