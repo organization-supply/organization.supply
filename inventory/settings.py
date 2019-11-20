@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     # Installed apps
     "dynamic_preferences",
     "dynamic_preferences.users.apps.UserPreferencesConfig",
+    'organizations', # django-organizations
+
     # Apps
     "organization",  # Organization views
     "dashboard",  # Main application for inventory
@@ -107,6 +109,9 @@ DYNAMIC_PREFERENCES = {
     # Use this to disable checking preferences names. This can be useful to debug things
     "VALIDATE_NAMES": True,
 }
+
+ORGS_SLUGFIELD = 'django_extensions.db.fields.AutoSlugField'
+
 
 
 WSGI_APPLICATION = "inventory.wsgi.application"
