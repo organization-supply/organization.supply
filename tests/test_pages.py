@@ -1,44 +1,42 @@
-from django.contrib.auth.models import User
+from user.models import User
 from django.test import TestCase
 from django.test.client import Client
-
-from dashboard.models import Inventory, Location, Mutation, Product
-
+from organizations.utils import create_organization
+from organization.models import Inventory, Location, Mutation, Product
 
 class TestDashboardPages(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(
-            "john", "lennon@thebeatles.com", "johnpassword"
-        )
-        self.client.login(username="john", password="johnpassword")
+        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
+        self.organization = create_organization(self.user, "test-org", org_user_defaults={'is_admin': True})
 
     def test_index(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 302)
 
     def test_dashboard(self):
-        response = self.client.get("/dashboard")
+        response = self.client.get("/{}/dashboard".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_inventory_location(self):
-        response = self.client.get("/inventory/location")
+        response = self.client.get("/{}/inventory/location".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_inventory_product(self):
-        response = self.client.get("/inventory/product")
+        response = self.client.get("/{}/inventory/product".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_products(self):
-        response = self.client.get("/products")
+        response = self.client.get("/{}/products".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_locations(self):
-        response = self.client.get("/locations")
+        response = self.client.get("/{}/locations".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_mutations(self):
-        response = self.client.get("/mutations")
+        response = self.client.get("/{}/mutations".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_mutations_insert(self):
@@ -49,7 +47,7 @@ class TestDashboardPages(TestCase):
         product.save()
 
         response = self.client.post(
-            "/mutations/insert",
+            "/{}/mutations/insert".format(self.organization.slug),
             {
                 "amount": 1.0,
                 "operation": "add",
@@ -74,7 +72,7 @@ class TestDashboardPages(TestCase):
         product.save()
 
         response = self.client.post(
-            "/mutations/insert",
+            "/{}/mutations/insert".format(self.organization.slug),
             {
                 "amount": 1.0,
                 "operation": "add",

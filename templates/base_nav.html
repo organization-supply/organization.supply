@@ -4,34 +4,32 @@
     <div class="fl nt2 mr3">
         <img class="h2 mt2" src="{{ global_preferences.logo.url }}" alt="">
     </div>
-    {% elif global_preferences.name %}
+    {% elif request.organization.name %}
     <div class="fl nt2 mr2">
-        <h1 class="f4">{{ global_preferences.name  }}</h1>
+        <h1 class="f4">{{ request.organization.name  }}</h1>
     </div>
     {% else %}
-    <div class="fl nt3 nl3 mr3">
-        <h1>Organization.supply</h1>
+    <div class="dib nt2 mr2 nb2 pv0">
+        <a href="{% url 'user_organizations' %}" class="near-black no-underline underline-hover"><h1 class="f4">Organization.supply</h1></a>
     </div>
     {% endif %}
-    <!-- Left -->
-    <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/dashboard" title="Dashboard">Dashboard</a>
-    <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/search" title="Dashboard">Search</a>
-    <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/products" title="Producten">Products</a>
-    <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/locations" title="Locaties">Locations</a>
-    <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/inventory/location" title="Locaties">Inventory</a>
-    <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/mutations" title="Transacties">Transactions</a>
 
-    <!-- Right -->
+    <!-- Organization links -->
+    {% if request.organization.slug %}
+        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'dashboard' request.organization.slug %}" title="Dashboard">Dashboard</a>
+        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'search' request.organization.slug %}" title="Dashboard">Search</a>
+        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'products' request.organization.slug %}" title="Producten">Products</a>
+        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'locations' request.organization.slug %}" title="Locaties">Locations</a>
+        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'inventory_location' request.organization.slug %}" title="Locaties">Inventory</a>
+        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'mutations' request.organization.slug %}" title="Transacties">Transactions</a>
+    {% endif %}
+
+    <!-- User links -->
     {% if request.user.preferences.profile_image %}
     <div class="fr pl3 nt2">
         <img class="br-pill h2 w2 mt2 dib" alt="avatar" src="{{ request.user.preferences.profile_image.url }}" alt="">
     </div>
     {% endif %}
-    
     <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="/user/logout/" title="Logout">Logout</a>    
     <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="/user/settings" title="Settings">Settings</a>
-
-    {% if request.user.is_superuser %}
-    <a class="link dim gray fr f6 f5-ns dib mh2 mv2" href="/organization/settings" title="Organization">Organization</a>
-    {% endif %}
 </nav>

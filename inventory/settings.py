@@ -26,7 +26,7 @@ if config("SENTRY_DSN"):
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LOGIN_URL = "/user/login/"
-LOGIN_REDIRECT_URL = "/dashboard"
+LOGIN_REDIRECT_URL = "/user/organizations"
 LOGOUT_REDIRECT_URL = "/user/login/"
 
 # Quick-start development settings - unsuitable for production
@@ -44,6 +44,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Django
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -53,12 +54,11 @@ INSTALLED_APPS = [
     # Installed apps
     "dynamic_preferences",
     "dynamic_preferences.users.apps.UserPreferencesConfig",
-    'organizations', # django-organizations
-
+    "organizations",  # django-organizations (not to be confused with the one below)
     # Apps
-    "organization",  # Organization views
-    "dashboard",  # Main application for inventory
+    "organization",  # Main application for inventory
     "user",  # User pages and settings
+    "api",
 ]
 
 MIDDLEWARE = [
@@ -69,6 +69,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "inventory.middleware.OrganizationMiddleware",
 ]
 
 ROOT_URLCONF = "inventory.urls"
@@ -90,6 +91,10 @@ TEMPLATES = [
     }
 ]
 
+AUTH_USER_MODEL = (
+    "user.User"
+)  # Custom user model that has email/password instead of username/email/password
+
 DYNAMIC_PREFERENCES = {
     # a python attribute that will be added to model instances with preferences
     # override this if the default collide with one of your models attributes/fields
@@ -110,8 +115,7 @@ DYNAMIC_PREFERENCES = {
     "VALIDATE_NAMES": True,
 }
 
-ORGS_SLUGFIELD = 'django_extensions.db.fields.AutoSlugField'
-
+ORGS_SLUGFIELD = "django_extensions.db.fields.AutoSlugField"
 
 
 WSGI_APPLICATION = "inventory.wsgi.application"

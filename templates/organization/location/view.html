@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}{{ request.organization.name }} - Location - {{ location.name }}{% endblock title %}
+
+{% block content %}
+
+    <h1>
+        📍 {{ location.name|title }}
+        <a class="f6 link dim ba ph3 pv2 mb2 fr dib black" href="{% url 'location_edit' request.organization.slug location.id %}">Edit</a>
+    </h1>
+
+    <article class="cf">
+        <div class="fl w-100 w-50-l">
+            <h3>Description</h3>
+            <p>
+                {{ location.desc }}
+            </p>
+
+            <h3>
+                Current Inventory
+            </h3>
+            {% if location.inventory %}
+                <div class="overflow-auto">
+                    <table class="f6 w-100 center" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Amount</th>
+                                <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Product</th>
+                            </tr>
+                        </thead>
+                        <tbody class="lh-copy">
+                            {% for inventory in inventories %}
+                            <tr>
+                                <td class="pv3 bb b--black-20">{{ inventory.amount }}</td>
+                                <td class="pv3 bb b--black-20">
+                                    <a href="{% url 'product_view' request.organization.slug inventory.product.id %}">
+                                        {{ inventory.product.name }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+            <p>No inventory found for this location.</p>
+            {% endif %}
+
+
+        </div>
+        <div class="fl w-100 w-50-l"> 
+            <h3>Transaction history</h3>
+            <table class="f6 w-100 center" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="fw6 bb b--black-20 tl pt3 pr3 pb3 bg-white">Date</th>
+                        <th class="fw6 bb b--black-20 tl pa3 bg-white">Amount</th>
+                        <th class="fw6 bb b--black-20 tl pa3 bg-white">Product</th>
+                        <th class="fw6 bb b--black-20 tl pa3 bg-white">User</th>
+                    </tr>
+                </thead>
+                <tbody class="lh-copy">
+                    {% for mutation in mutations %}
+                    <tr>
+                        <td class="pt3 pr3 pb3 bb b--black-20">
+                            {{ mutation.created|date:"Y-m-d" }}
+                        </td>
+                        <td class="pa3 bb b--black-20">
+                            {% if mutation.operation == 'remove' %}
+                                {{ mutation.amount }}
+                            {% else %}
+                                +{{ mutation.amount }}
+                            {% endif %}
+                        </td>
+                        <td class="pa3 bb b--black-20">
+                            <a href="{% url 'product_view' request.organization.slug mutation.product.id %}">{{ mutation.product.name }}</a>
+                        </td>
+                        <td class="pa3 bb b--black-20">
+                            {% if mutation.user.first_name %}
+                                {{ mutation.user.first_name }} {{ mutation.user.last_name }}
+                            {% else %}
+                                {{ mutation.user.username }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+{% endblock %}

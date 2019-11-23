@@ -1,22 +1,20 @@
 import unittest
-
 import pytest
-from django.contrib.auth.models import User
+from user.models import User
 from django.test import TestCase
 from django.test.client import Client
-
-from dashboard.forms import MutationForm, ShortcutMoveForm
-from dashboard.models import Inventory, Location, Mutation, Product
+from organizations.utils import create_organization
+from organization.forms import MutationForm, ShortcutMoveForm
+from organization.models import Inventory, Location, Mutation, Product
 
 
 @pytest.mark.django_db
 class TestShortcuts(unittest.TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(
-            "john", "lennon@thebeatles.com", "johnpassword"
-        )
-        self.client.login(username="john", password="johnpassword")
+        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
+        self.organization = create_organization(self.user, "test-org", org_user_defaults={'is_admin': True})
 
     def test_shortcut_sale(self):
         location = Location(name="Test Location")
@@ -33,11 +31,11 @@ class TestShortcuts(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 10.0)
 
-        response = self.client.get("/shortcuts/sales")
+        response = self.client.get("/{}/shortcuts/sales".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
-            "/shortcuts/sales",
+            "/{}/shortcuts/sales".format(self.organization.slug),
             {
                 "amount": 1.0,
                 "product": product.id,
@@ -76,11 +74,11 @@ class TestShortcuts(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 10.0)
 
-        response = self.client.get("/shortcuts/sales")
+        response = self.client.get("/{}/shortcuts/sales".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
-            "/shortcuts/sales",
+            "/{}/shortcuts/sales".format(self.organization.slug),
             {
                 "reserved": "on",
                 "amount": 1.0,
@@ -108,7 +106,7 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(inventory.amount, 10.0)
 
         response = self.client.get(
-            "/reservation/{}?action=confirm".format(mutation.id), follow=True
+            "/{}/reservation/{}?action=confirm".format(self.organization.slug, mutation.id), follow=True
         )
         self.assertEqual(response.status_code, 200)
         messages = list(response.context["messages"])
@@ -125,7 +123,7 @@ class TestShortcuts(unittest.TestCase):
 
         # Create another reservation
         response = self.client.post(
-            "/shortcuts/sales",
+            "/{}/shortcuts/sales".format(self.organization.slug),
             {
                 "reserved": "on",
                 "amount": 1.0,
@@ -143,7 +141,7 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(inventory.amount, 9.0)
 
         response = self.client.get(
-            "/reservation/{}?action=cancel".format(mutation.id), follow=True
+            "/{}/reservation/{}?action=cancel".format(self.organization.slug, mutation.id), follow=True
         )
         messages = list(response.context["messages"])
         self.assertEqual(len(messages), 1)
@@ -168,11 +166,11 @@ class TestShortcuts(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 1.0)
 
-        response = self.client.get("/shortcuts/sales")
+        response = self.client.get("/{}/shortcuts/sales".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
-            "/shortcuts/sales",
+            "/{}/shortcuts/sales".format(self.organization.slug),
             {
                 "amount": 10.0,
                 "product": product.id,
@@ -257,11 +255,11 @@ class TestShortcuts(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 10.0)
 
-        response = self.client.get("/shortcuts/move")
+        response = self.client.get("/{}/shortcuts/move".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
-            "/shortcuts/move",
+            "/{}/shortcuts/move".format(self.organization.slug),
             {
                 "amount": 5.0,
                 "product": product.id,
@@ -303,11 +301,11 @@ class TestShortcuts(unittest.TestCase):
 
         self.assertEqual(inventory.amount, 1.0)
 
-        response = self.client.get("/shortcuts/move")
+        response = self.client.get("/{}/shortcuts/move".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
-            "/shortcuts/move",
+            "/{}/shortcuts/move".format(self.organization.slug),
             {
                 "amount": 5.0,
                 "product": product.id,

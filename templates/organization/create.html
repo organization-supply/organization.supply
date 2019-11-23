@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}
+
+{% block title %}Organization.supply - Create{% endblock title %}
+
+{% block content %}
+
+<h1 class="ph3 db">
+    🚀 Create a new Organization
+</h1>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ create_organization_form.as_p }}
+    <input type="submit">
+</form>
+
+{% endblock %}

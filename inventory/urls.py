@@ -17,72 +17,22 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from organizations.backends import invitation_backend
 
-from dashboard import (
-    views,
-    views_inventory,
-    views_location,
-    views_product,
-    views_shortcuts,
-)
+from organization import views
 
 urlpatterns = [
     # Inventory urls
     path("", views.index, name="index"),
-    path("dashboard", views.dashboard, name="dashboard"),
-    path("search", views.search, name="search"),
-    path(
-        "inventory/location",
-        views_inventory.inventory_location,
-        name="inventory_location",
-    ),
-    path(
-        "inventory/product", views_inventory.inventory_product, name="inventory_product"
-    ),
-    # Mutations
-    path("mutations", views_inventory.mutations, name="mutations"),
-    path("mutations/insert", views_inventory.mutation_insert, name="mutation_insert"),
-    # Locations
-    path("locations", views_location.locations, name="locations"),
-    path("location/new", views_location.location_form, name="location_new"),
-    path(
-        "location/<int:location_id>", views_location.location_view, name="location_view"
-    ),
-    path(
-        "location/<int:location_id>/edit",
-        views_location.location_form,
-        name="location_edit",
-    ),
-    path(
-        "location/<int:location_id>/delete",
-        views_location.location_form,
-        name="location_delete",
-    ),
-    # Products
-    path("products", views_product.products, name="products"),
-    path("product/new", views_product.product_form, name="product_new"),
-    path("product/<int:product_id>", views_product.product_view, name="product_view"),
-    path(
-        "product/<int:product_id>/edit", views_product.product_form, name="product_edit"
-    ),
-    path(
-        "product/<int:product_id>/delete",
-        views_product.product_form,
-        name="product_delete",
-    ),
-    # Shortcuts
-    path("shortcuts/sales", views_shortcuts.shortcut_sales, name="shortcut_sales"),
-    path("shortcuts/move", views_shortcuts.shortcut_move, name="shortcut_move"),
-    # Reservations
-    path(
-        "reservation/<int:mutation_id>",
-        views_shortcuts.reservation_action,
-        name="reservation_action",
-    ),
+
+    # 
+    path("create", views.create, name="create_organization"),
+    path("<slug:organization>/", include("inventory.urls_organization")),
     # User urls
     path("user/", include("django.contrib.auth.urls")),
     path("user/", include("user.urls")),
-    path("organization/", include("organization.urls")),
+    # path("user/", include('organizations.urls')),
+    path("invitations/", include(invitation_backend().get_urls())),
     # Admin
     path("admin/", admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
