@@ -1,19 +1,26 @@
 import unittest
 import pytest
 from organization.models import Inventory, Location, Mutation, Product
-
+from user.models import User
+from organization.models import Organization
 
 @pytest.mark.django_db
 class TestLocation(unittest.TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        Organization(name="test-org", url="http://test.com").save()
+        self.organization = Organization.objects.get(name="test-org")
+        self.organization.add_user(self.user)
+
     def test_create_location(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
         self.assertEqual(Location.objects.count(), 1)
         self.assertEqual(Location.objects.get().name, "Test Location")
 
     def test_delete_location(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
         self.assertEqual(Location.objects.count(), 1)
@@ -23,17 +30,17 @@ class TestLocation(unittest.TestCase):
         self.assertEqual(Location.objects.count(), 0)
 
     def test_delete_location_with_inventory(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
         self.assertEqual(Location.objects.count(), 1)
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
         self.assertEqual(Product.objects.count(), 1)
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.amount = 1.0
         inventory.save()
 
@@ -58,8 +65,14 @@ class TestLocation(unittest.TestCase):
 
 @pytest.mark.django_db
 class TestProduct(unittest.TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        Organization(name="test-org", url="http://test.com").save()
+        self.organization = Organization.objects.get(name="test-org")
+        self.organization.add_user(self.user)
+
     def test_create_product(self):
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
         self.assertEqual(Product.objects.count(), 1)
@@ -69,17 +82,17 @@ class TestProduct(unittest.TestCase):
         pass
 
     def test_delete_product_with_inventory(self):
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
         self.assertEqual(Product.objects.count(), 1)
 
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
         self.assertEqual(Location.objects.count(), 1)
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.amount = 1.0
         inventory.save()
 
@@ -104,29 +117,32 @@ class TestProduct(unittest.TestCase):
 
 @pytest.mark.django_db
 class TestInventory(unittest.TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        Organization(name="test-org", url="http://test.com").save()
+        self.organization = Organization.objects.get(name="test-org")
+        self.organization.add_user(self.user)
+
     def test_create_inventory(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.save()
 
         self.assertEqual(inventory.amount, 0)
 
-
-@pytest.mark.django_db
-class TestInventoryOperations(unittest.TestCase):
     def test_inventory_add(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.save()
 
         self.assertEqual(inventory.amount, 0.0)
@@ -143,13 +159,13 @@ class TestInventoryOperations(unittest.TestCase):
         self.assertEqual(product, location.available_products[0])
 
     def test_inventory_remove(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.save()
 
         self.assertEqual(inventory.amount, 0.0)
@@ -165,19 +181,19 @@ class TestInventoryOperations(unittest.TestCase):
         self.assertEqual(inventory.amount, 0.0)
 
     def test_inventory_total(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        location_2 = Location(name="Test Location 2")
+        location_2 = Location(name="Test Location 2", organization=self.organization)
         location_2.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, amount=1.0)
+        inventory = Inventory(location=location, product=product, amount=1.0, organization=self.organization)
         inventory.save()
 
-        inventory = Inventory(location=location_2, product=product, amount=1.0)
+        inventory = Inventory(location=location_2, product=product, amount=1.0, organization=self.organization)
         inventory.save()
 
         self.assertEqual(product.inventory.count(), 2)
@@ -186,19 +202,25 @@ class TestInventoryOperations(unittest.TestCase):
 
 @pytest.mark.django_db
 class TestMutation(unittest.TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        Organization(name="test-org", url="http://test.com").save()
+        self.organization = Organization.objects.get(name="test-org")
+        self.organization.add_user(self.user)
+
     def test_mutations(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.save()
 
         self.assertEqual(inventory.amount, 0.0)
 
-        mutation = Mutation(product=product, location=location, amount=3.0)
+        mutation = Mutation(product=product, location=location, amount=3.0, organization=self.organization)
         mutation.save()
 
         inventory = Inventory.objects.get()
@@ -206,11 +228,11 @@ class TestMutation(unittest.TestCase):
         self.assertEqual(inventory.amount, 3.0)
 
     def test_mutation_zero_amount(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        mutation = Mutation(product=product, location=location, amount=0.0).save()
+        mutation = Mutation(product=product, location=location, amount=0.0, organization=self.organization).save()
         self.assertEqual(mutation, None)

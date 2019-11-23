@@ -1,15 +1,16 @@
 from user.models import User
 from django.test import TestCase
 from django.test.client import Client
-from organization.models import Product
-from organizations.utils import create_organization
+from organization.models import Product, Organization
 
 class TestProductPages(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
         self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        self.organization = create_organization(self.user, "test-org", org_user_defaults={'is_admin': True})
+        Organization(name="test-org", url="http://test.com").save()
+        self.organization = Organization.objects.get(name="test-org")
+        self.organization.add_user(self.user)        
 
     def test_products(self):
         response = self.client.get("/{}/products".format(self.organization.slug))
@@ -56,7 +57,7 @@ class TestProductPages(TestCase):
         self.assertEqual(product.desc, "Updated test Description")
 
     def test_delete_product(self):
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
         response = self.client.post(

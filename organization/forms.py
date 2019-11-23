@@ -31,7 +31,7 @@ class ProductForm(ModelForm):
 
     class Meta:
         model = Product
-        fields = ["name", "desc"]
+        fields = ["name", "desc", "organization"]
 
 
 class LocationForm(ModelForm):
@@ -54,7 +54,7 @@ class LocationForm(ModelForm):
 
     class Meta:
         model = Location
-        fields = ["name", "desc"]
+        fields = ["name", "desc", "organization"]
 
 
 class MutationForm(ModelForm):
@@ -78,18 +78,18 @@ class MutationForm(ModelForm):
 
     class Meta:
         model = Mutation
-        fields = ["amount", "product", "location", "desc", "user", "operation"]
+        fields = ["amount", "product", "location", "desc", "user", "operation", "organization"]
 
     # This validates the data and sets the right fields before saving
     # the mutation. It also checks if there is sufficient inventory
     # of a product on which we apply the mutation for the sale
     def clean(self):
-        print("cleaning...")
         cleaned_data = super().clean()
+        organization = cleaned_data.get("organization")
         amount = cleaned_data.get("amount")
         product = cleaned_data.get("product")
         location = cleaned_data.get("location")
-
+        
         # Lastly, set the user if provided:
         user = cleaned_data.get("user")
         cleaned_data["user"] = user
@@ -159,7 +159,7 @@ class ShortcutMoveForm(Form):
 
         # Get the current user if supplied
         self.user = user
-
+        
         # Get all locations where a product is available
         if selected_product_id:
             selected_product = Product.objects.get(id=selected_product_id)
@@ -209,12 +209,13 @@ class ShortcutMoveForm(Form):
         product = cleaned_data.get("product")
         location_from = cleaned_data.get("location_from")
         location_to = cleaned_data.get("location_to")
-
+        
         # Create a mutation for removing inventory
         mutation_from = Mutation(
             amount=-amount,
             product=product,
             location=location_from,
+            organization=product.organization,
             operation="remove",
             user=self.user,
             desc="Moved {} {} to {}".format(amount, product.name, location_to.name),
@@ -226,7 +227,8 @@ class ShortcutMoveForm(Form):
             amount=amount,
             product=product,
             location=location_to,
-            operation="remove",
+            organization=product.organization,
+            operation="add",
             user=self.user,
             desc="Received {} {} from {}".format(
                 amount, product.name, location_from.name

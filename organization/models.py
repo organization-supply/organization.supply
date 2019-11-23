@@ -12,6 +12,7 @@ class Organization(DjangoOrganization):
 class Location(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="")
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     @property
     def inventory(self):
@@ -47,6 +48,7 @@ class Location(TimeStampedModel):
 class Product(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="")
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     @property
     def inventory(self):
@@ -84,6 +86,7 @@ class Product(TimeStampedModel):
 class Mutation(TimeStampedModel):
     OPERATION_CHOICES = Choices("add", "remove", "reserved")
     operation = StatusField(choices_name="OPERATION_CHOICES")
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.FloatField()
@@ -97,7 +100,7 @@ class Mutation(TimeStampedModel):
 
     def apply(self):
         inventory, created = Inventory.objects.get_or_create(
-            product=self.product, location=self.location
+            product=self.product, location=self.location, organization=self.organization
         )
         inventory.amount = inventory.amount + self.amount
         inventory.save()
@@ -120,15 +123,16 @@ class Mutation(TimeStampedModel):
 
 
 class Inventory(models.Model):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.FloatField(default=0.0)
 
-    def _create_mutation(self, amount: float, operation: str, desc: str = ""):
+    def _create_mutation(self, amount: float, desc: str = ""):
         mutation = Mutation(
-            amount=amount, product=self.product, location=self.location, desc=desc
+            amount=amount, product=self.product, location=self.location, desc=desc, organization=self.organization
         )
         return mutation.save()
 
     def add(self, amount: float, desc: str = "") -> Mutation:
-        self._create_mutation(amount, desc)
+        self._create_mutation(amount=amount, desc=desc)

@@ -25,8 +25,17 @@ class OrganizationMiddleware:
                 organization = request.user.organizations_organization.filter(
                     slug=organization_slug
                 )
+
+                # If we have a matching organization
                 if organization:
                     request.organization = organization[0]
+
+                    # In the case of a POST request, we also change the payload and
+                    # add the organization, so it's available for the forms.
+                    if request.method == "POST":
+                        # Since the original is immutable, we make a copy
+                        request.POST = request.POST.copy() 
+                        request.POST['organization'] = organization[0]
 
                 # If that doesn't work, we select the only organization, if that applies
                 elif request.user.organizations_organization.count() == 1:
@@ -40,12 +49,3 @@ class OrganizationMiddleware:
                 # Else, we raise
                 else:
                     raise Http404
-
-                # If we only have one organization, we navigate to that one...
-                # TODO: redirect.
-
-                # If we have multple, redirect to choose organization page:
-                # TODO: choose org page
-
-            # If we don't have any organization, redirect to new org page
-            # TODO: develop new org page

@@ -1,15 +1,17 @@
 from user.models import User
 from django.test import TestCase
 from django.test.client import Client
-from organizations.utils import create_organization
-from organization.models import Inventory, Location, Mutation, Product
+from organization.models import Inventory, Location, Mutation, Product, Organization
 
 class TestDashboardPages(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
         self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        self.organization = create_organization(self.user, "test-org", org_user_defaults={'is_admin': True})
+        Organization(name="test-org", url="http://test.com").save()
+        self.organization = Organization.objects.get(name="test-org")
+        self.organization.add_user(self.user)        
+
 
     def test_index(self):
         response = self.client.get("/")
@@ -40,10 +42,10 @@ class TestDashboardPages(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_mutations_insert(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
         response = self.client.post(
@@ -68,7 +70,7 @@ class TestDashboardPages(TestCase):
 
     def test_mutations_insert_with_missing_location(self):
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
         response = self.client.post(

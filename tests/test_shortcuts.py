@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.test.client import Client
 from organizations.utils import create_organization
 from organization.forms import MutationForm, ShortcutMoveForm
-from organization.models import Inventory, Location, Mutation, Product
+from organization.models import Inventory, Location, Mutation, Product, Organization
 
 
 @pytest.mark.django_db
@@ -14,16 +14,18 @@ class TestShortcuts(unittest.TestCase):
         self.client = Client()
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
         self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        self.organization = create_organization(self.user, "test-org", org_user_defaults={'is_admin': True})
+        Organization(name="test-org", url="http://test.com").save()
+        self.organization = Organization.objects.get(name="test-org")
+        self.organization.add_user(self.user)        
 
     def test_shortcut_sale(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.save()
 
         inventory.add(10)
@@ -60,13 +62,13 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(inventory.amount, 9.0)
 
     def test_shortcut_sale_reservation(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.save()
 
         inventory.add(10)
@@ -152,13 +154,13 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(inventory.amount, 9.0)
 
     def test_shortcut_sale_without_inventory(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.save()
 
         inventory.add(1)
@@ -194,16 +196,16 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(inventory.amount, 1.0)
 
     def test_shortcut_sale_with_selected_product_for_location(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        location_2 = Location(name="Test Location")
+        location_2 = Location(name="Test Location", organization=self.organization)
         location_2.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, amount=10)
+        inventory = Inventory(location=location, product=product, amount=10, organization=self.organization)
         inventory.save()
 
         self.assertEqual(inventory.amount, 10)
@@ -215,16 +217,16 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(sale_form.fields["location"].queryset[0].id, location.id)
 
     def test_shortcut_sale_with_selected_location_for_product(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        product_2 = Product(name="Test Product 2")
+        product_2 = Product(name="Test Product 2", organization=self.organization)
         product_2.save()
 
-        inventory = Inventory(location=location, product=product, amount=10)
+        inventory = Inventory(location=location, product=product, amount=10, organization=self.organization)
         inventory.save()
 
         self.assertEqual(inventory.amount, 10)
@@ -238,16 +240,16 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(sale_form.fields["product"].queryset[0].id, product.id)
 
     def test_shortcut_move(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        location_2 = Location(name="Test Location")
+        location_2 = Location(name="Test Location", organization=self.organization)
         location_2.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.save()
 
         inventory.add(10)
@@ -284,16 +286,16 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(location_2_inventory.amount, 5.0)
 
     def test_shortcut_move_without_inventory(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        location_2 = Location(name="Test Location 2")
+        location_2 = Location(name="Test Location 2", organization=self.organization)
         location_2.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product)
+        inventory = Inventory(location=location, product=product, organization=self.organization)
         inventory.save()
 
         inventory.add(1)
@@ -325,16 +327,16 @@ class TestShortcuts(unittest.TestCase):
         )
 
     def test_shortcut_move_with_selected_product_for_location(self):
-        location = Location(name="Test Location")
+        location = Location(name="Test Location", organization=self.organization)
         location.save()
 
-        location_2 = Location(name="Test Location 2")
+        location_2 = Location(name="Test Location 2", organization=self.organization)
         location_2.save()
 
-        product = Product(name="Test Product")
+        product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, amount=10)
+        inventory = Inventory(location=location, product=product, amount=10, organization=self.organization)
         inventory.save()
 
         self.assertEqual(inventory.amount, 10)
