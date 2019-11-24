@@ -30,6 +30,7 @@ from organization import (
 urlpatterns = [
     # Inventory urls
     path("dashboard", views.dashboard, name="dashboard"),
+    path("settings", views.organization_settings, name="organization_settings"),
     path("search", views.search, name="search"),
     path(
         "inventory/location",

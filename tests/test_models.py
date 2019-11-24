@@ -1,8 +1,10 @@
 import unittest
+
 import pytest
-from organization.models import Inventory, Location, Mutation, Product
+
+from organization.models import Inventory, Location, Mutation, Organization, Product
 from user.models import User
-from organization.models import Organization
+
 
 @pytest.mark.django_db
 class TestLocation(unittest.TestCase):
@@ -40,7 +42,9 @@ class TestLocation(unittest.TestCase):
 
         self.assertEqual(Product.objects.count(), 1)
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.amount = 1.0
         inventory.save()
 
@@ -92,7 +96,9 @@ class TestProduct(unittest.TestCase):
 
         self.assertEqual(Location.objects.count(), 1)
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.amount = 1.0
         inventory.save()
 
@@ -130,7 +136,9 @@ class TestInventory(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.save()
 
         self.assertEqual(inventory.amount, 0)
@@ -142,7 +150,9 @@ class TestInventory(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.save()
 
         self.assertEqual(inventory.amount, 0.0)
@@ -165,7 +175,9 @@ class TestInventory(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.save()
 
         self.assertEqual(inventory.amount, 0.0)
@@ -190,10 +202,20 @@ class TestInventory(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, amount=1.0, organization=self.organization)
+        inventory = Inventory(
+            location=location,
+            product=product,
+            amount=1.0,
+            organization=self.organization,
+        )
         inventory.save()
 
-        inventory = Inventory(location=location_2, product=product, amount=1.0, organization=self.organization)
+        inventory = Inventory(
+            location=location_2,
+            product=product,
+            amount=1.0,
+            organization=self.organization,
+        )
         inventory.save()
 
         self.assertEqual(product.inventory.count(), 2)
@@ -215,12 +237,19 @@ class TestMutation(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.save()
 
         self.assertEqual(inventory.amount, 0.0)
 
-        mutation = Mutation(product=product, location=location, amount=3.0, organization=self.organization)
+        mutation = Mutation(
+            product=product,
+            location=location,
+            amount=3.0,
+            organization=self.organization,
+        )
         mutation.save()
 
         inventory = Inventory.objects.get()
@@ -234,5 +263,10 @@ class TestMutation(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        mutation = Mutation(product=product, location=location, amount=0.0, organization=self.organization).save()
+        mutation = Mutation(
+            product=product,
+            location=location,
+            amount=0.0,
+            organization=self.organization,
+        ).save()
         self.assertEqual(mutation, None)

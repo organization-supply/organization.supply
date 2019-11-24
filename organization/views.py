@@ -66,8 +66,9 @@ def search(request):
     else:
         return render(request, "organization/search.html", {})
 
+
 @login_required
-def create(request):
+def organization_create(request):
     create_organization_form = OrganizationForm(request.POST or None)
     if request.method == "POST":
         if create_organization_form.is_valid():
@@ -75,4 +76,13 @@ def create(request):
             organization.add_user(request.user, is_admin=True)
             return redirect("dashboard", organization=organization.slug)
 
-    return render(request, "organization/create.html", {"create_organization_form": create_organization_form})
+    return render(
+        request,
+        "organization/create.html",
+        {"create_organization_form": create_organization_form},
+    )
+
+
+@login_required
+def organization_settings(request):
+    return render(request, "organization/settings.html", {})

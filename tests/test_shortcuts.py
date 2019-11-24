@@ -1,11 +1,13 @@
 import unittest
+
 import pytest
-from user.models import User
 from django.test import TestCase
 from django.test.client import Client
 from organizations.utils import create_organization
+
 from organization.forms import MutationForm, ShortcutMoveForm
-from organization.models import Inventory, Location, Mutation, Product, Organization
+from organization.models import Inventory, Location, Mutation, Organization, Product
+from user.models import User
 
 
 @pytest.mark.django_db
@@ -16,7 +18,7 @@ class TestShortcuts(unittest.TestCase):
         self.client.login(email="lennon@thebeatles.com", password="johnpassword")
         Organization(name="test-org", url="http://test.com").save()
         self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)        
+        self.organization.add_user(self.user)
 
     def test_shortcut_sale(self):
         location = Location(name="Test Location", organization=self.organization)
@@ -25,7 +27,9 @@ class TestShortcuts(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.save()
 
         inventory.add(10)
@@ -68,7 +72,9 @@ class TestShortcuts(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.save()
 
         inventory.add(10)
@@ -108,7 +114,10 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(inventory.amount, 10.0)
 
         response = self.client.get(
-            "/{}/reservation/{}?action=confirm".format(self.organization.slug, mutation.id), follow=True
+            "/{}/reservation/{}?action=confirm".format(
+                self.organization.slug, mutation.id
+            ),
+            follow=True,
         )
         self.assertEqual(response.status_code, 200)
         messages = list(response.context["messages"])
@@ -143,7 +152,10 @@ class TestShortcuts(unittest.TestCase):
         self.assertEqual(inventory.amount, 9.0)
 
         response = self.client.get(
-            "/{}/reservation/{}?action=cancel".format(self.organization.slug, mutation.id), follow=True
+            "/{}/reservation/{}?action=cancel".format(
+                self.organization.slug, mutation.id
+            ),
+            follow=True,
         )
         messages = list(response.context["messages"])
         self.assertEqual(len(messages), 1)
@@ -160,7 +172,9 @@ class TestShortcuts(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.save()
 
         inventory.add(1)
@@ -205,7 +219,12 @@ class TestShortcuts(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, amount=10, organization=self.organization)
+        inventory = Inventory(
+            location=location,
+            product=product,
+            amount=10,
+            organization=self.organization,
+        )
         inventory.save()
 
         self.assertEqual(inventory.amount, 10)
@@ -226,7 +245,12 @@ class TestShortcuts(unittest.TestCase):
         product_2 = Product(name="Test Product 2", organization=self.organization)
         product_2.save()
 
-        inventory = Inventory(location=location, product=product, amount=10, organization=self.organization)
+        inventory = Inventory(
+            location=location,
+            product=product,
+            amount=10,
+            organization=self.organization,
+        )
         inventory.save()
 
         self.assertEqual(inventory.amount, 10)
@@ -249,7 +273,9 @@ class TestShortcuts(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.save()
 
         inventory.add(10)
@@ -295,7 +321,9 @@ class TestShortcuts(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, organization=self.organization)
+        inventory = Inventory(
+            location=location, product=product, organization=self.organization
+        )
         inventory.save()
 
         inventory.add(1)
@@ -336,7 +364,12 @@ class TestShortcuts(unittest.TestCase):
         product = Product(name="Test Product", organization=self.organization)
         product.save()
 
-        inventory = Inventory(location=location, product=product, amount=10, organization=self.organization)
+        inventory = Inventory(
+            location=location,
+            product=product,
+            amount=10,
+            organization=self.organization,
+        )
         inventory.save()
 
         self.assertEqual(inventory.amount, 10)

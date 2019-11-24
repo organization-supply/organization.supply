@@ -1,12 +1,8 @@
 <nav class="pa3 bg-near-white">
 
-    {% if global_preferences.logo.url %}
-    <div class="fl nt2 mr3">
-        <img class="h2 mt2" src="{{ global_preferences.logo.url }}" alt="">
-    </div>
-    {% elif request.organization.name %}
+    {% if request.organization.name %}
     <div class="fl nt2 mr2">
-        <h1 class="f4">{{ request.organization.name  }}</h1>
+        <h1 class="f4">{{ request.organization.name|title  }}</h1>
     </div>
     {% else %}
     <div class="dib nt2 mr2 nb2 pv0">
@@ -25,11 +21,19 @@
     {% endif %}
 
     <!-- User links -->
+    <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="/user/logout/" title="Logout">Logout</a>    
     {% if request.user.preferences.profile_image %}
     <div class="fr pl3 nt2">
-        <img class="br-pill h2 w2 mt2 dib" alt="avatar" src="{{ request.user.preferences.profile_image.url }}" alt="">
+        <a href="{% url 'user_settings' %}">
+            <img class="br-pill h2 w2 mt2 dib" alt="avatar" src="{{ request.user.preferences.profile_image.url }}" alt="">
+        </a>
     </div>
+    {% else %}
+        <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="{% url 'user_settings' %}" title="Settings">{{ request.user.name }}</a>    
     {% endif %}
-    <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="/user/logout/" title="Logout">Logout</a>    
-    <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="/user/settings" title="Settings">Settings</a>
+
+    {% if request.organization.slug %}
+        <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="{% url 'organization_settings' request.organization.slug %}" title="Settings">Organization Settings</a>
+    {% endif %}
+    
 </nav>

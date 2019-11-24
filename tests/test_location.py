@@ -1,7 +1,9 @@
-from user.models import User
 from django.test import TestCase
 from django.test.client import Client
+
 from organization.models import Location, Organization
+from user.models import User
+
 
 class TestLocationPages(TestCase):
     def setUp(self):
@@ -10,7 +12,7 @@ class TestLocationPages(TestCase):
         self.client.login(email="lennon@thebeatles.com", password="johnpassword")
         Organization(name="test-org", url="http://test.com").save()
         self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)        
+        self.organization.add_user(self.user)
 
     def test_locations(self):
         response = self.client.get("/{}/locations".format(self.organization.slug))
@@ -21,25 +23,31 @@ class TestLocationPages(TestCase):
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
-            "/{}/location/new".format(self.organization.slug), {"name": "Test Location", "desc": "Test Description"}
+            "/{}/location/new".format(self.organization.slug),
+            {"name": "Test Location", "desc": "Test Description"},
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Location.objects.count(), 1)
 
         location = Location.objects.get()
-        response = self.client.get("/{}/location/{}".format(self.organization.slug, location.id))
+        response = self.client.get(
+            "/{}/location/{}".format(self.organization.slug, location.id)
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_edit_location(self):
         response = self.client.post(
-            "/{}/location/new".format(self.organization.slug), {"name": "Test Location", "desc": "Test Description"}
+            "/{}/location/new".format(self.organization.slug),
+            {"name": "Test Location", "desc": "Test Description"},
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Location.objects.count(), 1)
 
         location = Location.objects.get()
 
-        response = self.client.get("/{}/location/{}/edit".format(self.organization.slug, location.id))
+        response = self.client.get(
+            "/{}/location/{}/edit".format(self.organization.slug, location.id)
+        )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Edit: Test Location")
 
@@ -63,7 +71,9 @@ class TestLocationPages(TestCase):
         self.assertEqual(Location.objects.count(), 1)
 
         response = self.client.post(
-            "/{}/location/{}/edit".format(self.organization.slug, location.id), {"action": "delete"}, follow=True
+            "/{}/location/{}/edit".format(self.organization.slug, location.id),
+            {"action": "delete"},
+            follow=True,
         )
 
         self.assertEqual(response.status_code, 200)

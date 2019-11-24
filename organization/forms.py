@@ -2,14 +2,31 @@ from django import forms
 from django.db.models import Q
 from django.forms import Form, ModelChoiceField, ModelForm, ValidationError
 
-from organization.models import Organization, Inventory, Location, Mutation, Product
+from organization.models import Inventory, Location, Mutation, Organization, Product
 
 
 class OrganizationForm(ModelForm):
-    
+    name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Organization name",
+                "class": "pa2 input-reset ba bg-transparent w-100",
+            }
+        )
+    )
+    url = forms.URLField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "URL",
+                "class": "pa2 input-reset ba bg-transparent w-100",
+            }
+        )
+    )
+
     class Meta:
         model = Organization
         fields = ["name", "url"]
+
 
 class ProductForm(ModelForm):
     name = forms.CharField(
@@ -78,7 +95,15 @@ class MutationForm(ModelForm):
 
     class Meta:
         model = Mutation
-        fields = ["amount", "product", "location", "desc", "user", "operation", "organization"]
+        fields = [
+            "amount",
+            "product",
+            "location",
+            "desc",
+            "user",
+            "operation",
+            "organization",
+        ]
 
     # This validates the data and sets the right fields before saving
     # the mutation. It also checks if there is sufficient inventory
@@ -89,7 +114,7 @@ class MutationForm(ModelForm):
         amount = cleaned_data.get("amount")
         product = cleaned_data.get("product")
         location = cleaned_data.get("location")
-        
+
         # Lastly, set the user if provided:
         user = cleaned_data.get("user")
         cleaned_data["user"] = user
@@ -159,7 +184,7 @@ class ShortcutMoveForm(Form):
 
         # Get the current user if supplied
         self.user = user
-        
+
         # Get all locations where a product is available
         if selected_product_id:
             selected_product = Product.objects.get(id=selected_product_id)
@@ -209,7 +234,7 @@ class ShortcutMoveForm(Form):
         product = cleaned_data.get("product")
         location_from = cleaned_data.get("location_from")
         location_to = cleaned_data.get("location_to")
-        
+
         # Create a mutation for removing inventory
         mutation_from = Mutation(
             amount=-amount,

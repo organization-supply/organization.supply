@@ -22,17 +22,17 @@ from organizations.backends import invitation_backend
 from organization import views
 
 urlpatterns = [
-    # Inventory urls
+    # Index
     path("", views.index, name="index"),
-
-    # 
-    path("create", views.create, name="create_organization"),
-    path("<slug:organization>/", include("inventory.urls_organization")),
     # User urls
-    path("user/", include("django.contrib.auth.urls")),
     path("user/", include("user.urls")),
-    # path("user/", include('organizations.urls')),
+    path("user/", include("django.contrib.auth.urls")),
+    path("user/", include("organizations.urls")),
+    # Organization invites
     path("invitations/", include(invitation_backend().get_urls())),
     # Admin
     path("admin/", admin.site.urls),
+    # Organization urls (listed last, so we the others have priority)
+    path("create", views.organization_create, name="create_organization"),
+    path("<slug:organization>/", include("inventory.urls_organization")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

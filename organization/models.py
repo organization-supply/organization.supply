@@ -6,8 +6,10 @@ from model_utils.fields import StatusField
 from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
 
+
 class Organization(DjangoOrganization):
     url = models.URLField()
+
 
 class Location(TimeStampedModel):
     name = models.CharField(max_length=200)
@@ -130,7 +132,11 @@ class Inventory(models.Model):
 
     def _create_mutation(self, amount: float, desc: str = ""):
         mutation = Mutation(
-            amount=amount, product=self.product, location=self.location, desc=desc, organization=self.organization
+            amount=amount,
+            product=self.product,
+            location=self.location,
+            desc=desc,
+            organization=self.organization,
         )
         return mutation.save()
 

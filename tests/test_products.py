@@ -1,7 +1,9 @@
-from user.models import User
 from django.test import TestCase
 from django.test.client import Client
-from organization.models import Product, Organization
+
+from organization.models import Organization, Product
+from user.models import User
+
 
 class TestProductPages(TestCase):
     def setUp(self):
@@ -10,7 +12,7 @@ class TestProductPages(TestCase):
         self.client.login(email="lennon@thebeatles.com", password="johnpassword")
         Organization(name="test-org", url="http://test.com").save()
         self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)        
+        self.organization.add_user(self.user)
 
     def test_products(self):
         response = self.client.get("/{}/products".format(self.organization.slug))
@@ -21,25 +23,31 @@ class TestProductPages(TestCase):
         self.assertEqual(response.status_code, 200)
 
         response = self.client.post(
-            "/{}/product/new".format(self.organization.slug), {"name": "Test Product", "desc": "Test Description"}
+            "/{}/product/new".format(self.organization.slug),
+            {"name": "Test Product", "desc": "Test Description"},
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Product.objects.count(), 1)
 
         product = Product.objects.get()
-        response = self.client.get("/{}/product/{}".format(self.organization.slug, product.id))
+        response = self.client.get(
+            "/{}/product/{}".format(self.organization.slug, product.id)
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_edit_product(self):
         response = self.client.post(
-            "/{}/product/new".format(self.organization.slug), {"name": "Test Product", "desc": "Test Description"}
+            "/{}/product/new".format(self.organization.slug),
+            {"name": "Test Product", "desc": "Test Description"},
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Product.objects.count(), 1)
 
         product = Product.objects.get()
 
-        response = self.client.get("/{}/product/{}/edit".format(self.organization.slug, product.id))
+        response = self.client.get(
+            "/{}/product/{}/edit".format(self.organization.slug, product.id)
+        )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Edit: Test Product")
 
@@ -61,7 +69,9 @@ class TestProductPages(TestCase):
         product.save()
 
         response = self.client.post(
-            "/{}/product/{}/edit".format(self.organization.slug, product.id), {"action": "delete"}, follow=True
+            "/{}/product/{}/edit".format(self.organization.slug, product.id),
+            {"action": "delete"},
+            follow=True,
         )
 
         self.assertEqual(response.status_code, 200)

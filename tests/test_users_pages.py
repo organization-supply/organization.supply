@@ -1,7 +1,8 @@
-from user.models import User
 from django.test import TestCase
 from django.test.client import Client
 from organizations.utils import create_organization
+
+from user.models import User
 
 
 class TestUserPages(TestCase):
@@ -9,7 +10,9 @@ class TestUserPages(TestCase):
         self.client = Client()
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
         self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        self.organization = create_organization(self.user, "test-org", org_user_defaults={'is_admin': True})
+        self.organization = create_organization(
+            self.user, "test-org", org_user_defaults={"is_admin": True}
+        )
 
     def test_signup(self):
         response = self.client.get("/user/signup")

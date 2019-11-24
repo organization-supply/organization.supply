@@ -1,14 +1,15 @@
 from django import forms
-from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from user.models import User
+from django.forms import ModelForm
 from organizations.models import OrganizationUser
 
-class UserSignupForm(ModelForm):
+from user.models import User
 
+
+class UserSignupForm(ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'password')
+        fields = ("email", "password")
 
     email = forms.CharField(
         widget=forms.TextInput(
@@ -28,24 +29,32 @@ class UserSignupForm(ModelForm):
         )
     )
 
-class UserInviteForm():
 
+class UserInviteForm:
     class Meta:
         model = OrganizationUser
 
     def save(self, *args, **kwargs):
         try:
-            user = get_user_model().objects.get(email__iexact=self.cleaned_data['email'])
+            user = get_user_model().objects.get(
+                email__iexact=self.cleaned_data["email"]
+            )
         except get_user_model().MultipleObjectsReturned:
-            raise forms.ValidationError("This email address has been used multiple times.")
+            raise forms.ValidationError(
+                "This email address has been used multiple times."
+            )
         except get_user_model().DoesNotExist:
             user = invitation_backend().invite_by_email(
-                    self.cleaned_data['email'],
-                    **{'domain': get_current_site(self.request),
-                        'organization': self.organization})
+                self.cleaned_data["email"],
+                **{
+                    "domain": get_current_site(self.request),
+                    "organization": self.organization,
+                }
+            )
 
-        return OrganizationUser.objects.create(user=user,
-                organization=self.organization)
+        return OrganizationUser.objects.create(
+            user=user, organization=self.organization
+        )
 
 
 class UserForm(ModelForm):

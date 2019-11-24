@@ -1,7 +1,9 @@
-from user.models import User
 from django.test import TestCase
 from django.test.client import Client
-from organization.models import Inventory, Location, Mutation, Product, Organization
+
+from organization.models import Inventory, Location, Mutation, Organization, Product
+from user.models import User
+
 
 class TestDashboardPages(TestCase):
     def setUp(self):
@@ -10,8 +12,7 @@ class TestDashboardPages(TestCase):
         self.client.login(email="lennon@thebeatles.com", password="johnpassword")
         Organization(name="test-org", url="http://test.com").save()
         self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)        
-
+        self.organization.add_user(self.user)
 
     def test_index(self):
         response = self.client.get("/")
@@ -22,11 +23,15 @@ class TestDashboardPages(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_inventory_location(self):
-        response = self.client.get("/{}/inventory/location".format(self.organization.slug))
+        response = self.client.get(
+            "/{}/inventory/location".format(self.organization.slug)
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_inventory_product(self):
-        response = self.client.get("/{}/inventory/product".format(self.organization.slug))
+        response = self.client.get(
+            "/{}/inventory/product".format(self.organization.slug)
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_products(self):
