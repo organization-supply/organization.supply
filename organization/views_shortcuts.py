@@ -12,7 +12,9 @@ def shortcut_sales(request):
         data = request.POST.copy()
         data["user"] = request.user.id
         data["amount"] = float(data["amount"])
-        product = Product.objects.get(id=data.get("product"))
+        product = Product.objects.for_organization(request.organization).get(
+            id=data.get("product")
+        )
 
         if data.get("reserved") == "on":
             data["operation"] = "reserved"
@@ -67,7 +69,9 @@ def shortcut_move(request):
         if form.is_valid():
             form.save()
             amount = request.POST.get("amount")
-            product = Product.objects.get(id=request.POST.get("product"))
+            product = Product.objects.for_organization(request.organization).get(
+                id=request.POST.get("product")
+            )
             messages.add_message(
                 request, messages.SUCCESS, "{} {} moved!".format(amount, product.name)
             )
@@ -91,7 +95,9 @@ def shortcut_move(request):
 
 @login_required
 def reservation_action(request, mutation_id):
-    mutation = get_object_or_404(Mutation, id=mutation_id)
+    mutation = get_object_or_404(
+        Mutation, id=mutation_id, organization=request.organization
+    )
     action = request.GET.get("action")
     if action == "confirm":
         # Setting the operation to none will automatically determine the operation

@@ -16,11 +16,12 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    products = Product.objects.all()
+    products = Product.objects.for_organization(request.organization)
     product_mutations = {}
     for product in products:
         product_mutations[product.name] = (
-            Mutation.objects.filter(
+            Mutation.objects.for_organization(request.organization)
+            .filter(
                 product=product,
                 contra_mutation__isnull=True,
                 operation__in=["add", "remove"],
@@ -34,13 +35,17 @@ def dashboard(request):
         request,
         "organization/dashboard.html",
         {
-            "reservations": Mutation.objects.filter(operation="reserved").order_by(
-                "-created"
-            )[:5],
+            "reservations": Mutation.objects.for_organization(request.organization)
+            .filter(operation="reserved")
+            .order_by("-created")[:5],
             "products": products,
-            "locations": Location.objects.all(),
-            "inventory": Inventory.objects.filter(amount__gt=0),
-            "mutations": Mutation.objects.all().order_by("-created")[:5],
+            "locations": Location.objects.for_organization(request.organization),
+            "inventory": Inventory.objects.for_organization(
+                request.organization
+            ).filter(amount__gt=0),
+            "mutations": Mutation.objects.for_organization(request.organization)
+            .all()
+            .order_by("-created")[:5],
             "product_mutations": product_mutations,
         },
     )
@@ -51,9 +56,15 @@ def search(request):
     if request.GET.get("q"):
         q = request.GET.get("q")
         results = []
-        products = Product.objects.filter(Q(name__icontains=q) | Q(desc__icontains=q))
-        locations = Location.objects.filter(Q(name__icontains=q) | Q(desc__icontains=q))
-        mutations = Mutation.objects.filter(desc__icontains=q)
+        products = Product.objects.for_organization(request.organization).filter(
+            Q(name__icontains=q) | Q(desc__icontains=q)
+        )
+        locations = Location.objects.for_organization(request.organization).filter(
+            Q(name__icontains=q) | Q(desc__icontains=q)
+        )
+        mutations = Mutation.objects.for_organization(request.organization).filter(
+            desc__icontains=q
+        )
 
         if products:
             results += products

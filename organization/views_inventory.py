@@ -14,7 +14,11 @@ def inventory_location(request):
     return render(
         request,
         "organization/inventory_location.html",
-        {"inventories": Inventory.objects.filter(amount__gt=0)},
+        {
+            "inventories": Inventory.objects.for_organization(
+                request.organization
+            ).filter(amount__gt=0)
+        },
     )
 
 
@@ -23,7 +27,11 @@ def inventory_product(request):
     return render(
         request,
         "organization/inventory_product.html",
-        {"inventories": Inventory.objects.filter(amount__gt=0)},
+        {
+            "inventories": Inventory.objects.for_organization(
+                request.organization
+            ).filter(amount__gt=0)
+        },
     )
 
 
@@ -47,6 +55,8 @@ def mutations(request):
         "organization/mutations.html",
         {
             "form": MutationForm(initial={"amount": 1.0}),
-            "mutations": Mutation.objects.all().order_by("-created"),
+            "mutations": Mutation.objects.for_organization(
+                request.organization
+            ).order_by("-created"),
         },
     )

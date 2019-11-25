@@ -7,6 +7,15 @@ from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
 
 
+class OrganizationManager(models.Manager):
+    def for_organization(self, organization):
+        return (
+            super(OrganizationManager, self)
+            .get_queryset()
+            .filter(organization=organization)
+        )
+
+
 class Organization(DjangoOrganization):
     url = models.URLField()
 
@@ -15,6 +24,7 @@ class Location(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="")
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    objects = OrganizationManager()
 
     @property
     def inventory(self):
@@ -51,6 +61,7 @@ class Product(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="")
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    objects = OrganizationManager()
 
     @property
     def inventory(self):
@@ -99,6 +110,7 @@ class Mutation(TimeStampedModel):
     contra_mutation = models.ForeignKey(
         "self", on_delete=models.CASCADE, blank=True, null=True
     )
+    objects = OrganizationManager()
 
     def apply(self):
         inventory, created = Inventory.objects.get_or_create(
@@ -129,6 +141,8 @@ class Inventory(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.FloatField(default=0.0)
+
+    objects = OrganizationManager()
 
     def _create_mutation(self, amount: float, desc: str = ""):
         mutation = Mutation(

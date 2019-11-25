@@ -8,15 +8,29 @@ from organization.models import Inventory, Mutation, Product
 
 def products(request):
     return render(
-        request, "organization/products.html", {"products": Product.objects.all()}
+        request,
+        "organization/products.html",
+        {"products": Product.objects.for_organization(request.organization)},
     )
 
 
 def product_view(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    inventories = Inventory.objects.filter(amount__gt=0, product=product)
-    product_total = Inventory.objects.filter(product=product).aggregate(Sum("amount"))
-    mutations = Mutation.objects.filter(product=product).order_by("-created")
+    product = get_object_or_404(
+        Product, id=product_id, organization=request.organization
+    )
+    inventories = Inventory.objects.for_organization(request.organization).filter(
+        amount__gt=0, product=product
+    )
+    product_total = (
+        Inventory.objects.for_organization(request.organization)
+        .filter(product=product)
+        .aggregate(Sum("amount"))
+    )
+    mutations = (
+        Mutation.objects.for_organization(request.organization)
+        .filter(product=product)
+        .order_by("-created")
+    )
     return render(
         request,
         "organization/product/view.html",
@@ -45,14 +59,18 @@ def product_form(request, product_id=None):
         and product_id
         and request.POST.get("action") == "delete"
     ):
-        instance = get_object_or_404(Product, id=product_id)
+        instance = get_object_or_404(
+            Product, id=product_id, organization=request.organization
+        )
         instance.delete()
         messages.add_message(request, messages.INFO, "Product deleted!")
         return redirect("products", organization=request.organization.slug)
 
     # Updating a product
     elif request.method == "POST" and product_id != None:
-        instance = get_object_or_404(Product, id=product_id)
+        instance = get_object_or_404(
+            Product, id=product_id, organization=request.organization
+        )
         form = ProductForm(request.POST or None, instance=instance)
         if form.is_valid():
             form.save()
@@ -61,7 +79,9 @@ def product_form(request, product_id=None):
 
     # Otherwise: get form
     elif product_id:
-        instance = get_object_or_404(Product, id=product_id)
+        instance = get_object_or_404(
+            Product, id=product_id, organization=request.organization
+        )
         form = ProductForm(instance=instance)
         return render(request, "organization/product/form.html", {"form": form})
 
