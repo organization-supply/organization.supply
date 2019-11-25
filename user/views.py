@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
-from dynamic_preferences.forms import global_preference_form_builder
 from dynamic_preferences.users.forms import user_preference_form_builder
 from organizations.utils import create_organization
 

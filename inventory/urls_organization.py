@@ -80,4 +80,6 @@ urlpatterns = [
         views_shortcuts.reservation_action,
         name="reservation_action",
     ),
+    # API urls
+    path("api/", include("api.urls")),
 ]

@@ -1,0 +1,16 @@
+from django.urls import path
+from rest_framework import routers
+from api.views import ProductViewSet, LocationViewSet, InventoryViewSet
+from django.urls import include, path
+from django.conf.urls import url
+
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'products', ProductViewSet, basename='product')
+router.register(r'locations', LocationViewSet, basename='location')
+router.register(r'inventory', InventoryViewSet, basename='inventory')
+
+urlpatterns = [
+    path('auth/', include('rest_framework.urls')),
+    url(r'^', include(router.urls)),
+]
