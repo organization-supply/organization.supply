@@ -47,27 +47,31 @@ urlpatterns = [
     path("locations", views_location.locations, name="locations"),
     path("location/new", views_location.location_form, name="location_new"),
     path(
-        "location/<int:location_id>", views_location.location_view, name="location_view"
+        "location/<uuid:location_id>",
+        views_location.location_view,
+        name="location_view",
     ),
     path(
-        "location/<int:location_id>/edit",
+        "location/<uuid:location_id>/edit",
         views_location.location_form,
         name="location_edit",
     ),
     path(
-        "location/<int:location_id>/delete",
+        "location/<uuid:location_id>/delete",
         views_location.location_form,
         name="location_delete",
     ),
     # Products
     path("products", views_product.products, name="products"),
     path("product/new", views_product.product_form, name="product_new"),
-    path("product/<int:product_id>", views_product.product_view, name="product_view"),
+    path("product/<uuid:product_id>", views_product.product_view, name="product_view"),
     path(
-        "product/<int:product_id>/edit", views_product.product_form, name="product_edit"
+        "product/<uuid:product_id>/edit",
+        views_product.product_form,
+        name="product_edit",
     ),
     path(
-        "product/<int:product_id>/delete",
+        "product/<uuid:product_id>/delete",
         views_product.product_form,
         name="product_delete",
     ),
@@ -76,7 +80,7 @@ urlpatterns = [
     path("shortcuts/move", views_shortcuts.shortcut_move, name="shortcut_move"),
     # Reservations
     path(
-        "reservation/<int:mutation_id>",
+        "reservation/<uuid:mutation_id>",
         views_shortcuts.reservation_action,
         name="reservation_action",
     ),

@@ -10,7 +10,7 @@ class TestProductPages(TestCase):
         self.client = Client()
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
         self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        Organization(name="test-org", url="http://test.com").save()
+        Organization(name="test-org").save()
         self.organization = Organization.objects.get(name="test-org")
         self.organization.add_user(self.user)
 

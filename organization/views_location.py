@@ -65,7 +65,8 @@ def location_form(request, location_id=None):
             form.save()
             messages.add_message(request, messages.INFO, "Location updated!")
             return redirect("locations", organization=request.organization.slug)
-
+        else:
+            return render(request, "organization/location/form.html", {"form": form})
     # Otherwise: get form
     elif location_id:
         instance = get_object_or_404(

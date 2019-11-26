@@ -10,7 +10,7 @@ from user.models import User
 class TestLocation(unittest.TestCase):
     def setUp(self):
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        Organization(name="test-org", url="http://test.com").save()
+        Organization(name="test-org").save()
         self.organization = Organization.objects.get(name="test-org")
         self.organization.add_user(self.user)
 
@@ -71,7 +71,7 @@ class TestLocation(unittest.TestCase):
 class TestProduct(unittest.TestCase):
     def setUp(self):
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        Organization(name="test-org", url="http://test.com").save()
+        Organization(name="test-org").save()
         self.organization = Organization.objects.get(name="test-org")
         self.organization.add_user(self.user)
 
@@ -125,7 +125,7 @@ class TestProduct(unittest.TestCase):
 class TestInventory(unittest.TestCase):
     def setUp(self):
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        Organization(name="test-org", url="http://test.com").save()
+        Organization(name="test-org").save()
         self.organization = Organization.objects.get(name="test-org")
         self.organization.add_user(self.user)
 
@@ -226,7 +226,7 @@ class TestInventory(unittest.TestCase):
 class TestMutation(unittest.TestCase):
     def setUp(self):
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        Organization(name="test-org", url="http://test.com").save()
+        Organization(name="test-org").save()
         self.organization = Organization.objects.get(name="test-org")
         self.organization.add_user(self.user)
 

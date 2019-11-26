@@ -11,7 +11,6 @@
     Organizations
 </h1>
 
-
 <div class="mh3 overflow-auto">
     {% if organizations %}
         {% for organization in organizations %}
@@ -22,7 +21,7 @@
                             <h1 class="f5 f4-ns mv1">{{ organization.name|title }}</h1>
                             <span class="f6 lh-copy measure mid-gray">
                                 <a href="{% url 'dashboard' organization.slug %}">Dashboard</a>
-                                | <a href="{% url 'mutations' organization.slug %}">Mutations</a>
+                                | <a href="{% url 'organization_settings' organization.slug %}">Settings</a>
                             </span>
                         </div>
                     </div>

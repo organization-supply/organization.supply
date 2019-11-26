@@ -39,24 +39,27 @@ def inventory_product(request):
 def mutation_insert(request):
     mutable_form = request.POST.copy()
     mutable_form["user"] = request.user.id
-    form = MutationForm(data=mutable_form)
+    form = MutationForm(data=mutable_form, organization=request.organization)
     if form.is_valid():
         mutation = form.save()
         messages.add_message(request, messages.INFO, "Transaction added!")
     else:
+        print(form.errors)
         messages.add_message(request, messages.ERROR, form.non_field_errors().as_text())
     return redirect("mutations", organization=request.organization.slug)
 
 
 @login_required
 def mutations(request):
+    mutation_form = MutationForm(
+        initial={"amount": 1.0}, organization=request.organization
+    )
+    mutations = Mutation.objects.for_organization(request.organization).order_by(
+        "-created"
+    )
+
     return render(
         request,
         "organization/mutations.html",
-        {
-            "form": MutationForm(initial={"amount": 1.0}),
-            "mutations": Mutation.objects.for_organization(
-                request.organization
-            ).order_by("-created"),
-        },
+        {"form": mutation_form, "mutations": mutations},
     )

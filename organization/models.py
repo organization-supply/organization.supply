@@ -1,8 +1,10 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.db.models import Sum
 from model_utils import Choices
-from model_utils.fields import StatusField
+from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
 
@@ -16,13 +18,18 @@ class OrganizationManager(models.Manager):
         )
 
 
-class Organization(DjangoOrganization):
-    url = models.URLField()
+class Organization(DjangoOrganization, TimeStampedModel):
+    SUBSCRIPTION_CHOICES = Choices("free", "plan_1", "plan_1")
+    subscription_type = StatusField(choices_name="SUBSCRIPTION_CHOICES", default="free")
+    subscription_date = MonitorField(
+        monitor="subscription_type"
+    )  # Differs from the creation date of the organization
 
 
 class Location(TimeStampedModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
-    desc = models.TextField(default="")
+    desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     objects = OrganizationManager()
 
@@ -58,8 +65,9 @@ class Location(TimeStampedModel):
 
 
 class Product(TimeStampedModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
-    desc = models.TextField(default="")
+    desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     objects = OrganizationManager()
 
@@ -97,6 +105,7 @@ class Product(TimeStampedModel):
 
 
 class Mutation(TimeStampedModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     OPERATION_CHOICES = Choices("add", "remove", "reserved")
     operation = StatusField(choices_name="OPERATION_CHOICES")
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
@@ -106,7 +115,7 @@ class Mutation(TimeStampedModel):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True
     )
-    desc = models.TextField(default="")
+    desc = models.TextField(default="", blank=True)
     contra_mutation = models.ForeignKey(
         "self", on_delete=models.CASCADE, blank=True, null=True
     )
@@ -137,6 +146,7 @@ class Mutation(TimeStampedModel):
 
 
 class Inventory(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

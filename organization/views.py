@@ -86,6 +86,12 @@ def organization_create(request):
             organization = create_organization_form.save()
             organization.add_user(request.user, is_admin=True)
             return redirect("dashboard", organization=organization.slug)
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                create_organization_form.non_field_errors().as_text(),
+            )
 
     return render(
         request,
@@ -96,4 +102,5 @@ def organization_create(request):
 
 @login_required
 def organization_settings(request):
+
     return render(request, "organization/settings.html", {})

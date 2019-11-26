@@ -31,9 +31,7 @@ def shortcut_sales(request):
         if data["desc"]:
             data["desc"] = "{} - {}".format(message, data["desc"])
 
-        form = MutationForm(
-            data=data, selected_location_id=None, selected_product_id=None
-        )
+        form = MutationForm(data=data, organization=request.organization)
 
         if form.is_valid():
             mutation = form.save()
@@ -43,11 +41,9 @@ def shortcut_sales(request):
             messages.add_message(
                 request, messages.ERROR, form.non_field_errors().as_text()
             )
-    location = None
+
     form = MutationForm(
-        selected_product_id=request.GET.get("product"),
-        selected_location_id=location,
-        initial={"amount": 1, "location": location, **request.GET.dict()},
+        initial={"amount": 1, **request.GET.dict()}, organization=request.organization
     )
     return render(request, "shortcuts/shortcut_sales.html", {"form": form})
 
@@ -55,15 +51,10 @@ def shortcut_sales(request):
 @login_required
 def shortcut_move(request):
     if request.method == "POST":
-        data = request.POST.copy()
-        data["user"] = request.user.id
-
         form = ShortcutMoveForm(
-            data=data,
-            user=request.user,
-            selected_product_id=None,
-            selected_location_id=None,
+            data=request.POST, user=request.user, organization=request.organization
         )
+        print(form.errors)
 
         # If the form is valid:
         if form.is_valid():
@@ -86,9 +77,9 @@ def shortcut_move(request):
     # When we are just getting the form
     location = None
     form = ShortcutMoveForm(
-        selected_product_id=request.GET.get("product"),
-        selected_location_id=request.GET.get("location_from"),
-        initial={"amount": 1, "location_from": location, **request.GET.dict()},
+        initial={"amount": 1, **request.GET.dict()},
+        user=request.user,
+        organization=request.organization,
     )
     return render(request, "shortcuts/shortcut_move.html", {"form": form})
 
