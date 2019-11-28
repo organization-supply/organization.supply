@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ global_preferences.title }} - Organization{% endblock title %}
+{% block title %}{{ request.organization.name }} - Settings{% endblock title %}
 
 {% block content %}
 
@@ -17,14 +17,10 @@
             </tr>
         </thead>
         <tbody class="lh-copy">
-            {% for user in users %}
+            {% for user in request.organization.users.all %}
             <tr>
                 <td class="pv2 pr3 bb b--black-20">
-                {% if user.first_name and user.last_name %}
-                    {{ user.first_name }} {{ user.last_name }}
-                {% else %}
-                    {{ user.username }}
-                {% endif %}
+                    {{ user.name }}
                 </td>
                 <td class="pv2 pr3 bb b--black-20">
                     {{ user.email }}
@@ -38,30 +34,23 @@
 <div class="fl w-100 w-50-m w-third-l ph3">
     <h1 class="f4 bold">Organization details</h1>
     <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
 
-        <fieldset id="location_form" class="ba b--transparent ph0 mh0">
-            <div class="mt3">
-                <label class="db fw6 lh-copy mb1 f6" for="email-address">Organization name</label>
-                {{ organization_preference_form.name }}
-            </div>
-            <div class="mt3">
-                <label class="db fw6 lh-copy mb1 f6" for="email-address">Organization logo</label>
-                <img class="h2 mr2 fl" src="{{ global_preferences.logo.url }}" alt="">
-                {{ organization_preference_form.logo }}
-            </div>
-        </fieldset>
-        <div class="">
-            <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save details">
-        </div>
     </form>
 </div>
 
 <div class="fl w-100 w-50-m w-third-l ph3">
     <h1 class="f4 bold">External Services</h1>
-
-    <p class="lh-copy">To be build...</p>
+    <p class="lh-copy">
+        To be build...
+    </p>
+    <ul>
+        <li>Woocommerce</li>
+        <li>Shopify</li>
+        <li>Magento</li>
+        <li>Zapier</li>
+        <li>Moneybird</li>
+        <li>Others..</li>
+    </ul>
 </div>
-
 
 {% endblock %}

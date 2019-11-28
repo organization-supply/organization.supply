@@ -1,11 +1,34 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from dynamic_preferences.forms import global_preference_form_builder
 from dynamic_preferences.users.forms import user_preference_form_builder
+from organizations.utils import create_organization
 
-from user.forms import UserForm
+from user.forms import UserForm, UserSignupForm
+
+
+def signup(request):
+
+    form = UserSignupForm(request.POST or None)
+    if form.is_valid():
+        # Set the password before saving...
+        signup = form.save(commit=False)
+        signup.password = make_password(form.cleaned_data["password"])
+        signup.save()
+
+        # Authenticate
+        user = authenticate(username=username, password=password)
+        login(request, user)
+
+        # Redirect to organizations...
+        messages.add_message(request, messages.SUCCESS, "Signup succesfull!")
+        return redirect("user_organizations")
+
+    return render(request, "registration/signup.html", {"form": form})
 
 
 @login_required
@@ -31,4 +54,13 @@ def settings(request):
         request,
         "user/settings.html",
         {"user_form": user_form, "user_preference_form": user_preference_form},
+    )
+
+
+@login_required
+def organizations(request):
+    return render(
+        request,
+        "user/organizations.html",
+        {"organizations": request.user.organizations_organization.all()},
     )

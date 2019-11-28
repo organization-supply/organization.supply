@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+
+{% block title %}Organization.supply - Create{% endblock title %}
+
+{% block content %}
+
+<h1 class="ph3 db tc">
+    Create a new organization 🚀
+</h1>
+
+<main class="pa4 black-80">
+    <form class="measure center" action="" method="POST">
+        {% csrf_token %}
+        <fieldset id="product_form" class="ba b--transparent ph0 mh0">
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="email-address">Name</label>
+                {{ create_organization_form.name }}
+            </div>
+        </fieldset>
+        <div class="">
+            <input class="b ph3 pv2 input-reset w-100 ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Create organization">
+        </div>
+    </form>
+</main>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+
+{% extends "base.html" %}
+
+{% load extra_filters %}
+
+{% block title %}User - Organizations{% endblock title %}
+
+{% block content %}
+
+<h1 class="ph3 db tc">
+    Organizations
+</h1>
+
+<div class="mh3 overflow-auto">
+    {% if organizations %}
+        {% for organization in organizations %}
+            <article class="br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-50-l center">
+                <div class="pa2 ph3-ns pb3-ns">
+                    <div class="dt w-100 mt1">
+                        <div class="dtc">
+                            <h1 class="f5 f4-ns mv1">{{ organization.name|title }}</h1>
+                            <span class="f6 lh-copy measure mid-gray">
+                                <a href="{% url 'dashboard' organization.slug %}">Dashboard</a>
+                                | <a href="{% url 'organization_settings' organization.slug %}">Settings</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- Link to add organization form  -->
+    <article class="br2 mv4 w-100 w-50-m w-50-l center">
+        <div class="pa2 ph3-ns pb3-ns">
+            <a class="f6 grow no-underline br-pill ph3 pv2 mb2 dib white bg-black" href="{% url 'create_organization' %}">Add an organization</a>
+        </div>
+    </article>
+
+</div>
+
+{% endblock %}

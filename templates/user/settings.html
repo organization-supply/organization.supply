@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-<title>{% block title %}{{ global_preferences.name }} - Settings{% endblock %}</title>
+<title>{% block title %}Organization.supply - Settings{% endblock %}</title>
 
 {% block content %}
 
@@ -14,12 +14,8 @@
         {% csrf_token %}
         <fieldset id="location_form" class="ba b--transparent ph0 mh0">
             <div class="mt3">
-                <label class="db fw6 mb1 lh-copy f6" for="email-address">First name</label>
-                {{ user_form.first_name }}
-            </div>
-            <div class="mt3">
-                <label class="db fw6 mb1 lh-copy f6" for="email-address">Last name</label>
-                {{ user_form.last_name }}
+                <label class="db fw6 mb1 lh-copy f6" for="email-address">Name</label>
+                {{ user_form.name }}
             </div>
         </fieldset>
         <div class="">
@@ -35,13 +31,8 @@
         <fieldset id="location_form" class="ba b--transparent ph0 mh0">
             <div class="mt3">
                 <label class="db fw6 mb1 lh-copy f6" for="email-address">Profile Image</label>
-                <img class="h2 mr2 fl br-pill pt1" src="{{ request.user.preferences.profile_image.url }}" alt="">
+                <img class="h2 mr2 fl br-pill" src="{{ request.user.preferences.profile_image.url }}" alt="">
                 {{ user_preference_form.profile_image }}
-            </div>
-
-            <div class="mt3">
-                <label class="db fw6 mb1 lh-copy f6" for="email-address">Your default location</label>
-                {{ user_preference_form.default_location }}
             </div>
         </fieldset>
         <div class="">

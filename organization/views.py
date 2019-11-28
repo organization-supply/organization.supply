@@ -1,27 +1,106 @@
+import datetime
+
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.db.models import F, Func, Q, Sum, Window
 from django.shortcuts import redirect, render
-from dynamic_preferences.forms import global_preference_form_builder
+
+from organization.forms import MutationForm, OrganizationForm
+from organization.models import Inventory, Location, Mutation, Product
 
 
 @login_required
-@user_passes_test(
-    lambda user: user.is_superuser
-)  # We only allow superuser to edit the organization
-def settings(request):
-    organization_preference_form = global_preference_form_builder()
-    if request.method == "POST":
-        organization_preference_form = organization_preference_form(
-            request.POST, request.FILES
-        )
-        if organization_preference_form.is_valid():
-            organization_preference_form.update_preferences()
-            messages.add_message(request, messages.INFO, "Preferences updated!")
+def index(request):
+    return redirect("user_organizations")
 
-    users = User.objects.all()
+
+@login_required
+def dashboard(request):
+    products = Product.objects.for_organization(request.organization)
+    product_mutations = {}
+    for product in products:
+        product_mutations[product.name] = (
+            Mutation.objects.for_organization(request.organization)
+            .filter(
+                product=product,
+                contra_mutation__isnull=True,
+                operation__in=["add", "remove"],
+            )
+            .annotate(cumsum=Window(Sum("amount"), order_by=F("id").asc()))
+            .values("id", "cumsum", "amount", "desc", "created")
+            .order_by("-created")
+        )
+
     return render(
         request,
-        "organization/settings.html",
-        {"users": users, "organization_preference_form": organization_preference_form},
+        "organization/dashboard.html",
+        {
+            "reservations": Mutation.objects.for_organization(request.organization)
+            .filter(operation="reserved")
+            .order_by("-created")[:5],
+            "products": products,
+            "locations": Location.objects.for_organization(request.organization),
+            "inventory": Inventory.objects.for_organization(
+                request.organization
+            ).filter(amount__gt=0),
+            "mutations": Mutation.objects.for_organization(request.organization)
+            .all()
+            .order_by("-created")[:5],
+            "product_mutations": product_mutations,
+        },
     )
+
+
+@login_required
+def search(request):
+    if request.GET.get("q"):
+        q = request.GET.get("q")
+        results = []
+        products = Product.objects.for_organization(request.organization).filter(
+            Q(name__icontains=q) | Q(desc__icontains=q)
+        )
+        locations = Location.objects.for_organization(request.organization).filter(
+            Q(name__icontains=q) | Q(desc__icontains=q)
+        )
+        mutations = Mutation.objects.for_organization(request.organization).filter(
+            desc__icontains=q
+        )
+
+        if products:
+            results += products
+        if locations:
+            results += locations
+        if mutations:
+            results += mutations
+
+        return render(request, "organization/search.html", {"q": q, "results": results})
+    else:
+        return render(request, "organization/search.html", {})
+
+
+@login_required
+def organization_create(request):
+    create_organization_form = OrganizationForm(request.POST or None)
+    if request.method == "POST":
+        if create_organization_form.is_valid():
+            organization = create_organization_form.save()
+            organization.add_user(request.user, is_admin=True)
+            return redirect("dashboard", organization=organization.slug)
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                create_organization_form.non_field_errors().as_text(),
+            )
+
+    return render(
+        request,
+        "organization/create.html",
+        {"create_organization_form": create_organization_form},
+    )
+
+
+@login_required
+def organization_settings(request):
+
+    return render(request, "organization/settings.html", {})

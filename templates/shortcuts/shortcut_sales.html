@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Inventory - Record Sale{% endblock title %}
+{% block title %}{{ reguest.organization.name }} - Record Sale{% endblock title %}
 
 {% block content %}
 
@@ -37,9 +37,6 @@
                 <label class="db fw6 lh-copy f6" for="desc">Omschrijving</label>
                 {{ form.desc }}
             </div>
-
-            
-
 
             <div class="mt3">
                 <input class="b ph3 pv2 input-reset w-100 ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save">

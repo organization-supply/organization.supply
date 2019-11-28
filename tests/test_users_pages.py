@@ -1,17 +1,22 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
 
-from dashboard.models import Location
+from organization.models import Organization
+from user.models import User
 
 
 class TestUserPages(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(
-            "john", "lennon@thebeatles.com", "johnpassword"
-        )
-        self.client.login(username="john", password="johnpassword")
+        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
+        Organization(name="test-org").save()
+        self.organization = Organization.objects.get(name="test-org")
+        self.organization.add_user(self.user)
+
+    def test_signup(self):
+        response = self.client.get("/user/signup")
+        self.assertEqual(response.status_code, 200)
 
     def test_login(self):
         response = self.client.get("/user/login/")
@@ -27,21 +32,9 @@ class TestUserPages(TestCase):
 
         # Test if the user is saved
         response = self.client.post(
-            "/user/settings", {"first_name": "John", "last_name": "Lennon"}, follow=True
+            "/user/settings", {"name": "John Lennon"}, follow=True
         )
         self.assertEqual(response.status_code, 200)
 
         user = User.objects.get(id=self.user.id)
-        self.assertEqual(user.first_name, "John")
-        self.assertEqual(user.last_name, "Lennon")
-
-        location = Location(name="Test Location")
-        location.save()
-
-        # Test if the profile is saved
-        response = self.client.post(
-            "/user/settings", {"default_location": location.id}, follow=True
-        )
-        self.assertEqual(response.status_code, 200)
-
-        self.assertEqual(user.preferences["default_location"], location)
+        self.assertEqual(user.name, "John Lennon")

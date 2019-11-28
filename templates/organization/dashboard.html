@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}{{ request.organization.name }} - Dashboard{% endblock title %}
+
+{% block content %}
+
+<h1 class="ph3">🏠 Dashboard</h1>
+
+<div class="fl ph3 w-100 w-50-m w-third-l">
+    <h1 class="f4 bold">Quick actions</h1>
+    
+    <ul style="margin-block-end: 0; margin-block-start: 0;" class="list pl0 ml0 ba b--light-silver br2">
+        <a href="{% url 'shortcut_sales' request.organization.slug %}" class="black no-underline">
+            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+                I sold a product
+                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                    <title>chevronRight icon</title>
+                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+                </svg>
+            </li>
+        </a>
+        <a href="{% url 'shortcut_move' request.organization.slug %}" class="black no-underline">
+            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+                I moved a product
+                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                    <title>chevronRight icon</title>
+                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+                </svg>
+            </li>
+        </a>
+        <a href="{% url 'mutations' request.organization.slug %}" class="black no-underline">
+            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+                I want to add new inventory
+                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                    <title>chevronRight icon</title>
+                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+                </svg>
+            </li>
+        </a>
+        <a href="{% url 'product_new' request.organization.slug %}" class="black no-underline">
+            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+                I would like to create a new product
+                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                    <title>chevronRight icon</title>
+                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+                </svg>
+            </li>
+        </a>
+        <a href="{% url 'location_new' request.organization.slug %}" class="black no-underline">
+            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+                I would like to create a new location
+                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
+                    <title>chevronRight icon</title>
+                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
+                </svg>
+            </li>
+        </a>
+    </ul>
+</div>
+
+<div class="fl ph3 w-100 w-50-m w-third-l">
+    <h1 class="f4 bold">Inventory in the last month</h1>
+    {% include 'charts/inventory_month.html' with data=product_mutations wrapper='mutations' debug=False %}
+</div>
+
+<div class="fl ph3 w-100 w-50-m w-third-l">
+    <h1 class="f4 bold">Last transactions</h1>
+    <ul style="margin-block-end: 0; margin-block-start: 0;" class="list pl0 ml0 ba b--light-silver br2">
+        {% if mutations %}
+        {% for mutation in mutations %}
+        <li class="ph3 pv3 b--light-silver">
+            <strong>
+                {% if mutation.operation == 'add' %}+{% endif %}{{ mutation.amount }}
+            </strong>
+            {{ mutation.product.name }} - 
+            <i>{{ mutation.location }}</i>
+            <span class="fr">{{ mutation.created|date:"Y-m-d" }}</span>
+        </li>
+        {% endfor %}
+        {% else %}
+        <li class="ph3 pv3 b--light-silver">No transactions found.</li>
+        {% endif %}
+    </ul>
+</div>
+    
+{% if reservations %}
+<div class="fl ph3 w-100 w-100-m w-100-l">
+    <h1 class="f4 bold">Reservations</h1>
+    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
+        <thead>
+            <tr>
+                <th class="fw6 bb b--black-20 tl pa2 bg-white">Date</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Amount</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Description</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="lh-copy">
+            {% for reservation in reservations %}
+            <tr>
+                <td class="pa2 bb b--black-20">{{ reservation.created|date:"Y-m-d h:i:s" }}</td>
+                <td class="pa2 bb b--black-20">{{ reservation.amount }}</td>
+                <td class="pa2 bb b--black-20">{{ reservation.desc }}</td>
+                <td class="pa2 bb b--black-20">
+                    <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'reservation_action' request.organization.slug reservation.id %}?action=confirm">
+                        Confirm
+                    </a>
+                    <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'reservation_action' request.organization.slug reservation.id %}?action=cancel">
+                        Cancel
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}
