@@ -84,7 +84,15 @@ class MutationForm(ModelForm):
 
     class Meta:
         model = Mutation
-        fields = ["amount", "product", "location", "desc", "user", "organization"]
+        fields = [
+            "amount",
+            "product",
+            "location",
+            "desc",
+            "user",
+            "operation",
+            "organization",
+        ]
 
     amount = forms.FloatField(
         widget=forms.TextInput(
