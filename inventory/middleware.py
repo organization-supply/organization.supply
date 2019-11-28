@@ -24,27 +24,21 @@ class OrganizationMiddleware:
                 # Filter the organization on slug in URL
                 organization = request.user.organizations_organization.filter(
                     slug=organization_slug
-                )
+                ).first()
+
+                print(request.user)
+                print(organization)
 
                 # If we have a matching organization
                 if organization:
-                    request.organization = organization[0]
+                    request.organization = organization
 
                     # In the case of a POST request, we also change the payload and
                     # add the organization, so it's available for the forms.
                     if request.method == "POST":
                         # Since the original is immutable, we make a copy
                         request.POST = request.POST.copy()
-                        request.POST["organization"] = organization[0]
-
-                # If that doesn't work, we select the only organization, if that applies
-                elif request.user.organizations_organization.count() == 1:
-                    request.organization = request.user.organizations_organization[0]
-                    redirect("dashboard", organization=request.organization.slug)
-
-                # If the user has multple organization, we redirect to the choose org screen:
-                elif request.user.organizations_organization.count() > 1:
-                    redirect("user_organizations")
+                        request.POST["organization"] = organization
 
                 # Else, we raise
                 else:

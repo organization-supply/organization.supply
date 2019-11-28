@@ -20,13 +20,16 @@ def signup(request):
         signup.save()
 
         # Authenticate
-        user = authenticate(username=username, password=password)
+        user = authenticate(
+            username=signup.email, password=form.cleaned_data["password"]
+        )
         login(request, user)
 
         # Redirect to organizations...
         messages.add_message(request, messages.SUCCESS, "Signup succesfull!")
         return redirect("user_organizations")
-
+    else:
+        messages.add_message(request, messages.ERROR, form.errors)
     return render(request, "registration/signup.html", {"form": form})
 
 
