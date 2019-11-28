@@ -35,4 +35,5 @@ urlpatterns = [
     # Organization urls (listed last, so we the others have priority)
     path("create", views.organization_create, name="create_organization"),
     path("<slug:organization>/", include("inventory.urls_organization")),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

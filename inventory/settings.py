@@ -52,9 +52,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Installed apps
-    "dynamic_preferences",
     "dynamic_preferences.users.apps.UserPreferencesConfig",
     "organizations",  # django-organizations (not to be confused with the one below)
+    "rest_framework", # Rest Framework is used for the API
+
     # Apps
     "organization",  # Main application for inventory
     "user",  # User pages and settings
