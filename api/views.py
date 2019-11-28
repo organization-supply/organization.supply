@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
-from organization.models import Product, Location, Inventory
-from api.serializers import ProductSerializer, LocationSerializer, InventorySerializer
+
+from api.serializers import InventorySerializer, LocationSerializer, ProductSerializer
+from organization.models import Inventory, Location, Product
+
 
 class ProductViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -16,6 +18,7 @@ class ProductViewSet(viewsets.ViewSet):
         serializer = ProductSerializer(user)
         return Response(serializer.data)
 
+
 class LocationViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = Location.objects.for_organization(request.organization)
@@ -27,6 +30,7 @@ class LocationViewSet(viewsets.ViewSet):
         user = get_object_or_404(queryset, pk=pk)
         serializer = LocationSerializer(user)
         return Response(serializer.data)
+
 
 class InventoryViewSet(viewsets.ViewSet):
     def list(self, request):
