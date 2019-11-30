@@ -21,9 +21,19 @@ theme = "hugo-serif-theme"
     url = "/pricing/"
     weight = 20
   [[menu.main]]
+    identifier = "Blog"
+    name = "Blog"
+    url = "/posts/"
+    weight = 20
+  [[menu.main]]
     identifier = "About"
     name = "About"
     url = "/about/"
+    weight = 21
+  [[menu.main]]
+    identifier = "Github"
+    name = "Github"
+    url = "https://github.com/jplattel/organization.supply"
     weight = 21
 
   [[menu.footer]]
