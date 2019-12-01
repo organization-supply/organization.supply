@@ -102,5 +102,13 @@ def organization_create(request):
 
 @login_required
 def organization_settings(request):
+    return render(request, "organization/settings.html", {})
 
+
+@login_required
+def organization_invite(request):
+    # if its a user, create an invite to accept organizations page
+    # and notify that user via an email
+
+    # if its a unknown email adress, create an invite email
     return render(request, "organization/settings.html", {})

@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "dynamic_preferences.users.apps.UserPreferencesConfig",
     "organizations",  # django-organizations (not to be confused with the one below)
     "rest_framework",  # Rest Framework is used for the API
+    'rest_framework.authtoken', # API key access
+
     # Apps
     "organization",  # Main application for inventory
     "user",  # User pages and settings
@@ -113,6 +115,12 @@ DYNAMIC_PREFERENCES = {
     "ENABLE_CACHE": True,
     # Use this to disable checking preferences names. This can be useful to debug things
     "VALIDATE_NAMES": True,
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
 
 ORGS_SLUGFIELD = "django_extensions.db.fields.AutoSlugField"

@@ -26,9 +26,6 @@ class OrganizationMiddleware:
                     slug=organization_slug
                 ).first()
 
-                print(request.user)
-                print(organization)
-
                 # If we have a matching organization
                 if organization:
                     request.organization = organization

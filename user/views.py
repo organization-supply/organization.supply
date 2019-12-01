@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from dynamic_preferences.users.forms import user_preference_form_builder
 from organizations.utils import create_organization
+from rest_framework.authtoken.models import Token
 
 from user.forms import UserForm, UserSignupForm
 
@@ -37,7 +38,7 @@ def signup(request):
 def settings(request):
     user_form = UserForm(instance=request.user)
     user_preference_form = user_preference_form_builder(instance=request.user)
-
+    token, _ = Token.objects.get_or_create(user=request.user)
     if request.method == "POST":
         # First and last name
         user_form = UserForm(request.POST, instance=request.user)
@@ -55,7 +56,11 @@ def settings(request):
     return render(
         request,
         "user/settings.html",
-        {"user_form": user_form, "user_preference_form": user_preference_form},
+        {
+            "token": token.key,
+            "user_form": user_form, 
+            "user_preference_form": user_preference_form
+        },
     )
 
 
