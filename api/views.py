@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.response import Response
 
 from api.serializers import InventorySerializer, LocationSerializer, ProductSerializer
 from organization.models import Inventory, Location, Product
@@ -10,15 +10,19 @@ from organization.models import Inventory, Location, Product
 
 class ApiAuthorize(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
+        user = serializer.validated_data["user"]
         token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token.key,
-            'organization': request.organization.slug,
-            'user': user.pk,
-        })
+        return Response(
+            {
+                "token": token.key,
+                "organization": request.organization.slug,
+                "user": user.pk,
+            }
+        )
 
 
 class ProductViewSet(viewsets.ViewSet):

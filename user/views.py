@@ -58,8 +58,8 @@ def settings(request):
         "user/settings.html",
         {
             "token": token.key,
-            "user_form": user_form, 
-            "user_preference_form": user_preference_form
+            "user_form": user_form,
+            "user_preference_form": user_preference_form,
         },
     )
 

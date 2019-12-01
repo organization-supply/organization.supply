@@ -55,8 +55,7 @@ INSTALLED_APPS = [
     "dynamic_preferences.users.apps.UserPreferencesConfig",
     "organizations",  # django-organizations (not to be confused with the one below)
     "rest_framework",  # Rest Framework is used for the API
-    'rest_framework.authtoken', # API key access
-
+    "rest_framework.authtoken",  # API key access
     # Apps
     "organization",  # Main application for inventory
     "user",  # User pages and settings
@@ -118,8 +117,8 @@ DYNAMIC_PREFERENCES = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication"
     ]
 }
 
