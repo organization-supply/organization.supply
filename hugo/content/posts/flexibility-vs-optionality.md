@@ -1,6 +1,6 @@
 ---
 title: "Flexibility versus optionality"
-date: 2019-11-07T23:39:45+01:00
+date: 2019-11-08T23:39:45+01:00
 draft: false
 ---
 
