@@ -87,10 +87,13 @@ def organization_create(request):
             organization.add_user(request.user, is_admin=True)
             return redirect("dashboard", organization=organization.slug)
         else:
+            errors = ",".join(
+                map(lambda err: str(err[0]), create_organization_form.errors.values())
+            )
             messages.add_message(
                 request,
                 messages.ERROR,
-                create_organization_form.non_field_errors().as_text(),
+                create_organization_form.non_field_errors().as_text() + errors,
             )
 
     return render(

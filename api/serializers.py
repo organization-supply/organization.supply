@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from organization.models import Inventory, Location, Product
+from organization.models import Inventory, Location, Mutation, Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -18,4 +18,10 @@ class LocationSerializer(serializers.ModelSerializer):
 class InventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
-        fields = ["id", "product", "location", "name"]
+        fields = ["id", "product", "location", "amount"]
+
+
+class MutationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mutation
+        fields = ["id", "amount", "product", "location", "description", "operation"]

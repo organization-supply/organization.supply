@@ -3,6 +3,7 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.db.models import Sum
+from django.shortcuts import get_object_or_404
 from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
@@ -11,6 +12,10 @@ from organizations.models import Organization as DjangoOrganization
 
 class OrganizationManager(models.Manager):
     def for_organization(self, organization):
+        # If we are receiving a string, it's most likely a slug,
+        # so we do a lookup to get the organization by slug
+        if type(organization) == str:
+            organization = get_object_or_404(DjangoOrganization, slug=organization)
         return (
             super(OrganizationManager, self)
             .get_queryset()

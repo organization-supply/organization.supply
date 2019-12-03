@@ -11,7 +11,7 @@ router.register(r"locations", LocationViewSet, basename="location")
 router.register(r"inventory", InventoryViewSet, basename="inventory")
 
 urlpatterns = [
-    path("auth/", ApiAuthorize.as_view()),
-    # path("auth/", include("rest_framework.urls")),
+    path("auth", ApiAuthorize.as_view()),
+    # path("test/", include("rest_framework.urls")),
     url(r"^", include(router.urls)),
 ]

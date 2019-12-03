@@ -1,8 +1,17 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms import Form, ModelChoiceField, ModelForm, ValidationError
+from django.utils.text import slugify
 
 from organization.models import Inventory, Location, Mutation, Organization, Product
+
+FORBIDDEN_SLUGS = ["api", "admin", "organization", "settings", "user"]
+
+
+def validate_organization_name(organization_name):
+    if slugify(organization_name) in FORBIDDEN_SLUGS:
+        raise ValidationError("Name is not available")
 
 
 class OrganizationForm(ModelForm):
@@ -12,7 +21,8 @@ class OrganizationForm(ModelForm):
                 "placeholder": "Organization name",
                 "class": "pa2 input-reset ba bg-transparent w-100",
             }
-        )
+        ),
+        validators=[validate_organization_name],
     )
 
     class Meta:
