@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  build:
+    environment:
+      SENTRY_DSN: ""
+      SENDGRID_API_KEY: ""
+      DJANGO_STATIC_ROOT: ""
+      DJANGO_MEDIA_ROOT: ""
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Running tests
+          command: |
+            . venv/bin/activate
+            pytest --cov-report html .
+      - store_artifacts:
+          path: tests/reports/
+          destination: python_app
