@@ -28,6 +28,19 @@
             </tr>
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <form action="{% url 'organization_invite' request.organization.slug %}" method="POST">
+                    <td>
+                        {% csrf_token %}
+                        {{ organization_invite_form }}
+                    </td>
+                    <td>
+                        <input type="submit">
+                    </td>
+                </form>
+            </tr>
+        </tfoot>
     </table>
 </div>
     

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import F, Func, Q, Sum, Window
 from django.shortcuts import redirect, render
 
-from organization.forms import MutationForm, OrganizationForm
+from organization.forms import MutationForm, OrganizationForm, OrganizationInviteForm
 from organization.models import Inventory, Location, Mutation, Product
 
 
@@ -105,13 +105,37 @@ def organization_create(request):
 
 @login_required
 def organization_settings(request):
-    return render(request, "organization/settings.html", {})
+    organization_invite_form = OrganizationInviteForm(
+        request.POST or None, request.organization
+    )
+    return render(
+        request,
+        "organization/settings.html",
+        {"organization_invite_form": organization_invite_form},
+    )
 
 
 @login_required
 def organization_invite(request):
-    # if its a user, create an invite to accept organizations page
-    # and notify that user via an email
-
-    # if its a unknown email adress, create an invite email
-    return render(request, "organization/settings.html", {})
+    if request.method == "POST":
+        organization_invite_form = OrganizationInviteForm(
+            request=request,
+            organization=request.organization,
+            data={"email": request.POST.get("email"), "is_admin": False},
+        )
+        if organization_invite_form.is_valid():
+            organization_invite_form.save()
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                "{} invited for {}".format(
+                    request.POST.get("email"), request.organization.name
+                ),
+            )
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                organization_invite_form.non_field_errors().as_text(),
+            )
+    return redirect("organization_settings", organization=request.organization.slug)
