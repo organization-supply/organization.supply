@@ -10,3 +10,4 @@ omit =
     inventory/wsgi.py
     inventory/settings.py
     manage.py
+    venv/*
