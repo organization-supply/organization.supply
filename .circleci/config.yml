@@ -32,9 +32,10 @@ jobs:
             . venv/bin/activate
             mkdir test-reports
             pytest --cov . --junitxml=test-reports/junit.xml
+            coveralls
 
       - store_test_results:
           path: test-reports
 
       - store_artifacts:
-          path: test-reports    
+          path: test-reports

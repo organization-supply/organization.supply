@@ -1,9 +1,9 @@
-# Inventory
+# Organization.supply
 
 [![CircleCI](https://circleci.com/gh/jplattel/organization.supply.svg?style=svg)](https://circleci.com/gh/jplattel/organization.supply)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-This is a small Django application that provides our brewery an inventory tool. The primary goals is to have one simple interface to manage inventory with. And build integrations as our brewery requires. For example integration with financial parts or our webshop which runs woocommerce.
+This is a Django application that provides our brewery an inventory tool, but aspires to be a Saas startup. The primary goals is to have one simple interface to manage inventory with. And build integrations as our brewery requires. For example integration with financial parts or our webshop which runs woocommerce.
 
 # Documentation & landing pages
 

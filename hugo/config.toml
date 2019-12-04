@@ -4,6 +4,20 @@ title = "Organization Supply"
 themesDir = "themes"
 theme = "hugo-serif-theme"
 
+
+[params]
+  # In most cases you will only want to use either one of these. If you have Google Analytics included in your GTM tags don't put your GA ID here. Otherwise your data might be useless.
+  google_analytics_id = "UA-153944999-1"
+  google_tag_manager_id = ""
+
+  [params.homepage_meta_tags]
+    meta_description = "Organization.supply is a simple inventory management app."
+    meta_og_title = "Organization.supply"
+    meta_og_type = "website"
+    meta_og_url = "https://organization.supply"
+    meta_og_image = "https://raw.githubusercontent.com/JugglerX/hugo-serif-theme/master/images/tn.png"
+    meta_og_description = "Looking for a simple inventory management app, that skips on al the options, but focuses on simplicity? This is the one!"
+    
 [menu]
   [[menu.main]]
     identifier = "Home"
