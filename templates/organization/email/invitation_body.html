@@ -1,5 +1,13 @@
+{% extends "organization/email/base_email.html" %}
+
+{% block title %}You've been invited to join {{ organization|safe }} on {{ domain.name }}{% endblock title %}
+
+{% block content %}
+
 You've been invited to join {{ organization|safe }} on {{ domain.name }} by {{ sender.name|safe }}.
 
 Follow this link to create your user account and accept the invitation:
 
-http://{{ domain.domain }}{% url "invitations_register" user.id token %}
+<a href="http://{{ domain.domain }}{% url 'invitations_register' recipient.id token %}">Link</a>
+
+{% endblock %}

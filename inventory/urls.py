@@ -17,21 +17,22 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from organizations.backends import invitation_backend
 
 from organization import views
 
 urlpatterns = [
     # Index
     path("", views.index, name="index"),
+    
     # User urls
     path("user/", include("user.urls")),
     path("user/", include("django.contrib.auth.urls")),
-    # Organization invites
-    path("invitations/", include(invitation_backend().get_urls())),
+    
     # Admin
     path("admin/", admin.site.urls),
+    
     # Organization urls (listed last, so we the others have priority)
     path("create", views.organization_create, name="create_organization"),
     path("<slug:organization>/", include("organization.urls")),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

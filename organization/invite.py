@@ -1,9 +1,12 @@
 import inspect
-
+from django.core.mail import EmailMultiAlternatives
+from email import utils as email_utils
+from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.http import Http404
 from django.shortcuts import redirect, render, reverse
 from django.urls import path
+from django.template import loader
 from organizations.backends.defaults import BaseBackend
 from organizations.backends.tokens import RegistrationTokenGenerator
 
@@ -17,11 +20,11 @@ class OrganizationInvitationBackend(BaseBackend):
     """
 
     notification_subject = "organizations/email/notification_subject.txt"
-    notification_body = "organizations/email/notification_body.html"
+    notification_body = "organizations/email/notification_body.txt"
     invitation_subject = "organization/email/invitation_subject.txt"
-    invitation_body = "organization/email/invitation_body.html"
+    invitation_body = "organization/email/invitation_body.txt"
     reminder_subject = "organizations/email/reminder_subject.txt"
-    reminder_body = "organizations/email/reminder_body.html"
+    reminder_body = "organizations/email/reminder_body.txt"
     form_class = OrganizationAcceptForm
     registration_form_template = "organization/register.html"
 
@@ -46,22 +49,15 @@ class OrganizationInvitationBackend(BaseBackend):
         try:
             user = self.user_model.objects.get(email=email)
         except self.user_model.DoesNotExist:
-            # TODO break out user creation process
-            if (
-                "username"
-                in inspect.getargspec(self.user_model.objects.create_user).args
-            ):
-                user = self.user_model.objects.create(
-                    username=self.get_username(),
-                    email=email,
-                    password=self.user_model.objects.make_random_password(),
-                )
-            else:
-                user = self.user_model.objects.create(
-                    email=email, password=self.user_model.objects.make_random_password()
-                )
+            print("no existsing")
+            user = self.user_model.objects.create(
+                email=email, password=self.user_model.objects.make_random_password()
+            )
             user.is_active = False
             user.save()
+            print(user)
+        
+        print("user", user)
         self.send_invitation(user, sender, **kwargs)
         return user
 
@@ -104,6 +100,7 @@ class OrganizationInvitationBackend(BaseBackend):
 
         if not RegistrationTokenGenerator().check_token(user, token):
             raise Http404("Invite not found or expired")
+
         form = self.get_form(
             data=request.POST or None, files=request.FILES or None, instance=user
         )
@@ -119,3 +116,43 @@ class OrganizationInvitationBackend(BaseBackend):
             login(request, user)
             return redirect(self.get_success_url())
         return render(request, self.registration_form_template, {"form": form})
+
+    def email_message(
+            self,
+            recipient,  # type: Text
+            subject_template,  # type: Text
+            body_template,  # type: Text
+            sender=None,  # type: Optional[AbstractUser]
+            message_class=EmailMultiAlternatives,
+            **kwargs
+        ):
+
+        print(kwargs)
+        print("starting email")
+        """
+        Returns an invitation email message. This can be easily overridden.
+        For instance, to send an HTML message, use the EmailMultiAlternatives message_class
+        and attach the additional conent.
+        """
+        from_email = "{} <{}>".format(
+            sender.name or sender.email,
+            email_utils.parseaddr(settings.DEFAULT_FROM_EMAIL)[1],
+        )
+        reply_to = "{} <{}>".format(sender.name or sender.email, sender.email)
+
+        headers = {"Reply-To": reply_to}
+        kwargs.update({"sender": sender, "recipient": recipient})
+
+        subject_template = loader.get_template(subject_template)
+        body_template_txt = loader.get_template(body_template)
+        body_template_html = loader.get_template(body_template.replace(".txt", '.html'))
+
+        subject = subject_template.render(kwargs).strip()  # Remove stray newline characters
+
+        body = body_template_txt.render(kwargs)
+        body_html = body_template_html.render(kwargs)
+
+        email = message_class(subject, body, from_email, [recipient.email], headers=headers)
+        email.attach_alternative(body_html, "text/html")
+
+        return email
