@@ -68,7 +68,6 @@ class OrganizationAcceptForm(ModelForm):
     fields of a BaseUserModel
     """
 
-    # TODO decouple first/last names from this form
     email = forms.CharField(
         max_length=30,
         widget=forms.TextInput(

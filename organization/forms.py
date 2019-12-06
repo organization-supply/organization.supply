@@ -134,7 +134,7 @@ class MutationForm(ModelForm):
             "location",
             "desc",
             "user",
-            "operation",
+            # "operation",
             "organization",
         ]
 

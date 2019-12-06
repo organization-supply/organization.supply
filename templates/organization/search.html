@@ -29,7 +29,13 @@
                 <div class="pa2 ph3-ns pb3-ns">
                     <div class="dt w-100 mt1">
                         <div class="dtc">
-                            <h1 class="f5 f4-ns mv0">{{ result.name }}</h1>
+                            <h1 class="f5 f4-ns mv0">
+                                {% if result.name %}
+                                    <a href="{{ result.url }}">{{ result.name }}</a>
+                                {% else %}
+                                    Result
+                                {% endif%}
+                            </h1>
                         </div>
                         <div class="dtc tr">
                             <h2 class="f5 mv0">{{ result|to_class_name }}</h2>
@@ -41,6 +47,8 @@
                 </div>
             </article>
         {% endfor %}
+    {% elif not results and q %}
+        <p>No results found..</p>
     {% endif %}
 </div>
 

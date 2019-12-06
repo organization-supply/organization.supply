@@ -12,31 +12,45 @@
     <table class="f6 w-100 center" cellspacing="0">
         <thead>
             <tr>
-                <th class="fw6 bb b--black-20 tl pv3 bg-white">Name</th>
                 <th class="fw6 bb b--black-20 tl pv3 bg-white">Email</th>
+                <th class="fw6 bb b--black-20 tl pv3 bg-white">Status</th>
+                <th class="fw6 bb b--black-20 tl pv3 bg-white">Actions</th>
             </tr>
         </thead>
         <tbody class="lh-copy">
             {% for user in request.organization.users.all %}
             <tr>
-                <td class="pv2 pr3 bb b--black-20">
-                    {{ user.name }}
-                </td>
-                <td class="pv2 pr3 bb b--black-20">
+                <td class="pv2 bb b--black-20">
                     {{ user.email }}
+                </td>
+                <td class="pv2 bb b--black-20">
+                    {% if user.is_active %}
+                        <span class="green">Active</span>
+                    {% else %}
+                        <span class="orange">Invited</span>
+                    {% endif %}
+                </td>
+                <td class="pv2 bb b--black-20">
+                    <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_remove_user' request.organization.slug %}?id={{ user.id }}">
+                        {% if user.is_active %}
+                        Remove
+                        {% else %}
+                        Cancel
+                        {% endif %}
+                    </a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
-                <form action="{% url 'organization_invite' request.organization.slug %}" method="POST">
-                    <td>
+                <form action="{% url 'organization_invite_user' request.organization.slug %}" method="POST">
+                    <td class="pv2 bb b--black-20" colspan="2">
                         {% csrf_token %}
-                        {{ organization_invite_form }}
+                        <input type="text" name="email" value="hello@email.com" placeholder="Email" class="pa2 input-reset ba bg-transparent w-100" required="" id="id_email">
                     </td>
-                    <td>
-                        <input type="submit">
+                    <td class="pv2 bb b--black-20">
+                        <input class="b ph3 pv2 input-reset ba b--black bg-transparent pointer f6 dib" type="submit" value="Invite">
                     </td>
                 </form>
             </tr>
@@ -47,7 +61,14 @@
 <div class="fl w-100 w-50-m w-third-l ph3">
     <h1 class="f4 bold">Organization details</h1>
     <form action="" method="POST" enctype="multipart/form-data">
-
+        {% csrf_token %}
+        <div class="mt3">
+            <label class="db fw6 lh-copy f6" for="email-address">Name</label>            
+            {{ organization_form.name }}
+        </div>
+        <div class="mt3">
+            <input class="b ph3 pv2 input-reset w-100 ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save">
+        </div>
     </form>
 </div>
 

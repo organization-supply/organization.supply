@@ -2,13 +2,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from dynamic_preferences.users.forms import user_preference_form_builder
 from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
 
 from user.forms import UserForm, UserSignupForm
+from user.models import User
 
 
 def signup(request):
@@ -38,6 +38,7 @@ def signup(request):
 def settings(request):
     user_form = UserForm(instance=request.user)
     user_preference_form = user_preference_form_builder(instance=request.user)
+
     token, _ = Token.objects.get_or_create(user=request.user)
     if request.method == "POST":
         # First and last name
