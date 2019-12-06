@@ -65,10 +65,10 @@
                         {{ mutation.desc }}
                     </td>
                     <td class="pa3 bb b--black-20">
-                        {% if mutation.user.first_name %}
-                            {{ mutation.user.first_name }} {{ mutation.user.last_name }}
+                        {% if mutation.user.name %}
+                            {{ mutation.user.name }}
                         {% else %}
-                            {{ mutation.user.username }}
+                            {{ mutation.user.email }}
                         {% endif %}
                     </td>
                 </tr>

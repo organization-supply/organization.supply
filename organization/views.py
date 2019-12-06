@@ -106,6 +106,16 @@ def organization_create(request):
 
 
 @login_required
+def organization_users(request):
+    return render(
+        request,
+        "organization/users.html",
+        {
+            "users": request.organization.users.all
+        },
+    )
+
+@login_required
 def organization_settings(request):
     organization_form = OrganizationForm(
         request.POST or None, instance=request.organization
