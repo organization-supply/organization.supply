@@ -18,7 +18,7 @@ class OrganizationInvitationBackend(BaseBackend):
 
     notification_subject = "organizations/email/notification_subject.txt"
     notification_body = "organizations/email/notification_body.html"
-    invitation_subject = "organizations/email/invitation_subject.txt"
+    invitation_subject = "organization/email/invitation_subject.txt"
     invitation_body = "organization/email/invitation_body.html"
     reminder_subject = "organizations/email/reminder_subject.txt"
     reminder_body = "organizations/email/reminder_body.html"

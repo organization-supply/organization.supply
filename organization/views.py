@@ -64,17 +64,21 @@ def search(request):
         locations = Location.objects.for_organization(request.organization).filter(
             Q(name__icontains=q) | Q(desc__icontains=q)
         )
+        users = request.organization.users.filter(
+            Q(name__icontains=q) | Q(email__icontains=q)
+        )
         mutations = Mutation.objects.for_organization(request.organization).filter(
             desc__icontains=q
         )
-
+        
         if products:
             results += products
         if locations:
             results += locations
         if mutations:
             results += mutations
-
+        if users:
+            results += users
         return render(request, "organization/search.html", {"q": q, "results": results})
     else:
         return render(request, "organization/search.html", {})

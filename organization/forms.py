@@ -56,6 +56,7 @@ class OrganizationInviteForm(OrganizationUserAddForm):
                 **{
                     "domain": get_current_site(self.request),
                     "organization": self.organization,
+                    "sender": self.request.user
                 }
             )
 

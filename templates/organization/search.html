@@ -31,9 +31,17 @@
                         <div class="dtc">
                             <h1 class="f5 f4-ns mv0">
                                 {% if result.name %}
-                                    <a href="{{ result.url }}">{{ result.name }}</a>
+                                    {% if result.url %}
+                                    <a href="{{ result.url }}">
+                                        {{ result.name }}
+                                    </a>
+                                    {% elif result.name %}
+                                        {{ result.name }}  
+                                    {% elif result.email %}
+                                        {{ result.email }}  
+                                    {% endif %}
                                 {% else %}
-                                    Result
+                                    {{ result }}
                                 {% endif%}
                             </h1>
                         </div>
