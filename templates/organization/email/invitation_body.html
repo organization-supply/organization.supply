@@ -1,0 +1,31 @@
+{% extends "organization/email/base_email.html" %}
+
+{% block title %}You've been invited to join {{ organization|safe }} on {{ domain.name }}{% endblock title %}
+
+{% block content %}
+
+<h2>Hello,</h2>
+
+<p>You've been invited to join {{ organization|safe }} on {{ domain.name }} by {{ sender.name|safe }}.</p>
+
+<p>Click on the button below to register and accept the invite:</p>
+
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+    <tbody>
+        <tr>
+            <td align="left">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td><a href="http://{{ domain.domain }}{% url 'invitations_register' recipient.id token %}">Create account & accept invite</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>If you don't want accept the invitation, feel free to archive or delete this email.</p>
+
+{% endblock %}

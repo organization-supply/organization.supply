@@ -1,0 +1,38 @@
+{% include "base_header.html" %}
+
+{% if form.errors %}
+    {% for key, value in form.errors.items %}
+    <div class="flex items-center justify-center pa4 bg-washed-red dark-red">
+        <span class="lh-title ml3">{{ value }}</span>
+    </div>
+    {% endfor %}
+{% endif %}
+
+{% block content %}
+<main class="pa4 black-80">
+    <form class="measure center" method="POST">
+        {% csrf_token %}
+        <fieldset id="sign_up" class="ba b--transparent ph0 mh0">
+            <legend class="f4 fw6 ph0 mh0">You're invited!</legend>
+            
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="email-address">Email</label>            
+                {{ form.email }}
+            </div>
+
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="email-address">Password</label>            
+                {{ form.password }}
+            </div>
+
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="email-address">Password (confirmation)</label>            
+                {{ form.password_confirm }}
+            </div>
+        </fieldset>
+        <div class="w-100">
+            <input class="fr b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" type="submit" value="Accept invite">
+        </div>
+    </form>
+</main>
+{% endblock %}

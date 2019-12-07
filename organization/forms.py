@@ -1,9 +1,15 @@
 from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms import Form, ModelChoiceField, ModelForm, ValidationError
 from django.utils.text import slugify
+from organizations.backends import invitation_backend
+from organizations.forms import OrganizationUserAddForm
+from organizations.models import OrganizationUser
 
+from organization.invite import OrganizationInvitationBackend
 from organization.models import Inventory, Location, Mutation, Organization, Product
 
 FORBIDDEN_SLUGS = ["api", "admin", "organization", "settings", "user"]
@@ -28,6 +34,35 @@ class OrganizationForm(ModelForm):
     class Meta:
         model = Organization
         fields = ["name"]
+
+
+class OrganizationInviteForm(OrganizationUserAddForm):
+    class Meta:
+        model = OrganizationUser
+        fields = ["email"]
+
+    def save(self, *args, **kwargs):
+        try:
+            user = get_user_model().objects.get(
+                email__iexact=self.cleaned_data["email"]
+            )
+        except get_user_model().MultipleObjectsReturned:
+            raise forms.ValidationError(
+                "This email address has been used multiple times."
+            )
+        except get_user_model().DoesNotExist:
+            user = OrganizationInvitationBackend().invite_by_email(
+                self.cleaned_data["email"],
+                **{
+                    "domain": get_current_site(self.request),
+                    "organization": self.organization,
+                    "sender": self.request.user,
+                }
+            )
+
+        return OrganizationUser.objects.create(
+            user=user, organization=self.organization
+        )
 
 
 class ProductForm(ModelForm):
@@ -156,6 +191,8 @@ class MutationForm(ModelForm):
                 )
         else:
             cleaned_data["operation"] = "add"
+
+        print(cleaned_data)
 
 
 class ShortcutMoveForm(Form):
