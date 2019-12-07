@@ -4,60 +4,13 @@
 
 {% block content %}
 
-<h1 class="pl3">🛠️ Organization Settings</h1>
+<h1 class="pl3">
+    🛠️ Organization 
+    <a class="f4 black fw6 underline-hover" href="{% url 'organization_settings' request.organization.slug %}">Settings</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_users' request.organization.slug %}">Users</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_integrations' request.organization.slug %}">Integrations</a>
+</h1>
 
-<div class="fl w-100 w-50-m w-third-l ph3">
-    <h1 class="f4 bold">Users</h1>
-
-    <table class="f6 w-100 center" cellspacing="0">
-        <thead>
-            <tr>
-                <th class="fw6 bb b--black-20 tl pv3 bg-white">Email</th>
-                <th class="fw6 bb b--black-20 tl pv3 bg-white">Status</th>
-                <th class="fw6 bb b--black-20 tl pv3 bg-white">Actions</th>
-            </tr>
-        </thead>
-        <tbody class="lh-copy">
-            {% for user in request.organization.users.all %}
-            <tr>
-                <td class="pv2 bb b--black-20">
-                    {{ user.email }}
-                </td>
-                <td class="pv2 bb b--black-20">
-                    {% if user.is_active %}
-                        <span class="green">Active</span>
-                    {% else %}
-                        <span class="orange">Invited</span>
-                    {% endif %}
-                </td>
-                <td class="pv2 bb b--black-20">
-                    <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_remove_user' request.organization.slug %}?id={{ user.id }}">
-                        {% if user.is_active %}
-                        Remove
-                        {% else %}
-                        Cancel
-                        {% endif %}
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <form action="{% url 'organization_invite_user' request.organization.slug %}" method="POST">
-                    <td class="pv2 bb b--black-20" colspan="2">
-                        {% csrf_token %}
-                        <input type="text" name="email" value="hello@email.com" placeholder="Email" class="pa2 input-reset ba bg-transparent w-100" required="" id="id_email">
-                    </td>
-                    <td class="pv2 bb b--black-20">
-                        <input class="b ph3 pv2 input-reset ba b--black bg-transparent pointer f6 dib" type="submit" value="Invite">
-                    </td>
-                </form>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-    
 <div class="fl w-100 w-50-m w-third-l ph3">
     <h1 class="f4 bold">Organization details</h1>
     <form action="" method="POST" enctype="multipart/form-data">
@@ -72,19 +25,5 @@
     </form>
 </div>
 
-<div class="fl w-100 w-50-m w-third-l ph3">
-    <h1 class="f4 bold">External Services</h1>
-    <p class="lh-copy">
-        To be build...
-    </p>
-    <ul>
-        <li>Woocommerce</li>
-        <li>Shopify</li>
-        <li>Magento</li>
-        <li>Zapier</li>
-        <li>Moneybird</li>
-        <li>Others..</li>
-    </ul>
-</div>
 
 {% endblock %}

@@ -115,7 +115,9 @@ def organization_users(request):
         request,
         "organization/users.html",
         {
-            "users": request.organization.users.all
+            "users": request.organization.users.all,
+            "organization_invite_form": OrganizationInviteForm(
+                None, request.organization)
         },
     )
 
@@ -131,14 +133,12 @@ def organization_settings(request):
     return render(
         request,
         "organization/settings.html",
-        {
-            "organization_form": organization_form,
-            "organization_invite_form": OrganizationInviteForm(
-                None, request.organization
-            ),
-        },
+        {"organization_form": organization_form},
     )
 
+@login_required
+def organization_integrations(request):
+    return render(request, "organization/integrations.html", {})
 
 @login_required
 def organization_invite_user(request):
