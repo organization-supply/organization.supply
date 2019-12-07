@@ -7,10 +7,10 @@
 <h1 class="ph3">🧮 Transactions</h1>
 
 <div class="mh3 overflow-auto">
-    <table class="f6 w-100 center" cellspacing="0">
+    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
         <thead>
             <tr>
-                <th class="fw6 bb b--black-20 tl pt3 pr3 pb3 bg-white">Date</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white">Date</th>
                 <th class="fw6 bb b--black-20 tl pa3 bg-white">Amount</th>
                 <th class="fw6 bb b--black-20 tl pa3 bg-white">Product</th>
                 <th class="fw6 bb b--black-20 tl pa3 bg-white">Location</th>
@@ -21,20 +21,20 @@
             <tr>
                 <form method="POST" id="mutation_form" action="{% url 'mutation_insert' request.organization.slug %}">
                     <fieldset class="ba b--transparent ph0 mh0 mb1">
-                        <td class="pt3 pr3 pb3 bb b--black-20">
+                        <td class="pl3 bb b--black-20">
                             {% now "Y-m-d" %}
                             {% csrf_token %}
                         </td>
-                        <td class="pa3 bb b--black-20">
+                        <td class="pa2 bb b--black-20">
                             {{ form.amount }}
                         </df>
-                        <td class="pa3 bb b--black-20">
+                        <td class="pa2 bb b--black-20">
                             {{ form.product }}
                         </td>
-                        <td class="pa3 bb b--black-20">
+                        <td class="pa2 bb b--black-20">
                             {{ form.location }}
                         </td>
-                        <td class="pa3 bb b--black-20">
+                        <td class="pa2 bb b--black-20">
                             {{ form.desc }}
                         </td>
                         <td class="pa3 bb b--black-20">
@@ -47,7 +47,7 @@
             {% if mutations %}
             {% for mutation in mutations %}
                 <tr>
-                    <td class="pt3 pr3 pb3 bb b--black-20">
+                    <td class="pl3 bb b--black-20">
                         {{ mutation.created|date:"Y-m-d h:i:s" }}
                     </td>
                     <td class="pa3 bb b--black-20">
