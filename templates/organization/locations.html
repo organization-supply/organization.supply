@@ -6,6 +6,7 @@
 
 <h1 class="ph3 db">
     📍 Locations
+    {% include 'utils/information.html' with id='location' content="This page lists all your locations, you can add or edit the locations here."%}
     <a class="f6 link dim ba ph3 pv2 dib black fr" href="{% url 'location_new' request.organization.slug %}">Add a location</a>
 </h1>
 

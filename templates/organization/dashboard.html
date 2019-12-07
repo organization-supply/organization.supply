@@ -4,7 +4,10 @@
 
 {% block content %}
 
-<h1 class="ph3">🏠 Dashboard</h1>
+<h1 class="ph3">
+    🏠 Dashboard
+    {% include 'utils/information.html' with id='dashboard' content="The dashboard provides an overview of all your inventory"%}
+</h1>
 
 <div class="fl ph3 w-100 w-50-m w-third-l">
     <h1 class="f4 bold">Quick actions</h1>
