@@ -51,7 +51,7 @@
                             {% if user.is_active %}
                                 Remove
                             {% else %}
-                                Cancel
+                                Cancel Invite
                             {% endif %}
                         </a>
                     </td>
@@ -63,7 +63,7 @@
                 <td class="pt2 pr3 bb b--black-20" colspan="2">
                     Invite someone by email:
                 </td>
-                <form action="{% url 'organization_invite_user' request.organization.slug %}" method="POST"></form>
+                <form action="{% url 'organization_invite_user' request.organization.slug %}" method="POST">
                     <td class="pv2 bb b--black-20" colspan="3">
                         {% csrf_token %}
                         <input type="text" name="email" placeholder="invite@email.com" class="pa2 input-reset ba bg-transparent w-100" required="" id="id_email">

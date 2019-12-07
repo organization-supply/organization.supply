@@ -108,19 +108,6 @@ def organization_create(request):
         {"create_organization_form": create_organization_form},
     )
 
-
-@login_required
-def organization_users(request):
-    return render(
-        request,
-        "organization/users.html",
-        {
-            "users": request.organization.users.all,
-            "organization_invite_form": OrganizationInviteForm(
-                None, request.organization)
-        },
-    )
-
 @login_required
 def organization_settings(request):
     organization_form = OrganizationForm(
@@ -134,6 +121,18 @@ def organization_settings(request):
         request,
         "organization/settings.html",
         {"organization_form": organization_form},
+    )
+
+@login_required
+def organization_users(request):
+    return render(
+        request,
+        "organization/users.html",
+        {
+            "users": request.organization.users.all,
+            "organization_invite_form": OrganizationInviteForm(
+                None, request.organization)
+        },
     )
 
 @login_required
@@ -163,7 +162,7 @@ def organization_invite_user(request):
                 messages.ERROR,
                 organization_invite_form.non_field_errors().as_text(),
             )
-    return redirect("organization_settings", organization=request.organization.slug)
+    return redirect("organization_users", organization=request.organization.slug)
 
 
 @login_required
@@ -181,7 +180,7 @@ def organization_remove_user(request):
         messages.add_message(
             request, messages.ERROR, "You cannot remove yourself from this organization"
         )
-        return redirect("organization_settings", organization=request.organization.slug)
+        return redirect("organization_users", organization=request.organization.slug)
 
     request.organization.remove_user(user_to_remove)
 
@@ -190,4 +189,4 @@ def organization_remove_user(request):
         messages.INFO,
         "{} removed from {}".format(user_to_remove.email, request.organization.name),
     )
-    return redirect("organization_settings", organization=request.organization.slug)
+    return redirect("organization_users", organization=request.organization.slug)
