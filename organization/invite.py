@@ -1,12 +1,13 @@
 import inspect
-from django.core.mail import EmailMultiAlternatives
 from email import utils as email_utils
+
 from django.conf import settings
 from django.contrib.auth import authenticate, login
+from django.core.mail import EmailMultiAlternatives
 from django.http import Http404
 from django.shortcuts import redirect, render, reverse
-from django.urls import path
 from django.template import loader
+from django.urls import path
 from organizations.backends.defaults import BaseBackend
 from organizations.backends.tokens import RegistrationTokenGenerator
 
@@ -56,7 +57,7 @@ class OrganizationInvitationBackend(BaseBackend):
             user.is_active = False
             user.save()
             print(user)
-        
+
         print("user", user)
         self.send_invitation(user, sender, **kwargs)
         return user
@@ -118,14 +119,14 @@ class OrganizationInvitationBackend(BaseBackend):
         return render(request, self.registration_form_template, {"form": form})
 
     def email_message(
-            self,
-            recipient,  # type: Text
-            subject_template,  # type: Text
-            body_template,  # type: Text
-            sender=None,  # type: Optional[AbstractUser]
-            message_class=EmailMultiAlternatives,
-            **kwargs
-        ):
+        self,
+        recipient,  # type: Text
+        subject_template,  # type: Text
+        body_template,  # type: Text
+        sender=None,  # type: Optional[AbstractUser]
+        message_class=EmailMultiAlternatives,
+        **kwargs
+    ):
 
         print(kwargs)
         print("starting email")
@@ -145,14 +146,18 @@ class OrganizationInvitationBackend(BaseBackend):
 
         subject_template = loader.get_template(subject_template)
         body_template_txt = loader.get_template(body_template)
-        body_template_html = loader.get_template(body_template.replace(".txt", '.html'))
+        body_template_html = loader.get_template(body_template.replace(".txt", ".html"))
 
-        subject = subject_template.render(kwargs).strip()  # Remove stray newline characters
+        subject = subject_template.render(
+            kwargs
+        ).strip()  # Remove stray newline characters
 
         body = body_template_txt.render(kwargs)
         body_html = body_template_html.render(kwargs)
 
-        email = message_class(subject, body, from_email, [recipient.email], headers=headers)
+        email = message_class(
+            subject, body, from_email, [recipient.email], headers=headers
+        )
         email.attach_alternative(body_html, "text/html")
 
         return email

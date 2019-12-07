@@ -32,7 +32,11 @@ urlpatterns = [
     path("dashboard", views.dashboard, name="dashboard"),
     path("settings", views.organization_settings, name="organization_settings"),
     path("users", views.organization_users, name="organization_users"),
-    path("integrations", views.organization_integrations, name="organization_integrations"),
+    path(
+        "integrations",
+        views.organization_integrations,
+        name="organization_integrations",
+    ),
     path(
         "users/invite", views.organization_invite_user, name="organization_invite_user"
     ),

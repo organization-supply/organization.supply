@@ -155,7 +155,6 @@ class Mutation(TimeStampedModel):
         inventory.save()
 
     def save(self, apply=True, *args, **kwargs):
-        print(self.operation)
         if self.operation != "reserved":
             if self.amount < 0:
                 self.operation = "remove"

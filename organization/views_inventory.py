@@ -39,6 +39,7 @@ def inventory_product(request):
 def mutation_insert(request):
     mutable_form = request.POST.copy()
     mutable_form["user"] = request.user.id
+    mutable_form["operation"] = "add"  # placeholder, gets changed later..
     form = MutationForm(data=mutable_form, organization=request.organization)
     if form.is_valid():
         mutation = form.save()

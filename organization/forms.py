@@ -56,7 +56,7 @@ class OrganizationInviteForm(OrganizationUserAddForm):
                 **{
                     "domain": get_current_site(self.request),
                     "organization": self.organization,
-                    "sender": self.request.user
+                    "sender": self.request.user,
                 }
             )
 
@@ -135,7 +135,7 @@ class MutationForm(ModelForm):
             "location",
             "desc",
             "user",
-            # "operation",
+            "operation",
             "organization",
         ]
 
@@ -191,6 +191,8 @@ class MutationForm(ModelForm):
                 )
         else:
             cleaned_data["operation"] = "add"
+
+        print(cleaned_data)
 
 
 class ShortcutMoveForm(Form):
