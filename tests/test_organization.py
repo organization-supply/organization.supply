@@ -5,6 +5,30 @@ from organization.models import Inventory, Location, Mutation, Organization, Pro
 from user.models import User
 
 
+class TestOrganizationCreate(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
+
+    def test_create_organization(self):
+        response = self.client.get("/create")
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post("/create", {"name": "Test Organization"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(1, Organization.objects.count())
+        self.assertEqual("Test Organization", Organization.objects.get().name)
+        self.assertEqual("test-organization", Organization.objects.get().slug)
+
+    def test_create_organization_invalid_name(self):
+        response = self.client.post("/create", {"name": "Admin"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Name is not available", response.content.decode())
+        
+        response = self.client.post("/create", {"name": ""}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("This field is required", response.content.decode())
+        
 class TestOrganizationSettings(TestCase):
     def setUp(self):
         pass
@@ -13,7 +37,6 @@ class TestOrganizationSettings(TestCase):
 class TestOrganizationPermissions(TestCase):
     def setUp(self):
         self.client = Client()
-
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
         self.user_2 = User.objects.create_user(
             "mccartney@thebeatles.com", "paulpassword"
