@@ -14,7 +14,9 @@ class TestOrganizationCreate(TestCase):
     def test_create_organization(self):
         response = self.client.get("/create")
         self.assertEqual(response.status_code, 200)
-        response = self.client.post("/create", {"name": "Test Organization"}, follow=True)
+        response = self.client.post(
+            "/create", {"name": "Test Organization"}, follow=True
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(1, Organization.objects.count())
         self.assertEqual("Test Organization", Organization.objects.get().name)
@@ -24,11 +26,12 @@ class TestOrganizationCreate(TestCase):
         response = self.client.post("/create", {"name": "Admin"}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn("Name is not available", response.content.decode())
-        
+
         response = self.client.post("/create", {"name": ""}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn("This field is required", response.content.decode())
-        
+
+
 class TestOrganizationSettings(TestCase):
     def setUp(self):
         self.client = Client()
@@ -42,12 +45,16 @@ class TestOrganizationSettings(TestCase):
         response = self.client.get("/{}/settings".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.post("/{}/settings".format(self.organization.slug), {"name": "New Organization Name"}, follow=True)
+        response = self.client.post(
+            "/{}/settings".format(self.organization.slug),
+            {"name": "New Organization Name"},
+            follow=True,
+        )
         self.assertEqual(response.status_code, 200)
 
         self.assertTrue(Organization.objects.get(name="New Organization Name"))
         # TODO: fix so we update the slug too..., this currently doesn't work..
-    
+
     def test_organization_users(self):
         response = self.client.get("/{}/users".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
@@ -55,6 +62,7 @@ class TestOrganizationSettings(TestCase):
     def test_organization_integrations(self):
         response = self.client.get("/{}/integrations".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
+
 
 class TestOrganizationPermissions(TestCase):
     def setUp(self):

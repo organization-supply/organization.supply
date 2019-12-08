@@ -24,7 +24,7 @@ class TestSearch(TestCase):
 
         product = Product(name="Test Product", organization=self.organization)
         product.save()
-        
+
         response = self.client.get("/{}/search?q=Test".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
