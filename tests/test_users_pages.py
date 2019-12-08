@@ -18,9 +18,17 @@ class TestUserPages(TestCase):
         response = self.client.get("/user/signup")
         self.assertEqual(response.status_code, 200)
 
+        response = self.client.post("/user/signup", {"email":"mccartney@thebeatles.com", "password": "paulpassword"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Signup succesfull!", response.content.decode())
+
     def test_login(self):
         response = self.client.get("/user/login/")
         self.assertEqual(response.status_code, 200)
+
+        response = self.client.post("/user/signup", {"email":"lennon@thebeatles.com", "password": "johnpassword"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("lennon@thebeatles.com", response.content.decode())
 
     def test_logout(self):
         response = self.client.get("/user/logout/", follow=True)

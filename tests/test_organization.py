@@ -31,8 +31,30 @@ class TestOrganizationCreate(TestCase):
         
 class TestOrganizationSettings(TestCase):
     def setUp(self):
-        pass
+        self.client = Client()
+        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
+        Organization(name="Test Organization").save()
+        self.organization = Organization.objects.get(name="Test Organization")
+        self.organization.add_user(self.user)
 
+    def test_organization_settings(self):
+        response = self.client.get("/{}/settings".format(self.organization.slug))
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.post("/{}/settings".format(self.organization.slug), {"name": "New Organization Name"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTrue(Organization.objects.get(name="New Organization Name"))
+        # TODO: fix so we update the slug too..., this currently doesn't work..
+    
+    def test_organization_users(self):
+        response = self.client.get("/{}/users".format(self.organization.slug))
+        self.assertEqual(response.status_code, 200)
+
+    def test_organization_integrations(self):
+        response = self.client.get("/{}/integrations".format(self.organization.slug))
+        self.assertEqual(response.status_code, 200)
 
 class TestOrganizationPermissions(TestCase):
     def setUp(self):
