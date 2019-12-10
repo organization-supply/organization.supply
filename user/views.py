@@ -38,28 +38,19 @@ def settings(request):
         # First and last name
         user_form = UserForm(request.POST, request.FILES, instance=request.user)
         if user_form.is_valid():
-            print('saving',user_form.fields.items())
+            print("saving", user_form.fields.items())
             user_form.save()
             messages.add_message(request, messages.INFO, "Profile updated!")
             return redirect("user_settings")
         else:
-            errors = ",".join(
-                map(lambda err: str(err[0]), user_form.errors.values())
-            )
+            errors = ",".join(map(lambda err: str(err[0]), user_form.errors.values()))
             messages.add_message(
-                request,
-                messages.ERROR,
-                user_form.non_field_errors().as_text() + errors,
-            )    
+                request, messages.ERROR, user_form.non_field_errors().as_text() + errors
+            )
     token, _ = Token.objects.get_or_create(user=request.user)
     user_form = UserForm(instance=request.user)
     return render(
-        request,
-        "user/settings.html",
-        {
-            "token": token.key,
-            "user_form": user_form,
-        },
+        request, "user/settings.html", {"token": token.key, "user_form": user_form}
     )
 
 

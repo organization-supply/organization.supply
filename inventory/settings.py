@@ -38,7 +38,7 @@ SECRET_KEY = "_8+o1n6!8(5ooa!luo_7*x(qfgo!wyh-1hiu^zhg0u)b3)p_g5"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = ['localhost', 'organization.supply', '127.0.0.1']
+ALLOWED_HOSTS = ["localhost", "organization.supply", "127.0.0.1"]
 
 # Application definition
 
@@ -50,16 +50,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Installed apps
-    "organizations",                # django-organizations (not to be confused with the one below)
-    "rest_framework",               # Rest Framework is used for the API
-    "rest_framework.authtoken",     # API key access
-
+    "organizations",  # django-organizations (not to be confused with the one below)
+    "rest_framework",  # Rest Framework is used for the API
+    "rest_framework.authtoken",  # API key access
     # Apps
-    "organization",     # Main application for inventory
-    "user",             # User pages and settings
-    "api",              # REST API
+    "organization",  # Main application for inventory
+    "user",  # User pages and settings
+    "api",  # REST API
 ]
 
 MIDDLEWARE = [
@@ -161,10 +159,10 @@ DEFAULT_FROM_EMAIL = "notifications@organization.supply"
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_ROOT = os.path.join(BASE_DIR, "static/")
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 # MEDIA_URL = "/"
 # MEDIA_ROOT = config("DJANGO_MEDIA_ROOT", default=os.path.join(BASE_DIR,'media/'))

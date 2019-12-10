@@ -51,13 +51,16 @@ class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(_("email address"), unique=True)
     name = models.CharField(_("name"), max_length=255, blank=True, default="")
-    image = models.ImageField(upload_to='user/profile/', default='user/profile/default.png')
+    image = models.ImageField(
+        upload_to="user/profile/", default="user/profile/default.png"
+    )
     username = None
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

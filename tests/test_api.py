@@ -137,7 +137,7 @@ class TestUserPages(TestCase):
         # mutation.save()
 
         # self._authenticate()
-        
+
         # response = self.client.get("/{}/api/mutations/".format(self.organization.slug))
         # self.assertEqual(len(response.json()), 1)
         # self.assertEqual(response.json()[0]["amount"], 10)

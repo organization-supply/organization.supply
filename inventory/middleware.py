@@ -1,10 +1,12 @@
 from django.conf import settings
+from django.contrib.auth.middleware import get_user
 from django.http import Http404
 from django.shortcuts import redirect
-from user.models import User
 from django.utils.functional import SimpleLazyObject
-from django.contrib.auth.middleware import get_user
 from rest_framework.authentication import TokenAuthentication
+
+from user.models import User
+
 
 class OrganizationMiddleware:
     def __init__(self, get_response):

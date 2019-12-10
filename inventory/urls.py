@@ -31,7 +31,7 @@ urlpatterns = [
     # Organization urls (listed last, so we the others have priority)
     path("create", views.organization_create, name="create_organization"),
     path("<slug:organization>/", include("organization.urls")),
-] 
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
