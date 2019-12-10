@@ -27,6 +27,14 @@ jobs:
           paths:
             - "venv"
 
+  test:
+    environment:
+      DEBUG: "True"
+      SENTRY_DSN: ""
+      SENDGRID_API_KEY: ""
+      DJANGO_STATIC_ROOT: ""
+      DJANGO_MEDIA_ROOT: ""
+    steps:
       - run:
           name: Run tests
           command: |
@@ -40,3 +48,24 @@ jobs:
 
       - store_artifacts:
           path: test-reports
+
+  deploy:
+    steps:
+      - run:
+          name: Deploy
+          command: |
+            echo "Hello deploy!"
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - hold: # Deploy requires approval
+          type: approval 
+      - deploy:
+          requires:
+            - hold
