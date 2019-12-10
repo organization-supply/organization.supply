@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     environment:
       DEBUG: "True"
       SENTRY_DSN: ""
@@ -27,16 +27,6 @@ jobs:
           paths:
             - "venv"
 
-  test:
-    environment:
-      DEBUG: "True"
-      SENTRY_DSN: ""
-      SENDGRID_API_KEY: ""
-      DJANGO_STATIC_ROOT: ""
-      DJANGO_MEDIA_ROOT: ""
-    docker:
-      - image: circleci/python:3.6
-    steps:
       - run:
           name: Run tests
           command: |
@@ -50,6 +40,8 @@ jobs:
 
       - store_artifacts:
           path: test-reports
+      - setup_remote_docker:
+          docker_layer_caching: true
 
   deploy:
     docker:
@@ -64,10 +56,7 @@ workflows:
   version: 2
   build_test_deploy:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - test
       - hold: # Deploy requires approval
           type: approval 
       - deploy:
