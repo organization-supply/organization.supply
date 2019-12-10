@@ -20,27 +20,25 @@
         <tbody class="lh-copy">
             <tr>
                 <form method="POST" id="mutation_form" action="{% url 'mutation_insert' request.organization.slug %}">
-                    <fieldset class="ba b--transparent ph0 mh0 mb1">
-                        <td class="pl3 bb b--black-20">
-                            {% now "Y-m-d" %}
-                            {% csrf_token %}
-                        </td>
-                        <td class="pa2 bb b--black-20">
-                            {{ form.amount }}
-                        </df>
-                        <td class="pa2 bb b--black-20">
-                            {{ form.product }}
-                        </td>
-                        <td class="pa2 bb b--black-20">
-                            {{ form.location }}
-                        </td>
-                        <td class="pa2 bb b--black-20">
-                            {{ form.desc }}
-                        </td>
-                        <td class="pa3 bb b--black-20">
-                            <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save Transaction">
-                        </td>
-                    </fieldset>
+                    <td class="pl3 bb b--black-20">
+                        {% now "Y-m-d" %}
+                        {% csrf_token %}
+                    </td>
+                    <td class="pa2 bb b--black-20">
+                        {{ form.amount }}
+                    </df>
+                    <td class="pa2 bb b--black-20">
+                        {{ form.product }}
+                    </td>
+                    <td class="pa2 bb b--black-20">
+                        {{ form.location }}
+                    </td>
+                    <td class="pa2 bb b--black-20">
+                        {{ form.desc }}
+                    </td>
+                    <td class="pa3 bb b--black-20">
+                        <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save Transaction">
+                    </td>
                 </form>
             </tr>
             
