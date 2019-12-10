@@ -34,6 +34,8 @@ jobs:
       SENDGRID_API_KEY: ""
       DJANGO_STATIC_ROOT: ""
       DJANGO_MEDIA_ROOT: ""
+    docker:
+      - image: circleci/python:3.6
     steps:
       - run:
           name: Run tests
@@ -50,6 +52,8 @@ jobs:
           path: test-reports
 
   deploy:
+    docker:
+      - image: circleci/python:3.6
     steps:
       - run:
           name: Deploy
