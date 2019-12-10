@@ -22,8 +22,8 @@
 
     
     <div class="fr hide-child dib pl3 nt2">
-        {% if request.user.preferences.profile_image %}
-            <img class="br-pill h2 w2 mt2 dib" alt="avatar" src="{{ request.user.preferences.profile_image.url }}" alt="">
+        {% if request.user.image %}
+            <img class="br-pill h2 w2 mt2 dib" alt="avatar" src="{{ request.user.image.url }}" alt="">
         {% elif request.user.name %}
             <span class="link mid-gray db f6 f5-ns pa2 mv2">{{ request.user.name }}</span>
         {% else %}

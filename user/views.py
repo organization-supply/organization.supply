@@ -3,7 +3,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import redirect, render
-from dynamic_preferences.users.forms import user_preference_form_builder
 from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
 
@@ -12,7 +11,6 @@ from user.models import User
 
 
 def signup(request):
-
     form = UserSignupForm(request.POST or None)
     if form.is_valid():
         # Set the password before saving...
@@ -36,31 +34,31 @@ def signup(request):
 
 @login_required
 def settings(request):
-    user_form = UserForm(instance=request.user)
-    user_preference_form = user_preference_form_builder(instance=request.user)
-
-    token, _ = Token.objects.get_or_create(user=request.user)
     if request.method == "POST":
         # First and last name
-        user_form = UserForm(request.POST, instance=request.user)
+        user_form = UserForm(request.POST, request.FILES, instance=request.user)
         if user_form.is_valid():
+            print('saving',user_form.fields.items())
             user_form.save()
-
-        # User Profile for location
-        user_preference_form = user_preference_form(request.POST, request.FILES)
-        if user_preference_form.is_valid():
-            user_preference_form.update_preferences()
-
-        messages.add_message(request, messages.INFO, "Settings updated!")
-        return redirect("user_settings")
-
+            messages.add_message(request, messages.INFO, "Profile updated!")
+            return redirect("user_settings")
+        else:
+            errors = ",".join(
+                map(lambda err: str(err[0]), user_form.errors.values())
+            )
+            messages.add_message(
+                request,
+                messages.ERROR,
+                user_form.non_field_errors().as_text() + errors,
+            )    
+    token, _ = Token.objects.get_or_create(user=request.user)
+    user_form = UserForm(instance=request.user)
     return render(
         request,
         "user/settings.html",
         {
             "token": token.key,
             "user_form": user_form,
-            "user_preference_form": user_preference_form,
         },
     )
 

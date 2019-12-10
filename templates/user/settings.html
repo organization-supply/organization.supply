@@ -10,33 +10,19 @@
 
 <div class="fl w-100 w-50-m w-third-l ph3">
     <h1 class="f4 bold">Profile</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <fieldset id="location_form" class="ba b--transparent ph0 mh0">
-            <div class="mt3">
-                <label class="db fw6 mb1 lh-copy f6" for="email-address">Name</label>
-                {{ user_form.name }}
-            </div>
-        </fieldset>
-        <div class="">
-            <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save profile">
-        </div>
-    </form>
-</div>
-    
-<div class="fl w-100 w-50-m w-third-l ph3">
-    <h1 class="f4 bold">Preferences</h1>
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <fieldset id="location_form" class="ba b--transparent ph0 mh0">
-            <div class="mt3">
-                <label class="db fw6 mb1 lh-copy f6" for="email-address">Profile Image</label>
-                <img class="h2 mr2 fl br-pill" src="{{ request.user.preferences.profile_image.url }}" alt="">
-                {{ user_preference_form.profile_image }}
-            </div>
-        </fieldset>
-        <div class="">
-            <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save settings">
+        <div class="mt3">
+            <label class="db fw6 mb1 lh-copy f6" for="name">Name</label>
+            {{ user_form.name }}
+        </div>
+        <div class="mt3">
+            <label class="db fw6 mb1 lh-copy f6" for="image">Profile Image</label>
+            {{ user_form.image }}
+        </div>
+    
+        <div class="mt2">
+            <input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save profile">
         </div>
     </form>
 </div>

@@ -31,7 +31,7 @@ class TestSearch(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("Test Location", response.content.decode())
         self.assertIn("Test Product", response.content.decode())
-        self.assertNotIn("John Lennon", response.content.decode())
+        self.assertNotIn("lennon@thebeatles.com", response.content.decode())
 
         # Test case insensitity
         response = self.client.get("/{}/search?q=test".format(self.organization.slug))
@@ -39,11 +39,11 @@ class TestSearch(TestCase):
 
         self.assertIn("Test Location", response.content.decode())
         self.assertIn("Test Product", response.content.decode())
-        self.assertNotIn("John Lennon", response.content.decode())
+        self.assertNotIn("lennon@thebeatles.com", response.content.decode())
 
         # Test finding a user
-        response = self.client.get("/{}/search?q=john".format(self.organization.slug))
+        response = self.client.get("/{}/search?q=lennon".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
         self.assertNotIn("Test Location", response.content.decode())
         self.assertNotIn("Test Product", response.content.decode())
-        self.assertIn("lennon", response.content.decode())
+        self.assertIn("lennon@thebeatles.com", response.content.decode())

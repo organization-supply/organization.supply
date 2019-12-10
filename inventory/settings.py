@@ -36,10 +36,9 @@ LOGOUT_REDIRECT_URL = "/user/login/"
 SECRET_KEY = "_8+o1n6!8(5ooa!luo_7*x(qfgo!wyh-1hiu^zhg0u)b3)p_g5"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', 'organization.supply', '127.0.0.1']
 
 # Application definition
 
@@ -51,15 +50,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # Installed apps
-    "dynamic_preferences.users.apps.UserPreferencesConfig",
-    "organizations",  # django-organizations (not to be confused with the one below)
-    "rest_framework",  # Rest Framework is used for the API
-    "rest_framework.authtoken",  # API key access
+    "organizations",                # django-organizations (not to be confused with the one below)
+    "rest_framework",               # Rest Framework is used for the API
+    "rest_framework.authtoken",     # API key access
+
     # Apps
-    "organization",  # Main application for inventory
-    "user",  # User pages and settings
-    "api",
+    "organization",     # Main application for inventory
+    "user",             # User pages and settings
+    "api",              # REST API
 ]
 
 MIDDLEWARE = [
@@ -79,14 +79,13 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": ["templates"],
-        "APP_DIRS": True,
+        "APP_DIRS": False,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "dynamic_preferences.processors.global_preferences",
             ]
         },
     }
@@ -95,26 +94,6 @@ TEMPLATES = [
 AUTH_USER_MODEL = (
     "user.User"
 )  # Custom user model that has email/password instead of username/email/password
-
-DYNAMIC_PREFERENCES = {
-    # a python attribute that will be added to model instances with preferences
-    # override this if the default collide with one of your models attributes/fields
-    "MANAGER_ATTRIBUTE": "preferences",
-    # The python module in which registered preferences will be searched within each app
-    "REGISTRY_MODULE": "preferences",
-    # Allow quick editing of preferences directly in admin list view
-    # WARNING: enabling this feature can cause data corruption if multiple users
-    # use the same list view at the same time, see https://code.djangoproject.com/ticket/11313
-    "ADMIN_ENABLE_CHANGELIST_FORM": False,
-    # Customize how you can access preferences from managers. The default is to
-    # separate sections and keys with two underscores. This is probably not a settings you'll
-    # want to change, but it's here just in case
-    "SECTION_KEY_SEPARATOR": "__",
-    # Use this to disable caching of preference. This can be useful to debug things
-    "ENABLE_CACHE": True,
-    # Use this to disable checking preferences names. This can be useful to debug things
-    "VALIDATE_NAMES": True,
-}
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -182,12 +161,10 @@ DEFAULT_FROM_EMAIL = "notifications@organization.supply"
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = config("DJANGO_STATIC_ROOT", default=os.path.join(BASE_DIR, "static/"))
-MEDIA_URL = "/"
-MEDIA_ROOT = config(
-    "DJANGO_MEDIA_ROOT",
-    default=os.path.join(os.path.dirname(os.path.dirname(__file__)), "media/"),
-)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/')
 
-# Update dynamic preferences to use the MEEDIA ROOT
-DYNAMIC_PREFERENCES.update(FILE_PREFERENCE_UPLOAD_DIR="media/")
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# MEDIA_URL = "/"
+# MEDIA_ROOT = config("DJANGO_MEDIA_ROOT", default=os.path.join(BASE_DIR,'media/'))

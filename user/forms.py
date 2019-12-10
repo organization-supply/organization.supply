@@ -5,7 +5,6 @@ from django.forms import ModelForm
 from django.http import Http404
 from organizations.backends.forms import UserRegistrationForm
 from organizations.models import OrganizationUser
-
 from user.models import User
 
 
@@ -111,13 +110,23 @@ class OrganizationAcceptForm(ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ["name"]
+        fields = ["name", "image"]
 
     name = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Name",
                 "class": "pa2 input-reset ba bg-transparent w-100",
+            }
+        )
+    )
+
+    image = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                "placeholder": "Profile Image",
+                "class": "pa2 input-reset ba bg-transparent w-100",
+                "style": "box-sizing: border-box"
             }
         )
     )

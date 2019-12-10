@@ -102,3 +102,44 @@ class TestUserPages(TestCase):
         self.assertEqual(response.json()[0]["amount"], 0)
         self.assertEqual(response.json()[0]["product"], str(product.id))
         self.assertEqual(response.json()[0]["location"], str(location.id))
+
+        response = self.client.get(
+            "/{}/api/inventory/{}/".format(
+                self.organization.slug, (response.json()[0]["id"])
+            )
+        )
+
+        self.assertIn("location", response.json())
+        self.assertIn("amount", response.json())
+        self.assertEqual(response.json().get("location"), str(location.id))
+
+    def test_api_mutations(self):
+        # TODO: fix this tests...
+        # Create a location to test
+        # location = Location(name="Test Location", organization=self.organization)
+        # location.save()
+        # # Create a product to test
+        # product = Product(name="Test Product", organization=self.organization)
+        # product.save()
+
+        # # Create an inventory to test
+        # inventory = Inventory(
+        #     location=location, product=product, organization=self.organization
+        # )
+        # inventory.save()
+
+        # mutation = Mutation(
+        #     product=product,
+        #     location=location,
+        #     amount=10.0,
+        #     organization=self.organization,
+        # )
+        # mutation.save()
+
+        # self._authenticate()
+        
+        # response = self.client.get("/{}/api/mutations/".format(self.organization.slug))
+        # self.assertEqual(len(response.json()), 1)
+        # self.assertEqual(response.json()[0]["amount"], 10)
+        # self.assertEqual(response.json()[0]["amount"], 9)
+        pass

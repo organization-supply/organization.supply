@@ -65,11 +65,7 @@
                         {{ mutation.desc }}
                     </td>
                     <td class="pa3 bb b--black-20">
-                        {% if mutation.user.name %}
-                            {{ mutation.user.name }}
-                        {% else %}
-                            {{ mutation.user.email }}
-                        {% endif %}
+                        <img class="br-pill h2 w2 dib" alt="avatar" src="{{ mutation.user.image.url }}" alt="">
                     </td>
                 </tr>
             {% endfor %}

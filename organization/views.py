@@ -28,7 +28,7 @@ def dashboard(request):
                 contra_mutation__isnull=True,
                 operation__in=["add", "remove"],
             )
-            .annotate(cumsum=Window(Sum("amount"), order_by=F("id").asc()))
+            .annotate(cumsum=Window(Sum("amount"), order_by=F("created").asc()))
             .values("id", "cumsum", "amount", "desc", "created")
             .order_by("-created")
         )

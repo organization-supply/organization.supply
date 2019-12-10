@@ -24,4 +24,4 @@ class InventorySerializer(serializers.ModelSerializer):
 class MutationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mutation
-        fields = ["id", "amount", "product", "location", "description", "operation"]
+        fields = ["id", "amount", "product", "location", "desc", "operation"]

@@ -12,7 +12,7 @@ from organizations.models import OrganizationUser
 from organization.invite import OrganizationInvitationBackend
 from organization.models import Inventory, Location, Mutation, Organization, Product
 
-FORBIDDEN_SLUGS = ["api", "admin", "organization", "settings", "user"]
+FORBIDDEN_SLUGS = ["api", "admin", "organization", "settings", "user", "developer", "media", "static"]
 
 
 def validate_organization_name(organization_name):

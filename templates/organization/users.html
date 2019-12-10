@@ -16,7 +16,7 @@
     <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
         <thead>
             <tr>
-                <th class="fw6 bb b--black-20 tl pa3 bg-white">Image</th>
+                <th class="fw6 bb b--black-20 tl pa3 bg-white" style="width: 50px;">Image</th>
                 <th class="fw6 bb b--black-20 tl pa2 bg-white">Name</th>
                 <th class="fw6 bb b--black-20 tl pa2 bg-white">Email</th>
                 <th class="fw6 bb b--black-20 tl pa2 bg-white">Status</th>
@@ -28,7 +28,7 @@
             {% for user in users %}
                 <tr>
                     <td class="pl3 bb b--black-20">
-                        {{ user.profile_image }}
+                        <img class="br-pill h2 w2 dib" alt="avatar" src="{{ user.image.url }}" alt="">
                     </td>
                     <td class="pa2 bb b--black-20">
                         {{ user.name }}
