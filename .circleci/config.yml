@@ -2,6 +2,7 @@ version: 2
 jobs:
   build:
     environment:
+      DEBUG: "True"
       SENTRY_DSN: ""
       SENDGRID_API_KEY: ""
       DJANGO_STATIC_ROOT: ""
