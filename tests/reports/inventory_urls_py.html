@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for inventory/urls.py: 100%</title>
+    <title>Coverage for inventory/urls.py: 88%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,15 +24,15 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>inventory/urls.py</b> :
-            <span class="pc_cov">100%</span>
+            <span class="pc_cov">88%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            6 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">6 run</span>
-            <span class="mis shortkey_m button_toggle_mis">0 missing</span>
+            8 statements &nbsp;
+            <span class="run hide_run shortkey_r button_toggle_run">7 run</span>
+            <span class="mis shortkey_m button_toggle_mis">1 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
             
@@ -101,6 +101,9 @@
 <p id="n32" class="pln"><a href="#n32">32</a></p>
 <p id="n33" class="pln"><a href="#n33">33</a></p>
 <p id="n34" class="pln"><a href="#n34">34</a></p>
+<p id="n35" class="pln"><a href="#n35">35</a></p>
+<p id="n36" class="stm run hide_run"><a href="#n36">36</a></p>
+<p id="n37" class="stm mis"><a href="#n37">37</a></p>
 
             </td>
             <td class="text">
@@ -137,7 +140,10 @@
 <p id="t31" class="pln">    <span class="com"># Organization urls (listed last, so we the others have priority)</span><span class="strut">&nbsp;</span></p>
 <p id="t32" class="pln">    <span class="nam">path</span><span class="op">(</span><span class="str">"create"</span><span class="op">,</span> <span class="nam">views</span><span class="op">.</span><span class="nam">organization_create</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">"create_organization"</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t33" class="pln">    <span class="nam">path</span><span class="op">(</span><span class="str">"&lt;slug:organization>/"</span><span class="op">,</span> <span class="nam">include</span><span class="op">(</span><span class="str">"organization.urls"</span><span class="op">)</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t34" class="pln"><span class="op">]</span> <span class="op">+</span> <span class="nam">static</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">MEDIA_URL</span><span class="op">,</span> <span class="nam">document_root</span><span class="op">=</span><span class="nam">settings</span><span class="op">.</span><span class="nam">MEDIA_ROOT</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t34" class="pln"><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t35" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t36" class="stm run hide_run"><span class="key">if</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">DEBUG</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t37" class="stm mis">    <span class="nam">urlpatterns</span> <span class="op">+=</span> <span class="nam">static</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">MEDIA_URL</span><span class="op">,</span> <span class="nam">document_root</span><span class="op">=</span><span class="nam">settings</span><span class="op">.</span><span class="nam">MEDIA_ROOT</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 
             </td>
         </tr>
@@ -148,7 +154,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-12-08 09:49
+            created at 2019-12-11 18:13
         </p>
     </div>
 </div>

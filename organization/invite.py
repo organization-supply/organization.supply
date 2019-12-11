@@ -50,15 +50,12 @@ class OrganizationInvitationBackend(BaseBackend):
         try:
             user = self.user_model.objects.get(email=email)
         except self.user_model.DoesNotExist:
-            print("no existsing")
             user = self.user_model.objects.create(
                 email=email, password=self.user_model.objects.make_random_password()
             )
             user.is_active = False
             user.save()
-            print(user)
 
-        print("user", user)
         self.send_invitation(user, sender, **kwargs)
         return user
 
@@ -128,8 +125,6 @@ class OrganizationInvitationBackend(BaseBackend):
         **kwargs
     ):
 
-        print(kwargs)
-        print("starting email")
         """
         Returns an invitation email message. This can be easily overridden.
         For instance, to send an HTML message, use the EmailMultiAlternatives message_class
