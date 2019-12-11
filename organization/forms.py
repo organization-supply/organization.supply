@@ -21,6 +21,7 @@ FORBIDDEN_SLUGS = [
     "developer",
     "media",
     "static",
+    "develop",
 ]
 
 

@@ -100,7 +100,7 @@ class OrganizationAcceptForm(ModelForm):
         password = self.cleaned_data.get("password")
         password_confirm = self.cleaned_data.get("password_confirm")
         if password != password_confirm or not password:
-            raise forms.ValidationError(_("Your password entries must match"))
+            raise forms.ValidationError("Your password entries must match")
         return super(OrganizationAcceptForm, self).clean()
 
     class Meta:

@@ -20,26 +20,17 @@ class OrganizationInvitationBackend(BaseBackend):
     organization.
     """
 
-    notification_subject = "organizations/email/notification_subject.txt"
-    notification_body = "organizations/email/notification_body.txt"
+    # notification_subject = "organizations/email/notification_subject.txt"
+    # notification_body = "organizations/email/notification_body.txt"
     invitation_subject = "organization/email/invitation_subject.txt"
     invitation_body = "organization/email/invitation_body.txt"
-    reminder_subject = "organizations/email/reminder_subject.txt"
-    reminder_body = "organizations/email/reminder_body.txt"
+    # reminder_subject = "organizations/email/reminder_subject.txt"
+    # reminder_body = "organizations/email/reminder_body.txt"
     form_class = OrganizationAcceptForm
     registration_form_template = "organization/register.html"
 
     def get_success_url(self):
         return reverse("user_organizations")
-
-    def get_urls(self):
-        return [
-            path(
-                "signup/<uuid:user_id>/<token>",
-                view=self.activate_view,
-                name="invitations_register",
-            )
-        ]
 
     def invite_by_email(self, email, sender=None, request=None, **kwargs):
         """Creates an inactive user with the information we know and then sends
@@ -73,17 +64,18 @@ class OrganizationInvitationBackend(BaseBackend):
         ).send()
         return True
 
+    # TODO: make this work... with django notifications
     def send_notification(self, user, sender=None, **kwargs):
         """
         An intermediary function for sending an notification email informing
         a pre-existing, active user that they have been added to a new
         organization.
         """
-        if not user.is_active:
-            return False
-        self.email_message(
-            user, self.notification_subject, self.notification_body, sender, **kwargs
-        ).send()
+        # if not user.is_active:
+        #     return False
+        # self.email_message(
+        #     user, self.notification_subject, self.notification_body, sender, **kwargs
+        # ).send()
         return True
 
     def activate_view(self, request, user_id, token):

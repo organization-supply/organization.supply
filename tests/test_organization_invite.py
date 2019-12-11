@@ -55,8 +55,35 @@ class TestDashboardPages(TestCase):
         response = self.client.post(register_url, {
             "email": 'mccartney@thebeatles.com', 
             "password": "paulpassword",
+            "password_confirm": "invalidsecondpassword"
+        }, follow=True)
+
+        self.assertIn("Your password entries must match", response.content.decode())
+
+        response = self.client.post(register_url, {
+            "email": 'mccartney@thebeatles.com', 
+            "password": "paulpassword",
             "password_confirm": "paulpassword"
         }, follow=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertIn(User.objects.get(email='mccartney@thebeatles.com'), self.organization.users.all())
+
+        # The register url should give a 404, since it's expired
+        response = self.client.get(register_url)
+        self.assertEqual(response.status_code, 404)
+
+        # The incorrect register url should give a 404, since its invalid
+        response = self.client.get(register_url[:-1] + "1")
+        self.assertEqual(response.status_code, 404)
+
+    def test_organization_remove_user(self):
+        self.user_2 = User.objects.create_user(
+            "mccartney@thebeatles.com", "paulpassword"
+        )
+        self.organization.add_user(self.user_2)
+        self.assertEqual(self.organization.users.count(), 2)
+
+        response = self.client.get("/{}/users/remove?id={}".format(self.organization.slug, self.user_2.pk), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.organization.users.count(), 1)
