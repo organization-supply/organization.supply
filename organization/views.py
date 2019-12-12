@@ -16,6 +16,9 @@ from user.models import User
 def index(request):
     return redirect("user_organizations")
 
+@login_required
+def help(request):
+    return render(request, "help.html", {})
 
 @login_required
 def dashboard(request):

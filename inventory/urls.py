@@ -23,6 +23,7 @@ from organization import views
 urlpatterns = [
     # Index
     path("", views.index, name="index"),
+    path("help", views.help, name="help"),
     # User urls
     path("user/", include("user.urls")),
     path("user/", include("django.contrib.auth.urls")),

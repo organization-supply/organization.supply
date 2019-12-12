@@ -87,3 +87,8 @@ class TestDashboardPages(TestCase):
         response = self.client.get("/{}/users/remove?id={}".format(self.organization.slug, self.user_2.pk), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.organization.users.count(), 1)
+
+        # Try and see if we remove ourselves
+        response = self.client.get("/{}/users/remove?id={}".format(self.organization.slug, self.user.pk), follow=True)
+        self.assertIn('You cannot remove yourself from this organization', response.content.decode())
+        
