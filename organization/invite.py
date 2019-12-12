@@ -27,7 +27,7 @@ class OrganizationInvitationBackend(BaseBackend):
     # reminder_subject = "organizations/email/reminder_subject.txt"
     # reminder_body = "organizations/email/reminder_body.txt"
     form_class = OrganizationAcceptForm
-    registration_form_template = "organization/register.html"
+    registration_form_template = "registration/signup_invite.html"
 
     def get_success_url(self):
         return reverse("user_organizations")
