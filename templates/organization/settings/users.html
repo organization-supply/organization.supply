@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load extra_filters %}
+
 {% block title %}{{ request.organization.name }} - Users{% endblock title %}
 
 {% block content %}
@@ -47,6 +49,7 @@
                         {{ user.last_login }}
                     </td>
                     <td class="pa2 bb b--black-20">
+                        {% if not user|is_organization_admin_in:request.organization %}
                         <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_remove_user' request.organization.slug %}?id={{ user.id }}">
                             {% if user.is_active %}
                                 Remove
@@ -54,6 +57,7 @@
                                 Cancel Invite
                             {% endif %}
                         </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

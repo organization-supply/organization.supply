@@ -1,3 +1,6 @@
+
+{% load extra_filters %}
+
 <nav class="pa3 bg-near-white">
 
     {% if request.organization.name %}
@@ -37,7 +40,7 @@
         </div>
     </div>
 
-    {% if request.organization.slug %}
+    {% if request.user|is_organization_admin_in:request.organization %}
         <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="{% url 'organization_settings' request.organization.slug %}" title="Settings">Organization Settings</a>
     {% endif %}
     

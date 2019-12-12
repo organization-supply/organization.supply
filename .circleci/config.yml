@@ -1,7 +1,12 @@
 version: 2
 jobs:
-  build:
+  test:
+    # branches:
+    #   only:
+    #     - master
+    #     - develop
     environment:
+      DEBUG: "True"
       SENTRY_DSN: ""
       SENDGRID_API_KEY: ""
       DJANGO_STATIC_ROOT: ""
@@ -39,3 +44,23 @@ jobs:
 
       - store_artifacts:
           path: test-reports
+
+  # deploy:
+  #   docker:
+  #     - image: circleci/python:3.6
+  #   steps:
+  #     - run:
+  #         name: Deploy
+  #         command: |
+  #           echo "Hello deploy!"
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
+      # - hold: # Deploy requires approval
+      #     type: approval 
+      # - deploy:
+      #     requires:
+      #       - hold

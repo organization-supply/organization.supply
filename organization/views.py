@@ -1,4 +1,5 @@
 import datetime
+from itertools import chain
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -15,6 +16,9 @@ from user.models import User
 def index(request):
     return redirect("user_organizations")
 
+@login_required
+def help(request):
+    return render(request, "help.html", {})
 
 @login_required
 def dashboard(request):
@@ -57,7 +61,6 @@ def dashboard(request):
 def search(request):
     if request.GET.get("q"):
         q = request.GET.get("q")
-        results = []
         products = Product.objects.for_organization(request.organization).filter(
             Q(name__icontains=q) | Q(desc__icontains=q)
         )
@@ -71,14 +74,7 @@ def search(request):
             desc__icontains=q
         )
 
-        if products:
-            results += products
-        if locations:
-            results += locations
-        if mutations:
-            results += mutations
-        if users:
-            results += users
+        results = list(chain(products, locations, users, mutations))
         return render(request, "organization/search.html", {"q": q, "results": results})
     else:
         return render(request, "organization/search.html", {})
@@ -119,7 +115,14 @@ def organization_settings(request):
         messages.add_message(request, messages.SUCCESS, "Organization updated")
 
     return render(
-        request, "organization/settings.html", {"organization_form": organization_form}
+        request, "organization/settings/settings.html", {"organization_form": organization_form}
+    )
+
+
+@login_required
+def organization_billing(request):
+    return render(
+        request, "organization/settings/billing.html", {}
     )
 
 
@@ -127,7 +130,7 @@ def organization_settings(request):
 def organization_users(request):
     return render(
         request,
-        "organization/users.html",
+        "organization/settings/users.html",
         {
             "users": request.organization.users.all,
             "organization_invite_form": OrganizationInviteForm(
@@ -139,7 +142,7 @@ def organization_users(request):
 
 @login_required
 def organization_integrations(request):
-    return render(request, "organization/integrations.html", {})
+    return render(request, "organization/settings/integrations.html", {})
 
 
 @login_required

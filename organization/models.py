@@ -144,6 +144,10 @@ class Mutation(TimeStampedModel):
     objects = OrganizationManager()
 
     @property
+    def name(self):
+        return "Mutation on {}".format(str(self.created)[:10])
+
+    @property
     def url(self):
         return reverse("mutations", kwargs={"organization": self.organization.slug})
 
