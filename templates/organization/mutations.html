@@ -4,7 +4,10 @@
 
 {% block content %}
 
-<h1 class="ph3">🧮 Transactions</h1>
+<h1 class="ph3 db">
+    🧮 Transactions
+    {% include 'utils/information.html' with id='location' content="This is the entire transaction history of your inventory"%}
+</h1>
 
 <div class="mh3 overflow-auto">
     <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
@@ -69,7 +72,7 @@
             {% endfor %}
             {% else %}
                 <tr>
-                    <td class="pt2 pr3 bb b--black-20" colspan="6">
+                    <td class="pv2 pl3 bb b--black-20" colspan="6">
                         <p>No transactions found. Add one with the form above.</p>
                     </td>
                 </tr>
@@ -79,7 +82,6 @@
 </div>
 
 <style>
-
 #id_desc{
     display: inline-block;
     height: 37px;

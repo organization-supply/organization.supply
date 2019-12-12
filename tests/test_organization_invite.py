@@ -1,10 +1,13 @@
+import re
+
 from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
-import re
+from organizations.backends.tokens import RegistrationTokenGenerator
+
 from organization.models import Inventory, Location, Mutation, Organization, Product
 from user.models import User
-from organizations.backends.tokens import RegistrationTokenGenerator
+
 
 class TestDashboardPages(TestCase):
     def setUp(self):
@@ -23,51 +26,76 @@ class TestDashboardPages(TestCase):
         response = self.client.get("/{}/users".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.post("/{}/users/invite".format(self.organization.slug), {'email': "mccartney@thebeatles.com"}, follow=True)
+        response = self.client.post(
+            "/{}/users/invite".format(self.organization.slug),
+            {"email": "mccartney@thebeatles.com"},
+            follow=True,
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertIn('mccartney@thebeatles.com invited for test-org', response.content.decode())
+        self.assertIn(
+            "mccartney@thebeatles.com invited for test-org", response.content.decode()
+        )
 
         self.assertIn(self.user_2, self.organization.users.all())
 
     def test_create_invite_new_user(self):
         # Create invite
-        response = self.client.post("/{}/users/invite".format(self.organization.slug), {'email': "mccartney@thebeatles.com"}, follow=True)
+        response = self.client.post(
+            "/{}/users/invite".format(self.organization.slug),
+            {"email": "mccartney@thebeatles.com"},
+            follow=True,
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertIn('mccartney@thebeatles.com invited for test-org', response.content.decode())
+        self.assertIn(
+            "mccartney@thebeatles.com invited for test-org", response.content.decode()
+        )
 
         # There should be one email for the invite.
         self.assertEqual(len(mail.outbox), 1)
 
-        self.assertIn('You\'ve been invited to join test-org', mail.outbox[0].subject)
+        self.assertIn("You've been invited to join test-org", mail.outbox[0].subject)
 
         # There should be an inactive user created
-        invited_user = User.objects.get(email='mccartney@thebeatles.com')
+        invited_user = User.objects.get(email="mccartney@thebeatles.com")
         self.assertEqual(invited_user.is_active, False)
-        
+
         # Regex to find the URL in the body of the email
-        link = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+        link = re.compile(
+            "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+        )
         register_url = link.search(mail.outbox[0].body)[0]
 
         # The register url should give a 200.
         response = self.client.get(register_url)
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.post(register_url, {
-            "email": 'mccartney@thebeatles.com', 
-            "password": "paulpassword",
-            "password_confirm": "invalidsecondpassword"
-        }, follow=True)
+        response = self.client.post(
+            register_url,
+            {
+                "email": "mccartney@thebeatles.com",
+                "password": "paulpassword",
+                "password_confirm": "invalidsecondpassword",
+            },
+            follow=True,
+        )
 
         self.assertIn("Your password entries must match", response.content.decode())
 
-        response = self.client.post(register_url, {
-            "email": 'mccartney@thebeatles.com', 
-            "password": "paulpassword",
-            "password_confirm": "paulpassword"
-        }, follow=True)
+        response = self.client.post(
+            register_url,
+            {
+                "email": "mccartney@thebeatles.com",
+                "password": "paulpassword",
+                "password_confirm": "paulpassword",
+            },
+            follow=True,
+        )
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(User.objects.get(email='mccartney@thebeatles.com'), self.organization.users.all())
+        self.assertIn(
+            User.objects.get(email="mccartney@thebeatles.com"),
+            self.organization.users.all(),
+        )
 
         # The register url should give a 404, since it's expired
         response = self.client.get(register_url)
@@ -84,11 +112,19 @@ class TestDashboardPages(TestCase):
         self.organization.add_user(self.user_2)
         self.assertEqual(self.organization.users.count(), 2)
 
-        response = self.client.get("/{}/users/remove?id={}".format(self.organization.slug, self.user_2.pk), follow=True)
+        response = self.client.get(
+            "/{}/users/remove?id={}".format(self.organization.slug, self.user_2.pk),
+            follow=True,
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.organization.users.count(), 1)
 
         # Try and see if we remove ourselves
-        response = self.client.get("/{}/users/remove?id={}".format(self.organization.slug, self.user.pk), follow=True)
-        self.assertIn('You cannot remove yourself from this organization', response.content.decode())
-        
+        response = self.client.get(
+            "/{}/users/remove?id={}".format(self.organization.slug, self.user.pk),
+            follow=True,
+        )
+        self.assertIn(
+            "You cannot remove yourself from this organization",
+            response.content.decode(),
+        )

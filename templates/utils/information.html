@@ -1,0 +1,27 @@
+<button class="bn b br-100 v-mid bg-moon-gray hover-bg-gray i white f5" id="tippy-{{id}}" data-tippy-content="{{ content }}">
+    i
+</button>
+
+<script>
+
+tippy('#tippy-{{ id }}',{
+    theme: 'light',
+    duration: 0,
+    arrow: false,
+    delay: [0, 0],
+    placement: 'right',
+    // hideOnClick: false,
+    // trigger: 'click',
+});
+
+</script>
+
+<style>
+.tippy-tooltip.light-theme {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  box-shadow: none;
+  border: 1px solid #aaa;
+}
+</style>
