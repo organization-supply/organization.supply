@@ -115,7 +115,14 @@ def organization_settings(request):
         messages.add_message(request, messages.SUCCESS, "Organization updated")
 
     return render(
-        request, "organization/settings.html", {"organization_form": organization_form}
+        request, "organization/settings/settings.html", {"organization_form": organization_form}
+    )
+
+
+@login_required
+def organization_billing(request):
+    return render(
+        request, "organization/settings/billing.html", {}
     )
 
 
@@ -123,7 +130,7 @@ def organization_settings(request):
 def organization_users(request):
     return render(
         request,
-        "organization/users.html",
+        "organization/settings/users.html",
         {
             "users": request.organization.users.all,
             "organization_invite_form": OrganizationInviteForm(
@@ -135,7 +142,7 @@ def organization_users(request):
 
 @login_required
 def organization_integrations(request):
-    return render(request, "organization/integrations.html", {})
+    return render(request, "organization/settings/integrations.html", {})
 
 
 @login_required

@@ -6,10 +6,8 @@
 
 <h1 class="ph3 db">
     📋 Inventory 
-    <small class="gray fr">
-            <a href="{% url 'inventory_location' request.organization.slug %}" class="f6 link dim ba ph3 pv2 mb2 fr dib black ml1">By location</a>
-            <a href="{% url 'inventory_product' request.organization.slug %}" class="f6 link dim ba ph3 pv2 mb2 fr dib black ">By product</a>
-        </small>
+    <a href="{% url 'inventory_location' request.organization.slug %}" class="f4 black fw6 underline-hover">Locations</a>
+    <a href="{% url 'inventory_product' request.organization.slug %}" class="f4 black fw6 no-underline underline-hover">Products</a>
 </h1>
 
 <div class="mh3 overflow-auto">

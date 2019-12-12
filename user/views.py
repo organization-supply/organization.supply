@@ -38,7 +38,6 @@ def settings(request):
         # First and last name
         user_form = UserForm(request.POST, request.FILES, instance=request.user)
         if user_form.is_valid():
-            print("saving", user_form.fields.items())
             user_form.save()
             messages.add_message(request, messages.INFO, "Profile updated!")
             return redirect("user_settings")

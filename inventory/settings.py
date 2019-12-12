@@ -33,12 +33,13 @@ LOGOUT_REDIRECT_URL = "/user/login/"
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "_8+o1n6!8(5ooa!luo_7*x(qfgo!wyh-1hiu^zhg0u)b3)p_g5"
+SECRET_KEY = config("DJANGO_SECRET_KEY", default="_8+o1n6!8(5ooa!luo_7*x(qfgo!wyh-1hiu^zhg0u)b3)p_g5")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", cast=bool)
+DEBUG = config("DJANGO_DEBUG", cast=bool)
 
-ALLOWED_HOSTS = ["localhost", "organization.supply", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "app.organization.supply", "127.0.0.1"]
 
 # Application definition
 
@@ -109,13 +110,25 @@ WSGI_APPLICATION = "inventory.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+if config("POSTGRES_ENABLED", default=False, cast=bool):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config("POSTGRES_DB"),
+            'USER': config("POSTGRES_USER"),
+            'PASSWORD': config("POSTGRES_PASSWORD"),
+            'HOST': 'localhost',
+            'PORT': '',
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
+    }
+
 
 
 # Password validation
@@ -145,7 +158,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Email configuration
+# Email configuration (sendgrid)
 
 SENDGRID_API_KEY = config("SENDGRID_API_KEY")
 
@@ -161,10 +174,7 @@ DEFAULT_FROM_EMAIL = "notifications@organization.supply"
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "static/")
-
+STATIC_ROOT = config("DJANGO_STATIC_ROOT", default=os.path.join(BASE_DIR, "static/"))
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
-# MEDIA_URL = "/"
-# MEDIA_ROOT = config("DJANGO_MEDIA_ROOT", default=os.path.join(BASE_DIR,'media/'))
+MEDIA_ROOT = config("DJANGO_MEDIA_ROOT", default=os.path.join(BASE_DIR, "media/"))
