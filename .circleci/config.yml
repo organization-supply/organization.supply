@@ -45,14 +45,14 @@ jobs:
       - store_artifacts:
           path: test-reports
 
-  deploy:
-    docker:
-      - image: circleci/python:3.6
-    steps:
-      - run:
-          name: Deploy
-          command: |
-            echo "Hello deploy!"
+  # deploy:
+  #   docker:
+  #     - image: circleci/python:3.6
+  #   steps:
+  #     - run:
+  #         name: Deploy
+  #         command: |
+  #           echo "Hello deploy!"
 
 workflows:
   version: 2
