@@ -33,7 +33,9 @@ LOGOUT_REDIRECT_URL = "/user/login/"
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("DJANGO_SECRET_KEY", default="_8+o1n6!8(5ooa!luo_7*x(qfgo!wyh-1hiu^zhg0u)b3)p_g5")
+SECRET_KEY = config(
+    "DJANGO_SECRET_KEY", default="_8+o1n6!8(5ooa!luo_7*x(qfgo!wyh-1hiu^zhg0u)b3)p_g5"
+)
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -55,8 +57,7 @@ INSTALLED_APPS = [
     "organizations",  # django-organizations (not to be confused with the one below)
     "rest_framework",  # Rest Framework is used for the API
     "rest_framework.authtoken",  # API key access
-    "notifications", # Notifications (https://github.com/django-notifications/django-notifications)
-
+    "notifications",  # Notifications (https://github.com/django-notifications/django-notifications)
     # Apps
     "organization",  # Main application for inventory
     "user",  # User pages and settings
@@ -112,13 +113,13 @@ WSGI_APPLICATION = "inventory.wsgi.application"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 if config("POSTGRES_ENABLED", default=False, cast=bool):
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': config("POSTGRES_DB"),
-            'USER': config("POSTGRES_USER"),
-            'PASSWORD': config("POSTGRES_PASSWORD"),
-            'HOST': 'localhost',
-            'PORT': '',
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": config("POSTGRES_DB"),
+            "USER": config("POSTGRES_USER"),
+            "PASSWORD": config("POSTGRES_PASSWORD"),
+            "HOST": "localhost",
+            "PORT": "",
         }
     }
 else:
@@ -128,7 +129,6 @@ else:
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
-
 
 
 # Password validation

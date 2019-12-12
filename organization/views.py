@@ -16,9 +16,11 @@ from user.models import User
 def index(request):
     return redirect("user_organizations")
 
+
 @login_required
 def help(request):
     return render(request, "help.html", {})
+
 
 @login_required
 def dashboard(request):
@@ -115,15 +117,15 @@ def organization_settings(request):
         messages.add_message(request, messages.SUCCESS, "Organization updated")
 
     return render(
-        request, "organization/settings/settings.html", {"organization_form": organization_form}
+        request,
+        "organization/settings/settings.html",
+        {"organization_form": organization_form},
     )
 
 
 @login_required
 def organization_billing(request):
-    return render(
-        request, "organization/settings/billing.html", {}
-    )
+    return render(request, "organization/settings/billing.html", {})
 
 
 @login_required
