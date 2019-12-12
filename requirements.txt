@@ -8,7 +8,7 @@ cfgv==2.0.1
 chardet==3.0.4
 Click==7.0
 coverage==4.5.4
-Django==2.2.8
+Django==3.0
 django-coverage-plugin==1.6.0
 django-dynamic-preferences==1.7.1
 django-extensions==2.2.5
