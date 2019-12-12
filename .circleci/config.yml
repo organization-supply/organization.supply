@@ -6,11 +6,13 @@ jobs:
     #     - master
     #     - develop
     environment:
-      DEBUG: "True"
-      SENTRY_DSN: ""
-      SENDGRID_API_KEY: ""
+      DJANGO_DEBUG: "True"
       DJANGO_STATIC_ROOT: ""
       DJANGO_MEDIA_ROOT: ""
+      POSTGRES_DB_ENABLED: "False"
+      SENTRY_DSN: ""
+      SENDGRID_API_KEY: ""
+
     docker:
       - image: circleci/python:3.6
     steps:
