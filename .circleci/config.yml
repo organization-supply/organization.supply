@@ -56,7 +56,7 @@ jobs:
 
 workflows:
   version: 2
-  build_test_deploy:
+  test:
     jobs:
       - test
       # - hold: # Deploy requires approval
