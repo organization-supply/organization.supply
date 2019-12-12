@@ -39,7 +39,7 @@ SECRET_KEY = config("DJANGO_SECRET_KEY", default="_8+o1n6!8(5ooa!luo_7*x(qfgo!wy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DJANGO_DEBUG", cast=bool)
 
-ALLOWED_HOSTS = ["localhost", "organization.supply", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "app.organization.supply", "127.0.0.1"]
 
 # Application definition
 
@@ -109,7 +109,6 @@ WSGI_APPLICATION = "inventory.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 if config("POSTGRES_ENABLED", default=False, cast=bool):
-    print("Using postgres as db backend")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
