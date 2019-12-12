@@ -59,8 +59,8 @@ workflows:
   build_test_deploy:
     jobs:
       - test
-      - hold: # Deploy requires approval
-          type: approval 
-      - deploy:
-          requires:
-            - hold
+      # - hold: # Deploy requires approval
+      #     type: approval 
+      # - deploy:
+      #     requires:
+      #       - hold
