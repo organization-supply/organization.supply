@@ -57,8 +57,8 @@
             {% endfor %}
             {% else %}
                 <tr>
-                    <td class="pt2 pr3 bb b--black-20" colspan="5">
-                        <p>No location found. Want to <a href="{% url 'location_new' request.organization.slug %}">add a location</a>?</p>
+                    <td class="pv2 pl3 bb b--black-20" colspan="5">
+                        <p class="lh-copy">No location found. Want to <a href="{% url 'location_new' request.organization.slug %}">add a location</a>?</p>
                     </td>
                 </tr>
             {% endif %}

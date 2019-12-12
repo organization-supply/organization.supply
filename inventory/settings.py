@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "organizations",  # django-organizations (not to be confused with the one below)
     "rest_framework",  # Rest Framework is used for the API
     "rest_framework.authtoken",  # API key access
+    "notifications", # Notifications (https://github.com/django-notifications/django-notifications)
+
     # Apps
     "organization",  # Main application for inventory
     "user",  # User pages and settings

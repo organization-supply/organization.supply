@@ -55,3 +55,9 @@ theme = "hugo-serif-theme"
     name = "Github"
     url = "https://github.com/jplattel/organization.supply"
     weight = 20
+
+  [[menu.footer]]
+    identifier = "Login"
+    name = "App"
+    url = "https://app.organization.supply"
+    weight = 20

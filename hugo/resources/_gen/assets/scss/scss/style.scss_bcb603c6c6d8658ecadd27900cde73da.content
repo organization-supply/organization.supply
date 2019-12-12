@@ -4229,6 +4229,15 @@ ol {
           background: #106be0;
           transition: all 225ms ease-in 0s;
           color: #ffffff; }
+      .main-menu > ul > li.action > a {
+        background-color: #FF725C;
+        border-radius: 3px;
+        text-decoration: none;
+        color: #ffffff; }
+        .main-menu > ul > li.action > a:hover {
+          text-decoration: none;
+          transition: all 225ms ease-in 0s;
+          color: #ffffff; }
 
 .main-menu-mobile {
   position: fixed;

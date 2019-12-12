@@ -1,14 +1,19 @@
 {% extends "organization/email/base_email.html" %}
 
-{% block title %}You've been invited to join {{ organization|safe }} on {{ domain.name }}{% endblock title %}
+{% block title %}You've been invited to join {{ organization.name|safe }} on {{ domain.name }}{% endblock title %}
 
 {% block content %}
 
-<h2>Hello,</h2>
+<h2>Join {{ organization|safe }} for inventory management</h2>
 
-<p>You've been invited to join {{ organization|safe }} on {{ domain.name }} by {{ sender.name|safe }}.</p>
+<p>
+    You've been invited to join {{ organization|safe }} on {{ domain.name }}
+    by {% if sender.name %}{{ sender.name|safe }}{% else %}{{ sender.email|safe }}
+    {% endif %}. {{ organization|safe }} is using <a href="https://organization.supply">Organization.supply</a> 
+    to keep track of their inventory and supplies.
+</p>
 
-<p>Click on the button below to register and accept the invite:</p>
+<p>If you want to accept the invite click on the button below to accept the invite and register an account:</p>
 
 <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
     <tbody>
