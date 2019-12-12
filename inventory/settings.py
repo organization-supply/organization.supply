@@ -108,7 +108,8 @@ WSGI_APPLICATION = "inventory.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-if config("POSTGRES_ENABLED", default=False):
+if config("POSTGRES_ENABLED", default=False, cast=bool):
+    print("Using postgres as db backend")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
