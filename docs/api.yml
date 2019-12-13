@@ -1,0 +1,181 @@
+openapi: 3.0.2
+info:
+  title: Organization.supply REST API
+  version: ''
+paths:
+  /{organization}/api/products/:
+    get:
+      operationId: listProductViewSets
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /{organization}/api/products/{id}/:
+    get:
+      operationId: retrieveProductViewSet
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /{organization}/api/locations/:
+    get:
+      operationId: listLocationViewSets
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /{organization}/api/locations/{id}/:
+    get:
+      operationId: retrieveLocationViewSet
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /{organization}/api/inventory/:
+    get:
+      operationId: listInventoryViewSets
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /{organization}/api/inventory/{id}/:
+    get:
+      operationId: retrieveInventoryViewSet
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /{organization}/api/mutations/:
+    get:
+      operationId: listMutationViewSets
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /{organization}/api/mutations/{id}/:
+    get:
+      operationId: retrieveMutationViewSet
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /{organization}/api/auth:
+    post:
+      operationId: CreateApiAuthorize
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
