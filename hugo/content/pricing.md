@@ -5,7 +5,7 @@ draft: false
 type: page
 ---
 
-To be determined once we are runnign in beta. Sign up for updates below!
+To be determined once we are running in beta. Sign up for updates below!
 
 <div class="call">
   <div class="call-box-top">  

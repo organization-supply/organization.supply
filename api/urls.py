@@ -17,4 +17,7 @@ router.register(r"locations", LocationViewSet, basename="location")
 router.register(r"inventory", InventoryViewSet, basename="inventory")
 router.register(r"mutations", MutationViewSet, basename="mutations")
 
-urlpatterns = [path("auth", ApiAuthorize.as_view()), path("", include(router.urls))]
+urlpatterns = [
+    path("auth", ApiAuthorize.as_view()), 
+    path("", include(router.urls))
+]

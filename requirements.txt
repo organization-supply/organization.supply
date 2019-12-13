@@ -8,7 +8,7 @@ cfgv==2.0.1
 chardet==3.0.4
 Click==7.0
 coverage==4.5.4
-Django==2.2.8
+Django==2.2.6
 django-coverage-plugin==1.6.0
 django-dynamic-preferences==1.7.1
 django-extensions==2.2.5
@@ -70,6 +70,7 @@ toml==0.10.0
 tornado==6.0.3
 typed-ast==1.4.0
 typing-extensions==3.7.4.1
+uritemplate==3.0.0
 urllib3==1.25.6
 virtualenv==16.7.6
 wcwidth==0.1.7
