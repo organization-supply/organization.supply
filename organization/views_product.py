@@ -8,7 +8,9 @@ from organization.models import Inventory, Mutation, Product
 
 
 def products(request):
-    products_list = Product.objects.for_organization(request.organization)
+    products_list = Product.objects.for_organization(request.organization).order_by(
+        "-created"
+    )
     paginator = Paginator(products_list, 100)
     products_paginator = paginator.get_page(request.GET.get("page"))
 
