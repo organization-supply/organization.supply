@@ -2,9 +2,9 @@ import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db.models import F, Func, Q, Sum, Window
 from django.shortcuts import redirect, render
-from django.core.paginator import Paginator
 
 from organization.forms import MutationForm
 from organization.models import Inventory, Location, Mutation, Product
@@ -60,7 +60,7 @@ def mutations(request):
         "-created"
     )
     paginator = Paginator(mutations, 100)
-    mutations_paginator = paginator.get_page(request.GET.get('page'))
+    mutations_paginator = paginator.get_page(request.GET.get("page"))
 
     return render(
         request,
