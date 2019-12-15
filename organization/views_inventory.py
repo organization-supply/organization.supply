@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import F, Func, Q, Sum, Window
 from django.shortcuts import redirect, render
+from django.core.paginator import Paginator
 
 from organization.forms import MutationForm
 from organization.models import Inventory, Location, Mutation, Product
@@ -58,9 +59,11 @@ def mutations(request):
     mutations = Mutation.objects.for_organization(request.organization).order_by(
         "-created"
     )
+    paginator = Paginator(mutations, 100)
+    mutations_paginator = paginator.get_page(request.GET.get('page'))
 
     return render(
         request,
         "organization/mutations.html",
-        {"form": mutation_form, "mutations": mutations},
+        {"form": mutation_form, "mutations": mutations_paginator},
     )
