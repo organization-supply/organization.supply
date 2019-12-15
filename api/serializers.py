@@ -9,10 +9,22 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "desc"]
 
 
+class ProductCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ["id", "name", "desc", "organization"]
+
+
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = ["id", "name", "desc"]
+
+
+class LocationCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ["id", "name", "desc", "organization"]
 
 
 class InventorySerializer(serializers.ModelSerializer):

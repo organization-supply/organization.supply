@@ -21,6 +21,21 @@ paths:
                 type: array
                 items: {}
           description: ''
+    post:
+      operationId: createProductViewSet
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
   /{organization}/api/products/{id}/:
     get:
       operationId: retrieveProductViewSet
@@ -43,6 +58,24 @@ paths:
             application/json:
               schema: {}
           description: ''
+    delete:
+      operationId: destroyProductViewSet
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
   /{organization}/api/locations/:
     get:
       operationId: listLocationViewSets
@@ -60,6 +93,21 @@ paths:
               schema:
                 type: array
                 items: {}
+          description: ''
+    post:
+      operationId: createLocationViewSet
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
           description: ''
   /{organization}/api/locations/{id}/:
     get:
@@ -82,6 +130,24 @@ paths:
           content:
             application/json:
               schema: {}
+          description: ''
+    delete:
+      operationId: destroyLocationViewSet
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
           description: ''
   /{organization}/api/inventory/:
     get:
