@@ -1,15 +1,20 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.paginator import Paginator
 
 from organization.forms import LocationForm
 from organization.models import Inventory, Location, Mutation
 
 
 def locations(request):
+    locations_list = Location.objects.for_organization(request.organization)
+    paginator = Paginator(locations_list, 100)
+    locations_paginator = paginator.get_page(request.GET.get('page'))
+
     return render(
         request,
         "organization/locations.html",
-        {"locations": Location.objects.for_organization(request.organization)},
+        {"locations": locations_paginator},
     )
 
 
