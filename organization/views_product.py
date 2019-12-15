@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -7,10 +8,12 @@ from organization.models import Inventory, Mutation, Product
 
 
 def products(request):
+    products_list = Product.objects.for_organization(request.organization)
+    paginator = Paginator(products_list, 100)
+    products_paginator = paginator.get_page(request.GET.get("page"))
+
     return render(
-        request,
-        "organization/products.html",
-        {"products": Product.objects.for_organization(request.organization)},
+        request, "organization/products.html", {"products": products_paginator}
     )
 
 
