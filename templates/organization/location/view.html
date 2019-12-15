@@ -5,7 +5,7 @@
 {% block content %}
 
     <h1>
-        📍 {{ location.name|title }}
+        📍 {{ location.name }}
         <a class="f6 link dim ba ph3 pv2 mb2 fr dib black" href="{% url 'location_edit' request.organization.slug location.id %}">Edit</a>
     </h1>
 

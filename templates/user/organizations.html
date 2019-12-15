@@ -7,14 +7,15 @@
 
 {% block content %}
 
-<h1 class="ph3 db tc">
+<h1 class="ph3 db">
     Organizations
+    {% include 'utils/information.html' with id='user-organization' content="This is a list of organizations you are a member of." %}
 </h1>
 
-<div class="mh3 overflow-auto">
+<div class="mh3">
     {% if organizations %}
         {% for organization in organizations %}
-            <article class="br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-50-l center">
+            <article class="br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-50-l">
                 <div class="pa2 ph3-ns pb3-ns">
                     <div class="dt w-100 mt1">
                         <div class="dtc">
@@ -28,13 +29,29 @@
                 </div>
             </article>
         {% endfor %}
+    {% else %}
+        <article class="br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-50-l">
+            <div class="pa2 ph3-ns">
+                <p class='lh-copy'>
+                    You currently don't have any organizations. 
+                    You can <a href="{% url 'create_organization' %}">create an organization</a> or 
+                    ask a collegue to invite you with your email: 
+                    <a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a>. 
+                    Organizations you are invited will be listed here.
+                </p>
+                <p class="lh-copy">
+                    In case you are in need of help, feel free to browse the reference page or email
+                    <a href="mailto:jsplattel@gmail.com">jsplattel@gmail.com</a> with any questions you might have.
+                </p>
+            </div>
+        </article>
     {% endif %}
     
     <!-- Link to add organization form  -->
-    <article class="br2 mv4 w-100 w-50-m w-50-l center">
-        <div class="pa2 ph3-ns pb3-ns">
-            <a class="f6 grow no-underline br-pill ph3 pv2 mb2 dib white bg-black" href="{% url 'create_organization' %}">Add an organization</a>
-        </div>
+    <article class="br2 mv4 w-100 w-50-m w-50-l">
+        
+            <a class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib black no-underline" href="{% url 'create_organization' %}">Create a new organization</a>
+        
     </article>
 
 </div>

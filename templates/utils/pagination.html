@@ -1,0 +1,11 @@
+<div class="w-100 center">
+    <nav class="cf pa2 pa2-ns" data-name="pagination-next-prev">
+        {% if paginator.has_previous %}
+            <a class="fl dib link dim black f6 f5-ns b pa2" href="?page={{ paginator.previous_page_number }}" title="Previous">&larr; Previous Page</a>
+        {% endif %}
+
+        {% if paginator.has_next %}
+            <a class="fr dib link dim black f6 f5-ns b pa2" href="?page={{ paginator.next_page_number }}" title="Next">Next Page &rarr;</a>
+        {% endif %}
+    </nav>
+</div>

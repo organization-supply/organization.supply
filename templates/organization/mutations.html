@@ -81,21 +81,7 @@
     </table>
 </div>
 
-<div class="w-100 center">
-    <nav class="cf pa3 pa4-ns" data-name="pagination-next-prev">
-        {% if mutations.has_previous %}
-            <a class="fl dib link dim black f6 f5-ns b pa2" href="?page={{ mutations.previous_page_number }}" title="Previous">&larr; Previous Page</a>
-        {% endif %}
-
-        {% if mutations.has_next %}
-            <a class="fr dib link dim black f6 f5-ns b pa2" href="?page={{ mutations.next_page_number }}" title="Next">Next Page &rarr;</a>
-        {% endif %}
-    </nav>
-</div>
-
-
-      
-      
+{% include 'utils/pagination.html' with paginator=mutations  %}
     
 <style>
 #id_desc{

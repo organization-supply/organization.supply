@@ -6,7 +6,10 @@
 
 {% block content %}
 
-<h1 class="pl3">🛠️ Settings</h1>
+<h1 class="pl3">
+    🛠️ Settings
+    {% include 'utils/information.html' with id='user-settings' content="These are your personal settings and are shared across all organizations that you are a member of." %}
+</h1>
 
 <div class="fl w-100 w-50-m w-third-l ph3">
     <h1 class="f4 bold">Profile</h1>
