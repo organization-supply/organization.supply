@@ -1,6 +1,7 @@
 # Custom user
 # https://www.fomfus.com/articles/how-to-use-email-as-username-for-django-authentication-removing-the-username
 import uuid
+from typing import List
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -57,7 +58,7 @@ class User(AbstractUser):
     username = None
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS: List[str] = []
 
     objects = UserManager()
 

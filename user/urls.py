@@ -1,7 +1,6 @@
 import notifications.urls
 from django.contrib.auth import views as auth_views
-from django.shortcuts import reverse
-from django.urls import include, path
+from django.urls import include, path, reverse
 
 from organization.invite import OrganizationInvitationBackend
 from user import views
