@@ -3,7 +3,8 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.db.models import Sum
-from django.shortcuts import get_object_or_404, reverse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
@@ -201,4 +202,4 @@ class Inventory(models.Model):
         return mutation.save()
 
     def add(self, amount: float, desc: str = "") -> Mutation:
-        self._create_mutation(amount=amount, desc=desc)
+        return self._create_mutation(amount=amount, desc=desc)
