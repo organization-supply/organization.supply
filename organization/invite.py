@@ -5,13 +5,15 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.core.mail import EmailMultiAlternatives
 from django.http import Http404
-from django.shortcuts import redirect, render, reverse
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.template import loader
 from django.urls import path
 from organizations.backends.defaults import BaseBackend
 from organizations.backends.tokens import RegistrationTokenGenerator
-
+from typing import Text, Optional
 from user.forms import OrganizationAcceptForm
+from user.models import User
 
 
 class OrganizationInvitationBackend(BaseBackend):
@@ -109,10 +111,10 @@ class OrganizationInvitationBackend(BaseBackend):
 
     def email_message(
         self,
-        recipient,  # type: Text
-        subject_template,  # type: Text
-        body_template,  # type: Text
-        sender=None,  # type: Optional[AbstractUser]
+        recipient,
+        subject_template: str,
+        body_template: str,
+        sender,
         message_class=EmailMultiAlternatives,
         **kwargs
     ):

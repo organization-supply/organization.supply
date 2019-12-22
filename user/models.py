@@ -9,7 +9,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.authtoken.models import Token
-
+from typing import List
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field. But a email as primary identifier"""
@@ -57,7 +57,7 @@ class User(AbstractUser):
     username = None
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS: List[str] = []
 
     objects = UserManager()
 
