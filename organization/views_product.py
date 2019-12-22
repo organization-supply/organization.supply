@@ -8,6 +8,7 @@ from organization.models import Inventory, Mutation, Product
 
 
 def products(request):
+
     products_list = Product.objects.for_organization(request.organization).order_by(
         "-created"
     )

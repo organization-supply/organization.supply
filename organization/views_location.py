@@ -12,7 +12,6 @@ def locations(request):
     )
     paginator = Paginator(locations_list, 100)
     locations_paginator = paginator.get_page(request.GET.get("page"))
-
     return render(
         request, "organization/locations.html", {"locations": locations_paginator}
     )
