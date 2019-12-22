@@ -1,6 +1,7 @@
 # Custom user
 # https://www.fomfus.com/articles/how-to-use-email-as-username-for-django-authentication-removing-the-username
 import uuid
+from typing import List
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -9,7 +10,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.authtoken.models import Token
-from typing import List
+
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field. But a email as primary identifier"""

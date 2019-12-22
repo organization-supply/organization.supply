@@ -1,17 +1,17 @@
 import inspect
 from email import utils as email_utils
+from typing import Optional, Text
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.core.mail import EmailMultiAlternatives
 from django.http import Http404
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from django.template import loader
-from django.urls import path
+from django.urls import path, reverse
 from organizations.backends.defaults import BaseBackend
 from organizations.backends.tokens import RegistrationTokenGenerator
-from typing import Text, Optional
+
 from user.forms import OrganizationAcceptForm
 from user.models import User
 
