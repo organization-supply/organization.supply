@@ -4,17 +4,17 @@ from rest_framework import routers
 
 from api.views import (
     ApiAuthorize,
-    InventoryViewSet,
-    LocationViewSet,
-    MutationViewSet,
-    ProductViewSet,
+    LocationView,
+    LocationDetailView,
+    ProductView,
+    ProductDetailView
 )
 
-# Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r"products", ProductViewSet, basename="product")
-router.register(r"locations", LocationViewSet, basename="location")
-router.register(r"inventory", InventoryViewSet, basename="inventory")
-router.register(r"mutations", MutationViewSet, basename="mutations")
 
-urlpatterns = [path("auth", ApiAuthorize.as_view()), path("", include(router.urls))]
+urlpatterns = [
+    path("products", ProductView.as_view()), 
+    path("products/<uuid:pk>", ProductDetailView.as_view()), 
+    path("locations", LocationView.as_view()), 
+    path("locations/<uuid:pk>", LocationDetailView.as_view()), 
+    path("auth", ApiAuthorize.as_view()), 
+]

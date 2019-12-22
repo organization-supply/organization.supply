@@ -50,6 +50,13 @@ theme = "hugo-serif-theme"
     url = "https://github.com/jplattel/organization.supply"
     weight = 21
 
+
+  [[menu.footer]]
+    identifier = "API"
+    name = "API"
+    url = "/api/"
+    weight = 20
+
   [[menu.footer]]
     identifier = "Github"
     name = "Github"
