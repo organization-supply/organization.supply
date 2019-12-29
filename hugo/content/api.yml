@@ -2,10 +2,11 @@ openapi: 3.0.2
 info:
   title: Organization.supply REST API
   version: ''
+  description: Documentation for the REST API for Organization.supply
 paths:
-  /{organization}/api/products/:
+  /{organization}/api/products:
     get:
-      operationId: listProductViewSets
+      operationId: listProducts
       parameters:
       - name: organization
         in: path
@@ -19,11 +20,62 @@ paths:
             application/json:
               schema:
                 type: array
-                items: {}
+                items:
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      readOnly: true
+                    name:
+                      type: string
+                      maxLength: 200
+                    desc:
+                      type: string
+                  required:
+                  - name
           description: ''
-  /{organization}/api/products/{id}/:
+    post:
+      operationId: CreateProduct
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  maxLength: 200
+                desc:
+                  type: string
+              required:
+              - name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 200
+                  desc:
+                    type: string
+                required:
+                - name
+          description: ''
+  /{organization}/api/products/{id}:
     get:
-      operationId: retrieveProductViewSet
+      operationId: RetrieveProduct
       parameters:
       - name: id
         in: path
@@ -41,11 +93,129 @@ paths:
         '200':
           content:
             application/json:
-              schema: {}
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 200
+                  desc:
+                    type: string
+                required:
+                - name
           description: ''
-  /{organization}/api/locations/:
+    put:
+      operationId: UpdateProduct
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  maxLength: 200
+                desc:
+                  type: string
+              required:
+              - name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 200
+                  desc:
+                    type: string
+                required:
+                - name
+          description: ''
+    patch:
+      operationId: PartialUpdateProduct
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  maxLength: 200
+                desc:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 200
+                  desc:
+                    type: string
+                required:
+                - name
+          description: ''
+    delete:
+      operationId: DestroyProduct
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /{organization}/api/locations:
     get:
-      operationId: listLocationViewSets
+      operationId: listLocations
       parameters:
       - name: organization
         in: path
@@ -59,11 +229,62 @@ paths:
             application/json:
               schema:
                 type: array
-                items: {}
+                items:
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      readOnly: true
+                    name:
+                      type: string
+                      maxLength: 200
+                    desc:
+                      type: string
+                  required:
+                  - name
           description: ''
-  /{organization}/api/locations/{id}/:
+    post:
+      operationId: CreateLocation
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  maxLength: 200
+                desc:
+                  type: string
+              required:
+              - name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 200
+                  desc:
+                    type: string
+                required:
+                - name
+          description: ''
+  /{organization}/api/locations/{id}:
     get:
-      operationId: retrieveLocationViewSet
+      operationId: RetrieveLocation
       parameters:
       - name: id
         in: path
@@ -81,29 +302,110 @@ paths:
         '200':
           content:
             application/json:
-              schema: {}
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 200
+                  desc:
+                    type: string
+                required:
+                - name
           description: ''
-  /{organization}/api/inventory/:
-    get:
-      operationId: listInventoryViewSets
+    put:
+      operationId: UpdateLocation
       parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
       - name: organization
         in: path
         required: true
         description: ''
         schema:
           type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  maxLength: 200
+                desc:
+                  type: string
+              required:
+              - name
       responses:
         '200':
           content:
             application/json:
               schema:
-                type: array
-                items: {}
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 200
+                  desc:
+                    type: string
+                required:
+                - name
           description: ''
-  /{organization}/api/inventory/{id}/:
-    get:
-      operationId: retrieveInventoryViewSet
+    patch:
+      operationId: PartialUpdateLocation
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  maxLength: 200
+                desc:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 200
+                  desc:
+                    type: string
+                required:
+                - name
+          description: ''
+    delete:
+      operationId: DestroyLocation
       parameters:
       - name: id
         in: path
@@ -118,50 +420,7 @@ paths:
         schema:
           type: string
       responses:
-        '200':
-          content:
-            application/json:
-              schema: {}
-          description: ''
-  /{organization}/api/mutations/:
-    get:
-      operationId: listMutationViewSets
-      parameters:
-      - name: organization
-        in: path
-        required: true
-        description: ''
-        schema:
-          type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items: {}
-          description: ''
-  /{organization}/api/mutations/{id}/:
-    get:
-      operationId: retrieveMutationViewSet
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: ''
-        schema:
-          type: string
-      - name: organization
-        in: path
-        required: true
-        description: ''
-        schema:
-          type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema: {}
+        '204':
           description: ''
   /{organization}/api/auth:
     post:
