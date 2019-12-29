@@ -1,9 +1,8 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
+from rest_framework import generics, viewsets
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken, APIView
+from rest_framework.authtoken.views import APIView, ObtainAuthToken
 from rest_framework.response import Response
-from rest_framework import generics
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
@@ -17,28 +16,31 @@ from api.serializers import (
     MutationSerializer,
     ProductSerializer,
 )
-from organization.models import Inventory, Location, Mutation, Product, Organization
+from organization.models import Inventory, Location, Mutation, Organization, Product
 
 
 def save_serializer_with_organization(serializer, organization):
-    if serializer.instance: # We are updating
+    if serializer.instance:  # We are updating
         status = HTTP_200_OK
     else:
         status = HTTP_201_CREATED
 
     if serializer.is_valid():
         # Assign the organization
-        serializer.validated_data['organization'] = get_object_or_404(Organization, slug=organization)
+        serializer.validated_data["organization"] = get_object_or_404(
+            Organization, slug=organization
+        )
         serializer.save()
         return Response(serializer.data, status=status)
     else:
         return Response(
             {
                 "message": "An error occured with the operation",
-                "errors": serializer.errors
+                "errors": serializer.errors,
             },
             status=HTTP_400_BAD_REQUEST,
         )
+
 
 class ApiAuthorize(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -75,6 +77,7 @@ class ProductView(generics.ListCreateAPIView):
         """
         serializer = self.get_serializer(data=request.data)
         return save_serializer_with_organization(serializer, organization)
+
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
 
@@ -131,10 +134,11 @@ class LocationView(generics.ListCreateAPIView):
         serializer = LocationSerializer(data=request.data)
         return save_serializer_with_organization(serializer, organization)
 
+
 class LocationDetailView(generics.RetrieveUpdateDestroyAPIView):
-    
+
     serializer_class = LocationSerializer
-    
+
     def get(self, request, pk, organization):
         """
         Get a single product by ID
@@ -161,7 +165,7 @@ class LocationDetailView(generics.RetrieveUpdateDestroyAPIView):
         location = get_object_or_404(Location, pk=pk)
         serializer = self.get_serializer(location, data=request.data)
         return save_serializer_with_organization(serializer, organization)
-        
+
     def delete(self, request, pk, organization):
         """
         Delete a single location by ID
@@ -170,6 +174,7 @@ class LocationDetailView(generics.RetrieveUpdateDestroyAPIView):
         location = get_object_or_404(queryset, pk=pk)
         location.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
 
 # # class InventoryViewSet(viewsets.ViewSet):
 # #     """

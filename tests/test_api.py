@@ -1,9 +1,10 @@
 from django.test import TestCase
 from django.test.client import Client
+from rest_framework.test import APIClient
 
 from organization.models import Inventory, Location, Mutation, Organization, Product
 from user.models import User
-from rest_framework.test import APIClient
+
 
 class TestRestAPI(TestCase):
     def setUp(self):
@@ -24,7 +25,7 @@ class TestRestAPI(TestCase):
 
         self.token = response.json().get("token")
         self.client = APIClient(HTTP_AUTHORIZATION="Token: {}".format(self.token))
-        # self.api_client = 
+        # self.api_client =
 
     def test_api_auth(self):
         response = self.client.post(
@@ -53,10 +54,10 @@ class TestRestAPI(TestCase):
         self.assertEqual(response.json()[0]["name"], "Test Product")
 
         # Create
-        response = self.client.post("/{}/api/products".format(self.organization.slug),{
-            "name": "API Product",
-            "desc": "API Description"
-        })
+        response = self.client.post(
+            "/{}/api/products".format(self.organization.slug),
+            {"name": "API Product", "desc": "API Description"},
+        )
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json()["name"], "API Product")
 
@@ -72,28 +73,33 @@ class TestRestAPI(TestCase):
         self._authenticate()
 
         # Get product
-        response = self.client.get("/{}/api/products/{}".format(self.organization.slug, product.id))
+        response = self.client.get(
+            "/{}/api/products/{}".format(self.organization.slug, product.id)
+        )
         self.assertEqual(response.status_code, 200)
 
         # Patch product
-        response = self.client.patch("/{}/api/products/{}".format(self.organization.slug, product.id), {
-            "name": "Patched API Product"
-        })
+        response = self.client.patch(
+            "/{}/api/products/{}".format(self.organization.slug, product.id),
+            {"name": "Patched API Product"},
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["name"], "Patched API Product")
         self.assertEqual(response.json()["desc"], "")
 
         # Put product
-        response = self.client.put("/{}/api/products/{}".format(self.organization.slug, product.id), {
-            "name": "Put API Product",
-            "desc": "Put description"
-        })
+        response = self.client.put(
+            "/{}/api/products/{}".format(self.organization.slug, product.id),
+            {"name": "Put API Product", "desc": "Put description"},
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["name"], "Put API Product")
         self.assertEqual(response.json()["desc"], "Put description")
 
         # Delete product
-        response = self.client.delete("/{}/api/products/{}".format(self.organization.slug, product.id))
+        response = self.client.delete(
+            "/{}/api/products/{}".format(self.organization.slug, product.id)
+        )
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Product.objects.count(), 0)
 
@@ -110,10 +116,10 @@ class TestRestAPI(TestCase):
         self.assertEqual(response.json()[0]["name"], "Test Location")
 
         # Create
-        response = self.client.post("/{}/api/locations".format(self.organization.slug),{
-            "name": "API Location",
-            "desc": "API Description"
-        })
+        response = self.client.post(
+            "/{}/api/locations".format(self.organization.slug),
+            {"name": "API Location", "desc": "API Description"},
+        )
         self.assertEqual(response.status_code, 201)
 
         response = self.client.get("/{}/api/locations".format(self.organization.slug))

@@ -8,6 +8,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ["id", "name", "desc"]
 
+
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
