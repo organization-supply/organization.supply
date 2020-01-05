@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password
 from django.shortcuts import redirect, render
 from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
-
+from notifications.signals import notify
 from user.forms import UserForm, UserSignupForm
 from user.models import User
 
@@ -54,6 +54,9 @@ def settings(request):
 
 @login_required
 def notifications(request):
+    if request.user.notifications.count() == 0:
+        notify.send(request.user, recipient=request.user, verb='This is your first notification!')
+
     return render(
         request,
         "user/notifications.html",

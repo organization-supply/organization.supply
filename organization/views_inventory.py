@@ -46,7 +46,6 @@ def mutation_insert(request):
         mutation = form.save()
         messages.add_message(request, messages.INFO, "Transaction added!")
     else:
-        print(form.errors)
         messages.add_message(request, messages.ERROR, form.non_field_errors().as_text())
     return redirect("mutations", organization=request.organization.slug)
 

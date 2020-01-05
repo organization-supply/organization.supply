@@ -202,8 +202,6 @@ class MutationForm(ModelForm):
         else:
             cleaned_data["operation"] = "add"
 
-        print(cleaned_data)
-
 
 class ShortcutMoveForm(Form):
     amount = forms.FloatField(

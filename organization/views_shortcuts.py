@@ -54,7 +54,6 @@ def shortcut_move(request):
         form = ShortcutMoveForm(
             data=request.POST, user=request.user, organization=request.organization
         )
-        print(form.errors)
 
         # If the form is valid:
         if form.is_valid():

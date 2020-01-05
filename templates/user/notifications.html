@@ -10,12 +10,19 @@
 <h1 class="ph3 db">
     Notifications
     {% include 'utils/information.html' with id='user-notifications' content="Here you will find all notifications across all organizations" %}
+    <a class="f6 link dim ba ph3 pv2 dib black fr" href="#">Mark all as read</a>
 </h1>
 
 <div class="mh3 overflow-auto">
-    {% for notification in request.user.notifications.all %}
-        <li>{{ notification }}</li>
-    {% endfor %}
+    <ul class="list pl0 ml0 mw6 ba b--light-silver br2">
+        {% for notification in request.user.notifications.all %}
+            <li class="ph3 pv3 bb b--light-silver">
+                {{ notification.verb }}
+                {% if notification.description %} - {{ notification.description }}{% endif %}
+                <span class="fr">{{ notification.timesince }} ago</span>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 
 {% endblock %}
