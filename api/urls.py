@@ -15,5 +15,7 @@ urlpatterns = [
     path("products/<uuid:pk>", ProductDetailView.as_view()),
     path("locations", LocationView.as_view()),
     path("locations/<uuid:pk>", LocationDetailView.as_view()),
+    # User endpoints
     path("auth", ApiAuthorize.as_view()),
+    path("notifications", ProductView.as_view()),
 ]

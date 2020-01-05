@@ -11,7 +11,7 @@ from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
 from user.models import NotificationSubscription
-
+from notifications.base.models import AbstractNotification
 
 class OrganizationManager(models.Manager):
     def __str__(self):
@@ -36,13 +36,23 @@ class Organization(DjangoOrganization, TimeStampedModel):
         monitor="subscription_type"
     )  # Differs from the creation date of the organization
 
+    # TODO: billing details here... with stripe
+
+
+class OrganizationNotification(AbstractNotification):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+
+    class Meta(AbstractNotification.Meta):
+        abstract = False
+
 
 class Location(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    objects = OrganizationManager()
+
+    objects = OrganizationManager() # Filters by organization on default
 
     @property
     def url(self):
@@ -87,7 +97,8 @@ class Product(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    objects = OrganizationManager()
+
+    objects = OrganizationManager() # Filters by organization on default
 
     @property
     def url(self):
@@ -144,7 +155,7 @@ class Mutation(TimeStampedModel):
     contra_mutation = models.ForeignKey(
         "self", on_delete=models.CASCADE, blank=True, null=True
     )
-    objects = OrganizationManager()
+    objects = OrganizationManager() # Filters by organization on default
 
     @property
     def name(self):
@@ -154,6 +165,7 @@ class Mutation(TimeStampedModel):
     def url(self):
         return reverse("mutations", kwargs={"organization": self.organization.slug})
 
+    # Applies the mutation to the inventory
     def apply(self):
         inventory, created = Inventory.objects.get_or_create(
             product=self.product, location=self.location, organization=self.organization
@@ -162,6 +174,8 @@ class Mutation(TimeStampedModel):
         inventory.save()
 
     def save(self, apply=True, *args, **kwargs):
+        # If the operation is reserved, we don't apply 
+        # the mutation
         if self.operation != "reserved":
             if self.amount < 0:
                 self.operation = "remove"
@@ -185,7 +199,7 @@ class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.FloatField(default=0.0)
 
-    objects = OrganizationManager()
+    objects = OrganizationManager() # Filters by organization on default
 
     notification_subscription = GenericRelation(NotificationSubscription)
 
