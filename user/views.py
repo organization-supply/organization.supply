@@ -54,6 +54,7 @@ def settings(request):
 
 @login_required
 def notifications(request):
+    # Generate a demo notification if the user has none..
     if request.user.notifications.count() == 0:
         notify.send(request.user, recipient=request.user, verb='This is your first notification!')
 

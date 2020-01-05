@@ -10,7 +10,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.authtoken.models import Token
-
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field. But a email as primary identifier"""
@@ -71,3 +72,17 @@ class User(AbstractUser):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+class NotificationSubscription(models.Model):
+    """
+    This model allows a user to subscribe to notifications to certain objects
+    within an organization for updates. For example: to get a notification when
+    the inventory get below a certain amount.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
+    # Content type allows us to use a generic foreign key
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    content_object = GenericForeignKey()
+    object_id = models.UUIDField(default=uuid.uuid4, editable=False)

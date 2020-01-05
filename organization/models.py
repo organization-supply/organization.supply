@@ -3,12 +3,14 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.db.models import Sum
+from django.contrib.contenttypes.fields import GenericRelation
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
+from user.models import NotificationSubscription
 
 
 class OrganizationManager(models.Manager):
@@ -184,6 +186,8 @@ class Inventory(models.Model):
     amount = models.FloatField(default=0.0)
 
     objects = OrganizationManager()
+
+    notification_subscription = GenericRelation(NotificationSubscription)
 
     @property
     def url(self):
