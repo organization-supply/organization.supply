@@ -4,7 +4,11 @@ date: 2019-11-07T23:39:45+01:00
 draft: false
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ad minim veniam, quis nostrud exercitation ullamco laboris nisi. Ut aliquip ex ea commodo consequat. 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-Excepteur sint occaecat cupidatat non proident. Sunt in culpa qui officia deserunt mollit anim id est laborum.
-Donec fermentum augue sem. 
+When dealing with inventory management, you want to reduce the amount of work it requires ideally to zero. Automating your inventory could be a big part of it and at [organization.supply](https://organization.supply) we aim to do that without as much effort or a big amount of money. 
+
+We've got quite a few ideas about how to automate:
+
+*   Connecting with e-commerce stores
+*   API interface with financial software (a sale most of the time also represents movement in inventory)
+*   Shortcuts for selling etc with a friendly interface (often move a same amount to a certain location? Why not create a shortcut for it?)
+*   And in the future, we might even start to recognize patters and suggest things!

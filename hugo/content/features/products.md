@@ -7,6 +7,4 @@ featured: true
 
 ---
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-Excepteur sint occaecat cupidatat non proident. Sunt in culpa qui officia deserunt mollit anim id est laborum.
-Donec fermentum augue sem. 
+Add & remove products and keep track of inventory with simple to use interface
