@@ -14,9 +14,9 @@ urlpatterns = [
     path("signup", views.signup, name="user_signup"),
     path("settings", views.settings, name="user_settings"),
     path("organizations", views.organizations, name="user_organizations"),
-    path("notifications", include(notifications.urls, namespace="user")),
+    path("notifications", views.notifications, name="user_notifications"),
     path(
-        "password/reset",
+        "password/reset", 
         auth_views.PasswordResetView.as_view(
             html_email_template_name="registration/password_reset_email_html.html"
         ),

@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+
+{% load extra_filters %}
+
+{% block title %}User - Notifications{% endblock title %}
+
+{% block content %}
+
+<h1 class="ph3 db">
+    Notifications
+    {% include 'utils/information.html' with id='user-notifications' content="Here you will find all notifications across all organizations" %}
+</h1>
+
+<div class="mh3 overflow-auto">
+    {% for notification in request.user.notifications.all %}
+        <li>{{ notification }}</li>
+    {% endfor %}
+</div>
+
+{% endblock %}

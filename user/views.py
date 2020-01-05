@@ -52,6 +52,14 @@ def settings(request):
         request, "user/settings.html", {"token": token.key, "user_form": user_form}
     )
 
+@login_required
+def notifications(request):
+    return render(
+        request,
+        "user/notifications.html",
+        {},
+    )
+
 
 @login_required
 def organizations(request):
