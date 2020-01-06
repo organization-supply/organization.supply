@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from organization.models import Inventory, Location, Mutation, Product, OrganizationNotification
+from organization.models import Inventory, Location, Mutation, Product
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,17 +34,17 @@ class GenericNotificationRelatedField(serializers.RelatedField):
             serializer = LocationSerializer(value)
         return serializer.data
 
-class OrganizationNotificationSerializer(serializers.Serializer):
-    unread = serializers.BooleanField(read_only=True)
-    class Meta:
-        model = OrganizationNotification
-        fields = [
-            "id",
-            "timestamp",
-            "description",
-            "verb",
-            "actor_object_content_type",
-            "actor_object_id",
-            "action_object_content_type",
-            "action_object_id"
-        ]
+# class NotificationSerializer(serializers.Serializer):
+#     unread = serializers.BooleanField(read_only=True)
+#     class Meta:
+#         model = Notification
+#         fields = [
+#             "id",
+#             "timestamp",
+#             "description",
+#             "verb",
+#             "actor_object_content_type",
+#             "actor_object_id",
+#             "action_object_content_type",
+#             "action_object_id"
+#         ]

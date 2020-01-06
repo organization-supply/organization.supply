@@ -12,7 +12,6 @@ from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
 from user.models import NotificationSubscription
 from notifications.base.models import AbstractNotification
-import swapper
 
 class OrganizationManager(models.Manager):
     def __str__(self):
@@ -40,13 +39,14 @@ class Organization(DjangoOrganization, TimeStampedModel):
     # TODO: billing details here... with stripe
 
 
-class OrganizationNotification(AbstractNotification):
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+# class InventoryNotification(AbstractNotification):
+#     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
-    class Meta(AbstractNotification.Meta):
-        abstract = False
-        swappable = swapper.swappable_setting('notifications', 'Notification')
+#     objects = OrganizationManager()
 
+#     @property
+#     def organization_slug(self):
+#         return 'hello'
 
 class Location(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

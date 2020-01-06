@@ -105,6 +105,7 @@ REST_FRAMEWORK = {
 
 ORGS_SLUGFIELD = "django_extensions.db.fields.AutoSlugField"
 
+NOTIFICATIONS_NOTIFICATION_MODEL = "organization.InventoryNotification"
 
 WSGI_APPLICATION = "inventory.wsgi.application"
 

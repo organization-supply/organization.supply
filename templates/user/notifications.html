@@ -17,6 +17,7 @@
     <ul class="list pl0 ml0 mw6 ba b--light-silver br2">
         {% for notification in request.user.notifications.all %}
             <li class="ph3 pv3 bb b--light-silver">
+                {{ notification.organization_slug }}
                 {{ notification.verb }}
                 {% if notification.description %} - {{ notification.description }}{% endif %}
                 <span class="fr">{{ notification.timesince }} ago</span>
