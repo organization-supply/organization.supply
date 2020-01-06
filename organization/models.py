@@ -12,6 +12,7 @@ from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
 from user.models import NotificationSubscription
 from notifications.base.models import AbstractNotification
+import swapper
 
 class OrganizationManager(models.Manager):
     def __str__(self):
@@ -44,6 +45,7 @@ class OrganizationNotification(AbstractNotification):
 
     class Meta(AbstractNotification.Meta):
         abstract = False
+        swappable = swapper.swappable_setting('notifications', 'Notification')
 
 
 class Location(TimeStampedModel):
