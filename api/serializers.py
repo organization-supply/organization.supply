@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from organization.models import Inventory, Location, Mutation, Product
+from organization.models.inventory import Inventory, Location, Mutation, Product
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:

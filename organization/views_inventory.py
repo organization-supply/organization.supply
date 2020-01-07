@@ -7,7 +7,7 @@ from django.db.models import F, Func, Q, Sum, Window
 from django.shortcuts import redirect, render
 
 from organization.forms import MutationForm
-from organization.models import Inventory, Location, Mutation, Product
+from organization.models.inventory import Inventory, Location, Mutation, Product
 
 
 @login_required

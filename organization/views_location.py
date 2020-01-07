@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from organization.forms import LocationForm
-from organization.models import Inventory, Location, Mutation
+from organization.models.inventory import Inventory, Location, Mutation
 
 
 def locations(request):

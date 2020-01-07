@@ -1,6 +1,6 @@
 from django import template
 
-from organization.models import Organization
+from organization.models.organization import Organization
 
 register = template.Library()
 

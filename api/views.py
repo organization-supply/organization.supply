@@ -17,7 +17,7 @@ from api.serializers import (
     ProductSerializer
     # NotificationSerializer,
 )
-from organization.models import Inventory, Location, Mutation, Organization, Product
+from organization.models.inventory import Inventory, Location, Mutation, Organization, Product
 
 def save_serializer_with_organization(serializer, organization):
     if serializer.instance:  # We are updating

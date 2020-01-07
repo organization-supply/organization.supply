@@ -8,7 +8,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
 from organization.forms import MutationForm, OrganizationForm, OrganizationInviteForm
-from organization.models import Inventory, Location, Mutation, Product
+from organization.models.inventory import Inventory, Location, Mutation, Product
 from user.models import User
 
 

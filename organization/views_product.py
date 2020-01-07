@@ -4,7 +4,7 @@ from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 
 from organization.forms import ProductForm
-from organization.models import Inventory, Mutation, Product
+from organization.models.inventory import Inventory, Mutation, Product
 
 
 def products(request):

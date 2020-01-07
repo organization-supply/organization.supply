@@ -93,9 +93,7 @@ TEMPLATES = [
     }
 ]
 
-AUTH_USER_MODEL = (
-    "user.User"
-)  # Custom user model that has email/password instead of username/email/password
+AUTH_USER_MODEL = "user.User"  # Custom user model that has email/password instead of username/email/password
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [

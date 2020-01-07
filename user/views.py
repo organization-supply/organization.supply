@@ -5,7 +5,6 @@ from django.contrib.auth.hashers import make_password
 from django.shortcuts import redirect, render
 from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
-from notifications.signals import notify
 from user.forms import UserForm, UserSignupForm
 from user.models import User
 
