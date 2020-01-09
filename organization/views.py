@@ -26,7 +26,9 @@ def help(request):
 @login_required
 def dashboard(request):
     products = Product.objects.for_organization(request.organization)
-    notifications = Notification.objects.for_organization(request.organization).for_user(request.user)
+    notifications = Notification.objects.for_organization(
+        request.organization
+    ).for_user(request.user)
     product_mutations = {}
     for product in products:
         product_mutations[product.name] = (
@@ -57,7 +59,7 @@ def dashboard(request):
             .all()
             .order_by("-created")[:5],
             "product_mutations": product_mutations,
-            "notifications": notifications
+            "notifications": notifications,
         },
     )
 

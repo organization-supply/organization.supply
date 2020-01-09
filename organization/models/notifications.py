@@ -1,18 +1,21 @@
+from django.conf import settings
+from django.contrib.auth.models import Group
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import QuerySet
-from model_utils.models import TimeStampedModel
-from model_utils import Choices
-from django.conf import settings
-from organization.models.organization import Organization
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.utils import timezone
 from django.dispatch import Signal
-from django.contrib.auth.models import Group
+from django.utils import timezone
 from django.utils.timesince import timesince as timesince_
+from model_utils import Choices
+from model_utils.models import TimeStampedModel
+
+from organization.models.organization import Organization
+
 
 class NotificationQuerySet(models.query.QuerySet):
-    ''' Notification QuerySet '''
+    """ Notification QuerySet """
+
     def unsent(self):
         return self.filter(emailed=False)
 
@@ -27,12 +30,12 @@ class NotificationQuerySet(models.query.QuerySet):
 
     def for_organization(self, organization):
         return self.filter(organization=organization)
-    
+
     def for_user(self, user):
         return self.filter(user=user)
 
     def mark_all_as_read(self, user):
-        qset = self.unread(True) # You can only mark unread notifications as read
+        qset = self.unread(True)  # You can only mark unread notifications as read
         qset = qset.filter(user=user)
         return qset.update(unread=False)
 
@@ -40,7 +43,7 @@ class NotificationQuerySet(models.query.QuerySet):
         """Mark as unread any read messages in the current queryset.
         Optionally, filter these by user first.
         """
-        qset = self.read(True) # You can only mark read notifications as unread
+        qset = self.read(True)  # You can only mark read notifications as unread
         qset = qset.filter(user=user)
         return qset.update(unread=True)
 
@@ -75,40 +78,50 @@ class NotificationQuerySet(models.query.QuerySet):
         qset = qset.filter(user=user)
         return qset.update(emailed=True)
 
+
 class Notification(TimeStampedModel):
-    LEVELS = Choices('success', 'info', 'warning', 'error')
+    LEVELS = Choices("success", "info", "warning", "error")
     level = models.CharField(choices=LEVELS, default=LEVELS.info, max_length=20)
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         blank=False,
-        related_name='notifications',
-        on_delete=models.CASCADE
+        related_name="notifications",
+        on_delete=models.CASCADE,
     )
     verb = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     unread = models.BooleanField(default=True, blank=False, db_index=True)
 
     organization = models.ForeignKey(Organization, null=True, on_delete=models.CASCADE)
-    
-    actor_content_type = models.ForeignKey(ContentType, related_name='notify_actor', on_delete=models.CASCADE)
+
+    actor_content_type = models.ForeignKey(
+        ContentType, related_name="notify_actor", on_delete=models.CASCADE
+    )
     actor_object_id = models.CharField(max_length=255)
-    actor = GenericForeignKey('actor_content_type', 'actor_object_id')
+    actor = GenericForeignKey("actor_content_type", "actor_object_id")
 
     target_content_type = models.ForeignKey(
         ContentType,
-        related_name='notify_target',
+        related_name="notify_target",
         blank=True,
         null=True,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
     target_object_id = models.CharField(max_length=255, blank=True, null=True)
-    target = GenericForeignKey('target_content_type', 'target_object_id')
+    target = GenericForeignKey("target_content_type", "target_object_id")
 
-    action_object_content_type = models.ForeignKey(ContentType, blank=True, null=True,
-                                                   related_name='notify_action_object', on_delete=models.CASCADE)
+    action_object_content_type = models.ForeignKey(
+        ContentType,
+        blank=True,
+        null=True,
+        related_name="notify_action_object",
+        on_delete=models.CASCADE,
+    )
     action_object_object_id = models.CharField(max_length=255, blank=True, null=True)
-    action_object = GenericForeignKey('action_object_content_type', 'action_object_object_id')
+    action_object = GenericForeignKey(
+        "action_object_content_type", "action_object_object_id"
+    )
 
     timestamp = models.DateTimeField(default=timezone.now, db_index=True)
 
@@ -120,8 +133,8 @@ class Notification(TimeStampedModel):
     objects = NotificationQuerySet.as_manager()
 
     class Meta:
-        ordering = ('-timestamp',) # sort by timestamp by default
-        index_together = ('user', 'unread') # speed up notifications count query
+        ordering = ("-timestamp",)  # sort by timestamp by default
+        index_together = ("user", "unread")  # speed up notifications count query
 
     def timesince(self, now=None):
         return timesince_(self.timestamp, now)
@@ -136,23 +149,23 @@ class Notification(TimeStampedModel):
             self.unread = True
             self.save()
 
+
 def notify_handler(verb, **kwargs):
     """
     Handler function to create Notification instance upon action signal call.
     """
     # Pull the options out of kwargs
-    kwargs.pop('signal', None)
-    user = kwargs.pop('user')
-    organization = kwargs.pop('organization', None)
-    actor = kwargs.pop('sender')
+    kwargs.pop("signal", None)
+    user = kwargs.pop("user")
+    organization = kwargs.pop("organization", None)
+    actor = kwargs.pop("sender")
     optional_objs = [
-        (kwargs.pop(opt, None), opt)
-        for opt in ('target', 'action_object')
+        (kwargs.pop(opt, None), opt) for opt in ("target", "action_object")
     ]
-    public = bool(kwargs.pop('public', True))
-    description = kwargs.pop('description', None)
-    timestamp = kwargs.pop('timestamp', timezone.now())
-    level = kwargs.pop('level', Notification.LEVELS.info)
+    public = bool(kwargs.pop("public", True))
+    description = kwargs.pop("description", None)
+    timestamp = kwargs.pop("timestamp", timezone.now())
+    level = kwargs.pop("level", Notification.LEVELS.info)
 
     # Check if User or Group
     # TODO implement Organization wide notifications here?
@@ -175,15 +188,18 @@ def notify_handler(verb, **kwargs):
             public=public,
             description=description,
             timestamp=timestamp,
-            level=level
+            level=level,
         )
 
         # Set optional objects
         for obj, opt in optional_objs:
             if obj is not None:
-                setattr(newnotify, '%s_object_id' % opt, obj.pk)
-                setattr(newnotify, '%s_content_type' % opt,
-                        ContentType.objects.get_for_model(obj))
+                setattr(newnotify, "%s_object_id" % opt, obj.pk)
+                setattr(
+                    newnotify,
+                    "%s_content_type" % opt,
+                    ContentType.objects.get_for_model(obj),
+                )
 
         if kwargs and EXTRA_DATA:
             newnotify.data = kwargs
@@ -194,10 +210,18 @@ def notify_handler(verb, **kwargs):
     return new_notifications
 
 
-notify = Signal(providing_args=[  # pylint: disable=invalid-name
-    'user', 'actor', 'verb', 'action_object', 'target', 'description',
-    'timestamp', 'level'
-])
+notify = Signal(
+    providing_args=[  # pylint: disable=invalid-name
+        "user",
+        "actor",
+        "verb",
+        "action_object",
+        "target",
+        "description",
+        "timestamp",
+        "level",
+    ]
+)
 
 # connect the signal
-notify.connect(notify_handler, dispatch_uid='organization.notifications.notification')
+notify.connect(notify_handler, dispatch_uid="organization.notifications.notification")

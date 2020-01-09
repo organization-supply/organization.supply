@@ -2,10 +2,11 @@ import uuid
 
 from django.db import models
 from django.shortcuts import get_object_or_404
+from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
-from model_utils import Choices
 from organizations.models import Organization as DjangoOrganization
+
 
 class OrganizationManager(models.Manager):
     def __str__(self):

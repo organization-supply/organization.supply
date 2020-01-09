@@ -1,14 +1,14 @@
-from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
+
+from organization.models.notifications import Notification, notify
 from user.forms import UserForm, UserSignupForm
 from user.models import User
-from organization.models.notifications import notify, Notification
 
 
 def signup(request):
@@ -53,15 +53,18 @@ def settings(request):
         request, "user/settings.html", {"token": token.key, "user_form": user_form}
     )
 
+
 @login_required
 def notifications(request):
     if request.user.notifications.count() == 0:
-        notify.send(request.user, user=request.user, verb='This is your first notification!')
+        notify.send(
+            request.user, user=request.user, verb="This is your first notification!"
+        )
 
     notification_filter = request.GET.get("status", "unread")
-    if notification_filter == 'all':
+    if notification_filter == "all":
         notifications = request.user.notifications_all
-    elif notification_filter == 'unread':
+    elif notification_filter == "unread":
         notifications = request.user.notifications_unread
     # We default to unread notifications
     else:
@@ -70,12 +73,15 @@ def notifications(request):
     return render(
         request,
         "user/notifications.html",
-        {'notifications': notifications, "notification_filter": notification_filter},
+        {"notifications": notifications, "notification_filter": notification_filter},
     )
+
 
 @login_required
 def notification_action(request, notification_id):
-    notification = get_object_or_404(Notification, id=notification_id, user=request.user)
+    notification = get_object_or_404(
+        Notification, id=notification_id, user=request.user
+    )
     print(request.GET.get("action"), notification)
     if request.GET.get("action") == "mark_as_read":
         notification.mark_as_read()

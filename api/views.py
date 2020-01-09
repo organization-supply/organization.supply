@@ -14,10 +14,17 @@ from api.serializers import (
     InventorySerializer,
     LocationSerializer,
     MutationSerializer,
-    ProductSerializer,
     NotificationSerializer,
+    ProductSerializer,
 )
-from organization.models.inventory import Inventory, Location, Mutation, Organization, Product
+from organization.models.inventory import (
+    Inventory,
+    Location,
+    Mutation,
+    Organization,
+    Product,
+)
+
 
 def save_serializer_with_organization(serializer, organization):
     if serializer.instance:  # We are updating
@@ -63,10 +70,13 @@ class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A simple ViewSet for viewing notifications.
     """
+
     serializer_class = NotificationSerializer
 
     def list(self, request, organization):
-        queryset = Notification.objects.for_organization(organization).for_user(request.user)
+        queryset = Notification.objects.for_organization(organization).for_user(
+            request.user
+        )
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 

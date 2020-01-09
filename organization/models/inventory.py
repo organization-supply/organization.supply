@@ -1,18 +1,18 @@
 import uuid
 
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Sum
-from django.contrib.contenttypes.fields import GenericRelation
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
 
+from organization.models.notifications import Notification
 from organization.models.organization import Organization, OrganizationManager
 from user.models import NotificationSubscription
-from organization.models.notifications import Notification
 
 
 class Location(TimeStampedModel):
@@ -21,7 +21,7 @@ class Location(TimeStampedModel):
     desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
-    objects = OrganizationManager() # Filters by organization on default
+    objects = OrganizationManager()  # Filters by organization on default
 
     @property
     def url(self):
@@ -67,7 +67,7 @@ class Product(TimeStampedModel):
     desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
-    objects = OrganizationManager() # Filters by organization on default
+    objects = OrganizationManager()  # Filters by organization on default
 
     @property
     def url(self):
@@ -124,7 +124,7 @@ class Mutation(TimeStampedModel):
     contra_mutation = models.ForeignKey(
         "self", on_delete=models.CASCADE, blank=True, null=True
     )
-    objects = OrganizationManager() # Filters by organization on default
+    objects = OrganizationManager()  # Filters by organization on default
 
     @property
     def name(self):
@@ -143,7 +143,7 @@ class Mutation(TimeStampedModel):
         inventory.save()
 
     def save(self, apply=True, *args, **kwargs):
-        # If the operation is reserved, we don't apply 
+        # If the operation is reserved, we don't apply
         # the mutation
         if self.operation != "reserved":
             if self.amount < 0:
@@ -168,7 +168,7 @@ class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.FloatField(default=0.0)
 
-    objects = OrganizationManager() # Filters by organization on default
+    objects = OrganizationManager()  # Filters by organization on default
 
     notification_subscription = GenericRelation(NotificationSubscription)
 
