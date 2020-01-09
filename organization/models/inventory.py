@@ -1,6 +1,7 @@
 import uuid
 
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
@@ -8,31 +9,10 @@ from django.urls import reverse
 from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
-from organizations.models import Organization as DjangoOrganization
 
-
-class OrganizationManager(models.Manager):
-    def __str__(self):
-        return self.slug
-
-    def for_organization(self, organization):
-        # If we are receiving a string, it's most likely a slug,
-        # so we do a lookup to get the organization by slug
-        if type(organization) == str:
-            organization = get_object_or_404(DjangoOrganization, slug=organization)
-        return (
-            super(OrganizationManager, self)
-            .get_queryset()
-            .filter(organization=organization)
-        )
-
-
-class Organization(DjangoOrganization, TimeStampedModel):
-    SUBSCRIPTION_CHOICES = Choices("free", "plan_1", "plan_1")
-    subscription_type = StatusField(choices_name="SUBSCRIPTION_CHOICES", default="free")
-    subscription_date = MonitorField(
-        monitor="subscription_type"
-    )  # Differs from the creation date of the organization
+from organization.models.notifications import Notification
+from organization.models.organization import Organization, OrganizationManager
+from user.models import NotificationSubscription
 
 
 class Location(TimeStampedModel):
@@ -40,7 +20,8 @@ class Location(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    objects = OrganizationManager()
+
+    objects = OrganizationManager()  # Filters by organization on default
 
     @property
     def url(self):
@@ -85,7 +66,8 @@ class Product(TimeStampedModel):
     name = models.CharField(max_length=200)
     desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    objects = OrganizationManager()
+
+    objects = OrganizationManager()  # Filters by organization on default
 
     @property
     def url(self):
@@ -142,7 +124,7 @@ class Mutation(TimeStampedModel):
     contra_mutation = models.ForeignKey(
         "self", on_delete=models.CASCADE, blank=True, null=True
     )
-    objects = OrganizationManager()
+    objects = OrganizationManager()  # Filters by organization on default
 
     @property
     def name(self):
@@ -152,6 +134,7 @@ class Mutation(TimeStampedModel):
     def url(self):
         return reverse("mutations", kwargs={"organization": self.organization.slug})
 
+    # Applies the mutation to the inventory
     def apply(self):
         inventory, created = Inventory.objects.get_or_create(
             product=self.product, location=self.location, organization=self.organization
@@ -160,6 +143,8 @@ class Mutation(TimeStampedModel):
         inventory.save()
 
     def save(self, apply=True, *args, **kwargs):
+        # If the operation is reserved, we don't apply
+        # the mutation
         if self.operation != "reserved":
             if self.amount < 0:
                 self.operation = "remove"
@@ -183,7 +168,9 @@ class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.FloatField(default=0.0)
 
-    objects = OrganizationManager()
+    objects = OrganizationManager()  # Filters by organization on default
+
+    notification_subscription = GenericRelation(NotificationSubscription)
 
     @property
     def url(self):

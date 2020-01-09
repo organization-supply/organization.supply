@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from organization.forms import MutationForm, ShortcutMoveForm
-from organization.models import Inventory, Location, Mutation, Product
+from organization.models.inventory import Inventory, Location, Mutation, Product
 
 
 @login_required
@@ -54,7 +54,6 @@ def shortcut_move(request):
         form = ShortcutMoveForm(
             data=request.POST, user=request.user, organization=request.organization
         )
-        print(form.errors)
 
         # If the form is valid:
         if form.is_valid():

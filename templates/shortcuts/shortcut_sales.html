@@ -20,7 +20,12 @@
 
             <div class="mt3">
                 <input type="checkbox" id="reserved" name="reserved">
-                <label for="reserved">This is a reservation</label>
+                <label for="reserved">
+                    This is a reservation
+                </label>
+                <!-- <span class="fr"> -->
+                    {% include 'utils/information.html' with id='user-notifications' content="A reservation is a draft transaction, not applied to the inventory" %}
+                <!-- </span> -->
             </div>
 
             <div class="mt3">

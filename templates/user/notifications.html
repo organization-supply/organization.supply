@@ -1,0 +1,59 @@
+
+{% extends "base.html" %}
+
+{% load extra_filters %}
+
+{% block title %}User - Notifications{% endblock title %}
+
+{% block content %}
+
+<h1 class="ph3 db">
+    Notifications
+    <a class="f4 black fw6 {% if notification_filter == 'unread' %}no-underline{% endif %} underline-hover" href="{% url 'user_notifications' %}">Unread</a>
+    <a class="f4 black fw6 {% if notification_filter == 'all'  %}no-underline{% endif %} underline-hover" href="{% url 'user_notifications' %}?status=all">All</a>
+    {% include 'utils/information.html' with id='user-notifications' content="Here you will find all notifications across all organizations" %}
+    <a class="f6 link dim ba ph3 pv2 dib black fr" href="#">Mark all as read</a>
+</h1>
+
+<div class="mh3 overflow-auto">
+    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
+        <tbody class="lh-copy">
+        {% if notifications %}
+            {% for notification in notifications %}
+                <tr>
+                    <td class="pl3 bb b--black-20">
+                        {% if notification.unread %}
+                            <a href="{% url 'user_notification_action' notification.id %}?action=mark_as_read" class="no-underline gold">◉</a>
+                        {% endif %}
+                    </td>
+                    <td class="pa2 bb b--black-20">
+                        {% if notification.organization %}
+                            <a href="{% url 'dashboard' notification.organization.slug %}">{{ notification.organization }}</a>
+                        {% endif %}
+                    </td>
+                    <td class="pa2 bb b--black-20">
+                        {{ notification.verb }}
+                    </td>
+                    <td class="pa2 bb b--black-20">
+                        {% if notification.description %} - {{ notification.description }}{% endif %}
+                    </td>
+                    <td class="pa2 bb b--black-20">
+                        <span class="fr">{{ notification.timesince }} ago</span>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td class="pl3 tc pa2 bb b--black-20">
+                    No new notifications (<a href="{{ request.get_full_path }}?status=all">view all notifications</a>)
+                </td>
+            </td>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

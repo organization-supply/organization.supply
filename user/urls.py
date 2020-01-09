@@ -1,4 +1,3 @@
-import notifications.urls
 from django.contrib.auth import views as auth_views
 from django.urls import include, path, reverse
 
@@ -14,7 +13,12 @@ urlpatterns = [
     path("signup", views.signup, name="user_signup"),
     path("settings", views.settings, name="user_settings"),
     path("organizations", views.organizations, name="user_organizations"),
-    path("notifications", include(notifications.urls, namespace="user")),
+    path("notifications", views.notifications, name="user_notifications"),
+    path(
+        "notification/<int:notification_id>",
+        views.notification_action,
+        name="user_notification_action",
+    ),
     path(
         "password/reset",
         auth_views.PasswordResetView.as_view(

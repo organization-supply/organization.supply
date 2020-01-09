@@ -10,7 +10,8 @@ from organizations.forms import OrganizationUserAddForm
 from organizations.models import OrganizationUser
 
 from organization.invite import OrganizationInvitationBackend
-from organization.models import Inventory, Location, Mutation, Organization, Product
+from organization.models.inventory import Inventory, Location, Mutation, Product
+from organization.models.organization import Organization
 
 FORBIDDEN_SLUGS = [
     "api",
@@ -201,8 +202,6 @@ class MutationForm(ModelForm):
                 )
         else:
             cleaned_data["operation"] = "add"
-
-        print(cleaned_data)
 
 
 class ShortcutMoveForm(Form):

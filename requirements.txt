@@ -14,7 +14,7 @@ django-dynamic-preferences==1.7.1
 django-extensions==2.2.5
 django-filter==2.2.0
 django-model-utils==3.2.0
-django-notifications-hq==1.5.0
+# git+git://github.com/django-notifications/django-notifications@0fba0345a78956f8d5d9bad85ec8a3e1a28b1d48
 django-organizations==1.1.2
 django-stubs==1.4.0
 djangorestframework==3.10.3

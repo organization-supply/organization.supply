@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.test.client import Client
 
-from organization.models import Location, Organization
+from organization.models.inventory import Inventory, Location, Mutation, Product
+from organization.models.organization import Organization
 from user.models import User
 
 

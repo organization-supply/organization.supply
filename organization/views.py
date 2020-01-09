@@ -8,7 +8,8 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
 from organization.forms import MutationForm, OrganizationForm, OrganizationInviteForm
-from organization.models import Inventory, Location, Mutation, Product
+from organization.models.inventory import Inventory, Location, Mutation, Product
+from organization.models.notifications import Notification
 from user.models import User
 
 
@@ -25,6 +26,9 @@ def help(request):
 @login_required
 def dashboard(request):
     products = Product.objects.for_organization(request.organization)
+    notifications = Notification.objects.for_organization(
+        request.organization
+    ).for_user(request.user)
     product_mutations = {}
     for product in products:
         product_mutations[product.name] = (
@@ -55,6 +59,7 @@ def dashboard(request):
             .all()
             .order_by("-created")[:5],
             "product_mutations": product_mutations,
+            "notifications": notifications,
         },
     )
 

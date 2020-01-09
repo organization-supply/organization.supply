@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, viewsets
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import APIView, ObtainAuthToken
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
@@ -14,9 +14,16 @@ from api.serializers import (
     InventorySerializer,
     LocationSerializer,
     MutationSerializer,
+    NotificationSerializer,
     ProductSerializer,
 )
-from organization.models import Inventory, Location, Mutation, Organization, Product
+from organization.models.inventory import (
+    Inventory,
+    Location,
+    Mutation,
+    Organization,
+    Product,
+)
 
 
 def save_serializer_with_organization(serializer, organization):
@@ -57,6 +64,21 @@ class ApiAuthorize(ObtainAuthToken):
                 "user": user.username,
             }
         )
+
+
+class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    A simple ViewSet for viewing notifications.
+    """
+
+    serializer_class = NotificationSerializer
+
+    def list(self, request, organization):
+        queryset = Notification.objects.for_organization(organization).for_user(
+            request.user
+        )
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class ProductView(generics.ListCreateAPIView):

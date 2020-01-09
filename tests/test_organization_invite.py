@@ -5,7 +5,8 @@ from django.test import TestCase
 from django.test.client import Client
 from organizations.backends.tokens import RegistrationTokenGenerator
 
-from organization.models import Inventory, Location, Mutation, Organization, Product
+from organization.models.inventory import Inventory, Location, Mutation, Product
+from organization.models.organization import Organization
 from user.models import User
 
 

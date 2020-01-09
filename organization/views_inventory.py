@@ -7,7 +7,7 @@ from django.db.models import F, Func, Q, Sum, Window
 from django.shortcuts import redirect, render
 
 from organization.forms import MutationForm
-from organization.models import Inventory, Location, Mutation, Product
+from organization.models.inventory import Inventory, Location, Mutation, Product
 
 
 @login_required
@@ -46,7 +46,6 @@ def mutation_insert(request):
         mutation = form.save()
         messages.add_message(request, messages.INFO, "Transaction added!")
     else:
-        print(form.errors)
         messages.add_message(request, messages.ERROR, form.non_field_errors().as_text())
     return redirect("mutations", organization=request.organization.slug)
 
