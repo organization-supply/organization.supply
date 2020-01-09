@@ -14,8 +14,8 @@ from api.serializers import (
     InventorySerializer,
     LocationSerializer,
     MutationSerializer,
-    ProductSerializer
-    # NotificationSerializer,
+    ProductSerializer,
+    NotificationSerializer,
 )
 from organization.models.inventory import Inventory, Location, Mutation, Organization, Product
 
@@ -59,16 +59,16 @@ class ApiAuthorize(ObtainAuthToken):
         )
 
 
-# class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
-#     """
-#     A simple ViewSet for viewing notifications.
-#     """
-#     serializer_class = NotificationSerializer
+class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    A simple ViewSet for viewing notifications.
+    """
+    serializer_class = NotificationSerializer
 
-#     def list(self, request, organization):
-#         queryset = Notification.objects.filter(recipient=request.user)
-#         serializer = self.get_serializer(queryset, many=True)
-#         return Response(serializer.data)
+    def list(self, request, organization):
+        queryset = Notification.objects.for_organization(organization).for_user(request.user)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class ProductView(generics.ListCreateAPIView):
