@@ -12,7 +12,7 @@ from model_utils.models import TimeStampedModel
 
 from organization.models.organization import Organization, OrganizationManager
 from user.models import NotificationSubscription
-from notifications.base.models import AbstractNotification
+from organization.models.notifications import Notification
 
 
 class Location(TimeStampedModel):

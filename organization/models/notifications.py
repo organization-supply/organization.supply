@@ -1,5 +1,13 @@
-from django import models 
+from django.db import models
 from model_utils.models import TimeStampedModel
+from model_utils import Choices
+from django.conf import settings
+from organization.models.organization import Organization
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.utils import timezone
+from django.dispatch import Signal
+
 
 class NotificationQuerySet(models.query.QuerySet):
     ''' Notification QuerySet '''
@@ -111,11 +119,10 @@ class Notification(TimeStampedModel):
     deleted = models.BooleanField(default=False, db_index=True)
     emailed = models.BooleanField(default=False, db_index=True)
 
-    data = JSONField(blank=True, null=True)
+    # data = JSONField(blank=True, null=True)
     objects = NotificationQuerySet.as_manager()
 
     class Meta:
-        abstract = True
         ordering = ('-timestamp',)
         app_label = 'notifications'
         # speed up notifications count query
@@ -215,6 +222,11 @@ def notify_handler(verb, **kwargs):
 
     return new_notifications
 
+
+notify = Signal(providing_args=[  # pylint: disable=invalid-name
+    'recipient', 'actor', 'verb', 'action_object', 'target', 'description',
+    'timestamp', 'level'
+])
 
 # connect the signal
 notify.connect(notify_handler, dispatch_uid='organization.notifications.notification')

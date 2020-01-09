@@ -1,17 +1,11 @@
 import uuid
 
-from django.conf import settings
 from django.db import models
-from django.db.models import Sum
-from django.contrib.contenttypes.fields import GenericRelation
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
-from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
+from model_utils import Choices
 from organizations.models import Organization as DjangoOrganization
-from user.models import NotificationSubscription
-from notifications.base.models import AbstractNotification
 
 class OrganizationManager(models.Manager):
     def __str__(self):

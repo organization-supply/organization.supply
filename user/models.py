@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework.authtoken.models import Token
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-
+from organization.models.notifications import Notification
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field. But a email as primary identifier"""
 
@@ -66,6 +66,10 @@ class User(AbstractUser):
     @property  # Used for representation in Search
     def desc(self):
         return self.email
+
+    @property
+    def notifications(self):
+        return Notification.objects.filter(user=self)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
