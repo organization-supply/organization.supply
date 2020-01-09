@@ -85,17 +85,48 @@
         {% endif %}
     </ul>
 </div>
+
+
+<div class="fl ph3 w-100 w-50-m w-50-l">
+    <h1 class="f4 bold">Notifications</h1>
+    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
+        <tbody class="lh-copy">
+        {% if notifications %}
+            {% for notification in notifications %}
+                <tr>
+                    <td class="pa2 bb b--black-20">
+                        {{ notification.verb }}
+                    </td>
+                    <td class="pa2 bb b--black-20">
+                        {% if notification.description %} - {{ notification.description }}{% endif %}
+                    </td>
+                    <td class="pa2 bb b--black-20">
+                        <span class="fr">{{ notification.timesince }} ago</span>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td class="pl3 tc pa2 bb b--black-20">
+                    No new notifications (<a href="{{ request.get_full_path }}?status=all">view all notifications</a>)
+                </td>
+            </td>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+    
     
 {% if reservations %}
-<div class="fl ph3 w-100 w-100-m w-100-l">
+<div class="fl ph3 w-100 w-50-m w-50-l">
     <h1 class="f4 bold">Reservations</h1>
     <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
         <thead>
-            <tr>
-                <th class="fw6 bb b--black-20 tl pa2 bg-white">Date</th>
-                <th class="fw6 bb b--black-20 tl pa3 bg-white">Amount</th>
-                <th class="fw6 bb b--black-20 tl pa3 bg-white">Description</th>
-                <th class="fw6 bb b--black-20 tl pa3 bg-white">Actions</th>
+            <tr class="">
+                <th class="fw6 bb b--black-20 tl pa2">Date</th>
+                <th class="fw6 bb b--black-20 tl pa3">Amount</th>
+                <th class="fw6 bb b--black-20 tl pa3">Description</th>
+                <th class="fw6 bb b--black-20 tl pa3">Actions</th>
             </tr>
         </thead>
         <tbody class="lh-copy">
@@ -105,10 +136,10 @@
                 <td class="pa2 bb b--black-20">{{ reservation.amount }}</td>
                 <td class="pa2 bb b--black-20">{{ reservation.desc }}</td>
                 <td class="pa2 bb b--black-20">
-                    <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'reservation_action' request.organization.slug reservation.id %}?action=confirm">
+                    <a class="f6 link ba ph3 pv2 dib black hover-bg-green" href="{% url 'reservation_action' request.organization.slug reservation.id %}?action=confirm">
                         Confirm
                     </a>
-                    <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'reservation_action' request.organization.slug reservation.id %}?action=cancel">
+                    <a class="f6 link ba ph3 pv2 dib black hover-bg-red" href="{% url 'reservation_action' request.organization.slug reservation.id %}?action=cancel">
                         Cancel
                     </a>
                 </td>

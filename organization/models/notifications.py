@@ -25,6 +25,12 @@ class NotificationQuerySet(models.query.QuerySet):
     def read(self, include_deleted=False):
         return self.filter(unread=False)
 
+    def for_organization(self, organization):
+        return self.filter(organization=organization)
+    
+    def for_user(self, user):
+        return self.filter(user=user)
+
     def mark_all_as_read(self, user):
         qset = self.unread(True) # You can only mark unread notifications as read
         qset = qset.filter(user=user)
