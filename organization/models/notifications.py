@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import QuerySet
 from model_utils.models import TimeStampedModel
 from model_utils import Choices
 from django.conf import settings
@@ -7,6 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils import timezone
 from django.dispatch import Signal
+from django.contrib.auth.models import Group
 
 
 class NotificationQuerySet(models.query.QuerySet):
@@ -92,7 +94,7 @@ class Notification(TimeStampedModel):
     description = models.TextField(blank=True, null=True)
     unread = models.BooleanField(default=True, blank=False, db_index=True)
 
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, null=True, on_delete=models.CASCADE)
     
     actor_content_type = models.ForeignKey(ContentType, related_name='notify_actor', on_delete=models.CASCADE)
     actor_object_id = models.CharField(max_length=255)
@@ -123,10 +125,8 @@ class Notification(TimeStampedModel):
     objects = NotificationQuerySet.as_manager()
 
     class Meta:
-        ordering = ('-timestamp',)
-        app_label = 'notifications'
-        # speed up notifications count query
-        index_together = ('user', 'unread')
+        ordering = ('-timestamp',) # sort by timestamp by default
+        index_together = ('user', 'unread') # speed up notifications count query
 
     def __str__(self):
         ctx = {
@@ -173,6 +173,7 @@ def notify_handler(verb, **kwargs):
     # Pull the options out of kwargs
     kwargs.pop('signal', None)
     user = kwargs.pop('user')
+    organization = kwargs.pop('organization', None)
     actor = kwargs.pop('sender')
     optional_objs = [
         (kwargs.pop(opt, None), opt)
@@ -181,7 +182,6 @@ def notify_handler(verb, **kwargs):
     public = bool(kwargs.pop('public', True))
     description = kwargs.pop('description', None)
     timestamp = kwargs.pop('timestamp', timezone.now())
-    Notification = load_model('notifications', 'Notification')
     level = kwargs.pop('level', Notification.LEVELS.info)
 
     # Check if User or Group
@@ -198,13 +198,14 @@ def notify_handler(verb, **kwargs):
     for user in users:
         newnotify = Notification(
             user=user,
+            organization=organization,
             actor_content_type=ContentType.objects.get_for_model(actor),
             actor_object_id=actor.pk,
-            verb=text_type(verb),
+            verb=verb,
             public=public,
             description=description,
             timestamp=timestamp,
-            level=level,
+            level=level
         )
 
         # Set optional objects

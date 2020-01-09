@@ -7,6 +7,7 @@ from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
 from user.forms import UserForm, UserSignupForm
 from user.models import User
+from organization.models.notifications import notify
 
 
 def signup(request):
@@ -54,7 +55,7 @@ def settings(request):
 @login_required
 def notifications(request):
     if request.user.notifications.count() == 0:
-        notify.send(request.user, recipient=request.user, verb='This is your first notification!')
+        notify.send(request.user, user=request.user, verb='This is your first notification!')
 
     return render(
         request,
