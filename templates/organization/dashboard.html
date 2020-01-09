@@ -86,12 +86,18 @@
     </ul>
 </div>
 
-
+{% if notifications %}
 <div class="fl ph3 w-100 w-50-m w-50-l">
     <h1 class="f4 bold">Notifications</h1>
     <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
+        <thead>
+            <tr class="">
+                <th class="fw6 bb b--black-20 tl pa2">Title</th>
+                <th class="fw6 bb b--black-20 tl pa2"></th>
+                <th class="fw6 bb b--black-20 tl pa2">Date</th>
+            </tr>
+        </thead>
         <tbody class="lh-copy">
-        {% if notifications %}
             {% for notification in notifications %}
                 <tr>
                     <td class="pa2 bb b--black-20">
@@ -101,21 +107,14 @@
                         {% if notification.description %} - {{ notification.description }}{% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
-                        <span class="fr">{{ notification.timesince }} ago</span>
+                        {{ notification.created|date:"d-m-Y" }}
                     </td>
                 </tr>
             {% endfor %}
-        {% else %}
-            <tr>
-                <td class="pl3 tc pa2 bb b--black-20">
-                    No new notifications (<a href="{{ request.get_full_path }}?status=all">view all notifications</a>)
-                </td>
-            </td>
-        {% endif %}
-        </tbody>
+        </tbody>  
     </table>
 </div>
-    
+{% endif %}
     
 {% if reservations %}
 <div class="fl ph3 w-100 w-50-m w-50-l">
