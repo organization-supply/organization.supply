@@ -18,11 +18,12 @@
 <div class="mh3 overflow-auto">
     <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
         <tbody class="lh-copy">
+        {% if notifications %}
             {% for notification in notifications %}
                 <tr>
                     <td class="pl3 bb b--black-20">
                         {% if notification.unread %}
-                            <a href="" class="no-underline gold">◉</a>
+                            <a href="{% url 'user_notification_action' notification.id %}?action=mark_as_read" class="no-underline gold">◉</a>
                         {% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
@@ -44,6 +45,13 @@
                     </td>
                 </tr>
             {% endfor %}
+        {% else %}
+            <tr>
+                <td class="pl3 tc pa2 bb b--black-20">
+                    No new notifications (<a href="{{ request.get_full_path }}?status=all">view all notifications</a>)
+                </td>
+            </td>
+        {% endif %}
         </tbody>
     </table>
 </div>

@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -7,7 +8,7 @@ from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
 from user.forms import UserForm, UserSignupForm
 from user.models import User
-from organization.models.notifications import notify
+from organization.models.notifications import notify, Notification
 
 
 def signup(request):
@@ -71,6 +72,15 @@ def notifications(request):
         "user/notifications.html",
         {'notifications': notifications, "notification_filter": notification_filter},
     )
+
+@login_required
+def notification_action(request, notification_id):
+    notification = get_object_or_404(Notification, id=notification_id, user=request.user)
+    print(request.GET.get("action"), notification)
+    if request.GET.get("action") == "mark_as_read":
+        notification.mark_as_read()
+
+    return redirect("user_notifications")
 
 
 @login_required
