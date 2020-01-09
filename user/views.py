@@ -57,10 +57,19 @@ def notifications(request):
     if request.user.notifications.count() == 0:
         notify.send(request.user, user=request.user, verb='This is your first notification!')
 
+    notification_filter = request.GET.get("status", "unread")
+    if notification_filter == 'all':
+        notifications = request.user.notifications_all
+    elif notification_filter == 'unread':
+        notifications = request.user.notifications_unread
+    # We default to unread notifications
+    else:
+        notifications = request.user.notifications_unread
+
     return render(
         request,
         "user/notifications.html",
-        {},
+        {'notifications': notifications, "notification_filter": notification_filter},
     )
 
 

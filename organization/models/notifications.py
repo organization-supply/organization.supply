@@ -9,7 +9,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils import timezone
 from django.dispatch import Signal
 from django.contrib.auth.models import Group
-
+from django.utils.timesince import timesince as timesince_
 
 class NotificationQuerySet(models.query.QuerySet):
     ''' Notification QuerySet '''
@@ -25,22 +25,17 @@ class NotificationQuerySet(models.query.QuerySet):
     def read(self, include_deleted=False):
         return self.filter(unread=False)
 
-    def mark_all_as_read(self, user=None):
-        qset = self.unread(True)
-        if user:
-            qset = qset.filter(user=user)
-
+    def mark_all_as_read(self, user):
+        qset = self.unread(True) # You can only mark unread notifications as read
+        qset = qset.filter(user=user)
         return qset.update(unread=False)
 
-    def mark_all_as_unread(self, user=None):
+    def mark_all_as_unread(self, user):
         """Mark as unread any read messages in the current queryset.
         Optionally, filter these by user first.
         """
-        qset = self.read(True)
-
-        if user:
-            qset = qset.filter(user=user)
-
+        qset = self.read(True) # You can only mark read notifications as unread
+        qset = qset.filter(user=user)
         return qset.update(unread=True)
 
     def deleted(self):
@@ -51,33 +46,27 @@ class NotificationQuerySet(models.query.QuerySet):
         """Return only active(un-deleted) items in the current queryset"""
         return self.filter(deleted=False)
 
-    def mark_all_as_deleted(self, user=None):
+    def mark_all_as_deleted(self, user):
         qset = self.active()
-        if user:
-            qset = qset.filter(user=user)
-
+        qset = qset.filter(user=user)
         return qset.update(deleted=True)
 
-    def mark_all_as_active(self, user=None):
+    def mark_all_as_active(self, user):
         """Mark current queryset as active(un-deleted).
         Optionally, filter by user first.
         """
         qset = self.deleted()
-        if user:
-            qset = qset.filter(user=user)
-
+        qset = qset.filter(user=user)
         return qset.update(deleted=False)
 
-    def mark_as_unsent(self, user=None):
+    def mark_as_unsent(self, user):
         qset = self.sent()
-        if user:
-            qset = qset.filter(user=user)
+        qset = qset.filter(user=user)
         return qset.update(emailed=False)
 
-    def mark_as_sent(self, user=None):
+    def mark_as_sent(self, user):
         qset = self.unsent()
-        if user:
-            qset = qset.filter(user=user)
+        qset = qset.filter(user=user)
         return qset.update(emailed=True)
 
 class Notification(TimeStampedModel):
@@ -128,33 +117,8 @@ class Notification(TimeStampedModel):
         ordering = ('-timestamp',) # sort by timestamp by default
         index_together = ('user', 'unread') # speed up notifications count query
 
-    def __str__(self):
-        ctx = {
-            'actor': self.actor,
-            'verb': self.verb,
-            'action_object': self.action_object,
-            'target': self.target,
-            'timesince': self.timesince()
-        }
-        if self.target:
-            if self.action_object:
-                return u'%(actor)s %(verb)s %(action_object)s on %(target)s %(timesince)s ago' % ctx
-            return u'%(actor)s %(verb)s %(target)s %(timesince)s ago' % ctx
-        if self.action_object:
-            return u'%(actor)s %(verb)s %(action_object)s %(timesince)s ago' % ctx
-        return u'%(actor)s %(verb)s %(timesince)s ago' % ctx
-
     def timesince(self, now=None):
-        """
-        Shortcut for the ``django.utils.timesince.timesince`` function of the
-        current timestamp.
-        """
-        from django.utils.timesince import timesince as timesince_
         return timesince_(self.timestamp, now)
-
-    @property
-    def slug(self):
-        return id2slug(self.id)
 
     def mark_as_read(self):
         if self.unread:
@@ -225,7 +189,7 @@ def notify_handler(verb, **kwargs):
 
 
 notify = Signal(providing_args=[  # pylint: disable=invalid-name
-    'recipient', 'actor', 'verb', 'action_object', 'target', 'description',
+    'user', 'actor', 'verb', 'action_object', 'target', 'description',
     'timestamp', 'level'
 ])
 

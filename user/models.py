@@ -68,9 +68,12 @@ class User(AbstractUser):
         return self.email
 
     @property
-    def notifications(self):
-        return Notification.objects.filter(user=self)
+    def notifications_unread(self):
+        return Notification.objects.filter(user=self, unread=True)
 
+    @property
+    def notifications_all(self):
+        return Notification.objects.filter(user=self)
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
