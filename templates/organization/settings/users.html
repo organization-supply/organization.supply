@@ -18,18 +18,18 @@
     <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
         <thead>
             <tr>
-                <th class="fw6 bb b--black-20 tl pa3 bg-white" style="width: 50px;">Image</th>
-                <th class="fw6 bb b--black-20 tl pa2 bg-white">Name</th>
-                <th class="fw6 bb b--black-20 tl pa2 bg-white">Email</th>
-                <th class="fw6 bb b--black-20 tl pa2 bg-white">Status</th>
-                <th class="fw6 bb b--black-20 tl pa2 bg-white">Last Login</th>
-                <th class="fw6 bb b--black-20 tl pa2 bg-white">Actions</th>
+                <th class="fw6 bb b--black-20 tl pa3" style="width: 50px;">Image</th>
+                <th class="fw6 bb b--black-20 tl pa2">Name</th>
+                <th class="fw6 bb b--black-20 tl pa2">Email</th>
+                <th class="fw6 bb b--black-20 tl pa2">Status</th>
+                <th class="fw6 bb b--black-20 tl pa2">Last Login</th>
+                <th class="fw6 bb b--black-20 tl pa2">Actions</th>
             </tr>
         </thead>
         <tbody class="lh-copy">
             {% for user in users %}
                 <tr>
-                    <td class="pl3 bb b--black-20">
+                    <td class="pl3 pa2 bb b--black-20">
                         <img class="br-pill h2 w2 dib" alt="avatar" src="{{ user.image.url }}" alt="">
                     </td>
                     <td class="pa2 bb b--black-20">
@@ -46,17 +46,27 @@
                         {% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
-                        {{ user.last_login }}
+                        {% if user.last_login %}
+                            {{ user.last_login }}
+                        {% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
                         {% if not user|is_organization_admin_in:request.organization %}
-                        <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_remove_user' request.organization.slug %}?id={{ user.id }}">
-                            {% if user.is_active %}
-                                Remove
+                            {% if user == request.user %}
+                                <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_leave' request.organization.slug %}">
+                                    Leave
+                                </a>
                             {% else %}
-                                Cancel Invite
+                                <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_remove_user' request.organization.slug %}?id={{ user.id }}">
+                                    {% if user.is_active %}
+                                        Remove
+                                    {% else %}
+                                        Cancel Invite
+                                    {% endif %}
+                                </a>
                             {% endif %}
-                        </a>
+                            
+                            
                         {% endif %}
                     </td>
                 </tr>

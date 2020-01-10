@@ -25,6 +25,10 @@
                                 | <a href="{% url 'user_notifications' %}?organization={{organization.slug}}">Notifications</a>
                                 | <a href="{% url 'organization_settings' organization.slug %}">Settings</a>
                             </span>
+
+                            <span class="f6 lh-copy measure mid-gray fr">
+                                <a href="{% url 'organization_leave' organization.slug %}">Leave</a>
+                            </span>
                         </div>
                     </div>
                 </div>
