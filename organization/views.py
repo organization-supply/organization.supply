@@ -180,6 +180,7 @@ def organization_invite_user(request):
 
 @login_required
 def organization_remove_user(request):
+    # If you are not an admin, you cannot remove anyone
     if not request.organization.is_admin(request.user):
         raise Http404(
             "Unable to remove user from organization {}".format(
@@ -189,9 +190,17 @@ def organization_remove_user(request):
 
     user_to_remove = get_object_or_404(User, pk=request.GET.get("id"))
 
+    # You cannot remove yourself
     if user_to_remove == request.user:
         messages.add_message(
             request, messages.ERROR, "You cannot remove yourself from this organization"
+        )
+        return redirect("organization_users", organization=request.organization.slug)
+
+    # You cannot remove admins from this organization:
+    if request.organization.is_admin(user_to_remove):
+        messages.add_message(
+            request, messages.ERROR, "You cannot remove an admin from an organization"
         )
         return redirect("organization_users", organization=request.organization.slug)
 
@@ -203,3 +212,26 @@ def organization_remove_user(request):
         "{} removed from {}".format(user_to_remove.email, request.organization.name),
     )
     return redirect("organization_users", organization=request.organization.slug)
+
+@login_required
+def organization_leave(request):
+    if request.organization.is_admin(request.user):
+
+        messages.add_message(
+            request, messages.ERROR, "You cannot leave {}  because you are an admin".format(
+                request.organization.name
+            )
+        )
+        return redirect("user_organizations")
+
+    else: 
+        request.organization.remove_user(request.user)
+
+        messages.add_message(
+            request,
+            messages.INFO,
+            "You left {}".format(request.organization.name),
+        )
+        return redirect("user_organizations")
+
+        

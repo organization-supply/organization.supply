@@ -42,6 +42,9 @@ urlpatterns = [
     path(
         "users/remove", views.organization_remove_user, name="organization_remove_user"
     ),
+    path( 
+        "users/leave", views.organization_leave, name="organization_leave"
+    ),
     path("search", views.search, name="search"),
     path(
         "inventory/location",
