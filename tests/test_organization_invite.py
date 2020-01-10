@@ -10,7 +10,7 @@ from organization.models.organization import Organization
 from user.models import User
 
 
-class TestDashboardPages(TestCase):
+class TestOrganizationInvite(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
