@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+
+  # API in Django with Django Rest Framework
+  inventory:
+    restart: always
+    build: .
+    ports:
+      - "8000:80"
+    links:
+      - postgres:postgres
+    volumes:
+      - /usr/src/app # for gunicorn
+      - /usr/src/app/static # for gunicorn
+      - .:/code # code for reloading
+
+    
+    environment: 
+      - POSTGRES_ENABLED=True # We are using postgres within this docker compose project instead of sqlite
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=postgres
+      - DJANGO_SECRET_KEY='k^s"XLo`szDhjq:99|u[*t]a?5c`QU]igR/mJgNU&EmAE93+eH'
+      - DJANGO_STATIC_ROOT=
+      - DJANGO_MEDIA_ROOT=
+      - SENTRY_DSN=
+      - SENDGRID_API_KEY=
+
+  # Db used for storage
+  postgres:
+    restart: always
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./sql:/home/root/sql
+
+volumes:
+  data:
+    external:
+      name: inventory

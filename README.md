@@ -15,6 +15,8 @@ It's a django app, so you will need python and other things installed (all in re
 
 Errors are tracked with Sentry. This is configured trough the .env file in which you will need to fill in the SENTRY_DSN variable. A `.env.example` file is provided.
 
+A `docker-compose.yml` file is also available for this stack for development. It runs the application with a Postgres DB instead of a sqlite one. A simple `build` and `up` should be enough, you can create a superuser in the python application container.
+
 # Testing
 
 Testing is done with pytest: `pytest`. If you want the coverage reports, run `pytest --cov-report html .` and look in the `tests/reports` directory to see the HTML output. The aim is to keep the coverage as high as possible.
