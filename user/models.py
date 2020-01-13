@@ -98,5 +98,3 @@ class NotificationSubscription(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     content_object = GenericForeignKey()
     object_id = models.UUIDField(default=uuid.uuid4, editable=False)
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
