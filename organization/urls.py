@@ -18,8 +18,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from organization import (
-    views,
+from organization.views import (
+    views_organization,
     views_inventory,
     views_location,
     views_product,
@@ -28,25 +28,25 @@ from organization import (
 
 urlpatterns = [
     # Inventory urls
-    path("dashboard", views.organization_dashboard, name="organization_dashboard"),
-    path("notifications", views.organization_notifications, name="organization_notifications"),
-    path("settings", views.organization_settings, name="organization_settings"),
-    path("users", views.organization_users, name="organization_users"),
+    path("dashboard", views_organization.organization_dashboard, name="organization_dashboard"),
+    path("notifications", views_organization.organization_notifications, name="organization_notifications"),
+    path("settings", views_organization.organization_settings, name="organization_settings"),
+    path("users", views_organization.organization_users, name="organization_users"),
     path(
         "integrations",
-        views.organization_integrations,
+        views_organization.organization_integrations,
         name="organization_integrations",
     ),
     path(
-        "users/invite", views.organization_invite_user, name="organization_invite_user"
+        "users/invite", views_organization.organization_invite_user, name="organization_invite_user"
     ),
     path(
-        "users/remove", views.organization_remove_user, name="organization_remove_user"
+        "users/remove", views_organization.organization_remove_user, name="organization_remove_user"
     ),
     path( 
-        "users/leave", views.organization_leave, name="organization_leave"
+        "users/leave", views_organization.organization_leave, name="organization_leave"
     ),
-    path("search", views.organization_search, name="organization_search"),
+    path("search", views_organization.organization_search, name="organization_search"),
     path(
         "inventory/location",
         views_inventory.organization_inventory_location,

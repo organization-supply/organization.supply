@@ -18,7 +18,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from organization import views
+from organization.views import views_organization
+from inventory import views
 
 urlpatterns = [
     # Index
@@ -30,7 +31,7 @@ urlpatterns = [
     # Admin
     path("admin/", admin.site.urls),
     # Organization urls (listed last, so we the others have priority)
-    path("create", views.organization_create, name="create_organization"),
+    path("create", views_organization.organization_create, name="create_organization"),
     path("<slug:organization>/", include("organization.urls")),
 ]
 

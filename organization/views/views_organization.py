@@ -14,16 +14,6 @@ from user.models import User
 
 
 @login_required
-def index(request):
-    return redirect("user_organizations")
-
-
-@login_required
-def help(request):
-    return render(request, "help.html", {})
-
-
-@login_required
 def organization_dashboard(request):
     products = Product.objects.for_organization(request.organization)
     notifications = Notification.objects.for_organization(
