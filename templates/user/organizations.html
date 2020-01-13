@@ -21,8 +21,8 @@
                         <div class="dtc">
                             <h1 class="f5 f4-ns mv1">{{ organization.name|title }}</h1>
                             <span class="f6 lh-copy measure mid-gray">
-                                <a href="{% url 'dashboard' organization.slug %}">Dashboard</a>
-                                | <a href="{% url 'user_notifications' %}?organization={{organization.slug}}">Notifications</a>
+                                <a href="{% url 'organization_dashboard' organization.slug %}">Dashboard</a>
+                                | <a href="{% url 'organization_notifications' organization.slug %}">Notifications</a>
                                 | <a href="{% url 'organization_settings' organization.slug %}">Settings</a>
                             </span>
 

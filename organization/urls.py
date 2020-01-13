@@ -28,7 +28,8 @@ from organization import (
 
 urlpatterns = [
     # Inventory urls
-    path("dashboard", views.dashboard, name="dashboard"),
+    path("dashboard", views.organization_dashboard, name="organization_dashboard"),
+    path("notifications", views.organization_notifications, name="organization_notifications"),
     path("settings", views.organization_settings, name="organization_settings"),
     path("users", views.organization_users, name="organization_users"),
     path(
@@ -45,58 +46,58 @@ urlpatterns = [
     path( 
         "users/leave", views.organization_leave, name="organization_leave"
     ),
-    path("search", views.search, name="search"),
+    path("search", views.organization_search, name="organization_search"),
     path(
         "inventory/location",
-        views_inventory.inventory_location,
-        name="inventory_location",
+        views_inventory.organization_inventory_location,
+        name="organization_inventory_location",
     ),
     path(
-        "inventory/product", views_inventory.inventory_product, name="inventory_product"
+        "inventory/product", views_inventory.organization_inventory_product, name="organization_inventory_product"
     ),
     # Mutations
-    path("mutations", views_inventory.mutations, name="mutations"),
-    path("mutations/insert", views_inventory.mutation_insert, name="mutation_insert"),
+    path("mutations", views_inventory.organization_mutations, name="organization_mutations"),
+    path("mutations/insert", views_inventory.organization_mutation_insert, name="organization_mutation_insert"),
     # Locations
-    path("locations", views_location.locations, name="locations"),
-    path("location/new", views_location.location_form, name="location_new"),
+    path("locations", views_location.organization_locations, name="organization_locations"),
+    path("location/new", views_location.organization_location_form, name="organization_location_new"),
     path(
         "location/<uuid:location_id>",
-        views_location.location_view,
-        name="location_view",
+        views_location.organization_location_view,
+        name="organization_location_view",
     ),
     path(
         "location/<uuid:location_id>/edit",
-        views_location.location_form,
-        name="location_edit",
+        views_location.organization_location_form,
+        name="organization_location_edit",
     ),
     path(
         "location/<uuid:location_id>/delete",
-        views_location.location_form,
-        name="location_delete",
+        views_location.organization_location_form,
+        name="organization_location_delete",
     ),
     # Products
-    path("products", views_product.products, name="products"),
-    path("product/new", views_product.product_form, name="product_new"),
-    path("product/<uuid:product_id>", views_product.product_view, name="product_view"),
+    path("products", views_product.organization_products, name="organization_products"),
+    path("product/new", views_product.organization_product_form, name="organization_product_new"),
+    path("product/<uuid:product_id>", views_product.organization_product_view, name="organization_product_view"),
     path(
         "product/<uuid:product_id>/edit",
-        views_product.product_form,
-        name="product_edit",
+        views_product.organization_product_form,
+        name="organization_product_edit",
     ),
     path(
         "product/<uuid:product_id>/delete",
-        views_product.product_form,
-        name="product_delete",
+        views_product.organization_product_form,
+        name="organization_product_delete",
     ),
     # Shortcuts
-    path("shortcuts/sales", views_shortcuts.shortcut_sales, name="shortcut_sales"),
-    path("shortcuts/move", views_shortcuts.shortcut_move, name="shortcut_move"),
+    path("shortcuts/sales", views_shortcuts.organization_shortcut_sales, name="organization_shortcut_sales"),
+    path("shortcuts/move", views_shortcuts.organization_shortcut_move, name="organization_shortcut_move"),
     # Reservations
     path(
         "reservation/<uuid:mutation_id>",
-        views_shortcuts.reservation_action,
-        name="reservation_action",
+        views_shortcuts.organization_reservation_action,
+        name="organization_reservation_action",
     ),
     # API urls
     path("api/", include("api.urls")),

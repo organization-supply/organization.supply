@@ -26,7 +26,7 @@ class Location(TimeStampedModel):
     @property
     def url(self):
         return reverse(
-            "location_view",
+            "organization_location_view",
             kwargs={"location_id": self.pk, "organization": self.organization.slug},
         )
 
@@ -72,7 +72,7 @@ class Product(TimeStampedModel):
     @property
     def url(self):
         return reverse(
-            "product_view",
+            "organization_product_view",
             kwargs={"product_id": self.pk, "organization": self.organization.slug},
         )
 
@@ -132,7 +132,7 @@ class Mutation(TimeStampedModel):
 
     @property
     def url(self):
-        return reverse("mutations", kwargs={"organization": self.organization.slug})
+        return reverse("organization_mutations", kwargs={"organization": self.organization.slug})
 
     # Applies the mutation to the inventory
     def apply(self):
@@ -175,7 +175,7 @@ class Inventory(models.Model):
     @property
     def url(self):
         return reverse(
-            "inventory_locations", kwargs={"organization": self.organization.slug}
+            "organization_inventory_locations", kwargs={"organization": self.organization.slug}
         )
 
     def _create_mutation(self, amount: float, desc: str = ""):

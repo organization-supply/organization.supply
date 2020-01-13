@@ -72,7 +72,7 @@ def notifications(request):
 
     return render(
         request,
-        "user/notifications.html",
+        "notifications/notifications.html",
         {"notifications": notifications, "notification_filter": notification_filter},
     )
 

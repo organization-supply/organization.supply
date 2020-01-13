@@ -12,7 +12,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.authtoken.models import Token
-
+from organization.models.notifications import notify
 from organization.models.notifications import Notification
 
 
@@ -98,3 +98,5 @@ class NotificationSubscription(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     content_object = GenericForeignKey()
     object_id = models.UUIDField(default=uuid.uuid4, editable=False)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

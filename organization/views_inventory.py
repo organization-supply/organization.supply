@@ -11,7 +11,7 @@ from organization.models.inventory import Inventory, Location, Mutation, Product
 
 
 @login_required
-def inventory_location(request):
+def organization_inventory_location(request):
     return render(
         request,
         "organization/inventory_location.html",
@@ -24,7 +24,7 @@ def inventory_location(request):
 
 
 @login_required
-def inventory_product(request):
+def organization_inventory_product(request):
     return render(
         request,
         "organization/inventory_product.html",
@@ -37,7 +37,7 @@ def inventory_product(request):
 
 
 @login_required
-def mutation_insert(request):
+def organization_mutation_insert(request):
     mutable_form = request.POST.copy()
     mutable_form["user"] = request.user.id
     mutable_form["operation"] = "add"  # placeholder, gets changed later..
@@ -51,7 +51,7 @@ def mutation_insert(request):
 
 
 @login_required
-def mutations(request):
+def organization_mutations(request):
     mutation_form = MutationForm(
         initial={"amount": 1.0}, organization=request.organization
     )

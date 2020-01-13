@@ -22,7 +22,7 @@
         </thead>
         <tbody class="lh-copy">
             <tr>
-                <form method="POST" id="mutation_form" action="{% url 'mutation_insert' request.organization.slug %}">
+                <form method="POST" id="mutation_form" action="{% url 'organization_mutation_insert' request.organization.slug %}">
                     <td class="pl3 bb b--black-20">
                         {% now "Y-m-d" %}
                         {% csrf_token %}
@@ -57,10 +57,10 @@
                         {% if mutation.operation == 'reserved' %}(reserved){% endif %}
                     </td>
                     <td class="pa3 bb b--black-20">
-                        <a href="{% url 'product_view' request.organization.slug mutation.product.id %}">{{ mutation.product.name }}</a>
+                        <a href="{% url 'organization_product_view' request.organization.slug mutation.product.id %}">{{ mutation.product.name }}</a>
                     </td>
                     <td class="pa3 bb b--black-20">
-                        <a href="{% url 'location_view' request.organization.slug mutation.location.id %}">{{ mutation.location.name }}</a>
+                        <a href="{% url 'organization_location_view' request.organization.slug mutation.location.id %}">{{ mutation.location.name }}</a>
                     </td>
                     <td class="pa3 bb b--black-20">
                         {{ mutation.desc }}

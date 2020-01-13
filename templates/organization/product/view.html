@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}{{ request.organization.name }} - Products{% endblock title %}
+{% block title %}{{ request.organization.name }} - Products - {{ product.name }}{% endblock title %}
 
 {% block content %}
 
     <h1>
         📦 {{ product.name|title }}
-        <a class="f6 link dim ba ph3 fr pv2 mb2 dib black" href="{% url 'product_edit' request.organization.slug     product.id %}">Edit</a>
+        <a class="f6 link dim ba ph3 fr pv2 mb2 dib black" href="{% url 'organization_product_edit' request.organization.slug     product.id %}">Edit</a>
     </h1>
 
     <article class="cf">
@@ -36,7 +36,7 @@
                                 {{ total|add:inventory.amount }}
                                 <td class="pa2 bb b--black-20">{{ inventory.amount }}</td>
                                 <td class="pa2 bb b--black-20">
-                                    <a href="{% url 'location_view' request.organization.slug    inventory.location.id %}">
+                                    <a href="{% url 'organization_location_view' request.organization.slug    inventory.location.id %}">
                                         {{ inventory.location.name }}
                                     </a>
                                 </td>
@@ -87,7 +87,7 @@
                                 {% endif %}
                             </td>
                             <td class="pa2 bb b--black-20">
-                                <a href="{% url 'location_view' request.organization.slug    mutation.location.id %}">{{ mutation.location.name }}</a>
+                                <a href="{% url 'organization_location_view' request.organization.slug    mutation.location.id %}">{{ mutation.location.name }}</a>
                             </td>
                             <td class="pa2 bb b--black-20">
                                 {% if mutation.user.name %}

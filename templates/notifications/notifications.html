@@ -3,15 +3,17 @@
 
 {% load extra_filters %}
 
-{% block title %}User - Notifications{% endblock title %}
+{% block title %}{{ request.organization.name }} - Notifications{% endblock title %}
 
 {% block content %}
 
 <h1 class="ph3 db">
-    Notifications
-    <a class="f4 black fw6 {% if notification_filter == 'unread' %}no-underline{% endif %} underline-hover" href="{% url 'user_notifications' %}">Unread</a>
-    <a class="f4 black fw6 {% if notification_filter == 'all'  %}no-underline{% endif %} underline-hover" href="{% url 'user_notifications' %}?status=all">All</a>
-    {% include 'utils/information.html' with id='user-notifications' content="Here you will find all notifications across all organizations" %}
+    🔔 Notifications
+    {% if request.organization%}
+    <a class="f4 black fw6 {% if notification_filter == 'unread' %}no-underline{% endif %} underline-hover" href="{% url 'organization_notifications' request.organization.slug %}">Unread</a>
+    <a class="f4 black fw6 {% if notification_filter == 'all'  %}no-underline{% endif %} underline-hover" href="{% url 'organization_notifications' request.organization.slug %}?status=all">All</a>
+    {% endif %}
+    {% include 'utils/information.html' with id='user-notifications' content="Here you will find all notifications for this organization" %}
     <a class="f6 link dim ba ph3 pv2 dib black fr" href="#">Mark all as read</a>
 </h1>
 
@@ -26,11 +28,12 @@
                             <a href="{% url 'user_notification_action' notification.id %}?action=mark_as_read" class="no-underline gold">◉</a>
                         {% endif %}
                     </td>
-                    <td class="pa2 bb b--black-20">
-                        {% if notification.organization %}
-                            <a href="{% url 'dashboard' notification.organization.slug %}">{{ notification.organization }}</a>
-                        {% endif %}
+                    <!-- If we are not dealing with a organization page, we render a org column -->
+                    {% if not request.organization %}
+                    <td>
+                        {{ notification.organization }}    
                     </td>
+                    {% endif %}
                     <td class="pa2 bb b--black-20">
                         {{ notification.verb }}
                     </td>

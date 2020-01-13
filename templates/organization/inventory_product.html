@@ -6,8 +6,8 @@
 
 <h1 class="ph3 db">
     📋 Inventory 
-    <a href="{% url 'inventory_location' request.organization.slug %}" class="f4 black fw6 no-underline underline-hover">Locations</a>
-    <a href="{% url 'inventory_product' request.organization.slug %}" class="f4 black fw6 underline-hover">Products</a>
+    <a href="{% url 'organization_inventory_location' request.organization.slug %}" class="f4 black fw6 no-underline underline-hover">Locations</a>
+    <a href="{% url 'organization_inventory_product' request.organization.slug %}" class="f4 black fw6 underline-hover">Products</a>
     {% include 'utils/information.html' with id='inventory_location' content="This is an overview of your inventory per product"%}
 </h1>
 
@@ -26,7 +26,7 @@
             {% for inventory in product_inventory %}
             <tr>
                 <td class="pl3 bb b--black-20">
-                    <a href="{% url 'product_view' request.organization.slug inventory.grouper.id %}">
+                    <a href="{% url 'organization_product_view' request.organization.slug inventory.grouper.id %}">
                         {{ inventory.grouper.name }}
                     </a>
                 </td>   
@@ -35,7 +35,7 @@
                     {% for inventory in inventory.list %}
                         <li>
                             {{ inventory.amount }} at
-                            <a href="{% url 'location_view' request.organization.slug inventory.location.id %}">{{ inventory.location.name }}</a>
+                            <a href="{% url 'organization_location_view' request.organization.slug inventory.location.id %}">{{ inventory.location.name }}</a>
                         </li>
                     {% endfor %}
                     </ul>
@@ -45,7 +45,7 @@
             {% else %}
                 <tr>
                     <td class="pv2 pl3 bb b--black-20" colspan="5">
-                        <p>No inventory found. Inventory requires a <a href="{% url 'product_new' request.organization.slug %}">product</a> or <a href="{% url 'location_new' request.organization.slug %}">location</a>.</p>
+                        <p>No inventory found. Inventory requires a <a href="{% url 'organization_product_new' request.organization.slug %}">product</a> or <a href="{% url 'organization_location_new' request.organization.slug %}">location</a>.</p>
                     </td>
                 </tr>
             {% endif %}

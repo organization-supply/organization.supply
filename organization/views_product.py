@@ -7,7 +7,7 @@ from organization.forms import ProductForm
 from organization.models.inventory import Inventory, Mutation, Product
 
 
-def products(request):
+def organization_products(request):
 
     products_list = Product.objects.for_organization(request.organization).order_by(
         "-created"
@@ -20,7 +20,7 @@ def products(request):
     )
 
 
-def product_view(request, product_id):
+def organization_product_view(request, product_id):
     product = get_object_or_404(
         Product, id=product_id, organization=request.organization
     )
@@ -49,7 +49,7 @@ def product_view(request, product_id):
     )
 
 
-def product_form(request, product_id=None):
+def organization_product_form(request, product_id=None):
     # Creating a new product..
     if request.method == "POST" and product_id == None:
         form = ProductForm(request.POST)

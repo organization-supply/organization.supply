@@ -24,7 +24,7 @@ def help(request):
 
 
 @login_required
-def dashboard(request):
+def organization_dashboard(request):
     products = Product.objects.for_organization(request.organization)
     notifications = Notification.objects.for_organization(
         request.organization
@@ -65,7 +65,7 @@ def dashboard(request):
 
 
 @login_required
-def search(request):
+def organization_search(request):
     if request.GET.get("q"):
         q = request.GET.get("q")
         products = Product.objects.for_organization(request.organization).filter(
@@ -110,6 +110,16 @@ def organization_create(request):
         "organization/create.html",
         {"create_organization_form": create_organization_form},
     )
+
+
+@login_required
+def organization_notifications(request):
+    return render(
+        request,
+        "notifications/notifications.html",
+        {"notifications": Notification.objects.for_organization(request.organization)}
+    )
+
 
 
 @login_required

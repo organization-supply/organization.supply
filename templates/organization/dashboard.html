@@ -13,7 +13,7 @@
     <h1 class="f4 bold">Quick actions</h1>
     
     <ul style="margin-block-end: 0; margin-block-start: 0;" class="list pl0 ml0 ba b--light-silver br2">
-        <a href="{% url 'shortcut_sales' request.organization.slug %}" class="black no-underline">
+        <a href="{% url 'organization_shortcut_sales' request.organization.slug %}" class="black no-underline">
             <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
                 I sold a product
                 <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
@@ -22,7 +22,7 @@
                 </svg>
             </li>
         </a>
-        <a href="{% url 'shortcut_move' request.organization.slug %}" class="black no-underline">
+        <a href="{% url 'organization_shortcut_move' request.organization.slug %}" class="black no-underline">
             <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
                 I moved a product
                 <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
@@ -31,7 +31,7 @@
                 </svg>
             </li>
         </a>
-        <a href="{% url 'mutations' request.organization.slug %}" class="black no-underline">
+        <a href="{% url 'organization_mutations' request.organization.slug %}" class="black no-underline">
             <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
                 I want to add new inventory
                 <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
@@ -40,7 +40,7 @@
                 </svg>
             </li>
         </a>
-        <a href="{% url 'product_new' request.organization.slug %}" class="black no-underline">
+        <a href="{% url 'organization_product_new' request.organization.slug %}" class="black no-underline">
             <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
                 I would like to create a new product
                 <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
@@ -49,7 +49,7 @@
                 </svg>
             </li>
         </a>
-        <a href="{% url 'location_new' request.organization.slug %}" class="black no-underline">
+        <a href="{% url 'organization_location_new' request.organization.slug %}" class="black no-underline">
             <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
                 I would like to create a new location
                 <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
@@ -88,7 +88,7 @@
 
 {% if notifications %}
 <div class="fl ph3 w-100 w-50-m w-50-l">
-    <h1 class="f4 bold">Notifications</h1>
+    <h1 class="f4 bold">Notifications <small>(<a href="">see more &raquo;</a>)</small></h1>
     <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
         <thead>
             <tr class="">
@@ -135,10 +135,10 @@
                 <td class="pa2 bb b--black-20">{{ reservation.amount }}</td>
                 <td class="pa2 bb b--black-20">{{ reservation.desc }}</td>
                 <td class="pa2 bb b--black-20">
-                    <a class="f6 link ba ph3 pv2 dib black hover-bg-green" href="{% url 'reservation_action' request.organization.slug reservation.id %}?action=confirm">
+                    <a class="f6 link ba ph3 pv2 dib black hover-bg-green" href="{% url 'organization_reservation_action' request.organization.slug reservation.id %}?action=confirm">
                         Confirm
                     </a>
-                    <a class="f6 link ba ph3 pv2 dib black hover-bg-red" href="{% url 'reservation_action' request.organization.slug reservation.id %}?action=cancel">
+                    <a class="f6 link ba ph3 pv2 dib black hover-bg-red" href="{% url 'organization_reservation_action' request.organization.slug reservation.id %}?action=cancel">
                         Cancel
                     </a>
                 </td>

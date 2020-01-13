@@ -6,7 +6,7 @@ from organization.forms import LocationForm
 from organization.models.inventory import Inventory, Location, Mutation
 
 
-def locations(request):
+def organization_locations(request):
     locations_list = Location.objects.for_organization(request.organization).order_by(
         "-created"
     )
@@ -17,7 +17,7 @@ def locations(request):
     )
 
 
-def location_view(request, location_id):
+def organization_location_view(request, location_id):
     location = get_object_or_404(
         Location, id=location_id, organization=request.organization
     )
@@ -36,7 +36,7 @@ def location_view(request, location_id):
     )
 
 
-def location_form(request, location_id=None):
+def organization_location_form(request, location_id=None):
     # Creating a new location..
     if request.method == "POST" and location_id == None:
         form = LocationForm(request.POST)

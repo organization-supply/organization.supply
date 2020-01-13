@@ -6,7 +6,7 @@
 
     <h1>
         📍 {{ location.name }}
-        <a class="f6 link dim ba ph3 pv2 mb2 fr dib black" href="{% url 'location_edit' request.organization.slug location.id %}">Edit</a>
+        <a class="f6 link dim ba ph3 pv2 mb2 fr dib black" href="{% url 'organization_location_edit' request.organization.slug location.id %}">Edit</a>
     </h1>
 
     <article class="cf">
@@ -35,7 +35,7 @@
                             <tr>
                                 <td class="pa2 bb b--black-20">{{ inventory.amount }}</td>
                                 <td class="pa2 bb b--black-20">
-                                    <a href="{% url 'product_view' request.organization.slug inventory.product.id %}">
+                                    <a href="{% url 'organization_product_view' request.organization.slug inventory.product.id %}">
                                         {{ inventory.product.name }}
                                     </a>
                                 </td>
@@ -75,7 +75,7 @@
                             {% endif %}
                         </td>
                         <td class="pa2 bb b--black-20">
-                            <a href="{% url 'product_view' request.organization.slug mutation.product.id %}">{{ mutation.product.name }}</a>
+                            <a href="{% url 'organization_product_view' request.organization.slug mutation.product.id %}">{{ mutation.product.name }}</a>
                         </td>
                         <td class="pa2 bb b--black-20">
                             {% if mutation.user.name %}

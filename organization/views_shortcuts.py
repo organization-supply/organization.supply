@@ -7,7 +7,7 @@ from organization.models.inventory import Inventory, Location, Mutation, Product
 
 
 @login_required
-def shortcut_sales(request):
+def organization_shortcut_sales(request):
     if request.method == "POST":
         data = request.POST.copy()
         data["user"] = request.user.id
@@ -36,7 +36,7 @@ def shortcut_sales(request):
         if form.is_valid():
             mutation = form.save()
             messages.add_message(request, messages.SUCCESS, message + "!")
-            return redirect("dashboard", organization=request.organization.slug)
+            return redirect("organization_dashboard", organization=request.organization.slug)
         else:
             messages.add_message(
                 request, messages.ERROR, form.non_field_errors().as_text()
@@ -49,7 +49,7 @@ def shortcut_sales(request):
 
 
 @login_required
-def shortcut_move(request):
+def organization_shortcut_move(request):
     if request.method == "POST":
         form = ShortcutMoveForm(
             data=request.POST, user=request.user, organization=request.organization
@@ -65,7 +65,7 @@ def shortcut_move(request):
             messages.add_message(
                 request, messages.SUCCESS, "{} {} moved!".format(amount, product.name)
             )
-            return redirect("dashboard", organization=request.organization.slug)
+            return redirect("organization_dashboard", organization=request.organization.slug)
 
         # Otherwise add errors to messages:
         else:
@@ -84,7 +84,7 @@ def shortcut_move(request):
 
 
 @login_required
-def reservation_action(request, mutation_id):
+def organization_reservation_action(request, mutation_id):
     mutation = get_object_or_404(
         Mutation, id=mutation_id, organization=request.organization
     )
@@ -99,4 +99,4 @@ def reservation_action(request, mutation_id):
         mutation.delete()
         messages.add_message(request, messages.INFO, "Reservation cancelled!")
 
-    return redirect("dashboard", organization=request.organization.slug)
+    return redirect("organization_dashboard", organization=request.organization.slug)
