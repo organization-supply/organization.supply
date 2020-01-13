@@ -18,8 +18,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from organization.views import views_organization
 from inventory import views
+from organization.views import views_organization
 
 urlpatterns = [
     # Index

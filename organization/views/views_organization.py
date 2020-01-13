@@ -107,9 +107,8 @@ def organization_notifications(request):
     return render(
         request,
         "notifications/notifications.html",
-        {"notifications": Notification.objects.for_organization(request.organization)}
+        {"notifications": Notification.objects.for_organization(request.organization)},
     )
-
 
 
 @login_required
@@ -213,25 +212,24 @@ def organization_remove_user(request):
     )
     return redirect("organization_users", organization=request.organization.slug)
 
+
 @login_required
 def organization_leave(request):
     if request.organization.is_admin(request.user):
 
         messages.add_message(
-            request, messages.ERROR, "You cannot leave {}  because you are an admin".format(
+            request,
+            messages.ERROR,
+            "You cannot leave {}  because you are an admin".format(
                 request.organization.name
-            )
+            ),
         )
         return redirect("user_organizations")
 
-    else: 
+    else:
         request.organization.remove_user(request.user)
 
         messages.add_message(
-            request,
-            messages.INFO,
-            "You left {}".format(request.organization.name),
+            request, messages.INFO, "You left {}".format(request.organization.name)
         )
         return redirect("user_organizations")
-
-        

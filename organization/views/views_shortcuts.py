@@ -36,7 +36,9 @@ def organization_shortcut_sales(request):
         if form.is_valid():
             mutation = form.save()
             messages.add_message(request, messages.SUCCESS, message + "!")
-            return redirect("organization_dashboard", organization=request.organization.slug)
+            return redirect(
+                "organization_dashboard", organization=request.organization.slug
+            )
         else:
             messages.add_message(
                 request, messages.ERROR, form.non_field_errors().as_text()
@@ -65,7 +67,9 @@ def organization_shortcut_move(request):
             messages.add_message(
                 request, messages.SUCCESS, "{} {} moved!".format(amount, product.name)
             )
-            return redirect("organization_dashboard", organization=request.organization.slug)
+            return redirect(
+                "organization_dashboard", organization=request.organization.slug
+            )
 
         # Otherwise add errors to messages:
         else:

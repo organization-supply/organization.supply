@@ -44,7 +44,9 @@ def organization_location_form(request, location_id=None):
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.INFO, "Location created!")
-            return redirect("organization_locations", organization=request.organization.slug)
+            return redirect(
+                "organization_locations", organization=request.organization.slug
+            )
 
     # Deleting a location
     elif (
@@ -57,7 +59,9 @@ def organization_location_form(request, location_id=None):
         )
         instance.delete()
         messages.add_message(request, messages.INFO, "Location deleted!")
-        return redirect("organization_locations", organization=request.organization.slug)
+        return redirect(
+            "organization_locations", organization=request.organization.slug
+        )
 
     # Updating a location
     elif request.method == "POST" and location_id != None:
@@ -68,7 +72,9 @@ def organization_location_form(request, location_id=None):
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.INFO, "Location updated!")
-            return redirect("organization_locations", organization=request.organization.slug)
+            return redirect(
+                "organization_locations", organization=request.organization.slug
+            )
         else:
             return render(request, "organization/location/form.html", {"form": form})
     # Otherwise: get form

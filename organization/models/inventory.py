@@ -10,9 +10,8 @@ from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
 
-from organization.models.notifications import Notification
+from organization.models.notifications import Notification, NotificationSubscription
 from organization.models.organization import Organization, OrganizationManager
-from user.models import NotificationSubscription
 
 
 class Location(TimeStampedModel):
@@ -132,7 +131,9 @@ class Mutation(TimeStampedModel):
 
     @property
     def url(self):
-        return reverse("organization_mutations", kwargs={"organization": self.organization.slug})
+        return reverse(
+            "organization_mutations", kwargs={"organization": self.organization.slug}
+        )
 
     # Applies the mutation to the inventory
     def apply(self):
@@ -175,7 +176,8 @@ class Inventory(models.Model):
     @property
     def url(self):
         return reverse(
-            "organization_inventory_locations", kwargs={"organization": self.organization.slug}
+            "organization_inventory_locations",
+            kwargs={"organization": self.organization.slug},
         )
 
     def _create_mutation(self, amount: float, desc: str = ""):

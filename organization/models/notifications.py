@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -11,6 +13,7 @@ from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
 from organization.models.organization import Organization
+
 
 
 class NotificationQuerySet(models.query.QuerySet):
@@ -225,3 +228,20 @@ notify = Signal(
 
 # connect the signal
 notify.connect(notify_handler, dispatch_uid="organization.notifications.notification")
+
+
+class NotificationSubscription(models.Model):
+    """
+    This model allows a user to subscribe to notifications to certain objects
+    within an organization for updates. For example: to get a notification when
+    the inventory get below a certain amount.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    # Content type allows us to use a generic foreign key
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    content_object = GenericForeignKey()
+    object_id = models.UUIDField(default=uuid.uuid4, editable=False)
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)

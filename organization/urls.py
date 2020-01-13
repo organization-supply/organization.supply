@@ -19,18 +19,30 @@ from django.contrib import admin
 from django.urls import include, path
 
 from organization.views import (
-    views_organization,
     views_inventory,
     views_location,
+    views_organization,
     views_product,
     views_shortcuts,
 )
 
 urlpatterns = [
     # Inventory urls
-    path("dashboard", views_organization.organization_dashboard, name="organization_dashboard"),
-    path("notifications", views_organization.organization_notifications, name="organization_notifications"),
-    path("settings", views_organization.organization_settings, name="organization_settings"),
+    path(
+        "dashboard",
+        views_organization.organization_dashboard,
+        name="organization_dashboard",
+    ),
+    path(
+        "notifications",
+        views_organization.organization_notifications,
+        name="organization_notifications",
+    ),
+    path(
+        "settings",
+        views_organization.organization_settings,
+        name="organization_settings",
+    ),
     path("users", views_organization.organization_users, name="organization_users"),
     path(
         "integrations",
@@ -38,12 +50,16 @@ urlpatterns = [
         name="organization_integrations",
     ),
     path(
-        "users/invite", views_organization.organization_invite_user, name="organization_invite_user"
+        "users/invite",
+        views_organization.organization_invite_user,
+        name="organization_invite_user",
     ),
     path(
-        "users/remove", views_organization.organization_remove_user, name="organization_remove_user"
+        "users/remove",
+        views_organization.organization_remove_user,
+        name="organization_remove_user",
     ),
-    path( 
+    path(
         "users/leave", views_organization.organization_leave, name="organization_leave"
     ),
     path("search", views_organization.organization_search, name="organization_search"),
@@ -53,14 +69,32 @@ urlpatterns = [
         name="organization_inventory_location",
     ),
     path(
-        "inventory/product", views_inventory.organization_inventory_product, name="organization_inventory_product"
+        "inventory/product",
+        views_inventory.organization_inventory_product,
+        name="organization_inventory_product",
     ),
     # Mutations
-    path("mutations", views_inventory.organization_mutations, name="organization_mutations"),
-    path("mutations/insert", views_inventory.organization_mutation_insert, name="organization_mutation_insert"),
+    path(
+        "mutations",
+        views_inventory.organization_mutations,
+        name="organization_mutations",
+    ),
+    path(
+        "mutations/insert",
+        views_inventory.organization_mutation_insert,
+        name="organization_mutation_insert",
+    ),
     # Locations
-    path("locations", views_location.organization_locations, name="organization_locations"),
-    path("location/new", views_location.organization_location_form, name="organization_location_new"),
+    path(
+        "locations",
+        views_location.organization_locations,
+        name="organization_locations",
+    ),
+    path(
+        "location/new",
+        views_location.organization_location_form,
+        name="organization_location_new",
+    ),
     path(
         "location/<uuid:location_id>",
         views_location.organization_location_view,
@@ -78,8 +112,16 @@ urlpatterns = [
     ),
     # Products
     path("products", views_product.organization_products, name="organization_products"),
-    path("product/new", views_product.organization_product_form, name="organization_product_new"),
-    path("product/<uuid:product_id>", views_product.organization_product_view, name="organization_product_view"),
+    path(
+        "product/new",
+        views_product.organization_product_form,
+        name="organization_product_new",
+    ),
+    path(
+        "product/<uuid:product_id>",
+        views_product.organization_product_view,
+        name="organization_product_view",
+    ),
     path(
         "product/<uuid:product_id>/edit",
         views_product.organization_product_form,
@@ -91,8 +133,16 @@ urlpatterns = [
         name="organization_product_delete",
     ),
     # Shortcuts
-    path("shortcuts/sales", views_shortcuts.organization_shortcut_sales, name="organization_shortcut_sales"),
-    path("shortcuts/move", views_shortcuts.organization_shortcut_move, name="organization_shortcut_move"),
+    path(
+        "shortcuts/sales",
+        views_shortcuts.organization_shortcut_sales,
+        name="organization_shortcut_sales",
+    ),
+    path(
+        "shortcuts/move",
+        views_shortcuts.organization_shortcut_move,
+        name="organization_shortcut_move",
+    ),
     # Reservations
     path(
         "reservation/<uuid:mutation_id>",
