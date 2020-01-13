@@ -84,7 +84,7 @@ def organization_create(request):
         if create_organization_form.is_valid():
             organization = create_organization_form.save()
             organization.add_user(request.user, is_admin=True)
-            return redirect("dashboard", organization=organization.slug)
+            return redirect("organization_dashboard", organization=organization.slug)
         else:
             errors = ",".join(
                 map(lambda err: str(err[0]), create_organization_form.errors.values())

@@ -57,7 +57,7 @@ def organization_product_form(request, product_id=None):
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, "Product created!")
-            return redirect("products", organization=request.organization.slug)
+            return redirect("organization_products", organization=request.organization.slug)
 
     # Deleting a product
     elif (
@@ -70,7 +70,7 @@ def organization_product_form(request, product_id=None):
         )
         instance.delete()
         messages.add_message(request, messages.INFO, "Product deleted!")
-        return redirect("products", organization=request.organization.slug)
+        return redirect("organization_products", organization=request.organization.slug)
 
     # Updating a product
     elif request.method == "POST" and product_id != None:
@@ -81,7 +81,7 @@ def organization_product_form(request, product_id=None):
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.INFO, "Product updated!")
-            return redirect("products", organization=request.organization.slug)
+            return redirect("organization_products", organization=request.organization.slug)
 
     # Otherwise: get form
     elif product_id:

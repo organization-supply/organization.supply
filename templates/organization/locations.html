@@ -59,7 +59,7 @@
             {% else %}
                 <tr>
                     <td class="pv2 pl3 bb b--black-20" colspan="5">
-                        <p class="lh-copy">No location found. Want to <a href="{% url 'location_new' request.organization.slug %}">add a location</a>?</p>
+                        <p class="lh-copy">No location found. Want to <a href="{% url 'organization_location_new' request.organization.slug %}">add a location</a>?</p>
                     </td>
                 </tr>
             {% endif %}

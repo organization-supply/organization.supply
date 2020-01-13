@@ -47,7 +47,7 @@ def organization_mutation_insert(request):
         messages.add_message(request, messages.INFO, "Transaction added!")
     else:
         messages.add_message(request, messages.ERROR, form.non_field_errors().as_text())
-    return redirect("mutations", organization=request.organization.slug)
+    return redirect("organization_mutations", organization=request.organization.slug)
 
 
 @login_required
