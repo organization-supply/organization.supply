@@ -8,7 +8,9 @@
     🛠️ Organization 
     <a class="f4 black fw6 underline-hover" href="{% url 'organization_settings' request.organization.slug %}">Settings</a>
     <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_users' request.organization.slug %}">Users</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_billing' request.organization.slug %}">Billing</a>
     <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_integrations' request.organization.slug %}">Integrations</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_export' request.organization.slug %}">Export</a>
 </h1>
 
 <div class="fl w-100 w-50-m w-third-l ph3">

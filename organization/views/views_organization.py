@@ -112,6 +112,12 @@ def organization_notifications(request):
         {"notifications": Notification.objects.for_organization(request.organization)},
     )
 
+@login_required
+def organization_export(request):
+    return render(
+        request,
+        "organization/settings/export.html",
+    )
 
 @login_required
 def organization_settings(request):

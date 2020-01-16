@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{ request.organization.name }} - Settings{% endblock title %}
+
+{% block content %}
+
+<h1 class="pl3">
+    🛠️ Organization 
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_settings' request.organization.slug %}">Settings</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_users' request.organization.slug %}">Users</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_billing' request.organization.slug %}">Billing</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_integrations' request.organization.slug %}">Integrations</a>
+    <a class="f4 black fw6 underline-hover" href="{% url 'organization_export' request.organization.slug %}">Export</a>
+</h1>
+
+<div class="fl w-100 w-50-m w-50-l ph3">
+    <h1 class="f4 bold">Export</h1>
+    <p class="lh-copy">
+        Use the link below to download each entity as seperate CSV files:
+    </p>
+    <ul class="lh-copy">
+        <li><a href="{% url 'organization_export_entity' request.organization.slug 'products' %}">Products</a></li>
+        <li><a href="{% url 'organization_export_entity' request.organization.slug 'locations' %}">Location</a></li>
+        <li><a href="{% url 'organization_export_entity' request.organization.slug 'inventory' %}">Inventory</a></li>
+        <li><a href="{% url 'organization_export_entity' request.organization.slug 'mutations' %}">Mutations</a></li>
+    </ul>
+</div>
+
+{% endblock %}
