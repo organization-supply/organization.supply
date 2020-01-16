@@ -84,6 +84,8 @@ def organization_create(request):
         if create_organization_form.is_valid():
             organization = create_organization_form.save()
             organization.add_user(request.user, is_admin=True)
+            messages.add_message(request, messages.SUCCESS, "{} created".format(organization.name))
+
             return redirect("organization_dashboard", organization=organization.slug)
         else:
             errors = ",".join(
