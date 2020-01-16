@@ -42,6 +42,14 @@
             </fieldset>
             <div class="">
                 <input class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Next &raquo;">
+
+                <span class="pv2 db grey f7">
+                    By creating an account, you agree to the 
+                    <a class="black no-underline underline-hover link" href="{% url 'terms' %}">
+                        Terms of Service
+                    </a> and 
+                    <a class="black no-underline underline-hover link" href="{% url 'privacy' %}">Privacy Policy</a>. We'll occasionally send you account-related emails.
+                </span>
             </div>
         </form>
     </main>

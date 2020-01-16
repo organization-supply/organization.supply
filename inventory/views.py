@@ -6,7 +6,14 @@ from django.shortcuts import redirect, render
 def index(request):
     return redirect("user_organizations")
 
-
 @login_required
 def help(request):
-    return render(request, "help.html", {})
+    return render(request, "pages/help.html", {})
+
+@login_required
+def terms(request):
+    return render(request, "pages/terms.html", {})
+
+@login_required
+def privacy(request):
+    return render(request, "pages/privacy.html", {})
