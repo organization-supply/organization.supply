@@ -19,12 +19,12 @@ from django.contrib import admin
 from django.urls import include, path
 
 from organization.views import (
+    views_export,
     views_inventory,
     views_location,
     views_organization,
     views_product,
     views_shortcuts,
-    views_export,
 )
 
 urlpatterns = [
@@ -45,9 +45,7 @@ urlpatterns = [
         name="organization_settings",
     ),
     path(
-        "billing",
-        views_organization.organization_billing,
-        name="organization_billing",
+        "billing", views_organization.organization_billing, name="organization_billing"
     ),
     path("users", views_organization.organization_users, name="organization_users"),
     path(
@@ -55,11 +53,7 @@ urlpatterns = [
         views_organization.organization_integrations,
         name="organization_integrations",
     ),
-    path(
-        "export",
-        views_organization.organization_export,
-        name="organization_export",
-    ),
+    path("export", views_organization.organization_export, name="organization_export"),
     path(
         "export/<str:entity>",
         views_export.export_entity,

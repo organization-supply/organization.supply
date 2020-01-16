@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from organization.models.inventory import Inventory, Location, Product
-from organization.models.notifications import notify, NotificationSubscription
+from organization.models.notifications import NotificationSubscription, notify
 
 
 # Create a notification every time a new Location or Product is created within

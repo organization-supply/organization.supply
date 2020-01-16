@@ -24,19 +24,15 @@ from organization.views import views_organization
 urlpatterns = [
     # Index: redirect to user organization page
     path("", views.index, name="index"),
-
     # Static page
     path("help", views.help, name="help"),
     path("privacy", views.privacy, name="privacy"),
     path("terms", views.terms, name="terms"),
-
     # User urls
     path("user/", include("user.urls")),
     path("user/", include("django.contrib.auth.urls")),
-
     # Admin
     path("admin/", admin.site.urls),
-    
     # Organization urls (listed last, so we the others have priority)
     path("create", views_organization.organization_create, name="create_organization"),
     path("<slug:organization>/", include("organization.urls")),

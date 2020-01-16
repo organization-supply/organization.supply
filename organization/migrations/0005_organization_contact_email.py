@@ -5,15 +5,15 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('organization', '0004_notificationsubscription'),
-    ]
+    dependencies = [("organization", "0004_notificationsubscription")]
 
     operations = [
         migrations.AddField(
-            model_name='organization',
-            name='contact_email',
-            field=models.EmailField(default='demo@organization.supply', max_length=254, unique=True),
+            model_name="organization",
+            name="contact_email",
+            field=models.EmailField(
+                default="demo@organization.supply", max_length=254, unique=True
+            ),
             preserve_default=False,
-        ),
+        )
     ]
