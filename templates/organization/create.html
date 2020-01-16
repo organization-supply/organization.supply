@@ -4,24 +4,73 @@
 {% block title %}Organization.supply - Create{% endblock title %}
 
 {% block content %}
+<div class="pt2">
+    <h4 class="pv3 tc gray fw3">
+        Tell us about your organization
+    </h4>
 
-<h1 class="ph3 db tc">
-    Create a new organization 🚀
-</h1>
+    <h1 class="ph3 db tc">
+        Set up your Organization
+    </h1>
 
-<main class="pa4 black-80">
-    <form class="measure center" action="" method="POST">
-        {% csrf_token %}
-        <fieldset id="product_form" class="ba b--transparent ph0 mh0">
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Name</label>
-                {{ create_organization_form.name }}
+    <main class="pa4 black-80">
+        <form class="measure center" action="" method="POST">
+            {% csrf_token %}
+            <fieldset id="organization_form" class="ba b--transparent ph0 mh0">
+                <div class="mt3">
+                    <label class="db fw6 lh-copy f6" for="name">
+                        Organization name
+                        <span class="red f5">*</span>
+                    </label>
+                    {{ create_organization_form.name }}
+                    <span class="pv2 db grey f6 lh-copy">
+                        This will be the name of your organization.
+                        Your URL will be: https://organization.supply/<span id="slug"></span>
+                    </span>
+                </div>
+                <div class="mt3">
+                    <label class="db fw6 lh-copy f6" for="name">
+                        Contact email
+                        <span class="red f5">*</span>
+                    </label>
+                    {{ create_organization_form.contact_email }}
+                    <span class="pv2 db grey f6">
+                        Your primary contact email, which we might be in need of if 
+                        we want to contact you.
+                    </span>
+                </div>
+            </fieldset>
+            <div class="">
+                <input class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Next &raquo;">
             </div>
-        </fieldset>
-        <div class="">
-            <input class="b ph3 pv2 input-reset w-100 ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Create organization">
-        </div>
-    </form>
-</main>
+        </form>
+    </main>
+</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        $("input#id_name").keyup(function(){
+            $('#slug').html(slugify(this.value))
+        })
+    });
+
+    function slugify(str) {
+        str = str.replace(/^\s+|\s+$/g, ''); // trim
+        str = str.toLowerCase();
+    
+        // remove accents, swap ñ for n, etc
+        var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+        var to   = "aaaaeeeeiiiioooouuuunc------";
+        for (var i=0, l=from.length ; i<l ; i++) {
+            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+        }
+
+        str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+            .replace(/\s+/g, '-') // collapse whitespace and replace by -
+            .replace(/-+/g, '-'); // collapse dashes
+        return str;
+    }
+
+</script>
 {% endblock %}

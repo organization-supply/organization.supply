@@ -31,4 +31,6 @@ class Organization(DjangoOrganization, TimeStampedModel):
         monitor="subscription_type"
     )  # Differs from the creation date of the organization
 
+    contact_email = models.EmailField(unique=True)
+    
     # TODO: billing details here... with stripe

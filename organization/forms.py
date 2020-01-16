@@ -42,9 +42,18 @@ class OrganizationForm(ModelForm):
         validators=[validate_organization_name],
     )
 
+    contact_email = forms.EmailField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "contact@example.com",
+                "class": "pa2 input-reset ba bg-transparent w-100",
+            }
+        )
+    )
+
     class Meta:
         model = Organization
-        fields = ["name"]
+        fields = ["name", "contact_email"]
 
 
 class OrganizationInviteForm(OrganizationUserAddForm):
