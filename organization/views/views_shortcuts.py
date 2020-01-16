@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
@@ -96,6 +97,7 @@ def organization_reservation_action(request, mutation_id):
     if action == "confirm":
         # Setting the operation to none will automatically determine the operation
         mutation.operation = None
+        mutation.created = timezone.now()
         mutation.save()
         messages.add_message(request, messages.INFO, "Reservation confirmed!")
 
