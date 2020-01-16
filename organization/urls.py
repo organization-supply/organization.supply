@@ -24,6 +24,7 @@ from organization.views import (
     views_organization,
     views_product,
     views_shortcuts,
+    views_export,
 )
 
 urlpatterns = [
@@ -48,6 +49,11 @@ urlpatterns = [
         "integrations",
         views_organization.organization_integrations,
         name="organization_integrations",
+    ),
+    path(
+        "export/<str:entity>",
+        views_export.export_entity,
+        name="organization_export_entity",
     ),
     path(
         "users/invite",
