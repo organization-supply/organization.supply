@@ -77,3 +77,4 @@ virtualenv==16.7.6
 wcwidth==0.1.7
 yaspin==0.15.0
 zipp==0.6.0
+django-import-export==2.0.1
