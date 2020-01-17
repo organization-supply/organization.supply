@@ -5,15 +5,12 @@ import pytest
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
 from user.models import User
-
+from base import TestBase
 
 @pytest.mark.django_db
-class TestLocation(unittest.TestCase):
+class TestLocationModels(TestBase):
     def setUp(self):
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        Organization(name="test-org").save()
-        self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)
+        super(TestLocationModels, self).setUp()
 
     def test_create_location(self):
         location = Location(name="Test Location", organization=self.organization)
@@ -69,12 +66,9 @@ class TestLocation(unittest.TestCase):
 
 
 @pytest.mark.django_db
-class TestProduct(unittest.TestCase):
+class TestProductModels(TestBase):
     def setUp(self):
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        Organization(name="test-org").save()
-        self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)
+        super(TestProductModels, self).setUp()
 
     def test_create_product(self):
         product = Product(name="Test Product", organization=self.organization)
@@ -123,12 +117,9 @@ class TestProduct(unittest.TestCase):
 
 
 @pytest.mark.django_db
-class TestInventory(unittest.TestCase):
+class TestInventoryModels(TestBase):
     def setUp(self):
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        Organization(name="test-org").save()
-        self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)
+        super(TestInventoryModels, self).setUp()
 
     def test_create_inventory(self):
         location = Location(name="Test Location", organization=self.organization)
@@ -224,12 +215,9 @@ class TestInventory(unittest.TestCase):
 
 
 @pytest.mark.django_db
-class TestMutation(unittest.TestCase):
+class TestMutationModels(TestBase):
     def setUp(self):
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        Organization(name="test-org").save()
-        self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)
+        super(TestMutationModels, self).setUp()
 
     def test_mutations(self):
         location = Location(name="Test Location", organization=self.organization)

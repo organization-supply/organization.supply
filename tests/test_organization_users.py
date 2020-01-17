@@ -1,7 +1,7 @@
 import re
 
 from django.core import mail
-from django.test import TestCase
+from base import TestBase
 from django.test.client import Client
 from organizations.backends.tokens import RegistrationTokenGenerator
 
@@ -10,21 +10,17 @@ from organization.models.organization import Organization
 from user.models import User
 
 
-class TestOrganizationUsers(TestCase):
+class TestOrganizationUsers(TestBase):
     def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        super(TestOrganizationUsers, self).setUp()
         self.user_2 = User.objects.create_user(
             "mccartney@thebeatles.com", "paulpassword"
         )
-        Organization(name="Test Organization").save()
-        self.organization = Organization.objects.get(name="Test Organization")
-        self.organization.add_user(self.user)
         self.organization.add_user(self.user_2)
 
+    def test_organization_leave(self):
         self.client.login(email="mccartney@thebeatles.com", password="paulpassword")
 
-    def test_organization_leave(self):
         response = self.client.get("/user/organizations")
         self.assertEqual(response.status_code, 200)
         self.assertIn("Test Organization", response.content.decode())

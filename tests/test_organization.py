@@ -1,4 +1,5 @@
 from django.test import TestCase
+from base import TestBase
 from django.test.client import Client
 
 from organization.models.inventory import Inventory, Location, Mutation, Product
@@ -16,7 +17,7 @@ class TestOrganizationCreate(TestCase):
         response = self.client.get("/create")
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
-            "/create", {"name": "Test Organization"}, follow=True
+            "/create", {"name": "Test Organization", "contact_email": "org@thebeatles.com"}, follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(1, Organization.objects.count())
@@ -24,23 +25,23 @@ class TestOrganizationCreate(TestCase):
         self.assertEqual("test-organization", Organization.objects.get().slug)
 
     def test_create_organization_invalid_name(self):
-        response = self.client.post("/create", {"name": "Admin"}, follow=True)
+        response = self.client.post("/create", {"name": "Admin", "contact_email": "org@thebeatles.com"}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn("Name is not available", response.content.decode())
 
-        response = self.client.post("/create", {"name": ""}, follow=True)
+        response = self.client.post("/create", {"name": "", "contact_email": "org@thebeatles.com"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("This field is required", response.content.decode())
+
+    def test_create_organization_invalid_contact_email(self):
+        response = self.client.post("/create", {"name": "Test", }, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn("This field is required", response.content.decode())
 
 
-class TestOrganizationSettings(TestCase):
+class TestOrganizationSettings(TestBase):
     def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        Organization(name="Test Organization").save()
-        self.organization = Organization.objects.get(name="Test Organization")
-        self.organization.add_user(self.user)
+        super(TestOrganizationSettings, self).setUp()
 
     def test_organization_settings(self):
         response = self.client.get("/{}/settings".format(self.organization.slug))
@@ -48,7 +49,10 @@ class TestOrganizationSettings(TestCase):
 
         response = self.client.post(
             "/{}/settings".format(self.organization.slug),
-            {"name": "New Organization Name"},
+            {
+                "name": "New Organization Name",
+                "contact_email": "org@thebeatles.com"
+            },
             follow=True,
         )
         self.assertEqual(response.status_code, 200)
@@ -65,19 +69,13 @@ class TestOrganizationSettings(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class TestOrganizationPermissions(TestCase):
+class TestOrganizationPermissions(TestBase):
     def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
+        super(TestOrganizationPermissions, self).setUp()
         self.user_2 = User.objects.create_user(
             "mccartney@thebeatles.com", "paulpassword"
         )
-
-        Organization(name="test-org").save()
-        self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)
-
-        Organization(name="test-org-2").save()
+        Organization(name="test-org-2", contact_email="org2@thebeatles.com").save()
         self.organization_2 = Organization.objects.get(name="test-org-2")
         self.organization_2.add_user(self.user_2)
 

@@ -3,17 +3,12 @@ from django.test.client import Client
 
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
-from user.models import User
+from base import TestBase
 
 
-class TestLocationPages(TestCase):
+class TestLocation(TestBase):
     def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        Organization(name="test-org").save()
-        self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)
+        super(TestLocation, self).setUp()
 
     def test_locations(self):
         response = self.client.get("/{}/locations".format(self.organization.slug))
