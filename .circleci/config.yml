@@ -1,10 +1,6 @@
 version: 2
 jobs:
   test:
-    branches:
-      only:
-        - master
-        - develop
     environment:
       DJANGO_DEBUG: "True"
       DJANGO_STATIC_ROOT: ""
@@ -61,6 +57,11 @@ workflows:
   test:
     jobs:
       - test
+          branches:
+            only:
+              - master
+              - develop
+
       # - hold: # Deploy requires approval
       #     type: approval 
       # - deploy:
