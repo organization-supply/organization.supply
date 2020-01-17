@@ -1,10 +1,10 @@
 version: 2
 jobs:
   test:
-    # branches:
-    #   only:
-    #     - master
-    #     - develop
+    branches:
+      only:
+        - master
+        - develop
     environment:
       DJANGO_DEBUG: "True"
       DJANGO_STATIC_ROOT: ""
