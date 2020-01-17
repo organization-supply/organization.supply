@@ -113,6 +113,43 @@ class TestRestAPI(TestBaseWithInventory):
         response = self.client.get("/{}/api/locations".format(self.organization.slug))
         self.assertEqual(len(response.json()), 2)
 
+    def test_api_location_detail_view(self):
+        self._authenticate()
+
+        # Get location
+        response = self.client.get(
+            "/{}/api/locations/{}".format(self.organization.slug, self.location.id)
+        )
+        self.assertEqual(response.status_code, 200)
+
+        # Patch location
+        response = self.client.patch(
+            "/{}/api/locations/{}".format(self.organization.slug, self.location.id),
+            {"name": "Patched API Location"},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["name"], "Patched API Location")
+        self.assertEqual(response.json()["desc"], "")
+
+        # Put location
+        response = self.client.put(
+            "/{}/api/locations/{}".format(self.organization.slug, self.location.id),
+            {"name": "Put API Location", "desc": "Put description"},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["name"], "Put API Location")
+        self.assertEqual(response.json()["desc"], "Put description")
+
+        # Set the inventory to 0 and then delete the location
+        self.inventory.amount = 0
+        self.inventory.save()
+
+        response = self.client.delete(
+            "/{}/api/locations/{}".format(self.organization.slug, self.location.id)
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(Location.objects.count(), 0)
+        
     # def test_api_inventory(self):
     #     # Create a location to test
     #     location = Location(name="Test Location", organization=self.organization)
