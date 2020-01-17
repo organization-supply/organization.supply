@@ -51,20 +51,13 @@ jobs:
   #         name: Deploy
   #         command: |
   #           echo "Hello deploy!"
-
 workflows:
   version: 2
   test:
     jobs:
-      - test
-        filters:  # using regex filters requires the entire branch to match
-          branches:
-            only:  # only branches matching the below regex filters will run
-              - master
-              - develop
-
-      # - hold: # Deploy requires approval
-      #     type: approval 
-      # - deploy:
-      #     requires:
-      #       - hold
+      - test:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - master
+                - develop
