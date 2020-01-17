@@ -67,7 +67,9 @@
 </div>
 
 <div class="fl ph3 w-100 w-50-m w-third-l">
-    <h1 class="f4 bold">Last transactions</h1>
+    <h1 class="f4 bold">Last transactions
+        <a class="f6 fr mt2 fw6 no-underline underline-hover black" href="{% url 'organization_mutations' request.organization.slug %}">all mutations &raquo;</a>
+    </h1>
     <ul style="margin-block-end: 0; margin-block-start: 0;" class="list pl0 ml0 ba b--light-silver br2">
         {% if mutations %}
         {% for mutation in mutations %}
@@ -88,7 +90,7 @@
 
 {% if notifications %}
 <div class="fl ph3 w-100 w-50-m w-50-l">
-    <h1 class="f4 bold">Notifications <small>(<a href="">see more &raquo;</a>)</small></h1>
+    <h1 class="f4 bold">Notifications <a class="f6 fr mt2 fw6 no-underline underline-hover black" href="">see more notifications &raquo;</a></h1>
     <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
         <thead>
             <tr class="">

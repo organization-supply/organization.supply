@@ -18,7 +18,7 @@ class UserSignupForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Email",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         )
     )
@@ -27,7 +27,7 @@ class UserSignupForm(ModelForm):
             attrs={
                 "type": "password",
                 "placeholder": "Password",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         )
     )
@@ -73,7 +73,7 @@ class OrganizationAcceptForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Email",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         ),
     )
@@ -82,7 +82,7 @@ class OrganizationAcceptForm(ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 "placeholder": "Password",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         ),
     )
@@ -91,7 +91,7 @@ class OrganizationAcceptForm(ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 "placeholder": "Password (confirmation)",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         ),
     )
@@ -117,7 +117,7 @@ class UserForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Name",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         )
     )
@@ -126,7 +126,7 @@ class UserForm(ModelForm):
         widget=forms.FileInput(
             attrs={
                 "placeholder": "Profile Image",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
                 "style": "box-sizing: border-box",
             }
         )

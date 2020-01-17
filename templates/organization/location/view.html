@@ -6,7 +6,9 @@
 
     <h1>
         📍 {{ location.name }}
-        <a class="f6 link dim ba ph3 pv2 mb2 fr dib black" href="{% url 'organization_location_edit' request.organization.slug location.id %}">Edit</a>
+        <a 
+            class="no-underline f6 fw3 pa2 bg-animate bg-yellow hover-bg-gold black br2 dib fr" 
+            href="{% url 'organization_location_edit' request.organization.slug location.id %}">Edit Location</a>
     </h1>
 
     <article class="cf">

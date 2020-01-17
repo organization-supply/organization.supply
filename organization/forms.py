@@ -36,7 +36,7 @@ class OrganizationForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Organization name",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         ),
         validators=[validate_organization_name],
@@ -46,7 +46,7 @@ class OrganizationForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "contact@example.com",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         )
     )
@@ -90,7 +90,7 @@ class ProductForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Product name",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         )
     )
@@ -99,7 +99,7 @@ class ProductForm(ModelForm):
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Description..",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         ),
     )
@@ -163,7 +163,7 @@ class MutationForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Amount",
-                "class": "lh-copy pa2 input-reset ba bg-transparent w-100",
+                "class": "lh-copy pa2 input-reset ba br2 bg-transparent w-100",
             }
         )
     )
@@ -176,7 +176,7 @@ class MutationForm(ModelForm):
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Description..",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset br2 bg-transparent w-100",
             }
         ),
     )

@@ -13,8 +13,20 @@
         {% csrf_token %}
 
         <fieldset id="product_form" class="ba b--transparent ph0 mh0 mb1">
+
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="amount">Amount</label>
+                <label class="db fw6 lh-copy f6" for="product">
+                    Product
+                    <span class="red f5">*</span>
+                </label>
+                {{ form.product }}
+            </div>
+
+            <div class="mt3">
+                <label class="db fw6 lh-copy f6" for="amount">
+                    Amount
+                    <span class="red f5">*</span>
+                </label>
                 {{ form.amount }}
             </div>
 
@@ -28,14 +40,17 @@
                 <!-- </span> -->
             </div>
 
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="product">Product</label>
-                {{ form.product }}
-            </div>
+            
 
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="location_from">From location</label>
+                <label class="db fw6 lh-copy f6" for="location_from">
+                    From location
+                    <span class="red f5">*</span>
+                </label>
                 {{ form.location }}
+                <span class="pv2 db grey f6 lh-copy">
+                    The inventory at this location will be decreased by the amount you specify.
+                </span>
             </div>
 
             <div class="mt3">
@@ -44,7 +59,7 @@
             </div>
 
             <div class="mt3">
-                <input class="b ph3 pv2 input-reset w-100 ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save">
+                <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Add this sale &raquo;">
             </div>
     
         </fieldset>

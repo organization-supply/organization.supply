@@ -5,8 +5,8 @@
 {% block content %}
 
 <main class="pa4 black-80">
-    <form class="measure center" action="" method="POST">
-        {% if form.instance.id %}
+    <form class="measure center" action="" method="POST"> 
+        {% if form.instance.name %}
         <h1>
             Edit: {{ form.instance.name }}
         </h1>
@@ -20,7 +20,10 @@
 
         <fieldset id="product_form" class="ba b--transparent ph0 mh0">
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Name</label>
+                <label class="db fw6 lh-copy f6" for="email-address">
+                    Name
+                    <span class="red f5">*</span>
+                </label>
                 {{ form.name }}
             </div>
             <div class="mv3">
@@ -29,7 +32,7 @@
             </div>
         </fieldset>
         <div class="">
-            <input class="b ph3 pv2 input-reset w-100 ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Save product">
+            <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Save product &raquo;">
         </div>
     </form>
 </main>

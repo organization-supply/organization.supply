@@ -16,22 +16,31 @@
             <legend class="f4 fw6 ph0 mh0">You're invited!</legend>
             
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Email</label>            
+                <label class="db fw6 lh-copy f6" for="email-address">
+                    Email
+                    <span class="red f5">*</span>
+                </label>            
                 {{ form.email }}
             </div>
 
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Password</label>            
+                <label class="db fw6 lh-copy f6" for="email-address">
+                    Password
+                    <span class="red f5">*</span>
+                </label>            
                 {{ form.password }}
             </div>
 
             <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">Password (confirmation)</label>            
+                <label class="db fw6 lh-copy f6" for="email-address">
+                    Password (confirmation)
+                    <span class="red f5">*</span>
+                </label>            
                 {{ form.password_confirm }}
             </div>
         </fieldset>
         <div class="w-100">
-            <input class="fr b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" type="submit" value="Accept invite">
+            <input class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr pointer b--none" type="submit" value="Accept invite">
         </div>
     </form>
 </main>

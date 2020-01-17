@@ -7,7 +7,7 @@
 <h1 class="ph3 db">
     📦 Products
     {% include 'utils/information.html' with id='products' content="View all of your products here, add or edit a product, move it around or record a sale"%}
-    <a class="f6 link dim ba ph3 pv2 dib black fr" href="{% url 'organization_product_new' request.organization.slug %}">Add a product</a>
+    <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr" href="{% url 'organization_product_new' request.organization.slug %}">Add a product</a>
 </h1>
 
 <div class="mh3 overflow-auto">
@@ -40,26 +40,26 @@
                     </td>
                     <td class="pa2 bb b--black-20">
                         {% if product.inventory_total %}
-                            <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_shortcut_move' request.organization.slug %}?product={{product.id}}">
+                            <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_shortcut_move' request.organization.slug %}?product={{product.id}}">
                                 Move
                             </a>
-                            <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_shortcut_sales' request.organization.slug %}?product={{product.id}}">
+                            <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_shortcut_sales' request.organization.slug %}?product={{product.id}}">
                                 Sale
                             </a>
                         {% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
-                        <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_product_view' request.organization.slug product.id %}">
+                        <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_product_view' request.organization.slug product.id %}">
                             Details
                         </a>
-                        <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_product_edit' request.organization.slug product.id %}">
+                        <a class="no-underline f6 fw3 pa2 bg-animate bg-yellow hover-bg-gold black br2 dib mr1" href="{% url 'organization_product_edit' request.organization.slug product.id %}">
                             Edit
                         </a>
                         <!-- Django doesn't support DELETE requests -->
                         <form method="POST" action="{% url 'organization_product_edit' request.organization.slug product.id %}" class="dib">
                             {% csrf_token %}
                             <input type="hidden" name="action" value="delete">
-                            <input type="submit" value="Delete" class="ba hover-bg-red b--black lh-copy f6 link bg-transparent ph3 pv2 pointer dib black input-reset">
+                            <input type="submit" value="Delete" class="b--none br2 hover-bg-dark-red lh-copy f6 link bg-red pa2 pointer dib white input-reset">
                         </form>
                     </td>
                 </tr>

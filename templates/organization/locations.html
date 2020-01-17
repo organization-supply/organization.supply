@@ -7,7 +7,7 @@
 <h1 class="ph3 db">
     📍 Locations
     {% include 'utils/information.html' with id='location' content="This page lists all your locations, you can add or edit the locations here."%}
-    <a class="f6 link dim ba ph3 pv2 dib black fr" href="{% url 'organization_location_new' request.organization.slug %}">Add a location</a>
+    <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr" href="{% url 'organization_location_new' request.organization.slug %}">Add a location</a>
 </h1>
 
 <div class="mh3 overflow-auto">
@@ -32,26 +32,26 @@
                     </td>
                     <td class="pa2 bb b--black-20">
                         {% if location.inventory %}
-                            <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_shortcut_move' request.organization.slug %}?location_from={{location.id}}">
+                            <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_shortcut_move' request.organization.slug %}?location_from={{location.id}}">
                                 Move
                             </a>
-                            <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_shortcut_sales' request.organization.slug %}?location={{location.id}}">
+                            <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_shortcut_sales' request.organization.slug %}?location={{location.id}}">
                                 Sale
                             </a>
                         {% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
-                        <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_location_edit' request.organization.slug location.id %}">
+                        <a class="no-underline f6 fw3 pa2 bg-animate bg-yellow hover-bg-gold black br2 dib mr1" href="{% url 'organization_location_edit' request.organization.slug location.id %}">
                             Edit
                         </a>
-                        <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_location_view' request.organization.slug location.id %}">
+                        <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_location_view' request.organization.slug location.id %}">
                             Details
                         </a>
                         <!-- Django doesn't support DELETE requests -->
                         <form method="POST" action="{% url 'organization_location_edit' request.organization.slug location.id %}" class="dib">
                             {% csrf_token %}
                             <input type="hidden" name="action" value="delete">
-                            <input type="submit" value="Delete" class="ba hover-bg-red b--black lh-copy f6 link bg-transparent ph3 pv2 pointer dib black input-reset">
+                            <input type="submit" value="Delete" class="b--none br2 hover-bg-dark-red lh-copy f6 link bg-red pa2 pointer dib white input-reset">
                         </form>
                     </td>
                 </tr>

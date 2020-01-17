@@ -55,11 +55,11 @@
                     <td class="pa2 bb b--black-20">
                         {% if not user|is_organization_admin_in:request.organization %}
                             {% if user == request.user %}
-                                <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_leave' request.organization.slug %}">
+                                <a class="no-underline f6 fw3 pa2 bg-animate bg-red hover-bg-dark-red white br2 dib b--none lh-copy" href="{% url 'organization_leave' request.organization.slug %}">
                                     Leave
                                 </a>
                             {% else %}
-                                <a class="f6 link dim ba ph3 pv2 dib black" href="{% url 'organization_remove_user' request.organization.slug %}?id={{ user.id }}">
+                                <a class="no-underline f6 fw3 pa2 bg-animate bg-red hover-bg-dark-red white br2 dib b--none lh-copy" href="{% url 'organization_remove_user' request.organization.slug %}?id={{ user.id }}">
                                     {% if user.is_active %}
                                         Remove
                                     {% else %}
@@ -80,12 +80,12 @@
                     Invite someone by email:
                 </td>
                 <form action="{% url 'organization_invite_user' request.organization.slug %}" method="POST">
-                    <td class="pv2 bb b--black-20" colspan="3">
+                    <td class="pa2 bb b--black-20" colspan="3">
                         {% csrf_token %}
-                        <input type="text" name="email" placeholder="invite@email.com" class="pa2 input-reset ba bg-transparent w-100" required="" id="id_email">
+                        <input type="text" name="email" placeholder="invite@email.com" class="pa2 f6 ba br2 bg-transparent w-100 dib" requib="" id="id_email">
                     </td>
-                    <td class="pl2 bb b--black-20">
-                        <input class="ph3 pv2 input-reset ba b--black bg-transparent pointer f6 dim dib" type="submit" value="Invite">
+                    <td class="pa2 bb b--black-20">
+                        <input class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib b--none lh-copy" type="submit" value="Send invite">
                     </td>
                 </form>
             </tr>

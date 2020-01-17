@@ -14,6 +14,18 @@ class TestDashboardPages(TestBaseWithInventory):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 302)
 
+    def test_help(self):
+        response = self.client.get("/help".format(self.organization.slug))
+        self.assertEqual(response.status_code, 200)
+
+    def test_privacy(self):
+        response = self.client.get("/privacy".format(self.organization.slug))
+        self.assertEqual(response.status_code, 200)
+
+    def test_terms(self):
+        response = self.client.get("/terms".format(self.organization.slug))
+        self.assertEqual(response.status_code, 200)
+
     def test_dashboard(self):
         response = self.client.get("/{}/dashboard".format(self.organization.slug))
         self.assertEqual(response.status_code, 200)

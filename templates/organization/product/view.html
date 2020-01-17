@@ -6,7 +6,9 @@
 
     <h1>
         📦 {{ product.name|title }}
-        <a class="f6 link dim ba ph3 fr pv2 mb2 dib black" href="{% url 'organization_product_edit' request.organization.slug     product.id %}">Edit</a>
+        <a 
+            class="no-underline f6 fw3 pa2 bg-animate bg-yellow hover-bg-gold black br2 dib fr" 
+            href="{% url 'organization_product_edit' request.organization.slug product.id %}">Edit Product</a>
     </h1>
 
     <article class="cf">
