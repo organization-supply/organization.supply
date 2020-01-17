@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.test.client import Client
 
+from base import TestBase
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
-from base import TestBase
 
 
 class TestLocation(TestBase):

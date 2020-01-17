@@ -1,6 +1,6 @@
-from base import TestBaseWithInventory
 from django.test.client import Client
 
+from base import TestBaseWithInventory
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
 from user.models import User
@@ -8,7 +8,7 @@ from user.models import User
 
 class TestDashboardPages(TestBaseWithInventory):
     def setUp(self):
-        super(TestDashboardPages, self).setUp()        
+        super(TestDashboardPages, self).setUp()
 
     def test_index(self):
         response = self.client.get("/")

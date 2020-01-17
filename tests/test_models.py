@@ -2,10 +2,11 @@ import unittest
 
 import pytest
 
+from base import TestBase
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
 from user.models import User
-from base import TestBase
+
 
 @pytest.mark.django_db
 class TestLocationModels(TestBase):

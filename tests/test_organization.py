@@ -1,7 +1,7 @@
 from django.test import TestCase
-from base import TestBase
 from django.test.client import Client
 
+from base import TestBase
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
 from user.models import User
@@ -17,7 +17,9 @@ class TestOrganizationCreate(TestCase):
         response = self.client.get("/create")
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
-            "/create", {"name": "Test Organization", "contact_email": "org@thebeatles.com"}, follow=True
+            "/create",
+            {"name": "Test Organization", "contact_email": "org@thebeatles.com"},
+            follow=True,
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(1, Organization.objects.count())
@@ -25,16 +27,22 @@ class TestOrganizationCreate(TestCase):
         self.assertEqual("test-organization", Organization.objects.get().slug)
 
     def test_create_organization_invalid_name(self):
-        response = self.client.post("/create", {"name": "Admin", "contact_email": "org@thebeatles.com"}, follow=True)
+        response = self.client.post(
+            "/create",
+            {"name": "Admin", "contact_email": "org@thebeatles.com"},
+            follow=True,
+        )
         self.assertEqual(response.status_code, 200)
         self.assertIn("Name is not available", response.content.decode())
 
-        response = self.client.post("/create", {"name": "", "contact_email": "org@thebeatles.com"}, follow=True)
+        response = self.client.post(
+            "/create", {"name": "", "contact_email": "org@thebeatles.com"}, follow=True
+        )
         self.assertEqual(response.status_code, 200)
         self.assertIn("This field is required", response.content.decode())
 
     def test_create_organization_invalid_contact_email(self):
-        response = self.client.post("/create", {"name": "Test", }, follow=True)
+        response = self.client.post("/create", {"name": "Test"}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn("This field is required", response.content.decode())
 
@@ -49,10 +57,7 @@ class TestOrganizationSettings(TestBase):
 
         response = self.client.post(
             "/{}/settings".format(self.organization.slug),
-            {
-                "name": "New Organization Name",
-                "contact_email": "org@thebeatles.com"
-            },
+            {"name": "New Organization Name", "contact_email": "org@thebeatles.com"},
             follow=True,
         )
         self.assertEqual(response.status_code, 200)

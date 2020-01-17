@@ -1,8 +1,10 @@
 from rest_framework.test import APIClient
+
+from base import TestBaseWithInventory
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
 from user.models import User
-from base import TestBaseWithInventory
+
 
 class TestRestAPI(TestBaseWithInventory):
     def setUp(self):

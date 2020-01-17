@@ -1,18 +1,11 @@
-from django.test import TestCase
-from django.test.client import Client
-
-from organization.models.organization import Organization
+from base import TestBase
+from organization.models.notifications import notify
 from user.models import User
 
 
-class TestUserPages(TestCase):
+class TestUserPages(TestBase):
     def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        Organization(name="test-org").save()
-        self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)
+        super(TestUserPages, self).setUp()
 
     def test_signup(self):
         response = self.client.get("/user/signup")
@@ -56,3 +49,10 @@ class TestUserPages(TestCase):
 
         user = User.objects.get(id=self.user.id)
         self.assertEqual(user.name, "John Lennon")
+
+    def test_notifications(self):
+        response = self.client.get("/user/notifications")
+        self.assertEqual(response.status_code, 200)
+
+        # Having no notifications for a user should return 1 notification that is created
+        self.assertIn("This is your first notification!", response.content.decode())

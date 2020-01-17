@@ -1,10 +1,10 @@
 import re
 
 from django.core import mail
-from base import TestBase
 from django.test.client import Client
 from organizations.backends.tokens import RegistrationTokenGenerator
 
+from base import TestBase
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
 from user.models import User
