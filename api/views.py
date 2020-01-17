@@ -198,43 +198,23 @@ class LocationDetailView(generics.RetrieveUpdateDestroyAPIView):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
-# # class InventoryViewSet(viewsets.ViewSet):
-# #     """
-# #     list:
-# #     A list of the inventory of the organization
+class InventoryView(generics.ListAPIView):
 
-# #     retrieve:
-# #     Get a detailed overview of a single inventory (location and product specific)
-# #     """
+    serializer_class = InventorySerializer
 
-# #     def list(self, request, organization):
-# #         queryset = Inventory.objects.for_organization(organization)
-# #         serializer = InventorySerializer(queryset, many=True)
-# #         return Response(serializer.data)
+    def list(self, request, organization):
+        queryset = Inventory.objects.for_organization(organization)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
-# #     def retrieve(self, request, organization, pk=None):
-# #         queryset = Inventory.objects.for_organization(organization)
-# #         inventory = get_object_or_404(queryset, pk=pk)
-# #         serializer = InventorySerializer(inventory)
-# #         return Response(serializer.data)
+class MutationsView(generics.ListCreateAPIView):
 
+    serializer_class = MutationSerializer
 
-# # class MutationViewSet(viewsets.ViewSet):
-# #     """
-# #     list:
-# #     All the mutations of the organization
+    def list(self, request, organization):
+        queryset = Mutation.objects.for_organization(organization)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
-# #     retrieve:
-# #     Get a single mutation and its details
-# #     """
-
-# #     def list(self, request, organization):
-# #         queryset = Mutation.objects.for_organization(organization)
-# #         serializer = MutationSerializer(queryset, many=True)
-# #         return Response(serializer.data)
-
-# #     def retrieve(self, request, organization, pk=None):
-# #         queryset = Mutation.objects.for_organization(organization)
-# #         mutation = get_object_or_404(queryset, pk=pk)
-# #         serializer = MutationSerializer(mutation)
-# #         return Response(serializer.data)
+    def create(self, request, organization):
+        pass
