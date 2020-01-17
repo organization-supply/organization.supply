@@ -15,7 +15,6 @@ from model_utils.models import TimeStampedModel
 from organization.models.organization import Organization
 
 
-
 class NotificationQuerySet(models.query.QuerySet):
     """ Notification QuerySet """
 
@@ -244,4 +243,4 @@ class NotificationSubscription(models.Model):
     content_object = GenericForeignKey()
     object_id = models.UUIDField(default=uuid.uuid4, editable=False)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

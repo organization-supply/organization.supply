@@ -1,19 +1,14 @@
-from django.test import TestCase
 from django.test.client import Client
 
+from base import TestBaseWithInventory
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
 from user.models import User
 
 
-class TestDashboardPages(TestCase):
+class TestDashboardPages(TestBaseWithInventory):
     def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        Organization(name="test-org").save()
-        self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)
+        super(TestDashboardPages, self).setUp()
 
     def test_index(self):
         response = self.client.get("/")
@@ -48,19 +43,13 @@ class TestDashboardPages(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_mutations_insert(self):
-        location = Location(name="Test Location", organization=self.organization)
-        location.save()
-
-        product = Product(name="Test Product", organization=self.organization)
-        product.save()
-
         response = self.client.post(
             "/{}/mutations/insert".format(self.organization.slug),
             {
                 "amount": 1.0,
                 "operation": "add",
-                "location": location.id,
-                "product": product.id,
+                "location": self.location.id,
+                "product": self.product.id,
                 "desc": "Test transaction",
             },
             follow=True,
@@ -75,17 +64,13 @@ class TestDashboardPages(TestCase):
         self.assertEqual(Mutation.objects.count(), 1)
 
     def test_mutations_insert_with_missing_location(self):
-
-        product = Product(name="Test Product", organization=self.organization)
-        product.save()
-
         response = self.client.post(
             "/{}/mutations/insert".format(self.organization.slug),
             {
                 "amount": 1.0,
                 "operation": "add",
-                "product": product.id,
-                # Missing location
+                "product": self.product.id,
+                # Missing location: "location": self.location.id,
                 "desc": "Test transaction",
             },
             follow=True,

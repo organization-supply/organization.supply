@@ -1,23 +1,18 @@
 import re
 
 from django.core import mail
-from django.test import TestCase
 from django.test.client import Client
 from organizations.backends.tokens import RegistrationTokenGenerator
 
+from base import TestBase
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.organization import Organization
 from user.models import User
 
 
-class TestOrganizationInvite(TestCase):
+class TestOrganizationInvite(TestBase):
     def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user("lennon@thebeatles.com", "johnpassword")
-        self.client.login(email="lennon@thebeatles.com", password="johnpassword")
-        Organization(name="test-org").save()
-        self.organization = Organization.objects.get(name="test-org")
-        self.organization.add_user(self.user)
+        super(TestOrganizationInvite, self).setUp()
 
     def test_create_invite_existing_user(self):
         self.user_2 = User.objects.create_user(
@@ -34,7 +29,8 @@ class TestOrganizationInvite(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn(
-            "mccartney@thebeatles.com invited for test-org", response.content.decode()
+            "mccartney@thebeatles.com invited for Test Organization",
+            response.content.decode(),
         )
 
         self.assertIn(self.user_2, self.organization.users.all())
@@ -48,13 +44,16 @@ class TestOrganizationInvite(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn(
-            "mccartney@thebeatles.com invited for test-org", response.content.decode()
+            "mccartney@thebeatles.com invited for Test Organization",
+            response.content.decode(),
         )
 
         # There should be one email for the invite.
         self.assertEqual(len(mail.outbox), 1)
 
-        self.assertIn("You've been invited to join test-org", mail.outbox[0].subject)
+        self.assertIn(
+            "You've been invited to join Test Organization", mail.outbox[0].subject
+        )
 
         # There should be an inactive user created
         invited_user = User.objects.get(email="mccartney@thebeatles.com")
