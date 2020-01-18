@@ -8,10 +8,15 @@ from api.views import (
     LocationDetailView,
     LocationView,
     MutationsView,
+<<<<<<< HEAD
     NotificationView,
     ProductDetailView,
     ProductView,
     UserView,
+=======
+    ProductDetailView,
+    ProductView,
+>>>>>>> 0f950ee56f22fd9aa8439224f5084f4f31196ce6
 )
 
 urlpatterns = [
