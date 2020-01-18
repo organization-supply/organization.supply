@@ -20,28 +20,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="NotificationSubscription",
-            fields=[
-                (
-                    "id",
-                    models.UUIDField(
-                        default=uuid.uuid4,
-                        editable=False,
-                        primary_key=True,
-                        serialize=False,
-                    ),
-                ),
-                ("object_id", models.UUIDField(default=uuid.uuid4, editable=False)),
-                (
-                    "content_type",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="contenttypes.ContentType",
-                    ),
-                ),
-            ],
-        ),
-        migrations.CreateModel(
             name="User",
             fields=[
                 ("password", models.CharField(max_length=128, verbose_name="password")),
