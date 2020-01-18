@@ -5,14 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('organization', '0005_organization_contact_email'),
-    ]
+    dependencies = [("organization", "0005_organization_contact_email")]
 
     operations = [
         migrations.AlterField(
-            model_name='organization',
-            name='contact_email',
+            model_name="organization",
+            name="contact_email",
             field=models.EmailField(blank=True, max_length=254, null=True, unique=True),
-        ),
+        )
     ]

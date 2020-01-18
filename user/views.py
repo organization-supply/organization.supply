@@ -1,13 +1,13 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.hashers import make_password
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
-from django.http import Http404
+
 from organization.models.notifications import Notification, notify
 from user.forms import UserForm, UserSignupForm
 from user.models import User
@@ -52,12 +52,15 @@ def settings(request):
     token, _ = Token.objects.get_or_create(user=request.user)
     user_form = UserForm(instance=request.user)
     return render(
-        request, "user/settings.html", {
+        request,
+        "user/settings.html",
+        {
             "token": token.key,
             "user_form": user_form,
-            "user_change_password_form": PasswordChangeForm(user=request.user)
-        }
+            "user_change_password_form": PasswordChangeForm(user=request.user),
+        },
     )
+
 
 @login_required
 def settings_change_password(request):
@@ -65,10 +68,14 @@ def settings_change_password(request):
         change_password_form = PasswordChangeForm(request.user, request.POST)
         if change_password_form.is_valid():
             change_password_form.save()
-            update_session_auth_hash(request, request.user) # Updates the current session
+            update_session_auth_hash(
+                request, request.user
+            )  # Updates the current session
             messages.success(request, "Password succesfully changed!")
         else:
-            errors = ",".join(map(lambda err: str(err[0]), change_password_form.errors.values()))
+            errors = ",".join(
+                map(lambda err: str(err[0]), change_password_form.errors.values())
+            )
             messages.add_message(
                 request, messages.ERROR, user_form.non_field_errors().as_text() + errors
             )

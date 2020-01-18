@@ -33,4 +33,16 @@ class Organization(DjangoOrganization, TimeStampedModel):
 
     contact_email = models.EmailField(max_length=254, unique=True)
     
+    @property
+    def stats(self):
+        # TODO: fix circulair import
+        # To prevent a circular import reference, we import these here
+        from organization.models.inventory import Product, Location, Mutation
+
+        return {
+            "product_count": Product.objects.for_organization(self).count(),
+            "location_count": Location.objects.for_organization(self).count(),
+            "mutation_count": Mutation.objects.for_organization(self).count(),
+        }
+
     # TODO: billing details here... with stripe

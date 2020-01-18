@@ -149,7 +149,7 @@ class TestRestAPI(TestBaseWithInventory):
         )
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Location.objects.count(), 0)
-        
+
     def test_api_inventory(self):
 
         self._authenticate()
@@ -162,7 +162,7 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.json()[0]["location"], str(self.location.id))
 
     def test_api_mutations(self):
-        
+
         # Create a mutation
         mutation = Mutation(
             product=self.product,
@@ -171,7 +171,7 @@ class TestRestAPI(TestBaseWithInventory):
             organization=self.organization,
         )
         mutation.save()
-        
+
         self._authenticate()
 
         response = self.client.get("/{}/api/mutations".format(self.organization.slug))

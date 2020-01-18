@@ -33,6 +33,7 @@ urlpatterns = [
     path("user/", include("django.contrib.auth.urls")),
     # Admin
     path("admin/", admin.site.urls),
+    path("deck/", include("deck.urls")),
     # Organization urls (listed last, so we the others have priority)
     path("create", views_organization.organization_create, name="create_organization"),
     path("<slug:organization>/", include("organization.urls")),

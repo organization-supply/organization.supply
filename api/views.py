@@ -207,6 +207,7 @@ class InventoryView(generics.ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+
 class MutationsView(generics.ListCreateAPIView):
 
     serializer_class = MutationSerializer

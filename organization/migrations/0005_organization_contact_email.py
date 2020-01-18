@@ -11,9 +11,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="organization",
             name="contact_email",
-            field=models.EmailField(
-                max_length=254, blank=True, null=True
-            ),
+            field=models.EmailField(max_length=254, blank=True, null=True),
             preserve_default=False,
         )
     ]
