@@ -4,6 +4,24 @@ info:
   version: ''
   description: Documentation for the REST API for Organization.supply
 paths:
+  /{organization}/api/me:
+    get:
+      operationId: listUsers
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
   /{organization}/api/products:
     get:
       operationId: listProducts
@@ -77,13 +95,13 @@ paths:
     get:
       operationId: RetrieveProduct
       parameters:
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
@@ -110,13 +128,13 @@ paths:
     put:
       operationId: UpdateProduct
       parameters:
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
@@ -155,13 +173,13 @@ paths:
     patch:
       operationId: PartialUpdateProduct
       parameters:
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
@@ -198,13 +216,13 @@ paths:
     delete:
       operationId: DestroyProduct
       parameters:
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
@@ -286,13 +304,13 @@ paths:
     get:
       operationId: RetrieveLocation
       parameters:
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
@@ -319,13 +337,13 @@ paths:
     put:
       operationId: UpdateLocation
       parameters:
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
@@ -364,13 +382,13 @@ paths:
     patch:
       operationId: PartialUpdateLocation
       parameters:
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
@@ -407,13 +425,13 @@ paths:
     delete:
       operationId: DestroyLocation
       parameters:
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
@@ -555,7 +573,7 @@ paths:
           description: ''
   /{organization}/api/notifications:
     get:
-      operationId: listProducts
+      operationId: listNotifications
       parameters:
       - name: organization
         in: path
@@ -571,56 +589,9 @@ paths:
                 type: array
                 items:
                   properties:
-                    id:
-                      type: string
-                      format: uuid
+                    unread:
+                      type: boolean
                       readOnly: true
-                    name:
-                      type: string
-                      maxLength: 200
-                    desc:
-                      type: string
-                  required:
-                  - name
-          description: ''
-    post:
-      operationId: CreateProduct
-      parameters:
-      - name: organization
-        in: path
-        required: true
-        description: ''
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                name:
-                  type: string
-                  maxLength: 200
-                desc:
-                  type: string
-              required:
-              - name
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                    readOnly: true
-                  name:
-                    type: string
-                    maxLength: 200
-                  desc:
-                    type: string
-                required:
-                - name
           description: ''
   /{organization}/api/auth:
     post:
