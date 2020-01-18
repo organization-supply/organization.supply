@@ -119,8 +119,8 @@ if config("POSTGRES_ENABLED", default=False, cast=bool):
             "NAME": config("POSTGRES_DB"),
             "USER": config("POSTGRES_USER"),
             "PASSWORD": config("POSTGRES_PASSWORD"),
-            "HOST": config("POSTGRES_HOST") or "localhost",
-            "PORT": config("POSTGRES_PORT") or 5432,
+            "HOST": config("POSTGRES_HOST", default="localhost"),
+            "PORT": config("POSTGRES_PORT", default=5432, cast=int)
         }
     }
 else:
