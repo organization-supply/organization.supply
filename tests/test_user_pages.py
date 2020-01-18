@@ -56,3 +56,19 @@ class TestUserPages(TestBase):
 
         # Having no notifications for a user should return 1 notification that is created
         self.assertIn("This is your first notification!", response.content.decode())
+
+    def test_settings_change_password(self):
+        response = self.client.get("/user/settings")
+        self.assertEqual(response.status_code, 200)
+
+        # Test if the user is saved
+        response = self.client.post(
+            "/user/settings/password/change", {
+                "old_password": "johnpassword",
+                "new_password1": "johnpasswordnew",
+                "new_password2": "johnpasswordnew"
+            }, follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Password succesfully changed", response.content.decode())
+        
