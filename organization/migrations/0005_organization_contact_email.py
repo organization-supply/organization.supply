@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
             model_name="organization",
             name="contact_email",
             field=models.EmailField(
-                default="demo@organization.supply", max_length=254, unique=True
+                max_length=254, blank=True, null=True
             ),
             preserve_default=False,
         )
