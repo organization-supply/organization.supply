@@ -422,6 +422,206 @@ paths:
       responses:
         '204':
           description: ''
+  /{organization}/api/inventory:
+    get:
+      operationId: listInventorys
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      readOnly: true
+                    product:
+                      type: string
+                    location:
+                      type: string
+                    amount:
+                      type: number
+                  required:
+                  - product
+                  - location
+          description: ''
+  /{organization}/api/mutations:
+    get:
+      operationId: listMutations
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      readOnly: true
+                    amount:
+                      type: number
+                    product:
+                      type: string
+                    location:
+                      type: string
+                    desc:
+                      type: string
+                    operation:
+                      enum:
+                      - add
+                      - remove
+                      - reserved
+                  required:
+                  - amount
+                  - product
+                  - location
+          description: ''
+    post:
+      operationId: CreateMutation
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                amount:
+                  type: number
+                product:
+                  type: string
+                location:
+                  type: string
+                desc:
+                  type: string
+                operation:
+                  enum:
+                  - add
+                  - remove
+                  - reserved
+              required:
+              - amount
+              - product
+              - location
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  amount:
+                    type: number
+                  product:
+                    type: string
+                  location:
+                    type: string
+                  desc:
+                    type: string
+                  operation:
+                    enum:
+                    - add
+                    - remove
+                    - reserved
+                required:
+                - amount
+                - product
+                - location
+          description: ''
+  /{organization}/api/notifications:
+    get:
+      operationId: listProducts
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      readOnly: true
+                    name:
+                      type: string
+                      maxLength: 200
+                    desc:
+                      type: string
+                  required:
+                  - name
+          description: ''
+    post:
+      operationId: CreateProduct
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  maxLength: 200
+                desc:
+                  type: string
+              required:
+              - name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 200
+                  desc:
+                    type: string
+                required:
+                - name
+          description: ''
   /{organization}/api/auth:
     post:
       operationId: CreateApiAuthorize
