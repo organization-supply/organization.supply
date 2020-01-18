@@ -28,6 +28,39 @@
             <input class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Save profile &raquo;">
         </div>
     </form>
+
+    <h1 class="f4 bold pt3">Change Password</h1>
+    <form action="{% url 'settings_change_password' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mt3">
+            <label class="db fw6 mb1 lh-copy f6" for="image">
+                Current password
+                <span class="red f5">*</span>
+            </label>    
+            <input type="password" name="old_password" placeholder="Your current password" class="pa2 input-reset ba br2 bg-transparent w-100" required="" id="old_password_id">
+        </div>
+
+        <div class="mt3">
+            <label class="db fw6 mb1 lh-copy f6" for="image">
+                New password
+                <span class="red f5">*</span>
+            </label>    
+            <input type="password" name="new_password1" placeholder="A new password" class="pa2 input-reset ba br2 bg-transparent w-100" required="" id="new_password1_id">
+        </div>
+
+        <div class="mt3">
+            <label class="db fw6 mb1 lh-copy f6" for="image">
+                New password (confirmation)
+                <span class="red f5">*</span>
+            </label>    
+            <input type="password" name="new_password2" placeholder="Confirm your new password" class="pa2 input-reset ba br2 bg-transparent w-100" required="" id="new_password2_id">
+        </div>
+
+        <div class="mt2">
+            <input class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Change password &raquo;">
+        </div>
+    </form>
 </div>
 
 <div class="fl w-100 w-50-m w-third-l ph3">
