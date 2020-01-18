@@ -43,7 +43,7 @@ class OrganizationForm(ModelForm):
     )
 
     contact_email = forms.EmailField(
-        widget=forms.TextInput(
+        widget=forms.EmailInput(
             attrs={
                 "placeholder": "contact@example.com",
                 "class": "pa2 input-reset ba br2 bg-transparent w-100",
@@ -94,6 +94,7 @@ class ProductForm(ModelForm):
             }
         )
     )
+
     desc = forms.CharField(
         required=False,
         widget=forms.Textarea(
@@ -101,7 +102,7 @@ class ProductForm(ModelForm):
                 "placeholder": "Description..",
                 "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
-        ),
+        )
     )
 
     class Meta:

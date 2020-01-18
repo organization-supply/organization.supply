@@ -4,7 +4,7 @@ from django.http import Http404
 from django.shortcuts import redirect
 from django.utils.functional import SimpleLazyObject
 from rest_framework.authentication import TokenAuthentication
-
+from organization.models.organization import Organization
 from user.models import User
 
 
@@ -33,7 +33,8 @@ class OrganizationMiddleware:
 
                 # If we have a matching organization
                 if organization:
-                    request.organization = organization
+                    # Get the organization object in the class that we use
+                    request.organization = Organization.objects.get(organization_ptr_id=organization.id)
 
                     # In the case of a POST request, we also change the payload and
                     # add the organization, so it's available for the forms.
