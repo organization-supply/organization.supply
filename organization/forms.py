@@ -102,7 +102,7 @@ class ProductForm(ModelForm):
                 "placeholder": "Description..",
                 "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
-        )
+        ),
     )
 
     class Meta:

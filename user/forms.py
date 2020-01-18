@@ -1,10 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.forms import ModelForm
 from django.http import Http404
 from organizations.backends.forms import UserRegistrationForm
-from django.contrib.auth.forms import PasswordChangeForm
 from organizations.models import OrganizationUser
 
 from user.models import User

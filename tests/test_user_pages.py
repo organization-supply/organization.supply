@@ -63,12 +63,13 @@ class TestUserPages(TestBase):
 
         # Test if the user is saved
         response = self.client.post(
-            "/user/settings/password/change", {
+            "/user/settings/password/change",
+            {
                 "old_password": "johnpassword",
                 "new_password1": "johnpasswordnew",
-                "new_password2": "johnpasswordnew"
-            }, follow=True
+                "new_password2": "johnpasswordnew",
+            },
+            follow=True,
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn("Password succesfully changed", response.content.decode())
-        

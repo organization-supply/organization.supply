@@ -18,7 +18,8 @@ class TestRestAPI(TestBaseWithInventory):
         )
 
         self.token = response.json().get("token")
-        self.client = APIClient(HTTP_AUTHORIZATION="Token: {}".format(self.token))
+        self.client = APIClient()
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token)
 
     def test_api_auth(self):
         response = self.client.post(
@@ -33,6 +34,17 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertIn("organization", response.json())
         self.assertEqual(response.json().get("organization"), self.organization.slug)
         self.assertEqual(response.json().get("user"), self.user.username)
+
+    def test_api_user_view(self):
+        self._authenticate()
+
+        response = self.client.get("/{}/api/me".format(self.organization.slug))
+        self.assertIn("id", response.json())
+        self.assertIn("username", response.json())
+        self.assertIn("organization", response.json())
+
+        self.assertEqual(response.json().get("id"), str(self.user.id))
+        self.assertEqual(response.json().get("username"), self.user.username)
 
     def test_api_product_view(self):
         self._authenticate()
@@ -149,7 +161,7 @@ class TestRestAPI(TestBaseWithInventory):
         )
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Location.objects.count(), 0)
-        
+
     def test_api_inventory(self):
 
         self._authenticate()
@@ -162,7 +174,7 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.json()[0]["location"], str(self.location.id))
 
     def test_api_mutations(self):
-        
+
         # Create a mutation
         mutation = Mutation(
             product=self.product,
@@ -171,9 +183,17 @@ class TestRestAPI(TestBaseWithInventory):
             organization=self.organization,
         )
         mutation.save()
-        
+
         self._authenticate()
 
         response = self.client.get("/{}/api/mutations".format(self.organization.slug))
         self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.json()[0]["amount"], 10)
+
+    def test_api_notifications(self):
+        self._authenticate()
+
+        response = self.client.get(
+            "/{}/api/notifications".format(self.organization.slug)
+        )
+        self.assertEqual(len(response.json()), 0)  # there should be no notifications

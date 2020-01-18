@@ -9,6 +9,7 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
 )
+from rest_framework.views import APIView
 
 from api.serializers import (
     InventorySerializer,
@@ -24,6 +25,7 @@ from organization.models.inventory import (
     Organization,
     Product,
 )
+from organization.models.notifications import Notification
 
 
 def save_serializer_with_organization(serializer, organization):
@@ -66,7 +68,18 @@ class ApiAuthorize(ObtainAuthToken):
         )
 
 
-class NotificationViewSet(generics.ListAPIView):
+class UserView(APIView):
+    def get(self, request, organization, **kwargs):
+        return Response(
+            {
+                "id": request.user.id,
+                "username": request.user.username,
+                "organization": organization,
+            }
+        )
+
+
+class NotificationView(generics.ListAPIView):
     """
     A simple ViewSet for viewing notifications.
     """
@@ -206,6 +219,7 @@ class InventoryView(generics.ListAPIView):
         queryset = Inventory.objects.for_organization(organization)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
 
 class MutationsView(generics.ListCreateAPIView):
 

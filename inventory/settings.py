@@ -100,7 +100,8 @@ AUTH_USER_MODEL = (
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication"
-    ]
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 
 ORGS_SLUGFIELD = "django_extensions.db.fields.AutoSlugField"
@@ -120,7 +121,7 @@ if config("POSTGRES_ENABLED", default=False, cast=bool):
             "USER": config("POSTGRES_USER"),
             "PASSWORD": config("POSTGRES_PASSWORD"),
             "HOST": config("POSTGRES_HOST", default="localhost"),
-            "PORT": config("POSTGRES_PORT", default=5432, cast=int)
+            "PORT": config("POSTGRES_PORT", default=5432, cast=int),
         }
     }
 else:

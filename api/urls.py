@@ -4,15 +4,18 @@ from rest_framework import routers
 
 from api.views import (
     ApiAuthorize,
+    InventoryView,
     LocationDetailView,
     LocationView,
+    MutationsView,
+    NotificationView,
     ProductDetailView,
     ProductView,
-    InventoryView,
-    MutationsView,
+    UserView,
 )
 
 urlpatterns = [
+    path("me", UserView.as_view()),
     path("products", ProductView.as_view()),
     path("products/<uuid:pk>", ProductDetailView.as_view()),
     path("locations", LocationView.as_view()),
@@ -21,5 +24,5 @@ urlpatterns = [
     path("mutations", MutationsView.as_view()),
     # User endpoints
     path("auth", ApiAuthorize.as_view()),
-    path("notifications", ProductView.as_view()),
+    path("notifications", NotificationView.as_view()),
 ]
