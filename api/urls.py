@@ -4,12 +4,12 @@ from rest_framework import routers
 
 from api.views import (
     ApiAuthorize,
+    InventoryView,
     LocationDetailView,
     LocationView,
+    MutationsView,
     ProductDetailView,
     ProductView,
-    InventoryView,
-    MutationsView,
 )
 
 urlpatterns = [

@@ -12,7 +12,11 @@ urlpatterns = [
     ),
     path("signup", views.signup, name="user_signup"),
     path("settings", views.settings, name="user_settings"),
-    path("settings/password/change", views.settings_change_password, name="settings_change_password"),
+    path(
+        "settings/password/change",
+        views.settings_change_password,
+        name="settings_change_password",
+    ),
     path("organizations", views.organizations, name="user_organizations"),
     path("notifications", views.notifications, name="user_notifications"),
     path(

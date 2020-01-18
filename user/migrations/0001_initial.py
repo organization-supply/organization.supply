@@ -127,5 +127,5 @@ class Migration(migrations.Migration):
                 "abstract": False,
             },
             managers=[("objects", user.models.UserManager())],
-        ),
+        )
     ]
