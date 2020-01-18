@@ -66,7 +66,7 @@ class ApiAuthorize(ObtainAuthToken):
         )
 
 
-class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
+class NotificationViewSet(generics.ListAPIView):
     """
     A simple ViewSet for viewing notifications.
     """
