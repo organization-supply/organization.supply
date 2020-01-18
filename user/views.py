@@ -105,7 +105,6 @@ def notification_action(request, notification_id):
     notification = get_object_or_404(
         Notification, id=notification_id, user=request.user
     )
-    print(request.GET.get("action"), notification)
     if request.GET.get("action") == "mark_as_read":
         notification.mark_as_read()
 
