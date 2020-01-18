@@ -111,7 +111,7 @@ def organization_notifications(request):
     return render(
         request,
         "notifications/notifications.html",
-        {"notifications": Notification.objects.for_organization(request.organization)},
+        {"notifications": Notification.objects.for_organization(request.organization).filter(user=request.user)},
     )
 
 
