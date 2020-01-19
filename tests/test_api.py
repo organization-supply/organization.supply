@@ -44,7 +44,7 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertIn("organization", response.json())
 
         self.assertEqual(response.json().get("id"), str(self.user.id))
-        self.assertEqual(response.json().get("username"), self.user.username)
+        self.assertEqual(response.json().get("email"), self.user.email)
 
     def test_api_product_view(self):
         self._authenticate()
