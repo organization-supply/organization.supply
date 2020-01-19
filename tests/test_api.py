@@ -40,7 +40,7 @@ class TestRestAPI(TestBaseWithInventory):
 
         response = self.client.get("/{}/api/me".format(self.organization.slug))
         self.assertIn("id", response.json())
-        self.assertIn("username", response.json())
+        self.assertIn("email", response.json())
         self.assertIn("organization", response.json())
 
         self.assertEqual(response.json().get("id"), str(self.user.id))
