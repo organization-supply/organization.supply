@@ -174,7 +174,9 @@ DEFAULT_FROM_EMAIL = "notifications@organization.supply"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "identity/"),
+]
 STATIC_URL = "/static/"
 STATIC_ROOT = config("DJANGO_STATIC_ROOT", default=os.path.join(BASE_DIR, "static/"))
 
