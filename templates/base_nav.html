@@ -1,17 +1,17 @@
-
+{% load static %}
 {% load extra_filters %}
 
 <nav class="pa3 bg-near-white">
-
-    {% if request.organization.name %}
-    <div class="fl nt2 mr2">
-        <h1 class="f4">{{ request.organization.name|title  }}</h1>
+    <a href="{% url 'user_organizations' %}" class="no-underline">
+        <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" style="width: 15px; margin-top: 3px; margin-right: 10px"/>
+    </a>
+    <div class="dib">
+        {% if request.organization.name %}
+            <h1 class="f4 mv1">{{ request.organization.name|title }}</h1>
+        {% else %}
+            <a href="{% url 'user_organizations' %}" class="near-black no-underline underline-hover"><h1 class="f4 mv1">Organization.supply</h1></a>
+        {% endif %}
     </div>
-    {% else %}
-    <div class="dib nt2 mr2 nb2 pv0">
-        <a href="{% url 'user_organizations' %}" class="near-black no-underline underline-hover"><h1 class="f4">Organization.supply</h1></a>
-    </div>
-    {% endif %}
 
     <!-- Organization links -->
     {% if request.organization.slug %}

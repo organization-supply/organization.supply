@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,10 @@
 
   <!-- Title -->
   <title>Organization.supply - Login</title>
+		
+  <!-- Standard Favicon -->
+  <link rel="icon" href="{% static 'favicon-16x16.png' %}">
+  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png">
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
@@ -15,8 +20,6 @@
     body{
       font-family: Arial, Helvetica, sans-serif
     }
-
-
 
     /* Better dropdown */
     select{
@@ -58,23 +61,27 @@
 {% endif %}
 
 <main class="pa4 black-80">
-    <form class="measure center b--light-silver br2 ba pa3 bg-white" method="POST">    
-        {% csrf_token %}        
-        <h2>Login</h2>
-        <div class="mt3">
-            <label class="db fw6 lh-copy f6" for="email-address">Email</label>
-            <input class="pa2 input-reset ba br2 w-100" type="text" name="username" id="username">
-        </div>
-        <div class="mv3">
-            <label class="db fw6 lh-copy f6" for="password">Password</label>
-            <input class="pa2 input-reset ba br2 w-100" type="password" name="password" id="password">
-        </div>
-        <div class="w-100 dib">
-            <input class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr pointer b--none" type="submit" value="Login">
-            <span class="fl mv2"><a href="{% url 'user_signup' %}" class="mv2 f6 link dim black">Signup</a> | 
-            <a href="{% url 'password_reset' %}" class="mv2 f6 link dim black">Forgot your password?</a></span>
-        </div>
-    </form>
+  <div class="tc pb5">
+    <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" class="dib" style="width: 15px; margin-top: 3px; margin-right: 5px"/>
+    <h1 class="f4 dib">Organization.supply</h1>
+  </div>
+  <form class="measure center b--light-silver br2 ba pa3 bg-white" method="POST">        
+    {% csrf_token %}        
+    <h2>Login</h2>
+    <div class="mt3">
+        <label class="db fw6 lh-copy f6" for="email-address">Email</label>
+        <input class="pa2 input-reset ba br2 w-100" type="text" name="username" id="username">
+    </div>
+    <div class="mv3">
+        <label class="db fw6 lh-copy f6" for="password">Password</label>
+        <input class="pa2 input-reset ba br2 w-100" type="password" name="password" id="password">
+    </div>
+    <div class="w-100 dib">
+        <input class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr pointer b--none" type="submit" value="Login">
+        <span class="fl mv2"><a href="{% url 'user_signup' %}" class="mv2 f6 link dim black">Signup</a> | 
+        <a href="{% url 'password_reset' %}" class="mv2 f6 link dim black">Forgot your password?</a></span>
+    </div>
+  </form>
 </main>
 
 {% include "base_footer.html" %}
