@@ -18,6 +18,15 @@ class TestBase(TestCase):
         self.organization.add_user(self.user)
 
 
+class TestBaseWithStaffUser(TestBase):
+    def setUp(self):
+        super(TestBaseWithStaffUser, self).setUp()
+        self.user.is_staff = True
+        self.user.save()
+        self.non_staff_user = User.objects.create_user("mccartney@thebeatles.com", "paulpassword")
+        self.non_staff_user.is_staff = False
+        self.non_staff_user.save()
+
 class TestBaseWithInventory(TestBase):
     def setUp(self):
         super(TestBaseWithInventory, self).setUp()
