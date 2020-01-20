@@ -107,8 +107,9 @@
 <p id="n38" class="pln"><a href="#n38">38</a></p>
 <p id="n39" class="pln"><a href="#n39">39</a></p>
 <p id="n40" class="pln"><a href="#n40">40</a></p>
-<p id="n41" class="stm run hide_run"><a href="#n41">41</a></p>
-<p id="n42" class="stm mis"><a href="#n42">42</a></p>
+<p id="n41" class="pln"><a href="#n41">41</a></p>
+<p id="n42" class="stm run hide_run"><a href="#n42">42</a></p>
+<p id="n43" class="stm mis"><a href="#n43">43</a></p>
 
             </td>
             <td class="text">
@@ -147,13 +148,14 @@
 <p id="t33" class="pln">    <span class="nam">path</span><span class="op">(</span><span class="str">"user/"</span><span class="op">,</span> <span class="nam">include</span><span class="op">(</span><span class="str">"django.contrib.auth.urls"</span><span class="op">)</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t34" class="pln">    <span class="com"># Admin</span><span class="strut">&nbsp;</span></p>
 <p id="t35" class="pln">    <span class="nam">path</span><span class="op">(</span><span class="str">"admin/"</span><span class="op">,</span> <span class="nam">admin</span><span class="op">.</span><span class="nam">site</span><span class="op">.</span><span class="nam">urls</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t36" class="pln">    <span class="com"># Organization urls (listed last, so we the others have priority)</span><span class="strut">&nbsp;</span></p>
-<p id="t37" class="pln">    <span class="nam">path</span><span class="op">(</span><span class="str">"create"</span><span class="op">,</span> <span class="nam">views_organization</span><span class="op">.</span><span class="nam">organization_create</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">"create_organization"</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t38" class="pln">    <span class="nam">path</span><span class="op">(</span><span class="str">"&lt;slug:organization>/"</span><span class="op">,</span> <span class="nam">include</span><span class="op">(</span><span class="str">"organization.urls"</span><span class="op">)</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t39" class="pln"><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t40" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t41" class="stm run hide_run"><span class="key">if</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">DEBUG</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t42" class="stm mis">    <span class="nam">urlpatterns</span> <span class="op">+=</span> <span class="nam">static</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">MEDIA_URL</span><span class="op">,</span> <span class="nam">document_root</span><span class="op">=</span><span class="nam">settings</span><span class="op">.</span><span class="nam">MEDIA_ROOT</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t36" class="pln">    <span class="nam">path</span><span class="op">(</span><span class="str">"deck/"</span><span class="op">,</span> <span class="nam">include</span><span class="op">(</span><span class="str">"deck.urls"</span><span class="op">)</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t37" class="pln">    <span class="com"># Organization urls (listed last, so we the others have priority)</span><span class="strut">&nbsp;</span></p>
+<p id="t38" class="pln">    <span class="nam">path</span><span class="op">(</span><span class="str">"create"</span><span class="op">,</span> <span class="nam">views_organization</span><span class="op">.</span><span class="nam">organization_create</span><span class="op">,</span> <span class="nam">name</span><span class="op">=</span><span class="str">"create_organization"</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t39" class="pln">    <span class="nam">path</span><span class="op">(</span><span class="str">"&lt;slug:organization>/"</span><span class="op">,</span> <span class="nam">include</span><span class="op">(</span><span class="str">"organization.urls"</span><span class="op">)</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t40" class="pln"><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t41" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t42" class="stm run hide_run"><span class="key">if</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">DEBUG</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t43" class="stm mis">    <span class="nam">urlpatterns</span> <span class="op">+=</span> <span class="nam">static</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">MEDIA_URL</span><span class="op">,</span> <span class="nam">document_root</span><span class="op">=</span><span class="nam">settings</span><span class="op">.</span><span class="nam">MEDIA_ROOT</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 
             </td>
         </tr>
@@ -164,7 +166,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2020-01-17 15:16
+            created at 2020-01-20 10:25
         </p>
     </div>
 </div>
