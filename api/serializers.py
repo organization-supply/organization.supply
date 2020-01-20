@@ -28,15 +28,6 @@ class MutationSerializer(serializers.ModelSerializer):
         fields = ["id", "amount", "product", "location", "desc", "operation"]
 
 
-class GenericNotificationRelatedField(serializers.RelatedField):
-    def to_representation(self, value):
-        if isinstance(value, Product):
-            serializer = ProductSerializer(value)
-        if isinstance(value, Location):
-            serializer = LocationSerializer(value)
-        return serializer.data
-
-
 class NotificationSerializer(serializers.Serializer):
     unread = serializers.BooleanField(read_only=True)
 

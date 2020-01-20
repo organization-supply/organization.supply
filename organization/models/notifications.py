@@ -18,17 +18,17 @@ from organization.models.organization import Organization
 class NotificationQuerySet(models.query.QuerySet):
     """ Notification QuerySet """
 
-    def unsent(self):
-        return self.filter(emailed=False)
+    # def unsent(self):
+    #     return self.filter(emailed=False)
 
-    def sent(self):
-        return self.filter(emailed=True)
+    # def sent(self):
+    #     return self.filter(emailed=True)
 
-    def unread(self):
-        return self.filter(unread=True)
+    # def unread(self):
+    #     return self.filter(unread=True)
 
-    def read(self, include_deleted=False):
-        return self.filter(unread=False)
+    # def read(self, include_deleted=False):
+    #     return self.filter(unread=False)
 
     def for_organization(self, organization):
         return self.filter(organization=organization)
@@ -36,49 +36,49 @@ class NotificationQuerySet(models.query.QuerySet):
     def for_user(self, user):
         return self.filter(user=user)
 
-    def mark_all_as_read(self, user):
-        qset = self.unread(True)  # You can only mark unread notifications as read
-        qset = qset.filter(user=user)
-        return qset.update(unread=False)
+    # def mark_all_as_read(self, user):
+    #     qset = self.unread(True)  # You can only mark unread notifications as read
+    #     qset = qset.filter(user=user)
+    #     return qset.update(unread=False)
 
-    def mark_all_as_unread(self, user):
-        """Mark as unread any read messages in the current queryset.
-        Optionally, filter these by user first.
-        """
-        qset = self.read(True)  # You can only mark read notifications as unread
-        qset = qset.filter(user=user)
-        return qset.update(unread=True)
+    # def mark_all_as_unread(self, user):
+    #     """Mark as unread any read messages in the current queryset.
+    #     Optionally, filter these by user first.
+    #     """
+    #     qset = self.read(True)  # You can only mark read notifications as unread
+    #     qset = qset.filter(user=user)
+    #     return qset.update(unread=True)
 
-    def deleted(self):
-        """Return only deleted items in the current queryset"""
-        return self.filter(deleted=True)
+    # def deleted(self):
+    #     """Return only deleted items in the current queryset"""
+    #     return self.filter(deleted=True)
 
-    def active(self):
-        """Return only active(un-deleted) items in the current queryset"""
-        return self.filter(deleted=False)
+    # def active(self):
+    #     """Return only active(un-deleted) items in the current queryset"""
+    #     return self.filter(deleted=False)
 
-    def mark_all_as_deleted(self, user):
-        qset = self.active()
-        qset = qset.filter(user=user)
-        return qset.update(deleted=True)
+    # def mark_all_as_deleted(self, user):
+    #     qset = self.active()
+    #     qset = qset.filter(user=user)
+    #     return qset.update(deleted=True)
 
-    def mark_all_as_active(self, user):
-        """Mark current queryset as active(un-deleted).
-        Optionally, filter by user first.
-        """
-        qset = self.deleted()
-        qset = qset.filter(user=user)
-        return qset.update(deleted=False)
+    # def mark_all_as_active(self, user):
+    #     """Mark current queryset as active(un-deleted).
+    #     Optionally, filter by user first.
+    #     """
+    #     qset = self.deleted()
+    #     qset = qset.filter(user=user)
+    #     return qset.update(deleted=False)
 
-    def mark_as_unsent(self, user):
-        qset = self.sent()
-        qset = qset.filter(user=user)
-        return qset.update(emailed=False)
+    # def mark_as_unsent(self, user):
+    #     qset = self.sent()
+    #     qset = qset.filter(user=user)
+    #     return qset.update(emailed=False)
 
-    def mark_as_sent(self, user):
-        qset = self.unsent()
-        qset = qset.filter(user=user)
-        return qset.update(emailed=True)
+    # def mark_as_sent(self, user):
+    #     qset = self.unsent()
+    #     qset = qset.filter(user=user)
+    #     return qset.update(emailed=True)
 
 
 class Notification(TimeStampedModel):

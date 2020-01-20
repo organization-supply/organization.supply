@@ -33,33 +33,6 @@ class UserSignupForm(ModelForm):
     )
 
 
-class UserInviteForm:
-    class Meta:
-        model = OrganizationUser
-
-    def save(self, *args, **kwargs):
-        try:
-            user = get_user_model().objects.get(
-                email__iexact=self.cleaned_data["email"]
-            )
-        except get_user_model().MultipleObjectsReturned:
-            raise forms.ValidationError(
-                "This email address has been used multiple times."
-            )
-        except get_user_model().DoesNotExist:
-            user = invitation_backend().invite_by_email(
-                self.cleaned_data["email"],
-                **{
-                    "domain": get_current_site(self.request),
-                    "organization": self.organization,
-                }
-            )
-
-        return OrganizationUser.objects.create(
-            user=user, organization=self.organization
-        )
-
-
 class OrganizationAcceptForm(ModelForm):
     """
     Form class for completing a user's registration and activating the

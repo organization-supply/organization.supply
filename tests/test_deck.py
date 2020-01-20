@@ -11,17 +11,16 @@ class TestDeckPages(TestBaseWithStaffUser):
         super(TestDeckPages, self).setUp()
 
     # The deck should be reachable by a staff user
-    def test_deck(self):
+    def test_deck_non_staff_user(self):
+        response = self.client.get("/deck/", follow=True)
+        self.assertEqual(response.status_code, 404)
+
+    # But not by a normal user:
+    def test_deck_staff_user(self):
+        self.client.login(email="mccartney@thebeatles.com", password="paulpassword")
         response = self.client.get("/deck/")
         self.assertEqual(response.status_code, 200)
         self.assertIn("Test Organization", response.content.decode())
-
-    # But not by a normal user:
-    def test_deck_non_staff_user(self):
-        self.client.login(email="mccartney@thebeatles.com", password="paulpassword")
-        
-        response = self.client.get("/deck/", follow=True)
-        self.assertEqual(response.status_code, 404)
 
 
     
