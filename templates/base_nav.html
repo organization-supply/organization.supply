@@ -2,9 +2,11 @@
 {% load extra_filters %}
 
 <nav class="pa3 bg-near-white">
+    
     <a href="{% url 'user_organizations' %}" class="no-underline">
         <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" style="width: 15px; margin-top: 3px; margin-right: 10px"/>
     </a>
+
     <div class="dib">
         {% if request.organization.name %}
             <h1 class="f4 mv1">{{ request.organization.name|title }}</h1>
@@ -13,19 +15,24 @@
         {% endif %}
     </div>
 
-    <!-- Organization links -->
-    {% if request.organization.slug %}
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_dashboard' request.organization.slug %}" title="Dashboard">Dashboard</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_notifications' request.organization.slug %}" title="Dashboard">Notications</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_search' request.organization.slug %}" title="Dashboard">Search</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_products' request.organization.slug %}" title="Producten">Products</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_locations' request.organization.slug %}" title="Locaties">Locations</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_inventory_location' request.organization.slug %}" title="Locaties">Inventory</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_mutations' request.organization.slug %}" title="Transacties">Transactions</a>
-    {% endif %}
+    <div class="dn di-ns">
+        <!-- Organization links -->
+        {% if request.organization.slug %}
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_dashboard' request.organization.slug %}" title="Dashboard">Dashboard</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_notifications' request.organization.slug %}" title="Dashboard">Notications</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_search' request.organization.slug %}" title="Dashboard">Search</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_products' request.organization.slug %}" title="Producten">Products</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_locations' request.organization.slug %}" title="Locaties">Locations</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_inventory_location' request.organization.slug %}" title="Locaties">Inventory</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_mutations' request.organization.slug %}" title="Transacties">Transactions</a>
+        {% endif %}
 
-    
-    <div class="fr hide-child dib pl3 nt2">
+    </div>
+
+    <div class="dib pl3 nt2 fr hide-child-dn">
+        
+
+        <!-- Avatar -->
         {% if request.user.image %}
             <img class="br-pill h2 w2 mt2 dib" alt="avatar" src="{{ request.user.image.url }}" alt="">
         {% elif request.user.name %}
@@ -34,16 +41,43 @@
             <span class="link mid-gray db f6 f5-ns pa2 mv2">{{ request.user.email }}</span>
         {% endif %}
         
-        <div class="child absolute tr bg-near-white pt3 ph2" style="right: 0px;">
+        <!-- Dropdown menu -->
+        <div class="child-dn absolute tr bg-near-white pt3 ph2" style="right: 0px;">
+
+            <!-- Organization links on mobile -->
+            <div class="db dn-ns">
+            {% if request.organization.slug %}
+                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_dashboard' request.organization.slug %}" title="Dashboard">Dashboard</a>
+                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_notifications' request.organization.slug %}" title="Dashboard">Notications</a>
+                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_search' request.organization.slug %}" title="Dashboard">Search</a>
+                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_products' request.organization.slug %}" title="Producten">Products</a>
+                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_locations' request.organization.slug %}" title="Locaties">Locations</a>
+                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_inventory_location' request.organization.slug %}" title="Locaties">Inventory</a>
+                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_mutations' request.organization.slug %}" title="Transacties">Transactions</a>
+                {% if request.user|is_organization_admin_in:request.organization %}
+                    <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_settings' request.organization.slug %}" title="Settings">Organization Settings</a>
+                {% endif %}
+                <hr>
+            {% endif %}
+            </div>
+
+            
+            {% if request.user|is_organization_admin_in:request.organization %}
+                <a class="link dn dib-ns dim mid-gray f6 f5-ns pa2" href="{% url 'organization_settings' request.organization.slug %}" title="Settings">Organization Settings</a>
+            {% endif %}
+
+            <!-- User links -->
             <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'user_organizations' %}" title="Organizations">Organizations</a>    
             <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'user_notifications' %}" title="Notifications">Notifications</a>    
             <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'user_settings' %}" title="Settings">Settings</a>    
             <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'logout' %}" title="Logout">Logout</a>  
         </div>
+
+        
     </div>
 
-    {% if request.user|is_organization_admin_in:request.organization %}
-        <a class="link dim mid-gray fr f6 f5-ns dib mh2 mv2" href="{% url 'organization_settings' request.organization.slug %}" title="Settings">Organization Settings</a>
-    {% endif %}
+        
+
+    
     
 </nav>
