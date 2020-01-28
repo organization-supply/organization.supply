@@ -115,6 +115,10 @@ def notification_action(request, notification_id):
     if request.GET.get("action") == "mark_as_read":
         notification.mark_as_read()
 
+    
+    if request.GET.get("organization"):
+        return redirect("organization_notifications", organization=request.GET.get("organization"))
+
     return redirect("user_notifications")
 
 
