@@ -3,11 +3,11 @@ from organization.models.notifications import Notification, notify
 from user.models import User
 
 
-class TestNotifications(TestBaseWithInventory):
+class TestUserNotifications(TestBaseWithInventory):
     def setUp(self):
-        super(TestNotifications, self).setUp()
+        super(TestUserNotifications, self).setUp()
 
-    def test_notification_mark_as_read(self):
+    def test_user_notification_mark_as_read(self):
         notify.send(sender=self.product, user=self.user, verb="Testing a notification")
         response = self.client.get("/user/notifications")
         self.assertEqual(response.status_code, 200)
@@ -25,3 +25,49 @@ class TestNotifications(TestBaseWithInventory):
 
         notification = Notification.objects.get(verb="Testing a notification")
         self.assertFalse(notification.unread)
+
+    def test_user_notifications_mark_all_as_read(self):
+        # there should be 2 notifications (1 for product, other for location)
+        self.assertEqual(2, Notification.objects.for_user(self.user).filter(unread=True).count())
+        response = self.client.get("/user/notifications")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("New product", response.content.decode())
+        self.assertIn("New location", response.content.decode())
+
+        # Mark all as read
+        response = self.client.get("/user/notifications/action?action=mark_all_as_read")
+        self.assertEqual(0, Notification.objects.for_user(self.user).filter(unread=True).count())
+
+class TestOrganizationNotifications(TestBaseWithInventory):
+    def setUp(self):
+        super(TestOrganizationNotifications, self).setUp()
+    
+    def test_organization_notification_mark_as_read(self):
+        response = self.client.get("/{}/notifications".format(self.organization.slug))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("New product", response.content.decode())
+        self.assertIn("New location", response.content.decode())
+
+        notification = Notification.objects.for_user(self.user).for_organization(self.organization)[0]
+
+        response = self.client.get(
+            "/user/notification/{}?action=mark_as_read&organization={}".format(notification.id, self.organization.slug),
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(1, Notification.objects.for_user(self.user).for_organization(self.organization).filter(unread=True).count())
+
+    def test_organization_notifications_mark_all_as_read(self):
+        response = self.client.get("/{}/notifications".format(self.organization.slug))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("New product", response.content.decode())
+        self.assertIn("New location", response.content.decode())
+
+        notification = Notification.objects.for_user(self.user).for_organization(self.organization)[0]
+
+        response = self.client.get(
+            "/user/notifications/action?action=mark_all_as_read&organization={}".format(self.organization.slug),
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(0, Notification.objects.for_user(self.user).for_organization(self.organization).filter(unread=True).count())

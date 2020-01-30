@@ -12,7 +12,4 @@ def to_class_name(value):
 
 @register.filter
 def is_organization_admin_in(user, organization):
-    # If no organizaxtion is set, default to false
-    if not organization:
-        return False
     return organization.is_admin(user)

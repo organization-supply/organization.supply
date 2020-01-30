@@ -73,3 +73,22 @@ class TestUserPages(TestBase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn("Password succesfully changed", response.content.decode())
+
+    def test_settings_change_password_invalid(self):
+        # Test if the user is saved
+        response = self.client.post(
+            "/user/settings/password/change",
+            {
+                "old_password": "johnpassword",
+                "new_password1": "johnpasswordnew",
+                "new_password2": "johnpasswordinvalid",
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("The two password fields didn&#39;t match.", response.content.decode())
+
+    def test_settings_change_password_get_should_404(self):
+        # Test if the user is saved
+        response = self.client.get("/user/settings/password/change")
+        self.assertEqual(response.status_code, 404)

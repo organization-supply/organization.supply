@@ -30,9 +30,4 @@ def inventory_notifcation(sender, instance, created, *args, **kwargs):
     amount = instance.amount
     subscriptions = NotificationSubscription.objects.all()
     for subscription in subscriptions:
-        print("Should notify", subscription, amount)
-        # pass
-        # notify.send(
-        #     sender=sender,
-        #     user=subscription.user
-        # )
+        pass

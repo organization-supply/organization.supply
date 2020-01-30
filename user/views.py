@@ -9,6 +9,7 @@ from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
 
 from organization.models.notifications import Notification, notify
+from organization.models.organization import Organization
 from user.forms import UserForm, UserSignupForm
 from user.models import User
 
@@ -77,7 +78,7 @@ def settings_change_password(request):
                 map(lambda err: str(err[0]), change_password_form.errors.values())
             )
             messages.add_message(
-                request, messages.ERROR, user_form.non_field_errors().as_text() + errors
+                request, messages.ERROR, change_password_form.non_field_errors().as_text() + errors
             )
         return redirect("user_settings")
     else:
@@ -119,7 +120,15 @@ def notifications_action(request):
         user_notifications = Notification.objects.for_user(request.user)
 
         if request.GET.get("organization"):
-            user_organization_notifications = user_notifications.for_organization(request.GET.get("organization"))
+            # Get the organization
+            organization = get_object_or_404(Organization, slug=request.GET.get("organization"))
+
+            # But only continue if the user is part of that organization.
+            if request.user not in organization.users.all():
+                raise Http404
+            
+            # Filter the user notifcations on the organization and mark as read.
+            user_organization_notifications = user_notifications.for_organization(organization)
             user_organization_notifications.mark_queryset_as_read()
             return redirect("organization_notifications", organization=request.GET.get("organization"))
 
