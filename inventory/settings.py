@@ -41,7 +41,7 @@ SECRET_KEY = config(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DJANGO_DEBUG", cast=bool)
 
-ALLOWED_HOSTS = ["localhost", "app.organization.supply", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "app.organization.supply", "127.0.0.1", "3cad8b08.ngrok.io"]
 
 # Application definition
 

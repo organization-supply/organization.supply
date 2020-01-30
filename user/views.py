@@ -91,19 +91,12 @@ def notifications(request):
             request.user, user=request.user, verb="This is your first notification!"
         )
 
-    notification_filter = request.GET.get("status", "unread")
-    if notification_filter == "all":
-        notifications = request.user.notifications_all
-    elif notification_filter == "unread":
-        notifications = request.user.notifications_unread
-    # We default to unread notifications
-    else:
-        notifications = request.user.notifications_unread
+    notifications = request.user.notifications_all
 
     return render(
         request,
         "notifications/notifications.html",
-        {"notifications": notifications, "notification_filter": notification_filter},
+        {"notifications": notifications},
     )
 
 
@@ -115,12 +108,26 @@ def notification_action(request, notification_id):
     if request.GET.get("action") == "mark_as_read":
         notification.mark_as_read()
 
-    
     if request.GET.get("organization"):
         return redirect("organization_notifications", organization=request.GET.get("organization"))
-
+        
     return redirect("user_notifications")
 
+@login_required
+def notifications_action(request):
+    if request.GET.get("action") == "mark_all_as_read":
+        user_notifications = Notification.objects.for_user(request.user)
+
+        if request.GET.get("organization"):
+            user_organization_notifications = user_notifications.for_organization(request.GET.get("organization"))
+            user_organization_notifications.mark_queryset_as_read()
+            return redirect("organization_notifications", organization=request.GET.get("organization"))
+
+        else:
+            user_notifications.mark_queryset_as_read()
+            return redirect("user_notifications")
+    else:
+        raise Http404
 
 @login_required
 def organizations(request):

@@ -6,7 +6,7 @@
 
 const instance = tippy('#tippy-{{ id }}',{
     theme: 'light',
-    duration: 0,
+    duration: 500,
     arrow: false,
     delay: [0, 0],
     placement: '{% if placement %}{{ placement }}{% else %}right{% endif %}',
@@ -18,7 +18,6 @@ const instance = tippy('#tippy-{{ id }}',{
 
 <style>
 .tippy-tooltip.light-theme {
-  
   padding: 10px;
   margin: 10px;
   vertical-align: middle;
@@ -27,5 +26,16 @@ const instance = tippy('#tippy-{{ id }}',{
   border: 1px solid #aaa;
   background-color: white!important;
   z-index: 100
+}
+
+/* Portrait and Landscape */
+@media only screen and (max-device-width: 480px) {
+  .tippy-tooltip.light-theme {
+    top: 0px;
+    left: 0px;
+    position: relative;
+    z-index: 100;
+    transform: none;
+[]  }  
 }
 </style>
