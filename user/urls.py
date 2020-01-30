@@ -19,7 +19,9 @@ urlpatterns = [
     ),
     path("organizations", views.organizations, name="user_organizations"),
     path("notifications", views.notifications, name="user_notifications"),
-    path("notifications/action", views.notifications_action, name="notifications_action"),
+    path(
+        "notifications/action", views.notifications_action, name="notifications_action"
+    ),
     path(
         "notification/<int:notification_id>",
         views.notification_action,

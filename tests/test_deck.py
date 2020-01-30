@@ -21,6 +21,3 @@ class TestDeckPages(TestBaseWithStaffUser):
         response = self.client.get("/deck/")
         self.assertEqual(response.status_code, 200)
         self.assertIn("Test Organization", response.content.decode())
-
-
-    

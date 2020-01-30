@@ -78,7 +78,9 @@ def settings_change_password(request):
                 map(lambda err: str(err[0]), change_password_form.errors.values())
             )
             messages.add_message(
-                request, messages.ERROR, change_password_form.non_field_errors().as_text() + errors
+                request,
+                messages.ERROR,
+                change_password_form.non_field_errors().as_text() + errors,
             )
         return redirect("user_settings")
     else:
@@ -95,9 +97,7 @@ def notifications(request):
     notifications = request.user.notifications_all
 
     return render(
-        request,
-        "notifications/notifications.html",
-        {"notifications": notifications},
+        request, "notifications/notifications.html", {"notifications": notifications}
     )
 
 
@@ -110,9 +110,12 @@ def notification_action(request, notification_id):
         notification.mark_as_read()
 
     if request.GET.get("organization"):
-        return redirect("organization_notifications", organization=request.GET.get("organization"))
-        
+        return redirect(
+            "organization_notifications", organization=request.GET.get("organization")
+        )
+
     return redirect("user_notifications")
+
 
 @login_required
 def notifications_action(request):
@@ -121,22 +124,30 @@ def notifications_action(request):
 
         if request.GET.get("organization"):
             # Get the organization
-            organization = get_object_or_404(Organization, slug=request.GET.get("organization"))
+            organization = get_object_or_404(
+                Organization, slug=request.GET.get("organization")
+            )
 
             # But only continue if the user is part of that organization.
             if request.user not in organization.users.all():
                 raise Http404
-            
+
             # Filter the user notifcations on the organization and mark as read.
-            user_organization_notifications = user_notifications.for_organization(organization)
+            user_organization_notifications = user_notifications.for_organization(
+                organization
+            )
             user_organization_notifications.mark_queryset_as_read()
-            return redirect("organization_notifications", organization=request.GET.get("organization"))
+            return redirect(
+                "organization_notifications",
+                organization=request.GET.get("organization"),
+            )
 
         else:
             user_notifications.mark_queryset_as_read()
             return redirect("user_notifications")
     else:
         raise Http404
+
 
 @login_required
 def organizations(request):

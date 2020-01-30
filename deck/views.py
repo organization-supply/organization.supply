@@ -1,7 +1,7 @@
-from deck.utils import staff_or_404
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
+from deck.utils import staff_or_404
 from organization.models.organization import Organization
 
 

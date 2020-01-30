@@ -103,5 +103,5 @@ class UserForm(ModelForm):
                 "class": "pa2 input-reset ba br2 bg-transparent w-100",
                 "style": "box-sizing: border-box",
             }
-        )
+        ),
     )

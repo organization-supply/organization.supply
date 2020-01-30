@@ -32,7 +32,7 @@ class Organization(DjangoOrganization, TimeStampedModel):
     )  # Differs from the creation date of the organization
 
     contact_email = models.EmailField(max_length=254, unique=True)
-    
+
     @property
     def stats(self):
         # TODO: fix circulair import

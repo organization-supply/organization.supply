@@ -86,7 +86,9 @@ class TestUserPages(TestBase):
             follow=True,
         )
         self.assertEqual(response.status_code, 200)
-        self.assertIn("The two password fields didn&#39;t match.", response.content.decode())
+        self.assertIn(
+            "The two password fields didn&#39;t match.", response.content.decode()
+        )
 
     def test_settings_change_password_get_should_404(self):
         # Test if the user is saved
