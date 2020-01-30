@@ -24,11 +24,11 @@ class NotificationQuerySet(models.query.QuerySet):
     # def sent(self):
     #     return self.filter(emailed=True)
 
-    # def unread(self):
-    #     return self.filter(unread=True)
+    def unread(self):
+        return self.filter(unread=True)
 
-    # def read(self, include_deleted=False):
-    #     return self.filter(unread=False)
+    def read(self, include_deleted=False):
+        return self.filter(unread=False)
 
     def for_organization(self, organization):
         return self.filter(organization=organization)
@@ -36,10 +36,9 @@ class NotificationQuerySet(models.query.QuerySet):
     def for_user(self, user):
         return self.filter(user=user)
 
-    # def mark_all_as_read(self, user):
-    #     qset = self.unread(True)  # You can only mark unread notifications as read
-    #     qset = qset.filter(user=user)
-    #     return qset.update(unread=False)
+    def mark_queryset_as_read(self):
+        qset = self.unread()  # You can only mark unread notifications as read
+        return qset.update(unread=False)
 
     # def mark_all_as_unread(self, user):
     #     """Mark as unread any read messages in the current queryset.

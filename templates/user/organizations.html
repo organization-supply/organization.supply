@@ -12,7 +12,7 @@
     {% include 'utils/information.html' with id='user-organization' content="This is a list of organizations you are a member of." %}
 </h1>
 
-<div class="mh3 measure center">
+<div class="ph3 measure center">
     {% if organizations %}
         {% for organization in organizations %}
             <article class="br2 ba dark-gray b--black-10 mv4 w-100">
@@ -26,9 +26,9 @@
                                 | <a href="{% url 'organization_settings' organization.slug %}">Settings</a>
                             </span>
 
-                            <span class="f6 lh-copy measure mid-gray fr">
+                            <!-- <span class="f6 lh-copy measure mid-gray fr">
                                 <a href="{% url 'organization_leave' organization.slug %}">Leave</a>
-                            </span>
+                            </span> -->
                         </div>
                     </div>
                 </div>

@@ -96,6 +96,7 @@ class UserForm(ModelForm):
     )
 
     image = forms.FileField(
+        required=False,
         widget=forms.FileInput(
             attrs={
                 "placeholder": "Profile Image",

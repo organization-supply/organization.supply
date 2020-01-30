@@ -20,7 +20,11 @@
             {{ user_form.name }}
         </div>
         <div class="mt3">
-            <label class="db fw6 mb1 lh-copy f6" for="image">Profile Image</label>
+            <label class="db fw6 mb1 lh-copy f6" for="image">
+                Profile Image
+                <span class="fr di fw3">(<a id="clearProfilePicture" href="#">clear</a>)</span>
+            </label>
+            
             {{ user_form.image }}
         </div>
     
