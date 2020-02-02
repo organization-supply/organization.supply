@@ -1,0 +1,17 @@
+{{ define "main" }}
+    {{ $features := where .Site.RegularPages "Type" "features" }}
+    {{if gt (len $features) 0}}
+    <div class="measure center">
+    <div class="w-100 fl">
+            {{ range sort $features ".Params.weight" }}
+            <div class="">
+                <h2>{{ .Title }}</h2>
+                <p>{{ .Content }}</p>
+            </div>
+            {{ end }}
+            <div class="">
+            </div>
+        </div>
+    </div>
+    {{ end }}
+{{ end }}

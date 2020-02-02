@@ -1,0 +1,13 @@
+# theme.toml template for a Hugo theme
+# See https://github.com/gohugoio/hugoThemes#themetoml for an example
+
+name = "Organization Supply"
+description = "A custom theme fitting to the same style as our app"
+homepage = "https://organization.supply"
+tags = []
+features = []
+min_version = "0.41"
+
+[author]
+  name = "Joost Plattel"
+  homepage = "https://organization.supply"
