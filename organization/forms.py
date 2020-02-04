@@ -85,7 +85,7 @@ class OrganizationInviteForm(OrganizationUserAddForm):
         )
 
 
-class ProductForm(ModelForm):
+class ProductAddForm(ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -108,6 +108,59 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = ["name", "desc", "organization"]
+
+class ProductEditForm(ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Product name",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+            }
+        )
+    )
+
+    desc = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Description..",
+                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+            }
+        ),
+    )
+
+    price_cost = forms.FloatField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+            }
+        ),
+    )
+
+    price_sale = forms.FloatField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+            }
+        ),
+    )
+
+    image = forms.FileField(
+        required=False,
+        widget=forms.FileInput(
+            attrs={
+                "placeholder": "Profile Image",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "style": "box-sizing: border-box",
+            }
+        ),
+    )
+
+    class Meta:
+        model = Product
+        fields = ["name", "desc", "price_cost", "price_sale", "image", "organization"]
 
 
 class LocationForm(ModelForm):

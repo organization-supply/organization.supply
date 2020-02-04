@@ -66,6 +66,16 @@ class Product(TimeStampedModel):
     desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
+    image = models.ImageField(
+        upload_to="organization/product/", default="organization/product/default.png"
+    )
+
+    price_cost = models.FloatField(default=0.0)
+    price_sale = models.FloatField(default=0.0)
+
+    def revenue(self):
+        return self.price_sale - self.price_cost
+
     objects = OrganizationManager()  # Filters by organization on default
 
     @property

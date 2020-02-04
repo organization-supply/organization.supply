@@ -124,7 +124,7 @@ urlpatterns = [
     path("products", views_product.organization_products, name="organization_products"),
     path(
         "product/new",
-        views_product.organization_product_form,
+        views_product.organization_product_add,
         name="organization_product_new",
     ),
     path(
@@ -134,12 +134,12 @@ urlpatterns = [
     ),
     path(
         "product/<uuid:product_id>/edit",
-        views_product.organization_product_form,
+        views_product.organization_product_edit,
         name="organization_product_edit",
     ),
     path(
         "product/<uuid:product_id>/delete",
-        views_product.organization_product_form,
+        views_product.organization_product_edit,
         name="organization_product_delete",
     ),
     # Shortcuts

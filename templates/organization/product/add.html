@@ -6,16 +6,10 @@
 
 <main class="pa4 black-80">
     <form class="measure center" action="" method="POST"> 
-        {% if form.instance.name %}
-        <h1>
-            Edit: {{ form.instance.name }}
-        </h1>
-        {% else %}
         <h1>
             Add a product
         </h1>
-        {% endif %}
-
+        
         {% csrf_token %}
 
         <fieldset id="product_form" class="ba b--transparent ph0 mh0">
@@ -31,6 +25,7 @@
                 {{ form.desc }}
             </div>
         </fieldset>
+
         <div class="">
             <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Save product &raquo;">
         </div>

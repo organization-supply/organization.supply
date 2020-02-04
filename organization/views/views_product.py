@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 
-from organization.forms import ProductForm
+from organization.forms import ProductEditForm, ProductAddForm
 from organization.models.inventory import Inventory, Mutation, Product
 
 
@@ -49,14 +49,28 @@ def organization_product_view(request, product_id):
     )
 
 
-def organization_product_form(request, product_id=None):
-    # Creating a new product..
-    if request.method == "POST" and product_id == None:
-        form = ProductForm(request.POST)
+def organization_product_add(request):
+    if request.method == "POST":
+        form = ProductAddForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, "Product created!")
+            product = form.save()
+            messages.add_message(request, messages.SUCCESS, "New product: {} created!".format(product.name))
+            return redirect(
+                "organization_products", organization=request.organization.slug
+            )
+    else:
+        form = ProductAddForm()
+        return render(request, "organization/product/add.html", {"form": form})
+
+def organization_product_edit(request, product_id=None):
+    # Creating a new product..
+    if request.method == "POST" and product_id == None:
+        form = ProductEditForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            product = form.save()
+            messages.add_message(request, messages.SUCCESS, "New product: {} created!".format(product.name))
             return redirect(
                 "organization_products", organization=request.organization.slug
             )
@@ -79,7 +93,7 @@ def organization_product_form(request, product_id=None):
         instance = get_object_or_404(
             Product, id=product_id, organization=request.organization
         )
-        form = ProductForm(request.POST or None, instance=instance)
+        form = ProductEditForm(request.POST, request.FILES or None, instance=instance)
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.INFO, "Product updated!")
@@ -92,9 +106,9 @@ def organization_product_form(request, product_id=None):
         instance = get_object_or_404(
             Product, id=product_id, organization=request.organization
         )
-        form = ProductForm(instance=instance)
-        return render(request, "organization/product/form.html", {"form": form})
+        form = ProductEditForm(instance=instance)
+        return render(request, "organization/product/edit.html", {"form": form})
 
     else:
-        form = ProductForm()
-        return render(request, "organization/product/form.html", {"form": form})
+        form = ProductEditForm()
+        return render(request, "organization/product/edit.html", {"form": form})
