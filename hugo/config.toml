@@ -2,7 +2,7 @@ baseURL = "https://organization.supply/"
 languageCode = "en-us"
 title = "Organization Supply"
 themesDir = "themes"
-theme = "organization-supply"
+theme = "hugo-serif-theme"
 
 
 [params]

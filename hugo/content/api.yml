@@ -95,13 +95,13 @@ paths:
     get:
       operationId: RetrieveProduct
       parameters:
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
@@ -128,13 +128,13 @@ paths:
     put:
       operationId: UpdateProduct
       parameters:
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
@@ -173,13 +173,13 @@ paths:
     patch:
       operationId: PartialUpdateProduct
       parameters:
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
@@ -216,13 +216,13 @@ paths:
     delete:
       operationId: DestroyProduct
       parameters:
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
@@ -304,13 +304,13 @@ paths:
     get:
       operationId: RetrieveLocation
       parameters:
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
@@ -337,13 +337,13 @@ paths:
     put:
       operationId: UpdateLocation
       parameters:
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
@@ -382,13 +382,13 @@ paths:
     patch:
       operationId: PartialUpdateLocation
       parameters:
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
@@ -425,13 +425,13 @@ paths:
     delete:
       operationId: DestroyLocation
       parameters:
-      - name: id
+      - name: organization
         in: path
         required: true
         description: ''
         schema:
           type: string
-      - name: organization
+      - name: id
         in: path
         required: true
         description: ''
@@ -588,10 +588,7 @@ paths:
               schema:
                 type: array
                 items:
-                  properties:
-                    unread:
-                      type: boolean
-                      readOnly: true
+                  properties: {}
           description: ''
   /{organization}/api/auth:
     post:
