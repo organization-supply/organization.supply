@@ -29,8 +29,6 @@ class MutationSerializer(serializers.ModelSerializer):
 
 
 class NotificationSerializer(serializers.Serializer):
-    unread = serializers.BooleanField(read_only=True)
-
     class Meta:
         model = Notification
         fields = [

@@ -4,14 +4,17 @@
 
 {% block content %}
 
-    <h1>
-        📦 {{ product.name|title }}
+    <h1 class="mh3">
+        📦 <a class="no-underline gray link underline-hover" href="{% url 'organization_products' request.organization.slug %}">Products</a>
+            <span class="gray">/</span> {{ product.name|title }}
         <a 
             class="no-underline f6 fw3 pa2 bg-animate bg-yellow hover-bg-gold black br2 dib fr" 
             href="{% url 'organization_product_edit' request.organization.slug product.id %}">Edit Product</a>
+
+        {% include 'utils/information.html' with id='product_view' content="An overview all about a single product"%}
     </h1>
 
-    <article class="cf">
+    <article class="mh3 cf">
         <div class="fl w-100 w-50-l pr2">
             {% if product.desc %}
             <h3>Description</h3>
@@ -20,7 +23,7 @@
             </p>
             {% endif %}
             <h3>
-                Inventory
+                Current Inventory
             </h3>
             {% if inventories %}
             <div class="fl w-100">

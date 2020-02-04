@@ -5,10 +5,13 @@
 {% block content %}
 
 <h1 class="ph3 db cf">
-    📋 Inventory 
+    <span class="db dib-ns">
+        📋 Inventory 
+        {% include 'utils/information.html' with id='inventory_location' content="This is an overview of your inventory per location"%}
+    </span>
     <a href="{% url 'organization_inventory_location' request.organization.slug %}" class="f4 black fw6 underline-hover">Locations</a>
     <a href="{% url 'organization_inventory_product' request.organization.slug %}" class="f4 black fw6 no-underline underline-hover">Products</a>
-    {% include 'utils/information.html' with id='inventory_location' content="This is an overview of your inventory per location"%}
+    
 </h1>
 
 <div class="mh3 overflow-auto">

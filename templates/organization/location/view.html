@@ -4,14 +4,17 @@
 
 {% block content %}
 
-    <h1>
-        📍 {{ location.name }}
+    <h1 class="mh3">
+        📍 <a class="no-underline gray link underline-hover" href="{% url 'organization_locations' request.organization.slug %}">Locations</a>
+        <span class="gray">/</span> {{ location.name }}
         <a 
             class="no-underline f6 fw3 pa2 bg-animate bg-yellow hover-bg-gold black br2 dib fr" 
             href="{% url 'organization_location_edit' request.organization.slug location.id %}">Edit Location</a>
+
+        {% include 'utils/information.html' with id='location_view' content="An overview all about a single location with inventory"%}
     </h1>
 
-    <article class="cf">
+    <article class="cf mh3">
         <div class="fl w-100 w-50-l pr2">
             {% if location.desc %}
             <h3>Description</h3>

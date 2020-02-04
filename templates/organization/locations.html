@@ -7,7 +7,7 @@
 <h1 class="ph3 db cf">
     📍 Locations
     {% include 'utils/information.html' with id='location' content="This page lists all your locations, you can add or edit the locations here."%}
-    <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr" href="{% url 'organization_location_new' request.organization.slug %}">Add a location</a>
+    <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr-ns" href="{% url 'organization_location_new' request.organization.slug %}">Add a location</a>
 </h1>
 
 <div class="mh3 overflow-auto">
