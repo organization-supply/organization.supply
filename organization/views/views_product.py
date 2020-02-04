@@ -100,6 +100,8 @@ def organization_product_edit(request, product_id=None):
             return redirect(
                 "organization_products", organization=request.organization.slug
             )
+        else:
+            return render(request, "organization/product/edit.html", {"form": form})    
 
     # Otherwise: get form
     elif product_id:

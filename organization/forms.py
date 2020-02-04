@@ -163,12 +163,12 @@ class ProductEditForm(ModelForm):
         fields = ["name", "desc", "price_cost", "price_sale", "image", "organization"]
 
 
-class LocationForm(ModelForm):
+class LocationAddForm(ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Location name",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         )
     )
@@ -177,7 +177,30 @@ class LocationForm(ModelForm):
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Description..",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+            }
+        ),
+    )
+
+    class Meta:
+        model = Location
+        fields = ["name", "desc", "organization"]
+
+class LocationEditForm(ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Location name",
+                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+            }
+        )
+    )
+    desc = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Description..",
+                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
             }
         ),
     )

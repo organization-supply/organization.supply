@@ -102,7 +102,7 @@ urlpatterns = [
     ),
     path(
         "location/new",
-        views_location.organization_location_form,
+        views_location.organization_location_add,
         name="organization_location_new",
     ),
     path(
@@ -112,12 +112,12 @@ urlpatterns = [
     ),
     path(
         "location/<uuid:location_id>/edit",
-        views_location.organization_location_form,
+        views_location.organization_location_edit,
         name="organization_location_edit",
     ),
     path(
         "location/<uuid:location_id>/delete",
-        views_location.organization_location_form,
+        views_location.organization_location_edit,
         name="organization_location_delete",
     ),
     # Products

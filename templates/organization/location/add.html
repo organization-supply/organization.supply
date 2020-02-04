@@ -1,20 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}{{ request.organization.name }} - Products{% endblock title %}
+{% block title %}{{ request.organization.name }} - Location{% endblock title %}
 
 {% block content %}
 
 <main class="mh3 black-80">
-
     <h1 class="tc">
-        Create a new product
+        Create a new location
     </h1>
 
-    <form class="measure center" action="" method="POST"> 
-        
+    <form class="measure center" action="" method="POST">
         {% csrf_token %}
 
-        <fieldset id="product_form" class="ba b--transparent ph0 mh0">
+        <fieldset id="location_form" class="ba b--transparent ph0 mh0">
             <div class="mt3">
                 <label class="db fw6 lh-copy f6" for="email-address">
                     Name
@@ -26,13 +24,12 @@
                 <label class="db fw6 lh-copy f6" for="password">Description</label>
                 {{ form.desc }}
                 <span class="pv2 db grey f6">
-                    You will be able to add additional data like an image, sales and cost price to the product once it is created.
+                    You will be able to add additional data and settings like notifications to the location once it is created.
                 </span>
             </div>
         </fieldset>
-
         <div class="">
-            <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Create product &raquo;">
+            <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Save location &raquo;">
         </div>
     </form>
 </main>
