@@ -3,7 +3,7 @@ body{
 }
 
   /* Better dropdown */
-select{
+select:not(#id_tags){
     width: 100%;
     padding:10px;
     -webkit-appearance: none;
@@ -21,6 +21,15 @@ select{
     color: black;
     outline: none; 
     background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right 10px center;
+}
+
+span.select2{
+  border: 1px solid black;
+  width: 100%;
+  border-radius: .25rem;
+}
+.select2-container--default .select2-selection--multiple {
+  border: 0px!important;
 }
 
 /*

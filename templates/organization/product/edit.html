@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}{{ request.organization.name }} - Products{% endblock title %}
 
 {% block content %}
@@ -35,7 +37,6 @@
                 {{ form.desc }}
             </div>
         </div>
-
         <div class="fl w-100 w-33-ns pa2">
             <div class="mv3">
                 <label class="db fw6 lh-copy f6" for="desc">Image</label>
@@ -44,6 +45,11 @@
             </div>
         </div>
         <div class="fl w-100 w-33-ns pa2">
+            <div class="mv3">
+                <label class="db fw6 lh-copy f6" for="tags">Tags</label>
+                {{ form.tags }}
+            </div> 
+            
             <div class="mv3">
                 <label class="db fw6 lh-copy f6" for="price_cost">Cost Price 
                     {{ form.price_cost }}

@@ -13,6 +13,20 @@ from model_utils.models import TimeStampedModel
 from organization.models.notifications import Notification, NotificationSubscription
 from organization.models.organization import Organization, OrganizationManager
 
+from taggit.managers import TaggableManager
+from taggit.managers import TaggableManager
+from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
+
+
+class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
+    # If you only inherit GenericUUIDTaggedItemBase, you need to define
+    # a tag field. e.g.
+    # tag = models.ForeignKey(Tag, related_name="uuid_tagged_items", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
+
 
 class Location(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -72,6 +86,8 @@ class Product(TimeStampedModel):
 
     price_cost = models.FloatField(default=0.0)
     price_sale = models.FloatField(default=0.0)
+
+    tags = TaggableManager(through=UUIDTaggedItem)
 
     def revenue(self):
         return self.price_sale - self.price_cost

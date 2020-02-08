@@ -23,12 +23,12 @@
         <!-- Organization links -->
         {% if request.organization.slug %}
             <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_dashboard' request.organization.slug %}" title="Dashboard">Dashboard</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_notifications' request.organization.slug %}" title="Dashboard">Notications</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_search' request.organization.slug %}" title="Dashboard">Search</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_products' request.organization.slug %}" title="Producten">Products</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_locations' request.organization.slug %}" title="Locaties">Locations</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_inventory_location' request.organization.slug %}" title="Locaties">Inventory</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_mutations' request.organization.slug %}" title="Transacties">Transactions</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_notifications' request.organization.slug %}" title="Notifications">Notifications</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_search' request.organization.slug %}" title="Search">Search</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_products' request.organization.slug %}" title="Products">Products</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_locations' request.organization.slug %}" title="Locations">Locations</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_inventory_location' request.organization.slug %}" title="Inventory">Inventory</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_mutations' request.organization.slug %}" title="Transactions">Transactions</a>
         {% endif %}
 
     </div>
