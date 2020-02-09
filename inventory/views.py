@@ -27,7 +27,7 @@ def privacy(request):
 class TagsAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # If not authenticated or not in an organization
-        if not self.request.user or self.request.organization:
+        if not self.request.user or not hasattr(self.request, 'organization'):
             return Tag.objects.none()
 
         qs = Tag.objects.all()

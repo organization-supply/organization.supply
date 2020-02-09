@@ -7,8 +7,9 @@ from organization.models.inventory import Inventory, Location, Mutation
 
 
 def organization_locations(request):
+    order_by = request.GET.get("order_by", "-created") # Order by default to creation date
     locations_list = Location.objects.for_organization(request.organization).order_by(
-        "-created"
+        order_by
     )
     paginator = Paginator(locations_list, 100)
     locations_paginator = paginator.get_page(request.GET.get("page"))
