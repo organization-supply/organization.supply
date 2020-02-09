@@ -97,6 +97,7 @@
     <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
         <thead>
             <tr class="">
+                <th class="fw6 bb b--black-20 tl pa2"></th>
                 <th class="fw6 bb b--black-20 tl pa2">Title</th>
                 <th class="fw6 bb b--black-20 tl pa2"></th>
                 <th class="fw6 bb b--black-20 tl pa2">Date</th>
@@ -105,6 +106,11 @@
         <tbody class="lh-copy">
             {% for notification in notifications %}
                 <tr>
+                    <td class="pl3 bb b--black-20">
+                        {% if notification.unread %}
+                            <a href="{% url 'user_notification_action' notification.id %}?action=mark_as_read{% if request.organization %}&organization={{ request.organization.slug }}{% endif%}" class="no-underline gold">◉</a>
+                        {% endif %}
+                    </td>
                     <td class="pa2 bb b--black-20">
                         {{ notification.verb }}
                     </td>
