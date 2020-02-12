@@ -40,6 +40,12 @@ class Location(TimeStampedModel):
     desc = models.TextField(default="", blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
+    image = models.ImageField(
+        upload_to="organization/product/", default="organization/product/default.png"
+    )
+
+    size = models.FloatField(default=0.0)
+
     objects = OrganizationManager()  # Filters by organization on default
 
     tags = TaggableManager(through=OrganizationTaggedItem, blank=True)

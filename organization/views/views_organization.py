@@ -149,7 +149,7 @@ def organization_billing(request):
 
 @login_required
 def organization_users(request):
-    users =request.organization.users.all().order_by(
+    users = request.organization.users.all().order_by(
         request.GET.get("order_by", "-date_joined")  # Order by default to creation date
     )
     return render(

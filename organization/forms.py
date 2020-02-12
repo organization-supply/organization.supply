@@ -222,9 +222,28 @@ class LocationEditForm(ModelForm):
         ),
     )
 
+    size = forms.FloatField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
+        ),
+    )
+
+    image = forms.FileField(
+        required=False,
+        widget=forms.FileInput(
+            attrs={
+                "placeholder": "Profile Image",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "style": "box-sizing: border-box",
+            }
+        ),
+    )
+
     class Meta:
         model = Location
-        fields = ["name", "desc", "organization"]
+        fields = ["name", "desc", "organization", "tags", "image", "size"]
+        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete")}
 
 
 class MutationForm(ModelForm):
