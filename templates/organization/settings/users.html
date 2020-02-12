@@ -21,10 +21,22 @@
         <thead>
             <tr>
                 <th class="fw6 bb b--black-20 tl pa3" style="width: 50px;">Image</th>
-                <th class="fw6 bb b--black-20 tl pa2">Name</th>
-                <th class="fw6 bb b--black-20 tl pa2">Email</th>
-                <th class="fw6 bb b--black-20 tl pa2">Status</th>
-                <th class="fw6 bb b--black-20 tl pa2">Last Login</th>
+                <th class="fw6 bb b--black-20 tl pa2">
+                    Name
+                    {% include "utils/order_by.html" with field='name' %}
+                </th>
+                <th class="fw6 bb b--black-20 tl pa2">
+                    Email
+                    {% include "utils/order_by.html" with field='email' %}
+                </th>
+                <th class="fw6 bb b--black-20 tl pa2">
+                    Status
+                    {% include "utils/order_by.html" with field='is_active' %}
+                </th>
+                <th class="fw6 bb b--black-20 tl pa2">
+                    Last Login
+                    {% include "utils/order_by.html" with field='last_login' %}
+                </th>
                 <th class="fw6 bb b--black-20 tl pa2">Actions</th>
             </tr>
         </thead>
