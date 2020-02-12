@@ -1,4 +1,5 @@
 appdirs==1.4.3
+asgiref==3.2.3
 aspy.yaml==1.3.0
 atomicwrites==1.3.0
 attrs==19.3.0
@@ -8,16 +9,22 @@ cfgv==2.0.1
 chardet==3.0.4
 Click==7.0
 coverage==4.5.4
+defusedxml==0.6.0
+diff-match-patch==20181111
 Django==2.2.9
+django-autocomplete-light==3.5.1
 django-coverage-plugin==1.6.0
 django-dynamic-preferences==1.7.1
 django-extensions==2.2.5
 django-filter==2.2.0
+django-import-export==2.0.1
 django-model-utils==3.2.0
-# git+git://github.com/django-notifications/django-notifications@0fba0345a78956f8d5d9bad85ec8a3e1a28b1d48
 django-organizations==1.1.2
 django-stubs==1.4.0
+django-tagging-autocomplete==0.5.0
 djangorestframework==3.10.3
+djangorestframework-stubs==1.1.0
+et-xmlfile==1.0.1
 falcon==2.0.0
 gitdb2==2.0.6
 GitPython==3.0.3
@@ -28,12 +35,14 @@ identify==1.4.7
 idna==2.8
 importlib-metadata==0.23
 isort==4.3.21
+jdcal==1.4.1
 Jinja2==2.10.3
 jsmin==2.2.2
 jsonfield==2.0.2
 livereload==2.6.1
 Mako==1.1.0
 Markdown==3.1.1
+MarkupPy==1.14
 MarkupSafe==1.1.1
 mkdocs==1.0.4
 mkdocs-material==4.4.3
@@ -42,6 +51,8 @@ more-itertools==7.2.0
 mypy==0.761
 mypy-extensions==0.4.3
 nodeenv==1.3.3
+odfpy==1.4.0
+openpyxl==3.0.3
 packaging==19.2
 pdocs==1.0.1
 pep562==1.0
@@ -67,6 +78,8 @@ sentry-sdk==0.13.0
 six==1.12.0
 smmap2==2.0.5
 sqlparse==0.3.0
+swapper==1.1.1
+tablib==0.14.0
 toml==0.10.0
 tornado==6.0.3
 typed-ast==1.4.0
@@ -75,6 +88,7 @@ uritemplate==3.0.0
 urllib3==1.25.6
 virtualenv==16.7.6
 wcwidth==0.1.7
+xlrd==1.2.0
+xlwt==1.3.0
 yaspin==0.15.0
 zipp==0.6.0
-django-import-export==2.0.1

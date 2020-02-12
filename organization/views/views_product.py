@@ -8,11 +8,18 @@ from organization.models.inventory import Inventory, Mutation, Product
 
 
 def organization_products(request):
-    order_by = request.GET.get("order_by", "-created") # Order by default to creation date
-    products_list = Product.objects.for_organization(request.organization).order_by(
-        order_by
-    )
-    paginator = Paginator(products_list, 100)
+    products_list = Product.objects.for_organization(request.organization)
+
+    # Filter on tags
+    if request.GET.get("tag"):
+        products_list = products_list.filter(tags__slug=request.GET.get("tag"))
+
+    # Paginate, but order first by the order specified..
+    paginator = Paginator(products_list.order_by(
+        request.GET.get("order_by", "-created") # Order by default to creation date
+    ), 100)
+
+    # Create the paginator
     products_paginator = paginator.get_page(request.GET.get("page"))
 
     return render(
@@ -93,10 +100,12 @@ def organization_product_edit(request, product_id=None):
         instance = get_object_or_404(
             Product, id=product_id, organization=request.organization
         )
+        
         form = ProductEditForm(request.POST, request.FILES or None, instance=instance)
+
         if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.INFO, "Product updated!")
+            product = form.save()
+            messages.add_message(request, messages.INFO, "Product: {} updated!".format(product.name))
             return redirect(
                 "organization_products", organization=request.organization.slug
             )

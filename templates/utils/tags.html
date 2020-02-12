@@ -1,0 +1,7 @@
+{% load extra_filters %}
+
+{% for tag in product.tags.all %}
+    <a class="link no-underline" href="{% replace_query_param request.get_full_path 'tag' tag.slug %}">
+        <li class="dib ba b--black-40 br2 pa1 black-40">{{ tag }}</li>
+    </a>
+{% endfor %}

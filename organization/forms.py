@@ -1,10 +1,11 @@
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms import Form, ModelChoiceField, ModelForm, ValidationError
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.text import slugify
 from organizations.backends import invitation_backend
 from organizations.forms import OrganizationUserAddForm
@@ -14,7 +15,7 @@ from taggit.models import Tag
 from dal import autocomplete
 
 from organization.invite import OrganizationInvitationBackend
-from organization.models.inventory import Inventory, Location, Mutation, Product, UUIDTaggedItem
+from organization.models.inventory import Inventory, Location, Mutation, Product, OrganizationTaggedItem
 from organization.models.organization import Organization
 
 FORBIDDEN_SLUGS = [
@@ -162,18 +163,12 @@ class ProductEditForm(autocomplete.FutureModelForm):
         ),
     )
 
-    # tags = forms.ModelChoiceField(
-    #     queryset=UUIDTaggedItem.objects.all(),
-    #     widget=autocomplete.TaggitSelect2(url='tags-autocomplete')
-    # )
-
     class Meta:
         model = Product
         fields = ["name", "desc", "price_cost", "price_sale", "image", "organization", "tags"]
         widgets = {
-            'tags': autocomplete.TaggitSelect2('tags-autocomplete')
+            'tags': autocomplete.TaggitSelect2(url="tags-autocomplete")
         }
-
 
 class LocationAddForm(ModelForm):
     name = forms.CharField(

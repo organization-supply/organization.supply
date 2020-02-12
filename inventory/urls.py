@@ -34,8 +34,8 @@ urlpatterns = [
     # Admin
     path("admin/", admin.site.urls),
     path("deck/", include("deck.urls")),
-    
-    # Autocomplete urls
+
+    # Tags 
     path(
         "tags/autocomplete",
         views_inventory.TagsAutocomplete.as_view(),

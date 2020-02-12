@@ -9,6 +9,7 @@ from django.urls import reverse
 from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
+from django.contrib.contenttypes.models import ContentType
 
 from organization.models.notifications import Notification, NotificationSubscription
 from organization.models.organization import Organization, OrganizationManager
@@ -18,15 +19,23 @@ from taggit.managers import TaggableManager
 from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
 
 
-class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
-    # If you only inherit GenericUUIDTaggedItemBase, you need to define
-    # a tag field. e.g.
-    # tag = models.ForeignKey(Tag, related_name="uuid_tagged_items", on_delete=models.CASCADE)
+class OrganizationTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+
+    # We override the save model to get the organization fo the tagged item
+    # this allows us to filter tags on the through model, safely allowing
+    # users to query without leaking any tagged items.
+    def save(self, *args, **kwargs):
+        ct = ContentType.objects.get_for_id(self.content_type_id)
+        obj = ct.get_object_for_this_type(pk=self.object_id)
+        self.organization = obj.organization
+        super(OrganizationTaggedItem, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Tag"
         verbose_name_plural = "Tags"
 
+    
 
 class Location(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -35,6 +44,8 @@ class Location(TimeStampedModel):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     objects = OrganizationManager()  # Filters by organization on default
+
+    tags = TaggableManager(through=OrganizationTaggedItem, blank=True)
 
     @property
     def url(self):
@@ -87,7 +98,7 @@ class Product(TimeStampedModel):
     price_cost = models.FloatField(default=0.0)
     price_sale = models.FloatField(default=0.0)
 
-    tags = TaggableManager(through=UUIDTaggedItem)
+    tags = TaggableManager(through=OrganizationTaggedItem, blank=True)
 
     def revenue(self):
         return self.price_sale - self.price_cost
@@ -132,7 +143,6 @@ class Product(TimeStampedModel):
             raise ValueError(
                 "Unable to delete this product, we currently have it in inventory"
             )
-
 
 class Mutation(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

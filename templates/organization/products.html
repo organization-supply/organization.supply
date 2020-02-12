@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load extra_filters %}
+
 {% block title %}{{ request.organization.name }} - Products{% endblock title %}
 
 {% block content %}
@@ -19,13 +21,21 @@
                     Name
                     {% include "utils/order_by.html" with field='name' %}
                 </th>
-                <th class="fw6 bb b--black-20 tl pa2">Description</th>
+                <th class="fw6 bb b--black-20 tl pa2">
+                    Date (modified)
+                    {% include "utils/order_by.html" with field='modified' %}
+                </th>
+                <th class="fw6 bb b--black-20 tl pa2">Description & tags</th>
                 <th class="fw6 bb b--black-20 tl pa2">
                     Total inventory
                     {% include "utils/order_by.html" with field='inventory' %}
                 </th>
                 <th class="fw6 bb b--black-20 tl pa2" style="min-width: 150px;">Shortcuts</th>
                 <th class="fw6 bb b--black-20 tl pa2" style="min-width: 200px">Actions</th>
+
+                {% if request.GET.tag %}
+                    <a href="{% replace_query_param request.get_full_path 'tag' '' %}">clear tags</a>
+                {% endif %}
             </tr>
         </thead>
         <tbody class="lh-copy">
@@ -36,7 +46,14 @@
                         <a href="{% url 'organization_product_view' request.organization.slug product.id %}">{{ product.name }}</a>
                     </td>
                     <td class="pa2 bb b--black-20">
+                        {{ product.modified|date:"Y-m-d"}}
+                    </td>
+                    <td class="pa2 bb b--black-20">
                         {{ product.desc }}
+
+                        <ul class="list dib mv0 fr">
+                            {% include "utils/tags.html" with tags=tags %}
+                        </ul>
                     </td>
                     <td class="pa2 bb b--black-20">
                         {% if product.inventory_total %}
