@@ -13,8 +13,8 @@ class TestDeckPages(TestBaseWithStaffUser):
     # The deck should be reachable by a staff user
     def test_deck_non_staff_user(self):
         response = self.client.get("/deck/", follow=True)
-        self.assertEqual(response.status_code, 404)
-
+        self.assertIn("Page not found", response.content.decode())
+        
     # But not by a normal user:
     def test_deck_staff_user(self):
         self.client.login(email="mccartney@thebeatles.com", password="paulpassword")

@@ -18,7 +18,7 @@ class TestOrganizationExport(TestBaseWithInventory):
         response = self.client.get(
             "/{}/export/non-existing-entity".format(self.organization.slug)
         )
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())
 
     def test_export_product(self):
         response = self.client.get("/{}/export/products".format(self.organization.slug))

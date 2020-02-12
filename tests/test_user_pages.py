@@ -93,4 +93,4 @@ class TestUserPages(TestBase):
     def test_settings_change_password_get_should_404(self):
         # Test if the user is saved
         response = self.client.get("/user/settings/password/change")
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())

@@ -103,13 +103,13 @@ class TestOrganizationPermissions(TestBase):
         response = self.client.get(
             "/{}/product/{}".format(self.organization_2.slug, product.id)
         )
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())
 
         # Even when forcing the url to be the same as organization 1
         response = self.client.get(
             "/{}/product/{}".format(self.organization.slug, product.id)
         )
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())
 
     def test_location_should_only_be_seen_by_the_organization(self):
         # Create a location for the first organization
@@ -128,13 +128,13 @@ class TestOrganizationPermissions(TestBase):
         response = self.client.get(
             "/{}/location/{}".format(self.organization_2.slug, location.id)
         )
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())
 
         # Even when forcing the url to be the same as organization 1
         response = self.client.get(
             "/{}/location/{}".format(self.organization.slug, location.id)
         )
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())
 
     def test_inventory_should_only_be_seen_by_the_organization(self):
         # Create a location for the first organization
@@ -185,11 +185,11 @@ class TestOrganizationPermissions(TestBase):
         response = self.client.get(
             "/{}/inventory/location".format(self.organization.slug)
         )
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())
         response = self.client.get(
             "/{}/inventory/product".format(self.organization.slug)
         )
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())
 
     def test_mutations_should_only_be_seen_by_the_organization(self):
         pass

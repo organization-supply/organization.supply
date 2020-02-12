@@ -99,11 +99,11 @@ class TestOrganizationInvite(TestBase):
 
         # The register url should give a 404, since it's expired
         response = self.client.get(register_url)
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())
 
         # The incorrect register url should give a 404, since its invalid
         response = self.client.get(register_url[:-1] + "1")
-        self.assertEqual(response.status_code, 404)
+        self.assertIn("Page not found", response.content.decode())
 
     def test_organization_remove_user(self):
         self.user_2 = User.objects.create_user(
