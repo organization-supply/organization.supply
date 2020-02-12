@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 
-from organization.forms import ProductEditForm, ProductAddForm
+from organization.forms import ProductAddForm, ProductEditForm
 from organization.models.inventory import Inventory, Mutation, Product
 
 
@@ -15,9 +15,12 @@ def organization_products(request):
         products_list = products_list.filter(tags__slug=request.GET.get("tag"))
 
     # Paginate, but order first by the order specified..
-    paginator = Paginator(products_list.order_by(
-        request.GET.get("order_by", "-created") # Order by default to creation date
-    ), 100)
+    paginator = Paginator(
+        products_list.order_by(
+            request.GET.get("order_by", "-created")  # Order by default to creation date
+        ),
+        100,
+    )
 
     # Create the paginator
     products_paginator = paginator.get_page(request.GET.get("page"))
@@ -62,13 +65,18 @@ def organization_product_add(request):
         # check whether it's valid:
         if form.is_valid():
             product = form.save()
-            messages.add_message(request, messages.SUCCESS, "New product: {} created!".format(product.name))
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                "New product: {} created!".format(product.name),
+            )
             return redirect(
                 "organization_products", organization=request.organization.slug
             )
     else:
         form = ProductAddForm()
         return render(request, "organization/product/add.html", {"form": form})
+
 
 def organization_product_edit(request, product_id=None):
     # Creating a new product..
@@ -77,7 +85,11 @@ def organization_product_edit(request, product_id=None):
         # check whether it's valid:
         if form.is_valid():
             product = form.save()
-            messages.add_message(request, messages.SUCCESS, "New product: {} created!".format(product.name))
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                "New product: {} created!".format(product.name),
+            )
             return redirect(
                 "organization_products", organization=request.organization.slug
             )
@@ -100,17 +112,19 @@ def organization_product_edit(request, product_id=None):
         instance = get_object_or_404(
             Product, id=product_id, organization=request.organization
         )
-        
+
         form = ProductEditForm(request.POST, request.FILES or None, instance=instance)
 
         if form.is_valid():
             product = form.save()
-            messages.add_message(request, messages.INFO, "Product: {} updated!".format(product.name))
+            messages.add_message(
+                request, messages.INFO, "Product: {} updated!".format(product.name)
+            )
             return redirect(
                 "organization_products", organization=request.organization.slug
             )
         else:
-            return render(request, "organization/product/edit.html", {"form": form})    
+            return render(request, "organization/product/edit.html", {"form": form})
 
     # Otherwise: get form
     elif product_id:

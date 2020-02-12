@@ -1,21 +1,26 @@
-
+from dal import autocomplete
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms import Form, ModelChoiceField, ModelForm, ValidationError
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 from organizations.backends import invitation_backend
 from organizations.forms import OrganizationUserAddForm
 from organizations.models import OrganizationUser
 from taggit.forms import TagWidget
 from taggit.models import Tag
-from dal import autocomplete
 
 from organization.invite import OrganizationInvitationBackend
-from organization.models.inventory import Inventory, Location, Mutation, Product, OrganizationTaggedItem
+from organization.models.inventory import (
+    Inventory,
+    Location,
+    Mutation,
+    OrganizationTaggedItem,
+    Product,
+)
 from organization.models.organization import Organization
 
 FORBIDDEN_SLUGS = [
@@ -114,6 +119,7 @@ class ProductAddForm(ModelForm):
         model = Product
         fields = ["name", "desc", "organization"]
 
+
 class ProductEditForm(autocomplete.FutureModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
@@ -137,18 +143,14 @@ class ProductEditForm(autocomplete.FutureModelForm):
     price_cost = forms.FloatField(
         required=False,
         widget=forms.NumberInput(
-            attrs={
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
-            }
+            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
         ),
     )
 
     price_sale = forms.FloatField(
         required=False,
         widget=forms.NumberInput(
-            attrs={
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
-            }
+            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
         ),
     )
 
@@ -165,10 +167,17 @@ class ProductEditForm(autocomplete.FutureModelForm):
 
     class Meta:
         model = Product
-        fields = ["name", "desc", "price_cost", "price_sale", "image", "organization", "tags"]
-        widgets = {
-            'tags': autocomplete.TaggitSelect2(url="tags-autocomplete")
-        }
+        fields = [
+            "name",
+            "desc",
+            "price_cost",
+            "price_sale",
+            "image",
+            "organization",
+            "tags",
+        ]
+        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete")}
+
 
 class LocationAddForm(ModelForm):
     name = forms.CharField(
@@ -192,6 +201,7 @@ class LocationAddForm(ModelForm):
     class Meta:
         model = Location
         fields = ["name", "desc", "organization"]
+
 
 class LocationEditForm(ModelForm):
     name = forms.CharField(

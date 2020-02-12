@@ -7,7 +7,9 @@ from organization.models.inventory import Inventory, Location, Mutation
 
 
 def organization_locations(request):
-    order_by = request.GET.get("order_by", "-created") # Order by default to creation date
+    order_by = request.GET.get(
+        "order_by", "-created"
+    )  # Order by default to creation date
     locations_list = Location.objects.for_organization(request.organization).order_by(
         order_by
     )
@@ -36,13 +38,16 @@ def organization_location_view(request, location_id):
         {"location": location, "inventories": inventories, "mutations": mutations},
     )
 
+
 def organization_location_add(request):
     if request.method == "POST":
         form = LocationAddForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
             location = form.save()
-            messages.add_message(request, messages.INFO, "Location: {} created!".format(location.name))
+            messages.add_message(
+                request, messages.INFO, "Location: {} created!".format(location.name)
+            )
             return redirect(
                 "organization_locations", organization=request.organization.slug
             )

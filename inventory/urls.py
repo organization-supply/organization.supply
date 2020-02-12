@@ -34,14 +34,12 @@ urlpatterns = [
     # Admin
     path("admin/", admin.site.urls),
     path("deck/", include("deck.urls")),
-
-    # Tags 
+    # Tags
     path(
         "tags/autocomplete",
         views_inventory.TagsAutocomplete.as_view(),
-        name='tags-autocomplete',
+        name="tags-autocomplete",
     ),
-
     # Organization urls (listed last, so we the others have priority)
     path("create", views_organization.organization_create, name="create_organization"),
     path("<slug:organization>/", include("organization.urls")),

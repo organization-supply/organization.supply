@@ -16,9 +16,11 @@ from user.models import User
 @login_required
 def organization_dashboard(request):
     products = Product.objects.for_organization(request.organization)
-    notifications = Notification.objects.for_organization(
-        request.organization
-    ).for_user(request.user).order_by('-created')[:5]
+    notifications = (
+        Notification.objects.for_organization(request.organization)
+        .for_user(request.user)
+        .order_by("-created")[:5]
+    )
     product_mutations = {}
     for product in products:
         product_mutations[product.name] = (

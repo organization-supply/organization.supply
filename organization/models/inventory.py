@@ -2,6 +2,7 @@ import uuid
 
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
@@ -9,14 +10,11 @@ from django.urls import reverse
 from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
-from django.contrib.contenttypes.models import ContentType
+from taggit.managers import TaggableManager
+from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
 
 from organization.models.notifications import Notification, NotificationSubscription
 from organization.models.organization import Organization, OrganizationManager
-
-from taggit.managers import TaggableManager
-from taggit.managers import TaggableManager
-from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
 
 
 class OrganizationTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
@@ -35,7 +33,6 @@ class OrganizationTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
         verbose_name = "Tag"
         verbose_name_plural = "Tags"
 
-    
 
 class Location(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -143,6 +140,7 @@ class Product(TimeStampedModel):
             raise ValueError(
                 "Unable to delete this product, we currently have it in inventory"
             )
+
 
 class Mutation(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

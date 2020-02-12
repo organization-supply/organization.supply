@@ -142,7 +142,6 @@ urlpatterns = [
         views_product.organization_product_edit,
         name="organization_product_delete",
     ),
-    
     # Shortcuts
     path(
         "shortcuts/sales",
