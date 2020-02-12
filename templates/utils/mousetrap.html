@@ -17,17 +17,20 @@ d.init=function(){var a=d(u),b;for(b in a)"_"!==b.charAt(0)&&(d[b]=function(b){r
 <!-- Actual shortcuts for pages -->
 <script>
     {% if request.organization %}
-    Mousetrap.bind(['g h', 'g d'], function() { window.location = "{% url 'organization_dashboard' request.organization.slug %}" });
-    Mousetrap.bind('/', function() { window.location = "{% url 'organization_search' request.organization.slug %}" });
-    Mousetrap.bind('g p', function() { window.location = "{% url 'organization_products' request.organization.slug %}" });
-    Mousetrap.bind('g l', function() { window.location = "{% url 'organization_locations' request.organization.slug %}" });
-    Mousetrap.bind('g i', function() { window.location = "{% url 'organization_inventory_location' request.organization.slug %}" });
-    Mousetrap.bind('g t', function() { window.location = "{% url 'organization_mutations' request.organization.slug %}" });
+        Mousetrap.bind(['g h', 'g d'], function() { window.location = "{% url 'organization_dashboard' request.organization.slug %}" });
+        Mousetrap.bind('/', function() { window.location = "{% url 'organization_search' request.organization.slug %}" });
+        Mousetrap.bind('g p', function() { window.location = "{% url 'organization_products' request.organization.slug %}" });
+        Mousetrap.bind('g l', function() { window.location = "{% url 'organization_locations' request.organization.slug %}" });
+        Mousetrap.bind('g i', function() { window.location = "{% url 'organization_inventory_location' request.organization.slug %}" });
+        Mousetrap.bind('g t', function() { window.location = "{% url 'organization_mutations' request.organization.slug %}" });
 
-    Mousetrap.bind('s s', function() { window.location = "{% url 'organization_shortcut_sales' request.organization.slug %}" });
-    Mousetrap.bind('s m', function() { window.location = "{% url 'organization_shortcut_move' request.organization.slug %}" });
+        Mousetrap.bind('s s', function() { window.location = "{% url 'organization_shortcut_sales' request.organization.slug %}" });
+        Mousetrap.bind('s m', function() { window.location = "{% url 'organization_shortcut_move' request.organization.slug %}" });
 
-    Mousetrap.bind('g s', function() { window.location = "{% url 'organization_settings' request.organization.slug %}" });
+        Mousetrap.bind('g s', function() { window.location = "{% url 'organization_settings' request.organization.slug %}" });
+        Mousetrap.bind('g n', function() { window.location = "{% url 'organization_notifications' request.organization.slug %}" });
+    {% else %}
+        Mousetrap.bind('g n', function() { window.location = "{% url 'user_notifications' %}" });
     {% endif %}
-
+        Mousetrap.bind('g o', function() { window.location = "{% url 'user_organizations' %}" });
 </script>
