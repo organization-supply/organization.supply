@@ -17,10 +17,11 @@
     <article class="mh3 cf">
         <div class="fl w-100 w-50-l pr2">
             {% if product.desc %}
+
             <h3>Description</h3>
-            <p class="f4 bg-near-white br3 black-60 mv0 pv2 ph3">
-                {{ product.desc }}
-            </p>
+            <p class="lh-copy">{{ product.desc }}</p>
+            <img class="dib br2" src="{{ product.image.url }}" alt="Image of {{ product.name }}">
+            
             {% endif %}
             <h3>
                 Current Inventory

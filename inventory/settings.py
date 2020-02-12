@@ -46,6 +46,8 @@ ALLOWED_HOSTS = ["localhost", "app.organization.supply", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    "dal",  # autosuggestion library...
+    "dal_select2",  # select 2 implementation for the front-end
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -58,6 +60,7 @@ INSTALLED_APPS = [
     "rest_framework",  # Rest Framework is used for the API
     "rest_framework.authtoken",  # API key access
     "import_export",  # Import export functionality
+    "taggit",  # Tagging support
     # Apps
     "organization.apps.OrganizationConfig",  # Main application for inventory
     "user.apps.UserConfig",  # User pages and settings
@@ -105,6 +108,8 @@ REST_FRAMEWORK = {
 }
 
 ORGS_SLUGFIELD = "django_extensions.db.fields.AutoSlugField"
+
+TAGGIT_CASE_INSENSITIVE = True
 
 NOTIFICATIONS_NOTIFICATION_MODEL = "organization.InventoryNotification"
 

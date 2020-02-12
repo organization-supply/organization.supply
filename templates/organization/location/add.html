@@ -4,18 +4,12 @@
 
 {% block content %}
 
-<main class="pa4 black-80">
-    <form class="measure center" action="" method="POST">
-        {% if form.instance.name %}
-            <h1 class="center">
-                Edit: {{ form.instance.name }}
-            </h1>
-        {% else %}
-            <h1>
-                Add a location
-            </h1>
-        {% endif %}
+<main class="mh3 black-80">
+    <h1 class="tc">
+        Create a new location
+    </h1>
 
+    <form class="measure center" action="" method="POST">
         {% csrf_token %}
 
         <fieldset id="location_form" class="ba b--transparent ph0 mh0">
@@ -29,6 +23,9 @@
             <div class="mv3">
                 <label class="db fw6 lh-copy f6" for="password">Description</label>
                 {{ form.desc }}
+                <span class="pv2 db grey f6">
+                    You will be able to add additional data and settings like notifications to the location once it is created.
+                </span>
             </div>
         </fieldset>
         <div class="">

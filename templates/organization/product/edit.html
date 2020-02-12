@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{ request.organization.name }} - Products{% endblock title %}
+
+{% block content %}
+
+<main class="mh3 black-80">
+    
+    <h1>
+        📦 
+        <a class="no-underline gray link underline-hover" href="{% url 'organization_products' request.organization.slug %}">Products</a>
+        <span class="gray">/</span>
+        {% if form.instance.name %}
+            {{ form.instance.name|title }}
+        {% else %}
+            Add a product
+        {% endif %}
+        {% include 'utils/information.html' with id='product_edit' content="Edit all information about a product here"%}
+    </h1>    
+    
+    <form action="" method="POST" enctype="multipart/form-data"> 
+        <div class="na2">
+            {% csrf_token %}
+            <div class="fl w-100 w-33-ns pa2">
+                <div class="mt3">
+                    <label class="db fw6 lh-copy f6" for="email-address">
+                        Name
+                        <span class="red f5">*</span>
+                    </label>
+                    {{ form.name }}
+                </div>
+                <div class="mv3">
+                    <label class="db fw6 lh-copy f6" for="desc">Description</label>
+                    {{ form.desc }}
+                </div>
+            </div>
+            <div class="fl w-100 w-33-ns pa2">
+                <div class="mv3">
+                    <label class="db fw6 lh-copy f6" for="desc">Image</label>
+                    <img class="mb3" src="{{ form.instance.image.url }}" alt="">
+                    {{ form.image }}
+                </div>
+            </div>
+            <div class="fl w-100 w-33-ns pa2">
+                <div class="mv3">
+                    <label class="db fw6 lh-copy f6" for="tags">Tags</label>
+                    {{ form.tags }}
+                </div> 
+                
+                <div class="mv3">
+                    <label class="db fw6 lh-copy f6" for="price_cost">Cost Price 
+                        {{ form.price_cost }}
+                    </label>
+                </div>
+                <div class="mv3">
+                    <label class="db fw6 lh-copy f6" for="price_sale">Sale Price
+                        {{ form.price_sale }}
+                    </label>
+                </div>
+            </div>    
+        </div>
+        <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Save product &raquo;">
+    </form>
+</main>
+
+{% endblock %}

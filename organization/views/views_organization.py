@@ -16,9 +16,11 @@ from user.models import User
 @login_required
 def organization_dashboard(request):
     products = Product.objects.for_organization(request.organization)
-    notifications = Notification.objects.for_organization(
-        request.organization
-    ).for_user(request.user)
+    notifications = (
+        Notification.objects.for_organization(request.organization)
+        .for_user(request.user)
+        .order_by("-created")[:5]
+    )
     product_mutations = {}
     for product in products:
         product_mutations[product.name] = (
@@ -147,11 +149,14 @@ def organization_billing(request):
 
 @login_required
 def organization_users(request):
+    users = request.organization.users.all().order_by(
+        request.GET.get("order_by", "-date_joined")  # Order by default to creation date
+    )
     return render(
         request,
         "organization/settings/users.html",
         {
-            "users": request.organization.users.all,
+            "users": users,
             "organization_invite_form": OrganizationInviteForm(
                 None, request.organization
             ),

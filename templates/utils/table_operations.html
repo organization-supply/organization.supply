@@ -1,0 +1,12 @@
+{% if request.GET %}
+<p>
+    {% if request.GET.tag and request.GET.order_by %}
+        Currently filtering on tag: <strong>{{ request.GET.tag }}</strong> and sorting on <strong>{{ request.GET.order_by }}</strong>
+    {% elif request.GET.tag %}
+        Currently filtering on tag: <strong>{{ request.GET.tag }}</strong>
+    {% elif request.GET.order_by %}
+        Currently sorting on <strong>{{ request.GET.order_by }}</strong>
+    {% endif %}
+    <a class="link i underline-hover" href="{{ request.path }}">(clear)</a>
+</p>
+{% endif %}

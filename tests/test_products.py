@@ -50,7 +50,7 @@ class TestProductPages(TestCase):
             "/{}/product/{}/edit".format(self.organization.slug, product.id)
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Edit: Test Product")
+        self.assertContains(response, "Test Product")
 
         response = self.client.post(
             "/{}/product/{}/edit".format(self.organization.slug, product.id),

@@ -1,16 +1,26 @@
+from dal import autocomplete
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.forms import Form, ModelChoiceField, ModelForm, ValidationError
+from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 from organizations.backends import invitation_backend
 from organizations.forms import OrganizationUserAddForm
 from organizations.models import OrganizationUser
+from taggit.forms import TagWidget
+from taggit.models import Tag
 
 from organization.invite import OrganizationInvitationBackend
-from organization.models.inventory import Inventory, Location, Mutation, Product
+from organization.models.inventory import (
+    Inventory,
+    Location,
+    Mutation,
+    OrganizationTaggedItem,
+    Product,
+)
 from organization.models.organization import Organization
 
 FORBIDDEN_SLUGS = [
@@ -85,7 +95,7 @@ class OrganizationInviteForm(OrganizationUserAddForm):
         )
 
 
-class ProductForm(ModelForm):
+class ProductAddForm(ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -110,12 +120,71 @@ class ProductForm(ModelForm):
         fields = ["name", "desc", "organization"]
 
 
-class LocationForm(ModelForm):
+class ProductEditForm(autocomplete.FutureModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Product name",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+            }
+        )
+    )
+
+    desc = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Description..",
+                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+            }
+        ),
+    )
+
+    price_cost = forms.FloatField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
+        ),
+    )
+
+    price_sale = forms.FloatField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
+        ),
+    )
+
+    image = forms.FileField(
+        required=False,
+        widget=forms.FileInput(
+            attrs={
+                "placeholder": "Profile Image",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "style": "box-sizing: border-box",
+            }
+        ),
+    )
+
+    class Meta:
+        model = Product
+        fields = [
+            "name",
+            "desc",
+            "price_cost",
+            "price_sale",
+            "image",
+            "organization",
+            "tags",
+        ]
+        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete")}
+
+
+class LocationAddForm(ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Location name",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
             }
         )
     )
@@ -124,7 +193,7 @@ class LocationForm(ModelForm):
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Description..",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
             }
         ),
     )
@@ -132,6 +201,49 @@ class LocationForm(ModelForm):
     class Meta:
         model = Location
         fields = ["name", "desc", "organization"]
+
+
+class LocationEditForm(ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Location name",
+                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+            }
+        )
+    )
+    desc = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Description..",
+                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+            }
+        ),
+    )
+
+    size = forms.FloatField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
+        ),
+    )
+
+    image = forms.FileField(
+        required=False,
+        widget=forms.FileInput(
+            attrs={
+                "placeholder": "Profile Image",
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "style": "box-sizing: border-box",
+            }
+        ),
+    )
+
+    class Meta:
+        model = Location
+        fields = ["name", "desc", "organization", "tags", "image", "size"]
+        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete")}
 
 
 class MutationForm(ModelForm):

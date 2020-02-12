@@ -1,5 +1,7 @@
+from dal import autocomplete
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from taggit.models import Tag
 
 
 @login_required
@@ -20,3 +22,37 @@ def terms(request):
 @login_required
 def privacy(request):
     return render(request, "pages/privacy.html", {})
+
+
+# Error pages
+def handle_400(request, *args, **kwargs):
+    return render(request, "pages/error/400.html", {})
+
+
+def handle_403(request, *args, **kwargs):
+    return render(request, "pages/error/403.html", {})
+
+
+def handle_404(request, *args, **kwargs):
+    return render(request, "pages/error/404.html", {})
+
+
+def handle_500(request, *args, **kwargs):
+    return render(request, "pages/error/500.html", {})
+
+
+class TagsAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # If not authenticated or not in an organization
+        if not self.request.user or not hasattr(self.request, "organization"):
+            return Tag.objects.none()
+
+        # Filter by organization (trough model)
+        qs = Tag.objects.filter(
+            organization_organizationtaggeditem_items__organization=self.request.organization
+        )
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs

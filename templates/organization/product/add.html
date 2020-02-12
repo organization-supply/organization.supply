@@ -4,18 +4,14 @@
 
 {% block content %}
 
-<main class="pa4 black-80">
-    <form class="measure center" action="" method="POST"> 
-        {% if form.instance.name %}
-        <h1>
-            Edit: {{ form.instance.name }}
-        </h1>
-        {% else %}
-        <h1>
-            Add a product
-        </h1>
-        {% endif %}
+<main class="mh3 black-80">
 
+    <h1 class="tc">
+        Create a new product
+    </h1>
+
+    <form class="measure center" action="" method="POST"> 
+        
         {% csrf_token %}
 
         <fieldset id="product_form" class="ba b--transparent ph0 mh0">
@@ -29,10 +25,14 @@
             <div class="mv3">
                 <label class="db fw6 lh-copy f6" for="password">Description</label>
                 {{ form.desc }}
+                <span class="pv2 db grey f6">
+                    You will be able to add additional data like an image, tags, sales and cost price to the product once it is created.
+                </span>
             </div>
         </fieldset>
+
         <div class="">
-            <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Save product &raquo;">
+            <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Create product &raquo;">
         </div>
     </form>
 </main>
