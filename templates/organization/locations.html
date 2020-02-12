@@ -41,8 +41,6 @@
                         {{ location.modified|date:"Y-m-d"}}
                     </td>
                     <td class="pa2 bb b--black-20">
-                        {{ location.desc }}
-
                         <ul class="list dib mv0 fr">
                             {% include "utils/tags.html" with tags=location.tags %}
                         </ul>
