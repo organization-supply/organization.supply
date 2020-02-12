@@ -45,6 +45,14 @@ urlpatterns = [
     path("<slug:organization>/", include("organization.urls")),
 ]
 
+# Error pages
+handler400 = views_inventory.handle_400
+handler403 = views_inventory.handle_403
+handler404 = views_inventory.handle_404
+handler500 = views_inventory.handle_500
+
+
+# Static & media for development
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

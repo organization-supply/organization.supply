@@ -24,6 +24,23 @@ def privacy(request):
     return render(request, "pages/privacy.html", {})
 
 
+# Error pages
+def handle_400(request, *args, **kwargs):
+    return render(request, "pages/error/400.html", {})
+
+
+def handle_403(request, *args, **kwargs):
+    return render(request, "pages/error/403.html", {})
+
+
+def handle_404(request, *args, **kwargs):
+    return render(request, "pages/error/404.html", {})
+
+
+def handle_500(request, *args, **kwargs):
+    return render(request, "pages/error/500.html", {})
+
+
 class TagsAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # If not authenticated or not in an organization
