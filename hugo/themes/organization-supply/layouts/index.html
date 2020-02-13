@@ -1,21 +1,52 @@
 {{ define "main" }}
-    hello?
-    
-    {{ $features := where (where .Site.RegularPages "Type" "features") ".Params.featured" true }}
-        {{if gt (len $features) 0}}
-        <div class="container pt-6 pb-md-5">
-            <div class="row justify-content-start">
-                {{ $features := where (where .Site.RegularPages "Type" "features") ".Params.featured" true }}
-                {{ range first 6 (sort $features ".Params.weight") }}
-                <div class="col-12 col-md-4 mb-1">
-                {{ .Render "summary" }}
-                </div>
-                {{ end }}
-                <div class="col-12 text-center">
-                <a class="button button-primary" href="{{ "features/" | relURL }}">View All Features</a>
-                </div>
+
+    <!-- Features -->
+    {{ $features := where .Site.RegularPages "Type" "features" }}
+    {{if gt (len $features) 0}}
+    <div id="features" class="cf"> 
+        <h2 class="ph2">Features</h2>
+        {{ range first 6 (sort $features ".Params.weight") }}
+        <article class="w-100 w-third-ns fl">
+            <div id="feature" class="pa2">
+                <h3>
+                    <a class="no-underline underline-hover black-80" href="{{ .URL }}">{{ .Title }}</a>
+                </h3>
+                <p class="lh-copy">{{ .Summary }}</p>                
             </div>
-        </div>
+        </article>
+        {{ end }}
+    </div>
     {{ end }}
+
+    <!-- Pricing -->
+    <div id="pricing" class="cf">
+        <div class="pa2">
+            <h2>Pricing</h2>
+
+            <p>More pricing information shortly.. It's free while in alpha!</p>
+        </div>
+    </div>
+
+    <!-- Posts -->
+    {{ $posts := where .Site.RegularPages "Type" "posts" }}
+    {{if gt (len $posts) 0}}
+    <div id="posts" class="cf">
+        <h2 class="ph2">Latest posts</h2>
+        {{ range first 6 (sort $posts ".Params.weight") }}
+        <article class="w-100 w-50-ns fl">
+            <div id="post" class="pa2">
+            <h3>
+                <a class="no-underline underline-hover black-80" href="{{ .URL }}">{{ .Title }}</a>
+            </h3>
+            <p class="lh-copy">
+                {{ .Summary }}
+                <a class="black i" href="{{ .URL }}">Continue reading &raquo;</a>
+            </p>
+            </div>
+        </article>
+        {{ end }}
+    </div>
+    {{ end }}
+    
 
 {{ end }}

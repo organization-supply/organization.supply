@@ -1,0 +1,13 @@
+{{ define "main" }}
+    <h1>Latest posts</h1>
+
+    {{ range .Pages.ByWeight }}
+    <article class="measure">
+        <h2>
+            <a class="no-underline underline-hover black-80" href="{{ .URL }}">{{ .Title }}</a>
+        </h2>
+        <p class="lh-copy">{{ .Summary }}</p>
+    </article>
+    {{ end }}
+
+{{ end }}

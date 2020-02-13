@@ -13,7 +13,17 @@
 
 <body class='avenir'>
     {{ partial "header.html" . }}
-    {{ block "main" . }}{{ end }}
+
+    <div class="{{ if not .IsHome }}pt5{{ end }}">
+    {{ if .IsHome }}
+        {{ partial "intro.html"}}
+    {{ end }}
+    
+        <main class="pa3 mw9 center cf pt">
+        {{ block "main" . }}{{ end }}
+        </main>
+    </div>
+
     {{ partial "footer.html" . }}
 </body>
 
