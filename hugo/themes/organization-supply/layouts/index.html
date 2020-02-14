@@ -3,7 +3,9 @@
     <!-- Features -->
     {{ $features := where .Site.RegularPages "Type" "features" }}
     {{if gt (len $features) 0}}
-    <h2 class="ph2">Features</h2>
+    <h2 class="ph2 tc f2 ">
+        Features
+    </h2>
     <div id="features" class="flex flex-wrap"> 
         {{ range first 6 (sort $features ".Params.weight") }}
         <article class="w-100 w-third-ns fl">
@@ -15,22 +17,35 @@
             </div>
         </article>
         {{ end }}
+        
+        <div class="center pa2 mb3">    
+            <a class="no-underline f5 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 pointer b--none" href="/features">See all features &raquo;</a>
+        </div>
     </div>
     {{ end }}
 
+    <hr class='w-50'>
+
     <!-- Pricing -->
+    <h2 class="ph2 tc f2 ">
+        Pricing
+    </h2>
+
     <div id="pricing" class="cf">
         <div class="pa2">
-            <h2>Pricing</h2>
 
             <p>More pricing information shortly.. It's free while in alpha!</p>
         </div>
     </div>
 
+    <hr class='w-50'>
+
     <!-- Posts -->
     {{ $posts := where .Site.RegularPages "Type" "posts" }}
     {{if gt (len $posts) 0}}
-    <h2 class="ph2">Latest posts</h2>
+    <h2 class="ph2 tc f2 ">
+        Latest posts
+    </h2>
     <div id="posts" class="flex flex-wrap">
         {{ range first 6 (sort $posts ".Params.weight") }}
         <article class="w-100 w-50-ns fl">
@@ -39,8 +54,8 @@
                 <a class="no-underline underline-hover black-80" href="{{ .URL }}">{{ .Title }}</a>
             </h3>
             <p class="lh-copy">
-                {{ .Summary }}
-                <a class="black i" href="{{ .URL }}">Continue reading &raquo;</a>
+                {{ .Content | plainify | htmlUnescape | truncate 200 "" }}…
+                <a class="black i" href="{{ .URL }}">continue reading &raquo;</a>
             </p>
             </div>
         </article>
