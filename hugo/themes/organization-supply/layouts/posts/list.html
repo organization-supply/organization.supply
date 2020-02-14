@@ -1,5 +1,6 @@
 {{ define "main" }}
-    <h1>Latest posts</h1>
+<div class="measure center">
+    <h1>Posts</h1>
 
     {{ range .Pages.ByWeight }}
     <article class="measure">
@@ -9,5 +10,5 @@
         <p class="lh-copy">{{ .Summary }}</p>
     </article>
     {{ end }}
-
+</div>
 {{ end }}

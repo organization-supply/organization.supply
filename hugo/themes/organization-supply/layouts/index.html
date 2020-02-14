@@ -3,8 +3,8 @@
     <!-- Features -->
     {{ $features := where .Site.RegularPages "Type" "features" }}
     {{if gt (len $features) 0}}
-    <div id="features" class="cf"> 
-        <h2 class="ph2">Features</h2>
+    <h2 class="ph2">Features</h2>
+    <div id="features" class="flex flex-wrap"> 
         {{ range first 6 (sort $features ".Params.weight") }}
         <article class="w-100 w-third-ns fl">
             <div id="feature" class="pa2">
@@ -30,8 +30,8 @@
     <!-- Posts -->
     {{ $posts := where .Site.RegularPages "Type" "posts" }}
     {{if gt (len $posts) 0}}
-    <div id="posts" class="cf">
-        <h2 class="ph2">Latest posts</h2>
+    <h2 class="ph2">Latest posts</h2>
+    <div id="posts" class="flex flex-wrap">
         {{ range first 6 (sort $posts ".Params.weight") }}
         <article class="w-100 w-50-ns fl">
             <div id="post" class="pa2">
