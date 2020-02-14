@@ -11,9 +11,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha256-XiJ+PedljEmPP2VaQzSzekfCZdPr0fpqmh9dY6kpsuQ=" crossorigin="anonymous" />
 </head>
 
-<body class='avenir'>
+<body class='avenir' style="display: flex; min-height: 100vh; flex-direction: column;">
     {{ partial "header.html" . }}
-    {{ block "main" . }}{{ end }}
+
+    <main class="{{ if not .IsHome }}pt5{{ end }}" style="flex: 1;">
+    {{ if .IsHome }}
+        {{ partial "intro.html"}}
+    {{ end }}
+    
+        <div class="pa3 mw9 center cf pt">
+        {{ block "main" . }}{{ end }}
+        </div>
+    </main>
+
     {{ partial "footer.html" . }}
 </body>
 
