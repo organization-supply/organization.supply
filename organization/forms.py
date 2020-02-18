@@ -273,6 +273,7 @@ class MutationForm(ModelForm):
         ]
 
     amount = forms.FloatField(
+        required=True,
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Amount",
@@ -311,7 +312,7 @@ class MutationForm(ModelForm):
         if cleaned_data.get("operation") == "reserved":
             return
 
-        if float(cleaned_data["amount"]) < 0.0:
+        if float(amount) < 0.0:
             cleaned_data["operation"] = "remove"
             inventory, created = Inventory.objects.get_or_create(
                 product=product, location=location
@@ -324,6 +325,7 @@ class MutationForm(ModelForm):
                 )
         else:
             cleaned_data["operation"] = "add"
+        return cleaned_data
 
 
 class ShortcutMoveForm(Form):
