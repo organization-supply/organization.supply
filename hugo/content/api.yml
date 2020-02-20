@@ -4,24 +4,6 @@ info:
   version: ''
   description: Documentation for the REST API for Organization.supply
 paths:
-  /{organization}/api/me:
-    get:
-      operationId: listUsers
-      parameters:
-      - name: organization
-        in: path
-        required: true
-        description: ''
-        schema:
-          type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items: {}
-          description: ''
   /{organization}/api/products:
     get:
       operationId: listProducts
@@ -49,6 +31,15 @@ paths:
                       maxLength: 200
                     desc:
                       type: string
+                    price_cost:
+                      type: number
+                    price_sale:
+                      type: number
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                      readOnly: true
                   required:
                   - name
           description: ''
@@ -71,6 +62,10 @@ paths:
                   maxLength: 200
                 desc:
                   type: string
+                price_cost:
+                  type: number
+                price_sale:
+                  type: number
               required:
               - name
       responses:
@@ -88,6 +83,15 @@ paths:
                     maxLength: 200
                   desc:
                     type: string
+                  price_cost:
+                    type: number
+                  price_sale:
+                    type: number
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
                 required:
                 - name
           description: ''
@@ -122,6 +126,15 @@ paths:
                     maxLength: 200
                   desc:
                     type: string
+                  price_cost:
+                    type: number
+                  price_sale:
+                    type: number
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
                 required:
                 - name
           description: ''
@@ -150,6 +163,10 @@ paths:
                   maxLength: 200
                 desc:
                   type: string
+                price_cost:
+                  type: number
+                price_sale:
+                  type: number
               required:
               - name
       responses:
@@ -167,6 +184,15 @@ paths:
                     maxLength: 200
                   desc:
                     type: string
+                  price_cost:
+                    type: number
+                  price_sale:
+                    type: number
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
                 required:
                 - name
           description: ''
@@ -195,6 +221,10 @@ paths:
                   maxLength: 200
                 desc:
                   type: string
+                price_cost:
+                  type: number
+                price_sale:
+                  type: number
       responses:
         '200':
           content:
@@ -210,6 +240,15 @@ paths:
                     maxLength: 200
                   desc:
                     type: string
+                  price_cost:
+                    type: number
+                  price_sale:
+                    type: number
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
                 required:
                 - name
           description: ''
@@ -258,6 +297,13 @@ paths:
                       maxLength: 200
                     desc:
                       type: string
+                    size:
+                      type: number
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                      readOnly: true
                   required:
                   - name
           description: ''
@@ -280,6 +326,8 @@ paths:
                   maxLength: 200
                 desc:
                   type: string
+                size:
+                  type: number
               required:
               - name
       responses:
@@ -297,6 +345,13 @@ paths:
                     maxLength: 200
                   desc:
                     type: string
+                  size:
+                    type: number
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
                 required:
                 - name
           description: ''
@@ -331,6 +386,13 @@ paths:
                     maxLength: 200
                   desc:
                     type: string
+                  size:
+                    type: number
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
                 required:
                 - name
           description: ''
@@ -359,6 +421,8 @@ paths:
                   maxLength: 200
                 desc:
                   type: string
+                size:
+                  type: number
               required:
               - name
       responses:
@@ -376,6 +440,13 @@ paths:
                     maxLength: 200
                   desc:
                     type: string
+                  size:
+                    type: number
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
                 required:
                 - name
           description: ''
@@ -404,6 +475,8 @@ paths:
                   maxLength: 200
                 desc:
                   type: string
+                size:
+                  type: number
       responses:
         '200':
           content:
@@ -419,6 +492,13 @@ paths:
                     maxLength: 200
                   desc:
                     type: string
+                  size:
+                    type: number
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
                 required:
                 - name
           description: ''
@@ -571,6 +651,36 @@ paths:
                 - product
                 - location
           description: ''
+  /{organization}/api/me:
+    get:
+      operationId: RetrieveUser
+      parameters:
+      - name: organization
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  email:
+                    type: string
+                    format: email
+                    maxLength: 254
+                  name:
+                    type: string
+                    maxLength: 255
+                required:
+                - email
+          description: ''
   /{organization}/api/notifications:
     get:
       operationId: listNotifications
@@ -588,21 +698,19 @@ paths:
               schema:
                 type: array
                 items:
-                  properties: {}
-          description: ''
-  /{organization}/api/auth:
-    post:
-      operationId: CreateApiAuthorize
-      parameters:
-      - name: organization
-        in: path
-        required: true
-        description: ''
-        schema:
-          type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema: {}
+                  properties:
+                    id:
+                      type: integer
+                      readOnly: true
+                    timestamp:
+                      type: string
+                      format: date-time
+                    description:
+                      type: string
+                      nullable: true
+                    verb:
+                      type: string
+                      maxLength: 255
+                  required:
+                  - verb
           description: ''

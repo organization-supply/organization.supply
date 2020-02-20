@@ -15,7 +15,7 @@ from api.views import (
 )
 
 urlpatterns = [
-    path("me", UserView.as_view()),
+    # Inventory endpoints
     path("products", ProductView.as_view()),
     path("products/<uuid:pk>", ProductDetailView.as_view()),
     path("locations", LocationView.as_view()),
@@ -24,5 +24,6 @@ urlpatterns = [
     path("mutations", MutationsView.as_view()),
     # User endpoints
     path("auth", ApiAuthorize.as_view()),
+    path("me", UserView.as_view()),
     path("notifications", NotificationView.as_view()),
 ]
