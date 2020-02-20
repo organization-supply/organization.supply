@@ -1,27 +1,48 @@
-<nav class="pa3 bg-near-white fixed w-100">
-    <img src="/images/logo/organization-supply-logo-no-border.png" alt="Organization.supply" style="width: 15px; margin-top: 3px; margin-right: 10px"/>
+<style>
 
-    <div class="dib">
-        <a class="near-black no-underline underline-hover" href="">
-            <h1 class="f4 mv1">Organization.supply</h1>
-        </a>
-    </div>
+.menu {
+  min-height: 2.1rem; /* no way to control min height in Tachyons */
+  max-height: 0; /* hide menu completely when burger unchecked */
+}
+/* when checkbox is checked, display menu (sibling element) */
+#burger:checked ~ .menu {
+  max-height: 100%;
+}
+</style>
 
-    <div class="dn di-ns">
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/">Home</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/features">Features</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/pricing">Pricing</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/posts">Blog</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/about">About</a>
-        <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/contact">Contact</a>
-    </div>
+<nav class="pa3 bg-near-white fixed top-0 w-100 dib" aria-label="Menu">
+    <!-- burger menu controlled by invisible checkbox -->
+    <input type="checkbox" id="burger" class="dn">
+    <label for="burger" class="dn-l dib fr f4 pa1">&#9776;</label>
+    
+    <ul class="menu overflow-hidden db-l w-100-l list pt1 pt0-ns pa0 ma0">
+        <!-- <li class="dib"> -->
+            <img src="/images/logo/organization-supply-logo-no-border.png" alt="Organization.supply" style="width: 15px; margin-top: 3px; margin-right: 10px"/>
+        <!-- </li> -->
 
-    <div class="dib fr pa2">
-        <a href="https://app.organization.supply/user/signup" class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 pointer b--none">
-            Login
-        </a>
-        <a href="https://app.organization.supply/user/signup" class="no-underline f6 ml2 fw3 pa2 bg-animate bg-orange hover-bg-red white br2 pointer b--none">
-            Signup
-        </a>
-    </div>
+        <li class="dib">
+            <a class="near-black no-underline underline-hover" href="">
+                <h1 class="f4 mv0">Organization.supply</h1>
+            </a>
+        </li>
+
+        <div class="dib pt2 pt0-ns">
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/">Home</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/features">Features</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/pricing">Pricing</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/posts">Blog</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/about">About</a>
+            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="/contact">Contact</a>
+        </div>
+
+        <div class="dib fr mv2">
+            <a href="https://app.organization.supply/user/signup" class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 pointer b--none">
+                Login
+            </a>
+            <a href="https://app.organization.supply/user/signup" class="no-underline f6 ml2 fw3 pa2 bg-animate bg-orange hover-bg-red white br2 pointer b--none">
+                Signup
+            </a>
+        </div>
+    </ul>
+    
 </nav>
