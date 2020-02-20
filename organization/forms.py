@@ -176,7 +176,7 @@ class ProductEditForm(autocomplete.FutureModelForm):
             "organization",
             "tags",
         ]
-        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete")}
+        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete", forward=['organization'])}
 
 
 class LocationAddForm(ModelForm):
@@ -243,7 +243,7 @@ class LocationEditForm(ModelForm):
     class Meta:
         model = Location
         fields = ["name", "desc", "organization", "tags", "image", "size"]
-        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete")}
+        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete", forward=['organization'])}
 
 
 class MutationForm(ModelForm):
