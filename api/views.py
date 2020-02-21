@@ -9,13 +9,14 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
 )
+
 from api.serializers import (
-    UserSerializer,
     InventorySerializer,
     LocationSerializer,
     MutationSerializer,
     NotificationSerializer,
     ProductSerializer,
+    UserSerializer,
 )
 from organization.models.inventory import (
     Inventory,
@@ -50,7 +51,7 @@ def save_serializer_with_organization(serializer, organization):
         )
 
 
-class ApiAuthorize(ObtainAuthToken):    
+class ApiAuthorize(ObtainAuthToken):
     schema = None  # Will not appear in schema generation
 
     def post(self, request, *args, **kwargs):
@@ -97,7 +98,7 @@ class NotificationView(generics.ListAPIView):
 
 
 class ProductView(generics.ListCreateAPIView):
-    
+
     serializer_class = ProductSerializer
 
     def list(self, request, organization):

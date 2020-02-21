@@ -9,7 +9,7 @@ class TagSerializerField(serializers.ListField):
     child = serializers.CharField()
 
     def to_representation(self, data):
-        return data.values_list('name', flat=True)
+        return data.values_list("name", flat=True)
 
 
 # class TagSerializer(serializers.ModelSerializer):
@@ -26,6 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email", "name"]
+
 
 class ProductSerializer(serializers.ModelSerializer):
     tags = TagSerializerField(read_only=True)
@@ -58,9 +59,4 @@ class MutationSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = [
-            "id",
-            "timestamp",
-            "description",
-            "verb",
-        ]
+        fields = ["id", "timestamp", "description", "verb"]

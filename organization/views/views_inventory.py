@@ -40,8 +40,10 @@ def organization_inventory_product(request):
 def organization_mutation_insert(request):
     mutable_form = request.POST.copy()
     mutable_form["user"] = request.user.id
-    mutable_form["amount"] = mutable_form['amount'].replace(",",".")
-    mutable_form["operation"] = "add"  # placeholder, gets changed later during cleaning..
+    mutable_form["amount"] = mutable_form["amount"].replace(",", ".")
+    mutable_form[
+        "operation"
+    ] = "add"  # placeholder, gets changed later during cleaning..
     form = MutationForm(data=mutable_form, organization=request.organization)
     if form.is_valid():
         mutation = form.save()

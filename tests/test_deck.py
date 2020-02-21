@@ -14,7 +14,7 @@ class TestDeckPages(TestBaseWithStaffUser):
     def test_deck_non_staff_user(self):
         response = self.client.get("/deck/", follow=True)
         self.assertIn("Page not found", response.content.decode())
-        
+
     # But not by a normal user:
     def test_deck_staff_user(self):
         self.client.login(email="mccartney@thebeatles.com", password="paulpassword")

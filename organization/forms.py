@@ -176,7 +176,11 @@ class ProductEditForm(autocomplete.FutureModelForm):
             "organization",
             "tags",
         ]
-        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete", forward=['organization'])}
+        widgets = {
+            "tags": autocomplete.TaggitSelect2(
+                url="tags-autocomplete", forward=["organization"]
+            )
+        }
 
 
 class LocationAddForm(ModelForm):
@@ -243,7 +247,11 @@ class LocationEditForm(ModelForm):
     class Meta:
         model = Location
         fields = ["name", "desc", "organization", "tags", "image", "size"]
-        widgets = {"tags": autocomplete.TaggitSelect2(url="tags-autocomplete", forward=['organization'])}
+        widgets = {
+            "tags": autocomplete.TaggitSelect2(
+                url="tags-autocomplete", forward=["organization"]
+            )
+        }
 
 
 class MutationForm(ModelForm):
@@ -279,7 +287,7 @@ class MutationForm(ModelForm):
                 "placeholder": "Amount",
                 "class": "lh-copy pa2 input-reset ba br2 bg-transparent w-100",
             }
-        )
+        ),
     )
 
     product = ModelChoiceField(Product.objects.none(), empty_label=None)

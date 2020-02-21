@@ -68,14 +68,12 @@ INSTALLED_APPS = [
 ]
 
 if DEBUG:
-    INSTALLED_APPS += [
-        'debug_toolbar',
-    ]
+    INSTALLED_APPS += ["debug_toolbar"]
 
 # For the toolbar
 INTERNAL_IPS = [
     # ...
-    '127.0.0.1',
+    "127.0.0.1",
     # ...
 ]
 

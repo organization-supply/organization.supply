@@ -2,6 +2,7 @@ from dal import autocomplete
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from taggit.models import Tag
+
 from organization.models.organization import Organization
 
 
@@ -55,7 +56,9 @@ class TagsAutocomplete(autocomplete.Select2QuerySetView):
         if not organization:
             return Tag.objects.none()
 
-        if organization.slug not in list(self.request.user.organizations_organization.values_list('slug', flat=True)):
+        if organization.slug not in list(
+            self.request.user.organizations_organization.values_list("slug", flat=True)
+        ):
             print("not it?")
             return Tag.objects.none()
 
