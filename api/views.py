@@ -9,9 +9,8 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
 )
-from rest_framework.views import APIView
-
 from api.serializers import (
+    UserSerializer,
     InventorySerializer,
     LocationSerializer,
     MutationSerializer,
@@ -51,7 +50,9 @@ def save_serializer_with_organization(serializer, organization):
         )
 
 
-class ApiAuthorize(ObtainAuthToken):
+class ApiAuthorize(ObtainAuthToken):    
+    schema = None  # Will not appear in schema generation
+
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(
             data=request.data, context={"request": request}
@@ -68,20 +69,21 @@ class ApiAuthorize(ObtainAuthToken):
         )
 
 
-class UserView(APIView):
-    def get(self, request, organization, **kwargs):
-        return Response(
-            {
-                "id": request.user.id,
-                "email": request.user.email,
-                "organization": organization,
-            }
-        )
+class UserView(generics.RetrieveAPIView):
+    """
+    Endpoint for getting the authenticated user (/me)
+    """
+
+    serializer_class = UserSerializer
+
+    def get(self, request, organization):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
 
 
 class NotificationView(generics.ListAPIView):
     """
-    A simple ViewSet for viewing notifications.
+    A simple ViewSet for viewing notifications (/notifications)
     """
 
     serializer_class = NotificationSerializer
@@ -95,12 +97,12 @@ class NotificationView(generics.ListAPIView):
 
 
 class ProductView(generics.ListCreateAPIView):
-
+    
     serializer_class = ProductSerializer
 
     def list(self, request, organization):
         """
-        A list of all the products within the organization
+        A list of all the products within the organization (/products)
         """
         queryset = Product.objects.for_organization(organization)
         serializer = self.get_serializer(queryset, many=True)
@@ -108,7 +110,7 @@ class ProductView(generics.ListCreateAPIView):
 
     def create(self, request, organization):
         """
-        Create a product within the organization
+        Create a product within the organization (POST /products)
         """
         serializer = self.get_serializer(data=request.data)
         return save_serializer_with_organization(serializer, organization)
