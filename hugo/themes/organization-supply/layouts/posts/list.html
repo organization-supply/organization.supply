@@ -7,7 +7,11 @@
         <h2>
             <a class="no-underline underline-hover black-80" href="{{ .URL }}">{{ .Title }}</a>
         </h2>
-        <p class="lh-copy">{{ .Summary }}</p>
+        <p class="lh-copy">
+            {{ .Summary }}
+            <a class="black i" href="{{ .URL }}">continue reading &raquo;</a>
+        </p>
+        
     </article>
     {{ end }}
 </div>

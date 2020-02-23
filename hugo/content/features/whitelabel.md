@@ -7,4 +7,4 @@ featured: true
 
 ---
 
-Full customizable to fit the style of your organization. Including colors and logos.
+Full customizable to fit the style of your organization. Choose your own colors and we're currently exploring the use of custom (sub)domain names for your organization.

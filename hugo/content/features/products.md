@@ -7,4 +7,4 @@ featured: true
 
 ---
 
-Add & remove products and keep track of inventory with simple to use interface
+Add & remove products and keep track of inventory with simple to use interface. Add metadata to create reports for example the running inventory value or a total overview of the current monetary value of your products.

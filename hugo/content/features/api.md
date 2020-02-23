@@ -6,4 +6,4 @@ type: features
 featured: true
 ---
 
-A fully featured API that's available for developers to hook into Organization.supply
+Organization.supply offers a full REST API for almost all functionality required for running an inventory. You can find our documentation on it's [own page](https://organization.supply/api). Our entire code is also open-source. Feel free to contribute or create an issue or feature request on [Github](https://github.com/jplattel/organization.supply).

@@ -7,4 +7,4 @@ featured: true
 
 ---
 
-Mulitple users support, invite only and managable trough a nice admin interface.
+Easily manage users within your organization. We allow easy invitations straight to email. Easily onboard new users with a tour and a full guide to introduces our functionality and features.

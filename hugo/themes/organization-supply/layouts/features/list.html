@@ -1,14 +1,16 @@
 {{ define "main" }}
-<h1 class="">All Features</h1>
+<h1 class="pa1">All Features</h1>
 
 <div id="features" class="flex flex-wrap">
     {{ $features := where .Site.RegularPages "Type" "features" }}
     {{if gt (len $features) 0}}
         {{ range sort $features ".Params.weight" }}
         <article class="w-100 w-third-ns">
-            <div class="">
-                <h2>{{ .Title }}</h2>
-                <p class="lh-copy">{{ .Content }}</p>
+            <div class="lh-copy pa1">
+                <h2>
+                    <a class="link no-underline black underline-hover" href="{{ .URL }}">{{ .Title }}</a>
+                </h2>
+                {{ .Summary }}
             </div>
         </article>
         {{ end }}

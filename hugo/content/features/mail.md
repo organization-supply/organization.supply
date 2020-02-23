@@ -7,4 +7,4 @@ featured: true
 
 ---
 
-Daily emails with inventory changes, users signups and other updates. 
+Daily emails with inventory changes, users signups and other updates. All configurable and in case of email-overload, you can manage every notification you want.

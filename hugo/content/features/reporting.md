@@ -7,4 +7,4 @@ featured: true
 
 ---
 
-Simple and useful reports generated automatically based on your data.
+Simple and useful reports generated automatically based on your data. You can set up notifications and warning for low inventory and get notified based on rules.
