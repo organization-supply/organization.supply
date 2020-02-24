@@ -41,7 +41,7 @@ class Location(TimeStampedModel):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     image = models.ImageField(
-        upload_to="organization/product/", default="organization/product/default.png"
+        upload_to="organization/location/", default="organization/location/default.png"
     )
 
     size = models.FloatField(default=0.0)
