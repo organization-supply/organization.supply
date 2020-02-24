@@ -30,11 +30,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     tags = TagSerializerField(read_only=True)
-    image = serializers.SerializerMethodField("get_image_url", read_only=True)
-
-    def get_image_url(self, obj):
-        return obj.image.url
-
+    image = serializers.ImageField(use_url=True, read_only=True)
+    
     class Meta:
         model = Product
         fields = ["id", "name", "desc", "image", "price_cost", "price_sale", "tags"]
@@ -42,10 +39,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class LocationSerializer(serializers.ModelSerializer):
     tags = TagSerializerField(read_only=True)
-    image = serializers.SerializerMethodField("get_image_url", read_only=True)
-
-    def get_image_url(self, obj):
-        return obj.image.url
+    image = serializers.ImageField(use_url=True, read_only=True)
 
     class Meta:
         model = Location

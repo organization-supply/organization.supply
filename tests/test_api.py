@@ -89,7 +89,7 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.json()["name"], "Patched API Product")
         self.assertEqual(response.json()["desc"], "")
         self.assertEqual(
-            response.json()["image"], "/media/organization/product/default.png"
+            response.json()["image"], "http://testserver/media/organization/product/default.png"
         )
 
         # Put product
@@ -101,7 +101,7 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.json()["name"], "Put API Product")
         self.assertEqual(response.json()["desc"], "Put description")
         self.assertEqual(
-            response.json()["image"], "/media/organization/product/default.png"
+            response.json()["image"], "http://testserver/media/organization/product/default.png"
         )
 
         # Set the inventory to 0 and then delete the product
@@ -151,7 +151,7 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.json()["name"], "Patched API Location")
         self.assertEqual(response.json()["desc"], "")
         self.assertEqual(
-            response.json()["image"], "/media/organization/location/default.png"
+            response.json()["image"], "http://testserver/media/organization/location/default.png"
         )
         self.assertEqual(response.json()["tags"], [])
 
@@ -164,7 +164,7 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.json()["name"], "Put API Location")
         self.assertEqual(response.json()["desc"], "Put description")
         self.assertEqual(
-            response.json()["image"], "/media/organization/location/default.png"
+            response.json()["image"], "http://testserver/media/organization/location/default.png"
         )
         self.assertEqual(response.json()["tags"], [])
 
