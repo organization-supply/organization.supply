@@ -84,7 +84,7 @@ class OrganizationAcceptForm(ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ["name", "image"]
+        fields = ["name", "image", "show_information_tooltips"]
 
     name = forms.CharField(
         widget=forms.TextInput(
