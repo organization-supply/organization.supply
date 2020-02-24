@@ -59,15 +59,12 @@ class TagsAutocomplete(autocomplete.Select2QuerySetView):
         if organization.slug not in list(
             self.request.user.organizations_organization.values_list("slug", flat=True)
         ):
-            print("not it?")
             return Tag.objects.none()
 
         # Filter by organization (trough model)
         qs = Tag.objects.filter(
             organization_organizationtaggeditem_items__organization=organization
         ).distinct()
-
-        print(qs)
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
