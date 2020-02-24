@@ -27,6 +27,18 @@
             
             {{ user_form.image }}
         </div>
+
+        <div class="mt3">
+            <label class="db fw6 mb1 lh-copy f6" for="image">Information tooltips</label>
+            <label for="">
+                {{ user_form.show_information_tooltips }}
+                Show information tooltips like these:
+                <span class="bn ph2 b br-100 v-mid bg-moon-gray hover-bg-gray i white f5 lh-title tippy mb2 dib" id="tippy-{{id}}" data-tippy-content="{{ content }}">
+                    i
+                </span>                
+            </label>
+        </div>
+
     
         <div class="mt2">
             <input class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Save profile &raquo;">
