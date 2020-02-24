@@ -54,6 +54,7 @@ class TestRestAPI(TestBaseWithInventory):
 
         self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.json()[0]["name"], "Test Product")
+        self.assertIn("image", response.json()[0])
 
         # Create
         response = self.client.post(
@@ -87,6 +88,7 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["name"], "Patched API Product")
         self.assertEqual(response.json()["desc"], "")
+        self.assertEqual(response.json()["image"], "/media/organization/product/default.png")
 
         # Put product
         response = self.client.put(
@@ -96,6 +98,7 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["name"], "Put API Product")
         self.assertEqual(response.json()["desc"], "Put description")
+        self.assertEqual(response.json()["image"], "/media/organization/product/default.png")
 
         # Set the inventory to 0 and then delete the product
         self.inventory.amount = 0
@@ -114,6 +117,7 @@ class TestRestAPI(TestBaseWithInventory):
 
         self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.json()[0]["name"], "Test Location")
+        self.assertIn("image", response.json()[0])
 
         # Create
         response = self.client.post(
@@ -142,6 +146,8 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["name"], "Patched API Location")
         self.assertEqual(response.json()["desc"], "")
+        self.assertEqual(response.json()["image"], "/media/organization/location/default.png")
+        self.assertEqual(response.json()["tags"], [])
 
         # Put location
         response = self.client.put(
@@ -151,6 +157,8 @@ class TestRestAPI(TestBaseWithInventory):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["name"], "Put API Location")
         self.assertEqual(response.json()["desc"], "Put description")
+        self.assertEqual(response.json()["image"], "/media/organization/location/default.png")
+        self.assertEqual(response.json()["tags"], [])
 
         # Set the inventory to 0 and then delete the location
         self.inventory.amount = 0
