@@ -60,6 +60,7 @@ class User(AbstractUser):
         upload_to="user/profile/", default="user/profile/default.png"
     )
     username = None
+    show_information_tooltips = models.BooleanField(default=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS: List[str] = []
