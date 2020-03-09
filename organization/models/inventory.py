@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Sum
+from django.db.models.functions import Coalesce
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from model_utils import Choices
@@ -106,11 +107,18 @@ class Product(TimeStampedModel):
     objects = OrganizationManager()  # Filters by organization on default
 
     @property
-    def (self):
+    def data(self):
+        inventory_count = Inventory.objects.filter(product=self).aggregate(inventory_count=Coalesce(Sum("amount"), 0)).get("inventory_count", 0)
+        
         return {
-            (self.price_sale - self.price_cost) * self.inventory_count
+            "price_sale": self.price_sale,
+            "price_cost": self.price_cost,
+            "profit": self.price_sale - self.price_cost,
+            "sum_price_sale": self.price_sale * inventory_count,
+            "sum_price_cost": self.price_cost * inventory_count,
+            "sum_profit": (self.price_sale - self.price_cost) * inventory_count
         }
-   
+
     @property
     def url(self):
         return reverse(

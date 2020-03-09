@@ -7,7 +7,6 @@ from django.db.models import Sum, Value
 @login_required
 def reports_index(request):
     products = Product.objects.for_organization(request.organization)
-    
     return render(request, "reports/index.html", {
         "counts": {
             "products": products.count(),
@@ -15,9 +14,9 @@ def reports_index(request):
             "mutations": Mutation.objects.for_organization(request.organization).count(),
             "users": request.organization.users.count(),
         },
-        "money": {
-            "total_price_cost": products_money['total_price_cost'],
-            "total_price_sale": products_money['total_price_sale'],
-            "total_profit": ,
+        "products": {
+            "total_price_cost": sum(product.data.get('sum_price_cost', 0) for product in products),
+            "total_price_sale": sum(product.data.get('sum_price_sale', 0) for product in products),
+            "total_profit": sum(product.data.get('sum_profit', 0) for product in products)
         }
     })

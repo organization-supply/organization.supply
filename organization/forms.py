@@ -21,7 +21,7 @@ from organization.models.inventory import (
     OrganizationTaggedItem,
     Product,
 )
-from organization.models.organization import Organization
+from organization.models.organization import Organization, CURRENCY_CHOICES
 
 FORBIDDEN_SLUGS = [
     "api",
@@ -60,10 +60,18 @@ class OrganizationForm(ModelForm):
             }
         )
     )
+    currency = forms.ChoiceField(
+        choices=CURRENCY_CHOICES,
+        widget=forms.Select(
+            attrs={
+                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+            }
+        )
+    )
 
     class Meta:
         model = Organization
-        fields = ["name", "contact_email"]
+        fields = ["name", "contact_email", "currency"]
 
 
 class OrganizationInviteForm(OrganizationUserAddForm):
