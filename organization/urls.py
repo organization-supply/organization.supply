@@ -160,5 +160,6 @@ urlpatterns = [
         name="organization_reservation_action",
     ),
     # API urls
+    path("reports/", include("reports.urls")),
     path("api/", include("api.urls")),
 ]

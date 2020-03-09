@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Organization.supply - Reports{% endblock title %}
+
+{% block content %}
+
+<h1 class="ph3 db">
+    📊 Reports
+</h1>
+
+<article class="pa3" data-name="slab-stat">
+    <dl class="fl w-100 w-25-ns">
+        <dd class="f6 f5-ns b ml0">Products</dd>
+        <dd class="f3 f2-ns b ml0">{{ counts.products }}</dd>
+    </dl>
+    <dl class="fl w-100 w-25-ns">
+        <dd class="f6 f5-ns b ml0">Locations</dd>
+        <dd class="f3 f2-ns b ml0">{{ counts.locations }}</dd>
+    </dl>
+    <dl class="fl w-100 w-25-ns">
+        <dd class="f6 f5-ns b ml0">Mutations</dd>
+        <dd class="f3 f2-ns b ml0">{{ counts.mutations }}</dd>
+    </dl>
+    <dl class="fl w-100 w-25-ns">
+        <dd class="f6 f5-ns b ml0">Users</dd>
+        <dd class="f3 f2-ns b ml0">{{ counts.users }}</dd>
+    </dl>
+</article>
+
+<div class="fl ph3 w-100">
+    <h1 class="f4 b">Inventory in the last month</h1>
+    {% include 'charts/inventory_month.html' with data=product_mutations wrapper='mutations' debug=False %}
+</div>
+
+
+{% endblock %}
