@@ -56,14 +56,14 @@
                         </ul>
                     </td>
                     <td class="pa2 bb b--black-20">
-                        {% if product.inventory_total %}
-                            {{ product.inventory_total }}
+                        {% if product.inventory_count %}
+                            {{ product.inventory_count }}
                         {% else %}
                             -
                         {% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
-                        {% if product.inventory_total %}
+                        {% if product.inventory_count %}
                             <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_shortcut_move' request.organization.slug %}?product={{product.id}}">
                                 Move
                             </a>

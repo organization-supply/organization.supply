@@ -371,7 +371,7 @@ class ShortcutMoveForm(Form):
         # if selected_location_id:
         #     selected_location = Location.objects.get(id=selected_location_id)
         #     # But only if that location has any inventory
-        #     if selected_location.inventory_total > 0:
+        #     if selected_location.inventory_count > 0:
         #         self.fields["product"].queryset = selected_location.available_products
 
         #     # We cannot move inventory to the same location

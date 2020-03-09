@@ -62,7 +62,7 @@ class Location(TimeStampedModel):
         return Inventory.objects.filter(location_id=self.id)
 
     @property
-    def inventory_total(self):
+    def inventory_count(self):
         return (
             Inventory.objects.filter(location=self)
             .aggregate(total=Sum("amount"))
@@ -80,7 +80,7 @@ class Location(TimeStampedModel):
         return self.name
 
     def delete(self, *args, **kwargs):
-        if self.inventory_total == 0 or self.inventory_total == None:
+        if self.inventory_count == 0 or self.inventory_count == None:
             # Delete all inventory objects and then the location
             Inventory.objects.filter(location=self).delete()
             super(Location, self).delete(*args, **kwargs)
@@ -103,11 +103,14 @@ class Product(TimeStampedModel):
 
     tags = TaggableManager(through=OrganizationTaggedItem, blank=True)
 
-    def revenue(self):
-        return self.price_sale - self.price_cost
-
     objects = OrganizationManager()  # Filters by organization on default
 
+    @property
+    def (self):
+        return {
+            (self.price_sale - self.price_cost) * self.inventory_count
+        }
+   
     @property
     def url(self):
         return reverse(
@@ -120,12 +123,8 @@ class Product(TimeStampedModel):
         return Inventory.objects.filter(product_id=self.id)
 
     @property
-    def inventory_total(self):
-        return (
-            Inventory.objects.filter(product=self)
-            .aggregate(total=Sum("amount"))
-            .get("total")
-        )
+    def inventory_count(self):
+        return Inventory.objects.filter(product=self).aggregate(total=Sum("amount")).get("total")
 
     @property
     def available_locations(self):
@@ -138,7 +137,7 @@ class Product(TimeStampedModel):
         return self.name
 
     def delete(self, *args, **kwargs):
-        if self.inventory_total == 0 or self.inventory_total == None:
+        if self.inventory_count == 0 or self.inventory_count == None:
             # Delete all inventory objects and then the product
             Inventory.objects.filter(product=self).delete()
             super(Product, self).delete(*args, **kwargs)
