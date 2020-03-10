@@ -7,7 +7,7 @@
         <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" style="width: 15px; margin-top: 3px; margin-right: 10px"/>
     </a>
 
-    <div class="dib">
+    <div class="dib mr2">
         {% if request.organization.name %}
             <a class="near-black no-underline underline-hover" href="{% url 'organization_dashboard' request.organization.slug %}">
                 <h1 class="f4 mv1">{{ request.organization.name|title }}</h1>
