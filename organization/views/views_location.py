@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import F, Func, Q, Sum, Window
 from django.shortcuts import get_object_or_404, redirect, render
 
 from organization.forms import LocationAddForm, LocationEditForm
@@ -40,10 +41,31 @@ def organization_location_view(request, location_id):
         .filter(location=location)
         .order_by("-created")
     )
+
+    product_mutations = {}
+    for product in location.available_products:
+        product_mutations[product.name] = (
+            Mutation.objects.for_organization(request.organization)
+            .filter(
+                product=product,
+                location=location,
+                contra_mutation__isnull=True,
+                operation__in=["add", "remove"],
+            )
+            .annotate(cumsum=Window(Sum("amount"), order_by=F("created").asc()))
+            .values("id", "cumsum", "amount", "desc", "created")
+            .order_by("-created")
+        )
+
     return render(
         request,
         "organization/location/view.html",
-        {"location": location, "inventories": inventories, "mutations": mutations},
+        {
+            "location": location,
+            "inventories": inventories,
+            "mutations": mutations,
+            "product_mutations": product_mutations,
+        },
     )
 
 

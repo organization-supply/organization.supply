@@ -7,6 +7,7 @@
     <h1 class="mh3">
         📦 <a class="no-underline gray link underline-hover" href="{% url 'organization_products' request.organization.slug %}">Products</a>
             <span class="gray">/</span> {{ product.name|title }}
+
         <a 
             class="no-underline f6 fw3 pa2 bg-animate bg-yellow hover-bg-gold black br2 dib fr" 
             href="{% url 'organization_product_edit' request.organization.slug product.id %}">Edit Product</a>
@@ -18,9 +19,12 @@
         <div class="fl w-100 w-50-l pr2">
             {% if product.desc %}
 
-            <h3>Description</h3>
-            <p class="lh-copy">{{ product.desc }}</p>
-            <img class="dib br2" src="{{ product.image.url }}" alt="Image of {{ product.name }}">
+            <h3>Product Description</h3>
+
+            <div class="ba b--light-silver br2 pa2">
+                <span class="lh-copy pb2 db">{{ product.desc }}</span>
+                <img class="dib br2" src="{{ product.image.url }}" alt="Image of {{ product.name }}">
+            </div>
             
             {% endif %}
             <h3>
@@ -68,6 +72,13 @@
         </div>
         <div class="fl w-100 w-50-l"> 
                 <h3>Transaction history</h3>
+
+                {% if product.mutations %}
+                <div class="ba b--light-silver br2 mb2">
+                    {% include 'charts/product_mutations.html' with product=product wrapper="product" debug=False %}
+                </div>                
+                {% endif %}
+                
                 <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
                     <thead>
                         <tr>

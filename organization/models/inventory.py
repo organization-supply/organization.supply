@@ -4,7 +4,8 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models import Sum
+from django.db.models import F, Func, Q, Sum, Window
+from django.db.models.functions import Coalesce
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from model_utils import Choices
@@ -62,7 +63,7 @@ class Location(TimeStampedModel):
         return Inventory.objects.filter(location_id=self.id)
 
     @property
-    def inventory_total(self):
+    def inventory_count(self):
         return (
             Inventory.objects.filter(location=self)
             .aggregate(total=Sum("amount"))
@@ -80,7 +81,7 @@ class Location(TimeStampedModel):
         return self.name
 
     def delete(self, *args, **kwargs):
-        if self.inventory_total == 0 or self.inventory_total == None:
+        if self.inventory_count == 0 or self.inventory_count == None:
             # Delete all inventory objects and then the location
             Inventory.objects.filter(location=self).delete()
             super(Location, self).delete(*args, **kwargs)
@@ -103,10 +104,24 @@ class Product(TimeStampedModel):
 
     tags = TaggableManager(through=OrganizationTaggedItem, blank=True)
 
-    def revenue(self):
-        return self.price_sale - self.price_cost
-
     objects = OrganizationManager()  # Filters by organization on default
+
+    @property
+    def data(self):
+        inventory_count = (
+            Inventory.objects.filter(product=self)
+            .aggregate(inventory_count=Coalesce(Sum("amount"), 0))
+            .get("inventory_count", 0)
+        )
+
+        return {
+            "price_sale": self.price_sale,
+            "price_cost": self.price_cost,
+            "profit": self.price_sale - self.price_cost,
+            "sum_price_sale": self.price_sale * inventory_count,
+            "sum_price_cost": self.price_cost * inventory_count,
+            "sum_profit": (self.price_sale - self.price_cost) * inventory_count,
+        }
 
     @property
     def url(self):
@@ -116,11 +131,25 @@ class Product(TimeStampedModel):
         )
 
     @property
+    def mutations(self):
+        return (
+            Mutation.objects.for_organization(self.organization)
+            .filter(
+                product=self,
+                contra_mutation__isnull=True,
+                operation__in=["add", "remove"],
+            )
+            .annotate(cumsum=Window(Sum("amount"), order_by=F("created").asc()))
+            .values("id", "cumsum", "amount", "desc", "created")
+            .order_by("-created")
+        )
+
+    @property
     def inventory(self):
         return Inventory.objects.filter(product_id=self.id)
 
     @property
-    def inventory_total(self):
+    def inventory_count(self):
         return (
             Inventory.objects.filter(product=self)
             .aggregate(total=Sum("amount"))
@@ -138,7 +167,7 @@ class Product(TimeStampedModel):
         return self.name
 
     def delete(self, *args, **kwargs):
-        if self.inventory_total == 0 or self.inventory_total == None:
+        if self.inventory_count == 0 or self.inventory_count == None:
             # Delete all inventory objects and then the product
             Inventory.objects.filter(product=self).delete()
             super(Product, self).delete(*args, **kwargs)

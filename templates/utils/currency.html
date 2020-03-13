@@ -1,0 +1,9 @@
+{% if request.organization.currency == "euro" %}
+    €
+{% elif request.organization.currency == "dollar" %}
+    $
+{% elif request.organization.currency == "pound" %}
+    £
+{% elif request.organization.currency == "yen" %}
+¥
+{% endif %}

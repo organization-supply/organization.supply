@@ -21,7 +21,7 @@ from organization.models.inventory import (
     OrganizationTaggedItem,
     Product,
 )
-from organization.models.organization import Organization
+from organization.models.organization import CURRENCY_CHOICES, Organization
 
 FORBIDDEN_SLUGS = [
     "api",
@@ -60,10 +60,17 @@ class OrganizationForm(ModelForm):
             }
         )
     )
+    currency = forms.ChoiceField(
+        required=False,
+        choices=CURRENCY_CHOICES,
+        widget=forms.Select(
+            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
+        ),
+    )
 
     class Meta:
         model = Organization
-        fields = ["name", "contact_email"]
+        fields = ["name", "contact_email", "currency"]
 
 
 class OrganizationInviteForm(OrganizationUserAddForm):
@@ -371,7 +378,7 @@ class ShortcutMoveForm(Form):
         # if selected_location_id:
         #     selected_location = Location.objects.get(id=selected_location_id)
         #     # But only if that location has any inventory
-        #     if selected_location.inventory_total > 0:
+        #     if selected_location.inventory_count > 0:
         #         self.fields["product"].queryset = selected_location.available_products
 
         #     # We cannot move inventory to the same location

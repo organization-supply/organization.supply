@@ -18,12 +18,16 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mt3">
-            <label class="db fw6 lh-copy f6" for="email-address">Name</label>            
+            <label class="db fw6 lh-copy f6" for="name">Name</label>            
             {{ organization_form.name }}
         </div>
         <div class="mt3">
             <label class="db fw6 lh-copy f6" for="email-address">Contact Email</label>            
             {{ organization_form.contact_email }}
+        </div>
+        <div class="mt3">
+            <label class="db fw6 lh-copy f6" for="currency">Currency</label>            
+            {{ organization_form.currency }}
         </div>
         <div class="mt3">
             <input class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Save details &raquo;">

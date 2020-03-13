@@ -185,7 +185,7 @@ class TestInventoryModels(TestBase):
 
         self.assertEqual(inventory.amount, 0.0)
 
-    def test_inventory_total(self):
+    def test_inventory_count(self):
         location = Location(name="Test Location", organization=self.organization)
         location.save()
 
@@ -212,7 +212,7 @@ class TestInventoryModels(TestBase):
         inventory.save()
 
         self.assertEqual(product.inventory.count(), 2)
-        self.assertEqual(product.inventory_total, 2)
+        self.assertEqual(product.inventory_count, 2)
 
 
 @pytest.mark.django_db

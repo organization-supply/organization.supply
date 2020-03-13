@@ -16,13 +16,14 @@
 
     <article class="cf mh3">
         <div class="fl w-100 w-50-l pr2">
-            {% if location.desc %}
-            <h3>Description</h3>
-            <p>
-                {{ location.desc }}
-            </p>
-            {% endif %}
+            
+            <h3>Location Description</h3>
 
+            <div class="ba b--light-silver br2 pa2">
+                <span class="lh-copy pb2 db">{{ location.desc }}</span>
+                <img class="dib br2" src="{{ location.image.url }}" alt="Image of {{ location.name }}">
+            </div>
+            
             <h3>
                 Current Inventory
             </h3>
@@ -57,6 +58,13 @@
         </div>
         <div class="fl w-100 w-50-l"> 
             <h3>Transaction history</h3>
+
+            {% if product_mutations %}
+            <div class="ba b--light-silver br2 mb2">
+                {% include 'charts/products_mutations.html' with data=product_mutations wrapper='mutations' debug=False %}
+            </div>
+            {% endif %}
+
             <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
                 <thead>
                     <tr>
