@@ -66,7 +66,9 @@
         Inventory in the last month
         <a class="f6 fr mt2 fw6 no-underline underline-hover black" href="{% url 'reports_index' request.organization.slug %}">more reports &raquo;</a>
     </h1>
-    {% include 'charts/inventory_month.html' with data=product_mutations wrapper='mutations' debug=False %}
+    <div class="ba b--light-silver br2">
+        {% include 'charts/inventory_month.html' with data=product_mutations wrapper='mutations' debug=False %}
+    </div>
 </div>
 
 <div class="fl ph3 w-100 w-50-m w-third-l">

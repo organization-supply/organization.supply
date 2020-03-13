@@ -1,63 +1,61 @@
-<div class="ba b--light-silver br2">
-    {% if debug %}<pre><code>{{  product_mutations }}</code></pre>{% endif %}
 
-    {% if product_mutations %}
-    <canvas style="box-sizing: border-box;" class="pa2" id="{{ wrapper }}"></canvas>
+{% if debug %}<pre><code>{{  product_mutations }}</code></pre>{% endif %}
 
-    <script>
-        
-    const days = [...new Array(30)].map((i, idx) => moment().startOf("day").subtract(idx, "days"))
-    const context = document.getElementById('{{ wrapper }}').getContext('2d');
-    const chart = new Chart(context, {
-            type: 'line',
-            data: {
-                labels: days.map(day => day.format("YYYY-MM-DD")),
-                datasets: [
-                    {% for product, product_mutations in product_mutations.items %}
-                    {% if product_mutations %}
-                    {
-                        label: '{{ product }}',
-                        lineTension: 0,
-                        data: [
-                            {% for point in product_mutations %}
-                            {
-                                x: "{{ point.created|date:"Y-m-d H:i:s" }}",
-                                y: {{ point.cumsum }}
-                            },
-                            {% endfor %}
-                        ]
-                    },
-                    {% endif %}
-                    {% endfor %}
-                ]
-            },
-
-            // Configuration options go here
-            options: {
-                
-                scales: {
-                    xAxes: [{
-                        type: "time",
-                        time: {
-                            parser: "YYYY-MM-DD HH:mm:ss"
+{% if product_mutations %}
+<canvas style="box-sizing: border-box;" class="pa2" id="{{ wrapper }}"></canvas>
+<script>
+    
+const days = [...new Array(30)].map((i, idx) => moment().startOf("day").subtract(idx, "days"))
+const context = document.getElementById('{{ wrapper }}').getContext('2d');
+const chart = new Chart(context, {
+        type: 'line',
+        data: {
+            labels: days.map(day => day.format("YYYY-MM-DD")),
+            datasets: [
+                {% for product, product_mutations in product_mutations.items %}
+                {% if product_mutations %}
+                {
+                    label: '{{ product }}',
+                    lineTension: 0,
+                    data: [
+                        {% for point in product_mutations %}
+                        {
+                            x: "{{ point.created|date:"Y-m-d H:i:s" }}",
+                            y: {{ point.cumsum }}
                         },
-                    }],
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+                        {% endfor %}
+                    ]
                 },
-                plugins: {
-                    colorschemes: {
-                        scheme: 'brewer.Paired12'
+                {% endif %}
+                {% endfor %}
+            ]
+        },
+
+        // Configuration options go here
+        options: {
+            
+            scales: {
+                xAxes: [{
+                    type: "time",
+                    time: {
+                        parser: "YYYY-MM-DD HH:mm:ss"
+                    },
+                }],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
                     }
+                }]
+            },
+            plugins: {
+                colorschemes: {
+                    scheme: 'brewer.Paired12'
                 }
             }
-        });
+        }
+    });
 
-    </script>
-    {% else %}
-    <p class="pl3">Insufficient data available.</p>
-    {% endif %}
-</div>
+</script>
+{% else %}
+<p class="pl3">Insufficient data available.</p>
+{% endif %}
