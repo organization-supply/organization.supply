@@ -5,14 +5,15 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('organization', '0011_auto_20200212_2122'),
-    ]
+    dependencies = [("organization", "0011_auto_20200212_2122")]
 
     operations = [
         migrations.AlterField(
-            model_name='location',
-            name='image',
-            field=models.ImageField(default='organization/location/default.png', upload_to='organization/location/'),
-        ),
+            model_name="location",
+            name="image",
+            field=models.ImageField(
+                default="organization/location/default.png",
+                upload_to="organization/location/",
+            ),
+        )
     ]

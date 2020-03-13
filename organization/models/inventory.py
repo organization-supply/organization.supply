@@ -108,15 +108,19 @@ class Product(TimeStampedModel):
 
     @property
     def data(self):
-        inventory_count = Inventory.objects.filter(product=self).aggregate(inventory_count=Coalesce(Sum("amount"), 0)).get("inventory_count", 0)
-        
+        inventory_count = (
+            Inventory.objects.filter(product=self)
+            .aggregate(inventory_count=Coalesce(Sum("amount"), 0))
+            .get("inventory_count", 0)
+        )
+
         return {
             "price_sale": self.price_sale,
             "price_cost": self.price_cost,
             "profit": self.price_sale - self.price_cost,
             "sum_price_sale": self.price_sale * inventory_count,
             "sum_price_cost": self.price_cost * inventory_count,
-            "sum_profit": (self.price_sale - self.price_cost) * inventory_count
+            "sum_profit": (self.price_sale - self.price_cost) * inventory_count,
         }
 
     @property
@@ -132,7 +136,11 @@ class Product(TimeStampedModel):
 
     @property
     def inventory_count(self):
-        return Inventory.objects.filter(product=self).aggregate(total=Sum("amount")).get("total")
+        return (
+            Inventory.objects.filter(product=self)
+            .aggregate(total=Sum("amount"))
+            .get("total")
+        )
 
     @property
     def available_locations(self):

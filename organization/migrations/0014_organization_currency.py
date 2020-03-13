@@ -5,14 +5,16 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('organization', '0013_merge_20200224_2024'),
-    ]
+    dependencies = [("organization", "0013_merge_20200224_2024")]
 
     operations = [
         migrations.AddField(
-            model_name='organization',
-            name='currency',
-            field=models.CharField(choices=[('euro', '€'), ('dollar', '$'), ('pound', '£'), ('yen', '¥')], default='euro', max_length=255),
-        ),
+            model_name="organization",
+            name="currency",
+            field=models.CharField(
+                choices=[("euro", "€"), ("dollar", "$"), ("pound", "£"), ("yen", "¥")],
+                default="euro",
+                max_length=255,
+            ),
+        )
     ]

@@ -1,9 +1,9 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Func, Q, Sum, Window
+from django.db.models import F, Func, Q, Sum, Value, Window
 from django.shortcuts import redirect, render
-from organization.models.inventory import Product, Location, Mutation
-from django.db.models import Sum, Value
+
+from organization.models.inventory import Location, Mutation, Product
+
 
 @login_required
 def reports_index(request):
@@ -21,17 +21,31 @@ def reports_index(request):
             .values("id", "cumsum", "amount", "desc", "created")
             .order_by("-created")
         )
-    return render(request, "reports/index.html", {
-        "product_mutations": product_mutations,
-        "counts": {
-            "products": products.count(),
-            "locations": Location.objects.for_organization(request.organization).count(),
-            "mutations": Mutation.objects.for_organization(request.organization).count(),
-            "users": request.organization.users.count(),
+    return render(
+        request,
+        "reports/index.html",
+        {
+            "product_mutations": product_mutations,
+            "counts": {
+                "products": products.count(),
+                "locations": Location.objects.for_organization(
+                    request.organization
+                ).count(),
+                "mutations": Mutation.objects.for_organization(
+                    request.organization
+                ).count(),
+                "users": request.organization.users.count(),
+            },
+            "products": {
+                "total_price_cost": sum(
+                    product.data.get("sum_price_cost", 0) for product in products
+                ),
+                "total_price_sale": sum(
+                    product.data.get("sum_price_sale", 0) for product in products
+                ),
+                "total_profit": sum(
+                    product.data.get("sum_profit", 0) for product in products
+                ),
+            },
         },
-        "products": {
-            "total_price_cost": sum(product.data.get('sum_price_cost', 0) for product in products),
-            "total_price_sale": sum(product.data.get('sum_price_sale', 0) for product in products),
-            "total_profit": sum(product.data.get('sum_profit', 0) for product in products)
-        }
-    })
+    )

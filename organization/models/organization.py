@@ -7,13 +7,13 @@ from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
 
-
 CURRENCY_CHOICES = Choices(
-    ('euro', 'Euro (€)'),
-    ('dollar', 'Dollar ($)'),
-    ('pound', 'Pound (£)'),
-    ('yen', 'Yen (¥)')
+    ("euro", "Euro (€)"),
+    ("dollar", "Dollar ($)"),
+    ("pound", "Pound (£)"),
+    ("yen", "Yen (¥)"),
 )
+
 
 class OrganizationManager(models.Manager):
     def __str__(self):
@@ -39,7 +39,9 @@ class Organization(DjangoOrganization, TimeStampedModel):
     )  # Differs from the creation date of the organization
 
     contact_email = models.EmailField(max_length=254, unique=True)
-    currency = models.CharField(choices=CURRENCY_CHOICES, default=CURRENCY_CHOICES.euro, max_length=255)
+    currency = models.CharField(
+        choices=CURRENCY_CHOICES, default=CURRENCY_CHOICES.euro, max_length=255
+    )
 
     @property
     def stats(self):
