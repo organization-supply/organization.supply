@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models import Sum
+from django.db.models import F, Func, Q, Sum, Window
 from django.db.models.functions import Coalesce
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -128,6 +128,20 @@ class Product(TimeStampedModel):
         return reverse(
             "organization_product_view",
             kwargs={"product_id": self.pk, "organization": self.organization.slug},
+        )
+
+    @property
+    def mutations(self):
+        return (
+            Mutation.objects.for_organization(self.organization)
+            .filter(
+                product=self,
+                contra_mutation__isnull=True,
+                operation__in=["add", "remove"],
+            )
+            .annotate(cumsum=Window(Sum("amount"), order_by=F("created").asc()))
+            .values("id", "cumsum", "amount", "desc", "created")
+            .order_by("-created")
         )
 
     @property

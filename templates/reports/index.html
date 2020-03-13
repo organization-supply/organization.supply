@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Organization.supply - Reports{% endblock title %}
+{% block title %}{{ request.organization.name }} - Reports{% endblock title %}
 
 {% block content %}
 
@@ -38,7 +38,7 @@
     <div class="w-50-ns w-100 db">
         <div class="pa3">
             <h2 class="f6 f5-ns b ml0 pb2 bb b--black-20">Inventory over time</h2>
-            {% include 'charts/inventory_month.html' with data=product_mutations wrapper='mutations' debug=False %}
+            {% include 'charts/products_mutations.html' with data=product_mutations wrapper='mutations' debug=False %}
         </div>
     </div>
 </div> 

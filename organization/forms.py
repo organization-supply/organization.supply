@@ -61,6 +61,7 @@ class OrganizationForm(ModelForm):
         )
     )
     currency = forms.ChoiceField(
+        required=False,
         choices=CURRENCY_CHOICES,
         widget=forms.Select(
             attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}

@@ -67,7 +67,7 @@
         <a class="f6 fr mt2 fw6 no-underline underline-hover black" href="{% url 'reports_index' request.organization.slug %}">more reports &raquo;</a>
     </h1>
     <div class="ba b--light-silver br2">
-        {% include 'charts/inventory_month.html' with data=product_mutations wrapper='mutations' debug=False %}
+        {% include 'charts/products_mutations.html' with data=product_mutations wrapper='mutations' debug=False %}
     </div>
 </div>
 
