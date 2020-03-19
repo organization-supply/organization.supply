@@ -53,17 +53,40 @@
             {% else %}
             <p>No inventory found for this location.</p>
             {% endif %}
-
-
         </div>
         <div class="fl w-100 w-50-l"> 
-            <h3>Transaction history</h3>
+            <h3>Transactions</h3>
 
             {% if product_mutations %}
             <div class="ba b--light-silver br2 mb2">
                 {% include 'charts/products_mutations.html' with data=product_mutations wrapper='mutations' debug=False %}
             </div>
             {% endif %}
+
+            <h3>Add a transaction at this location</h3>
+                
+            <table class="f6 w-100 center" cellspacing="0">
+                <tr>
+                    <form method="POST" id="mutation_form" action="{% url 'organization_mutation_insert' request.organization.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="location" value="{{ location.id }}">
+                        <td class="pr2">
+                            {{ mutation_form.amount }}
+                        </td>
+                        <td class="pr2">
+                            {{ mutation_form.product }}
+                        </td>
+                        <td class="pr2">
+                            {{ mutation_form.desc }}
+                        </td>
+                        <td class="">
+                            <input class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib b--none lh-copy" type="submit" value="Save transaction">
+                        </td>
+                    </form>
+                </tr>
+            </table>
+
+            <h3>Transaction history</h3>
 
             <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
                 <thead>
@@ -104,4 +127,15 @@
         </div>
     </article>
 
+<style>
+#id_desc{
+    display: inline-block;
+    height: 37px;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 150%;
+    margin-top: 5px;
+    /* margin-bottom: -4px; */
+}
+</style>
 {% endblock %}

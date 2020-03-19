@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import F, Func, Q, Sum, Window
 from django.shortcuts import get_object_or_404, redirect, render
 
-from organization.forms import LocationAddForm, LocationEditForm
+from organization.forms import LocationAddForm, LocationEditForm, MutationForm
 from organization.models.inventory import Inventory, Location, Mutation
 
 
@@ -36,6 +36,8 @@ def organization_location_view(request, location_id):
     inventories = Inventory.objects.for_organization(request.organization).filter(
         amount__gt=0, location=location
     )
+    mutation_form = MutationForm(request.organization, initial={"location": location.id, "amount": 0})
+
     mutations = (
         Mutation.objects.for_organization(request.organization)
         .filter(location=location)
@@ -64,6 +66,7 @@ def organization_location_view(request, location_id):
             "location": location,
             "inventories": inventories,
             "mutations": mutations,
+            "mutation_form": mutation_form,
             "product_mutations": product_mutations,
         },
     )

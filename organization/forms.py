@@ -270,10 +270,28 @@ class MutationForm(ModelForm):
         self.fields[
             "organization"
         ].initial = organization  # Used when submitting the form (clean method)
-        self.fields["location"].queryset = Location.objects.for_organization(
-            organization
-        )
-        self.fields["product"].queryset = Product.objects.for_organization(organization)
+
+        
+        initial = kwargs.get("initial")
+        # If the initial location is set, we can filter by products on that location
+        if initial.get("location"):
+            self.fields["product"].queryset = Location.objects.get(
+                    id=initial.get("location")
+                ).available_products
+        else:
+            self.fields["product"].queryset = Product.objects.for_organization(
+                    organization
+                )
+
+        # If the initial product is set, we can filter by locations on that product
+        if initial.get("product"):
+            self.fields["location"].queryset = Product.objects.get(
+                    id=initial.get("product")
+                ).available_locations
+        else:
+            self.fields["location"].queryset = Location.objects.for_organization(
+                    organization
+                )
 
     class Meta:
         model = Mutation

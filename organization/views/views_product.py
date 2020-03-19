@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 
-from organization.forms import ProductAddForm, ProductEditForm
+from organization.forms import ProductAddForm, ProductEditForm, MutationForm
 from organization.models.inventory import Inventory, Mutation, Product
 
 
@@ -45,6 +45,8 @@ def organization_product_view(request, product_id):
         .filter(product=product)
         .aggregate(Sum("amount"))
     )
+    mutation_form = MutationForm(request.organization, initial={"product": product.id, "amount": 0})
+
     mutations = (
         Mutation.objects.for_organization(request.organization)
         .filter(product=product)
@@ -57,6 +59,7 @@ def organization_product_view(request, product_id):
             "product_total": product_total,
             "product": product,
             "inventories": inventories,
+            "mutation_form": mutation_form,
             "mutations": mutations,
         },
     )
