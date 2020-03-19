@@ -1,6 +1,9 @@
 import datetime
 from itertools import chain
+import stripe
 
+from django.urls import reverse
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import F, Func, Q, Sum, Window
@@ -11,6 +14,10 @@ from organization.forms import MutationForm, OrganizationForm, OrganizationInvit
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.notifications import Notification
 from user.models import User
+
+
+# Set the strip API key
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @login_required
@@ -144,7 +151,68 @@ def organization_settings(request):
 
 @login_required
 def organization_billing(request):
-    return render(request, "organization/settings/billing.html", {})
+    # Configure the Stripe data
+    stripe_data = {
+        "payment_method_types": ['card'],
+        "subscription_data": {
+            'items': [{'plan': 'plan_GwERIYxDUy7iGo'}], # Basic 20 plan..
+            'default_tax_rates': ['txr_1GOLDrJ1WlH2fE9bai1LCDab'], # 21% BTW (for now)
+        },
+        "success_url": request.build_absolute_uri(reverse('organization_billing_change', kwargs={"organization": request.organization.slug, "status": "success"})),
+        "cancel_url": request.build_absolute_uri(reverse('organization_billing_change', kwargs={"organization": request.organization.slug, "status": "cancel"}))
+    }
+
+    # If the customer is already in Stripe and connected:
+    if request.organization.subscription_stripe_customer_id:
+        stripe_data.update(customer=request.organization.subscription_stripe_customer_id)
+
+    # Prefill the organization contact email if available
+    elif request.organization.contact_email: 
+        stripe_data.update(customer_email=request.organization.contact_email)
+
+    # Create the stripe checkout session with the data
+    stripe_session = stripe.checkout.Session.create(**stripe_data)   
+
+    # Attach the session to the organization so we can later reference the payment
+    request.organization.subscription_stripe_checkout_session_id = stripe_session.id
+    request.organization.save()
+
+    return render(request, "organization/settings/billing.html", {
+        "stripe_publishable_key": settings.STRIPE_PUBLISHABLE_KEY,
+        "stripe_session_id": stripe_session.id
+    })
+
+@login_required
+def organization_billing_change(request, status):
+    # Only continue if the payment status was a success:
+    if status == "success":
+        # Retrieve the session object from Stripe
+        stripe_session = stripe.checkout.Session.retrieve(
+                request.organization.subscription_stripe_checkout_session_id
+            )
+
+        # Update the organiation with customer & subscription data
+        request.organization.subscription_stripe_customer_id = stripe_session.customer
+        request.organization.subscription_stripe_subscription_id = stripe_session.subscription
+        request.organization.subscription_type = "basic" # Upgrade to basic...
+        request.organization.save()
+        
+        # Add a notification that the payment was succesfull
+        messages.add_message(request, messages.INFO, "You're now on the basic plan, payment succesfull!".format())
+    
+    elif status == "reset":    
+        # Retrieve the current subscription and update it to free
+        stripe_subscription = stripe.Subscription.delete(request.organization.subscription_stripe_subscription_id)
+        request.organization.subscription_stripe_subscription_id = "" # Reset the subscription id
+        request.organization.subscription_type = "free" # Reset to free
+        request.organization.save()
+        messages.add_message(request, messages.INFO, "You're now back on the free plan!".format())
+
+    else:
+        # Add a notification that the payment did not work out. 
+        messages.add_message(request, messages.ERROR, "Uh oh, something went wrong during the payment processing..".format())
+    
+    return redirect("organization_billing", organization=request.organization.slug)
 
 
 @login_required
