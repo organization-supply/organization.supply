@@ -274,7 +274,7 @@ class MutationForm(ModelForm):
         
         initial = kwargs.get("initial")
         # If the initial location is set, we can filter by products on that location
-        if initial.get("location"):
+        if initial and initial.get("location"):
             self.fields["product"].queryset = Location.objects.get(
                     id=initial.get("location")
                 ).available_products
@@ -284,7 +284,7 @@ class MutationForm(ModelForm):
                 )
 
         # If the initial product is set, we can filter by locations on that product
-        if initial.get("product"):
+        if initial and initial.get("product"):
             self.fields["location"].queryset = Product.objects.get(
                     id=initial.get("product")
                 ).available_locations
