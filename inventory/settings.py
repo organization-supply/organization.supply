@@ -188,10 +188,13 @@ EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = "notifications@organization.supply"
 
+
 # Stripe
 
 STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
+STRIPE_PLAN_KEY = config("STRIPE_PLAN_KEY")
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

@@ -155,7 +155,7 @@ def organization_billing(request):
     stripe_data = {
         "payment_method_types": ['card'],
         "subscription_data": {
-            'items': [{'plan': 'plan_GwERIYxDUy7iGo'}], # Basic 20 plan..
+            'items': [{'plan': settings.STRIPE_PLAN_KEY}], # Basic 20 plan..
             'default_tax_rates': ['txr_1GOLDrJ1WlH2fE9bai1LCDab'], # 21% BTW (for now)
         },
         "success_url": request.build_absolute_uri(reverse('organization_billing_change', kwargs={"organization": request.organization.slug, "status": "success"})),
