@@ -25,3 +25,12 @@ def replace_query_param(url, attr, val):
     query_dict[attr] = val
     query = query_dict.urlencode()
     return urlunparse((scheme, netloc, path, params, query, fragment))
+
+
+# TODO: We might want to fix this in the front-end, since it's a visual thing..
+@register.filter
+def get_active_plan_classes(organization, plan):
+    if organization.subscription_type == plan:
+        return "b--black-50 bg-near-white"
+    else:
+        return "b--black-10"

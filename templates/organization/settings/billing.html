@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
+{% load extra_filters %}
+
 {% block title %}{{ request.organization.name }} - Settings{% endblock title %}
 
 {% block content %}
+
+<!-- Include stripe javascript for payment -->
+<script src="https://js.stripe.com/v3/"></script>
 
 <h1 class="pl3">
     🛠️ Organization 
@@ -13,11 +18,62 @@
     <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_export' request.organization.slug %}">Export</a>
 </h1>
 
-<div class="fl w-100 w-50-m w-third-l ph3">
-    <h1 class="f4 bold">Billing</h1>
-    <p class="lh-copy">
-        To be build with Stripe
-    </p>
+    <h1 class="f4 pa3 bold">Billing</h1>
+
+    <div id="plans" class="flex">
+        <article class="w-100 mh3 mb2 br3 pa3 pa4-ns ba {{ request.organization|get_active_plan_classes:'free'}}">
+            <div class="tc">
+                <h1 class="f4">Free Plan</h1>
+                <hr class="mw3 bb bw1 b--black-10">
+            </div>
+            <p class="lh-copy black-70">
+                Thanks for being around!
+            </p>
+            {% if request.organization.subscription_type != "free" %}
+                <a href="{% url 'organization_billing_change' request.organization.slug 'reset' %}" class="input-reset no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer">Downgrade</a> 
+            {% else %}
+                <p class="tc f4">This is your current plan!</p>
+            {% endif %}
+        </article>
+        <article class="w-100 mh3 mb2 br3 pa3 pa4-ns ba {{ request.organization|get_active_plan_classes:'basic'}}">
+            <div class="tc">
+                <h1 class="f4">Basic Plan</h1>
+                <hr class="mw3 bb bw1 b--black-10">
+            </div>
+            <p class="lh-copy black-70">
+                Support the development of Organization.supply! 
+            </p>
+            {% if request.organization.subscription_type != "basic" %}
+                <a id="activate_stripe" class="input-reset no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer">Upgrade</a> 
+            {% else %}
+                <p class="tc f4">This is your current plan!</p>
+            {% endif %}
+        </article>
+        <article class="w-100 mh3 mb2 br3 pa3 pa4-ns ba b--black-10">
+            <div class="tc">
+                <h1 class="f4">An even bigger plan</h1>
+                <hr class="mw3 bb bw1 b--black-10">
+            </div>
+            <p class="lh-copy black-70">
+                <i>Currently under development. </i>
+            </p>
+            <a class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer">Contact via email</a>
+        </article>
+    </div>
+
+    
 </div>
+
+<script>
+    var stripe = Stripe('{{ stripe_publishable_key }}');
+
+    $('#activate_stripe').click(function(){
+        stripe.redirectToCheckout({
+            sessionId: '{{stripe_session_id}}'
+        }).then(function (result) {
+            console.log(result.error.message);
+        });
+    })
+</script>
 
 {% endblock %}
