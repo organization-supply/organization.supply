@@ -8,6 +8,9 @@ jobs:
       POSTGRES_DB_ENABLED: "False"
       SENTRY_DSN: ""
       SENDGRID_API_KEY: ""
+      STRIPE_PUBLISHABLE_KEY: ""
+      STRIPE_SECRET_KEY: ""
+      STRIPE_PLAN_KEY: ""
 
     docker:
       - image: circleci/python:3.6
