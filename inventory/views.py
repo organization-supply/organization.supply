@@ -16,14 +16,20 @@ def help(request):
     return render(request, "pages/help.html", {})
 
 
-@login_required
 def terms(request):
     return render(request, "pages/terms.html", {})
 
 
-@login_required
 def privacy(request):
     return render(request, "pages/privacy.html", {})
+
+
+def subprocessors(request):
+    return render(request, "pages/subprocessors.html", {})
+
+
+def security(request):
+    return render(request, "pages/security.html", {})
 
 
 # Error pages
