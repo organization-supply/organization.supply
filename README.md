@@ -15,7 +15,7 @@ It's a django app, so you will need python and other things installed (all in re
 
 Errors are tracked with Sentry. This is configured trough the .env file in which you will need to fill in the SENTRY_DSN variable. A `.env.example` file is provided.
 
-A `docker-compose.yml` file is also available for this stack for development. It runs the application with a Postgres DB instead of a sqlite one. A simple `build` and `up` should be enough, you can create a superuser in the python application container.
+A `docker-compose.yml` file is also available for this stack for development. It runs the application with a Postgres DB instead of a sqlite one. A simple `build` and `up` should be enough, you can create a superuser in the python application container. Since it's storing data, you might need to create a volume with: `docker volume create --name=inventory`.
 
 # Testing
 
