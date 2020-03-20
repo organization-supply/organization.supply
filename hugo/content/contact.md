@@ -4,7 +4,7 @@ date: 2019-11-07T23:54:54+01:00
 draft: false
 ---
 
-Hi there! If you want to reach out to us, feel free to use the form below. In case you have a [feature request](https://github.com/jplattel/organization.supply/issues/new?assignees=&labels=feature&template=feature_request.md&title=) or [bug](https://github.com/jplattel/organization.supply/issues/new?assignees=&labels=bug&template=bug_report.md) to report you can also directly add it on [Github](https://github.com/jplattel/organization.supply/issues)!
+Hi there! If you want to reach out to us, feel free to use the form below. In case you have a [feature request](https://github.com/organization-supply/organization.supply/issues/new?assignees=&labels=feature&template=feature_request.md&title=) or [bug](https://github.com/jplattel/organization.supply/issues/new?assignees=&labels=bug&template=bug_report.md) to report you can also directly add it on [Github](https://github.com/organization-supply/organization.supply/issues)!
 
 
 <!-- modify this form HTML and place wherever you want your form -->

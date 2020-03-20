@@ -47,7 +47,7 @@ theme = "organization-supply"
   [[menu.main]]
     identifier = "Github"
     name = "Github"
-    url = "https://github.com/jplattel/organization.supply"
+    url = "https://github.com/organization-supply/organization.supply"
     weight = 21
 
 
@@ -60,7 +60,7 @@ theme = "organization-supply"
   [[menu.footer]]
     identifier = "Github"
     name = "Github"
-    url = "https://github.com/jplattel/organization.supply"
+    url = "https://github.com/organization-supply/organization.supply"
     weight = 20
 
   [[menu.footer]]
