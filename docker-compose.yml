@@ -28,6 +28,9 @@ services:
       - DJANGO_MEDIA_ROOT=
       - SENTRY_DSN=
       - SENDGRID_API_KEY=
+      - STRIPE_PUBLISHABLE_KEY=
+      - STRIPE_SECRET_KEY=
+      - STRIPE_PLAN_KEY=
 
   # Db used for storage
   postgres:
