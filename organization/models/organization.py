@@ -34,14 +34,16 @@ class OrganizationManager(models.Manager):
 class Organization(DjangoOrganization, TimeStampedModel):
     # Stripe data
     subscription_stripe_customer_id = models.CharField(max_length=255, default="")
-    subscription_stripe_checkout_session_id = models.CharField(max_length=255, default="")
+    subscription_stripe_checkout_session_id = models.CharField(
+        max_length=255, default=""
+    )
     subscription_stripe_subscription_id = models.CharField(max_length=255, default="")
 
     # Subscription data
     SUBSCRIPTION_CHOICES = Choices("free", "basic")
     subscription_type = StatusField(choices_name="SUBSCRIPTION_CHOICES", default="free")
     # Differs from the creation date of the organization, tracks when the subscription is changed
-    subscription_date = MonitorField(monitor="subscription_type") 
+    subscription_date = MonitorField(monitor="subscription_type")
 
     # Organization data
     contact_email = models.EmailField(max_length=254, unique=True)

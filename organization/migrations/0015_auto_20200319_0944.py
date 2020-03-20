@@ -5,24 +5,31 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('organization', '0014_organization_currency'),
-    ]
+    dependencies = [("organization", "0014_organization_currency")]
 
     operations = [
         migrations.AddField(
-            model_name='organization',
-            name='subscription_stripe_customer_id',
-            field=models.CharField(default='', max_length=255),
+            model_name="organization",
+            name="subscription_stripe_customer_id",
+            field=models.CharField(default="", max_length=255),
         ),
         migrations.AddField(
-            model_name='organization',
-            name='subscription_stripe_subscription_id',
-            field=models.CharField(default='', max_length=255),
+            model_name="organization",
+            name="subscription_stripe_subscription_id",
+            field=models.CharField(default="", max_length=255),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='currency',
-            field=models.CharField(choices=[('euro', 'Euro (€)'), ('dollar', 'Dollar ($)'), ('pound', 'Pound (£)'), ('yen', 'Yen (¥)')], default='euro', max_length=255),
+            model_name="organization",
+            name="currency",
+            field=models.CharField(
+                choices=[
+                    ("euro", "Euro (€)"),
+                    ("dollar", "Dollar ($)"),
+                    ("pound", "Pound (£)"),
+                    ("yen", "Yen (¥)"),
+                ],
+                default="euro",
+                max_length=255,
+            ),
         ),
     ]

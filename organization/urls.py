@@ -45,14 +45,12 @@ urlpatterns = [
         name="organization_settings",
     ),
     path(
-        "billing", 
-        views_organization.organization_billing, 
-        name="organization_billing"
+        "billing", views_organization.organization_billing, name="organization_billing"
     ),
     path(
         "billing/change/<str:status>",
         views_organization.organization_billing_change,
-        name="organization_billing_change"
+        name="organization_billing_change",
     ),
     path("users", views_organization.organization_users, name="organization_users"),
     path(

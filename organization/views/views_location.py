@@ -36,7 +36,9 @@ def organization_location_view(request, location_id):
     inventories = Inventory.objects.for_organization(request.organization).filter(
         amount__gt=0, location=location
     )
-    mutation_form = MutationForm(request.organization, initial={"location": location.id, "amount": 0})
+    mutation_form = MutationForm(
+        request.organization, initial={"location": location.id, "amount": 0}
+    )
 
     mutations = (
         Mutation.objects.for_organization(request.organization)
