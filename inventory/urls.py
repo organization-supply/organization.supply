@@ -28,6 +28,8 @@ urlpatterns = [
     path("help", views_inventory.help, name="help"),
     path("privacy", views_inventory.privacy, name="privacy"),
     path("terms", views_inventory.terms, name="terms"),
+    path("subprocessors", views_inventory.subprocessors, name="subprocessors"),
+    path("security", views_inventory.security, name="security"),
     # User urls
     path("user/", include("user.urls")),
     path("user/", include("django.contrib.auth.urls")),
