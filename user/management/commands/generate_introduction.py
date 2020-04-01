@@ -3,7 +3,7 @@ import pytz
 
 from django.core.management.base import BaseCommand, CommandError
 from django.template.loader import render_to_string
-from organization.models.notifications import notify
+from organization.models.notifications import NotificationFactory
 from user.models import User
 
 
@@ -18,31 +18,31 @@ class Command(BaseCommand):
         self.MESSAGES = [
             {
                 "title": "Welcome to organization.supply!",
-                "template": "notifications/messages/welcome_1.txt"
+                "template": "notifications/messages/welcome_1.html"
             },
             {
                 "title": "Check out the products you can create.",
-                "template": "notifications/messages/welcome_2_products.txt"
+                "template": "notifications/messages/welcome_2_products.html"
             },
             {
                 "title": "Check out locations you can create.",
-                "template": "notifications/messages/welcome_3_locations.txt"
+                "template": "notifications/messages/welcome_3_locations.html"
             },
             {
                 "title": "Almost every page has a small information tooltip. Have a look around!",
-                "template": "notifications/messages/welcome_4_information.txt"
+                "template": "notifications/messages/welcome_4_information.html"
             },
             {
                 "title": "Mutations are a way to keep track of inventory.",
-                "template": "notifications/messages/welcome_5_mutations.txt"
+                "template": "notifications/messages/welcome_5_mutations.html"
             },
             {
                 "title": "You an turn the notification by email or other off in your user settings.",
-                "template": "notifications/messages/welcome_6_settings.txt"
+                "template": "notifications/messages/welcome_6_settings.html"
             },
             {
                 "title": "You an turn the notification by email or other off in your user settings.",
-                "template": "notifications/messages/welcome_7_reports.txt"
+                "template": "notifications/messages/welcome_7_reports.html"
             }
         ]
         super().__init__(*args, **kwargs) # Init base command
@@ -50,8 +50,7 @@ class Command(BaseCommand):
     def get_user_joined_since(self, joined_since):
         return User.objects.filter(date_joined__gte=joined_since)
 
-    def get_message(self, day):
-        self.stdout.write(self.style.SUCCESS(day))
+    def get_template(self, day):
         return self.MESSAGES[day]
 
     def handle(self, *args, **options):
@@ -62,26 +61,19 @@ class Command(BaseCommand):
 
         # Generate a notification for each user:
         for user in users_to_notify:
-            
-    
+
             # Get the current day since signup
             days_since_signup = (datetime.datetime.today().replace(tzinfo=pytz.utc) - user.date_joined).days
 
             # Get the corresponding notification
-            message = self.get_message(days_since_signup)
-            
-            description = render_to_string(
-                message['template'],
-                {} 
-            )
+            template = self.get_template(days_since_signup)
 
             self.stdout.write(self.style.SUCCESS(user.email))
 
-            if message:  # and user.email_settings enabled or something
-                notify.send(
-                    sender=user, 
-                    user=user, 
-                    organization=None,
-                    title=message['title'], 
-                    description=description
+            if template:
+                NotificationFactory().for_user(user).send_notification(
+                    title=template['title'],
+                    sender=user,
+                    user=user,
+                    template=template['template'],
                 )

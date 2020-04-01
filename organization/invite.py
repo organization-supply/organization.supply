@@ -11,7 +11,7 @@ from django.template import loader
 from django.urls import path, reverse
 from organizations.backends.defaults import BaseBackend
 from organizations.backends.tokens import RegistrationTokenGenerator
-
+from organization.models.notifications import NotificationFactory
 from user.forms import OrganizationAcceptForm
 from user.models import User
 
@@ -66,15 +66,20 @@ class OrganizationInvitationBackend(BaseBackend):
         ).send()
         return True
 
-    # TODO: make this work... with django notifications
     def send_notification(self, user, sender=None, **kwargs):
         """
         An intermediary function for sending an notification email informing
         a pre-existing, active user that they have been added to a new
         organization.
         """
-        # if not user.is_active:
-        #     return False
+        if not user.is_active:
+            return False
+
+        print(user,sender,kwargs)
+        # NotificationFactory().for_user(user).send_notification(
+        #     title="",
+        #     sender=
+        # )
         # self.email_message(
         #     user, self.notification_subject, self.notification_body, sender, **kwargs
         # ).send()

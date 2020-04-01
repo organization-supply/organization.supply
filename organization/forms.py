@@ -10,6 +10,7 @@ from django.utils.text import slugify
 from organizations.backends import invitation_backend
 from organizations.forms import OrganizationUserAddForm
 from organizations.models import OrganizationUser
+from organization.models.notifications import NotificationFactory 
 from taggit.forms import TagWidget
 from taggit.models import Tag
 
@@ -82,6 +83,13 @@ class OrganizationInviteForm(OrganizationUserAddForm):
         try:
             user = get_user_model().objects.get(
                 email__iexact=self.cleaned_data["email"]
+            )
+            NotificationFactory().for_user(user).send_notification(
+                title=f"You've been invited to a organization!",
+                sender=self.request.user,
+                template="notifications/messages/organization_invite.html",
+                invite_organization=self.organization,
+                invite_invitee=self.request.user
             )
         except get_user_model().MultipleObjectsReturned:
             raise forms.ValidationError(

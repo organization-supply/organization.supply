@@ -50,7 +50,7 @@
                     <td class="pa2 bb b--black-20">
                         <span class="f6 fw5">{{ notification.title }}</span class="f6">
                         {% if notification.description %}
-                            <span class="fw3 lh-copy db">{{ notification.description }}</span>
+                            <span class="fw3 lh-copy db">{{ notification.description|safe }}</span>
                         {% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">

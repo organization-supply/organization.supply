@@ -1,0 +1,8 @@
+{% if user.organizations_organization.all %}
+    Try creating a <a href="{% url 'organization_product_new' user.organizations_organization.all.0.slug %}">new product</a>
+    in {{ user.organizations_organization.all.0.name }}.
+{% else %}
+    It looks like you're not a member of an organization yet. <a href="{% url 'create_organization' %}">Create an organization</a> 
+    or ask someone to invite you with your email-address: <code>{{ user.email }}</code>. 
+    Once you are a member of an organization, creating a product should be one of the first things you can do!
+{% endif %}
