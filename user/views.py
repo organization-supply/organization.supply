@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from organizations.utils import create_organization
 from rest_framework.authtoken.models import Token
 
-from organization.models.notifications import Notification, notify
+from organization.models.notifications import Notification, NotificationFactory
 from organization.models.organization import Organization
 from user.forms import UserForm, UserSignupForm
 from user.models import User
@@ -90,8 +90,8 @@ def settings_change_password(request):
 @login_required
 def notifications(request):
     if request.user.notifications.count() == 0:
-        notify.send(
-            request.user, user=request.user, verb="This is your first notification!"
+        NotificationFactory().for_user(request.user).send_notification(
+            title="This is your first notification!"
         )
 
     notifications = request.user.notifications_all

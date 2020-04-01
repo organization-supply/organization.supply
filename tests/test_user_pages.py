@@ -1,5 +1,4 @@
 from base import TestBase
-from organization.models.notifications import notify
 from user.models import User
 
 

@@ -17,13 +17,6 @@ from organization.models.organization import Organization
 
 class NotificationQuerySet(models.query.QuerySet):
     """ Notification QuerySet """
-
-    # def unsent(self):
-    #     return self.filter(emailed=False)
-
-    # def sent(self):
-    #     return self.filter(emailed=True)
-
     def unread(self):
         return self.filter(unread=True)
 
@@ -40,45 +33,6 @@ class NotificationQuerySet(models.query.QuerySet):
         qset = self.unread()  # You can only mark unread notifications as read
         return qset.update(unread=False)
 
-    # def mark_all_as_unread(self, user):
-    #     """Mark as unread any read messages in the current queryset.
-    #     Optionally, filter these by user first.
-    #     """
-    #     qset = self.read(True)  # You can only mark read notifications as unread
-    #     qset = qset.filter(user=user)
-    #     return qset.update(unread=True)
-
-    # def deleted(self):
-    #     """Return only deleted items in the current queryset"""
-    #     return self.filter(deleted=True)
-
-    # def active(self):
-    #     """Return only active(un-deleted) items in the current queryset"""
-    #     return self.filter(deleted=False)
-
-    # def mark_all_as_deleted(self, user):
-    #     qset = self.active()
-    #     qset = qset.filter(user=user)
-    #     return qset.update(deleted=True)
-
-    # def mark_all_as_active(self, user):
-    #     """Mark current queryset as active(un-deleted).
-    #     Optionally, filter by user first.
-    #     """
-    #     qset = self.deleted()
-    #     qset = qset.filter(user=user)
-    #     return qset.update(deleted=False)
-
-    # def mark_as_unsent(self, user):
-    #     qset = self.sent()
-    #     qset = qset.filter(user=user)
-    #     return qset.update(emailed=False)
-
-    # def mark_as_sent(self, user):
-    #     qset = self.unsent()
-    #     qset = qset.filter(user=user)
-    #     return qset.update(emailed=True)
-
 
 class Notification(TimeStampedModel):
     LEVELS = Choices("success", "info", "warning", "error")
@@ -90,7 +44,7 @@ class Notification(TimeStampedModel):
         related_name="notifications",
         on_delete=models.CASCADE,
     )
-    verb = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     unread = models.BooleanField(default=True, blank=False, db_index=True)
 
@@ -151,83 +105,96 @@ class Notification(TimeStampedModel):
             self.save()
 
 
-def notify_handler(verb, **kwargs):
-    """
-    Handler function to create Notification instance upon action signal call.
-    """
-    # Pull the options out of kwargs
-    kwargs.pop("signal", None)
-    user = kwargs.pop("user")
-    organization = kwargs.pop("organization", None)
-    actor = kwargs.pop("sender")
-    optional_objs = [
-        (kwargs.pop(opt, None), opt) for opt in ("target", "action_object")
-    ]
-    public = bool(kwargs.pop("public", True))
-    description = kwargs.pop("description", None)
-    timestamp = kwargs.pop("timestamp", timezone.now())
-    level = kwargs.pop("level", Notification.LEVELS.info)
+class NotificationFactory():
+    def __init__(self):
+        self.users = []
 
-    # Check if User or Group
-    # TODO implement Organization wide notifications here?
-    if isinstance(user, Group):
-        users = user.user_set.all()
-    elif isinstance(user, (QuerySet, list)):
-        users = user
-    else:
-        users = [user]
+    def for_user(self, user):
+        self.users = [user]
+        return self
+    
+    def for_users(self, users):
+        self.users = users
+        return self
+    
+    def send_notification(self, title, template=None, organization=None, sender=None, **kwargs):
+        # TODO: warning if template is non existant?
+        if template:
+            description = self._render_template(template, kwargs)
+        else:
+            description = ""
 
-    new_notifications = []
+        for user in self.users:
+            self._create_notification(
+                user=user,
+                sender=sender,
+                organization=organization,
+                title=title,
+                description=description
+            )
 
-    for user in users:
-        newnotify = Notification(
-            user=user,
-            organization=organization,
-            actor_content_type=ContentType.objects.get_for_model(actor),
-            actor_object_id=actor.pk,
-            verb=verb,
-            public=public,
-            description=description,
-            timestamp=timestamp,
-            level=level,
-        )
+    def _render_template(self, template, data):
+        # TODO: Handle any template errors?
+        return render_to_string(template, data)
 
-        # Set optional objects
-        for obj, opt in optional_objs:
-            if obj is not None:
-                setattr(newnotify, "%s_object_id" % opt, obj.pk)
-                setattr(
-                    newnotify,
-                    "%s_content_type" % opt,
-                    ContentType.objects.get_for_model(obj),
-                )
+    def _create_notification(self, title, **kwargs):
+        """
+        Function to create Notification instance.
+        """
+        # Pull the options out of kwargs
+        user = kwargs.pop("user")
+        organization = kwargs.pop("organization", None)
+        actor = kwargs.pop("sender")
+        optional_objs = [
+            (kwargs.pop(opt, None), opt) for opt in ("target", "action_object")
+        ]
+        public = bool(kwargs.pop("public", True))
+        description = kwargs.pop("description", None)
+        timestamp = kwargs.pop("timestamp", timezone.now())
+        level = kwargs.pop("level", Notification.LEVELS.info)
 
-        if kwargs and EXTRA_DATA:
-            newnotify.data = kwargs
+        # Check if User or Group
+        # TODO implement Organization wide notifications here?
+        if isinstance(user, Group):
+            users = user.user_set.all()
+        elif isinstance(user, (QuerySet, list)):
+            users = user
+        else:
+            users = [user]
 
-        newnotify.save()
-        new_notifications.append(newnotify)
+        new_notifications = []
 
-    return new_notifications
+        for user in users:
+            newnotify = Notification(
+                user=user,
+                organization=organization,
+                actor_content_type=ContentType.objects.get_for_model(actor),
+                actor_object_id=actor.pk,
+                title=title,
+                public=public,
+                description=description,
+                timestamp=timestamp,
+                level=level,
+            )
 
+            # Set optional objects
+            for obj, opt in optional_objs:
+                if obj is not None:
+                    setattr(newnotify, "%s_object_id" % opt, obj.pk)
+                    setattr(
+                        newnotify,
+                        "%s_content_type" % opt,
+                        ContentType.objects.get_for_model(obj),
+                    )
 
-notify = Signal(
-    providing_args=[  # pylint: disable=invalid-name
-        "user",
-        "actor",
-        "verb",
-        "action_object",
-        "target",
-        "description",
-        "timestamp",
-        "level",
-    ]
-)
+            if kwargs and EXTRA_DATA:
+                newnotify.data = kwargs
 
-# connect the signal
-notify.connect(notify_handler, dispatch_uid="organization.notifications.notification")
+            newnotify.save()
+            new_notifications.append(newnotify)
 
-
+        return new_notifications
+            
 class NotificationSubscription(models.Model):
     """
     This model allows a user to subscribe to notifications to certain objects
