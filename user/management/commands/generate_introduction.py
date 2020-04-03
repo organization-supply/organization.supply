@@ -21,15 +21,15 @@ class Command(BaseCommand):
                 "template": "notifications/messages/welcome_1.html"
             },
             {
-                "title": "Check out the products you can create.",
+                "title": "Check out the products you can create",
                 "template": "notifications/messages/welcome_2_products.html"
             },
             {
-                "title": "Check out locations you can create.",
+                "title": "An introduction on locations",
                 "template": "notifications/messages/welcome_3_locations.html"
             },
             {
-                "title": "Almost every page has a small information tooltip. Have a look around!",
+                "title": "Almost every page has a small information tooltip.",
                 "template": "notifications/messages/welcome_4_information.html"
             },
             {
@@ -37,11 +37,11 @@ class Command(BaseCommand):
                 "template": "notifications/messages/welcome_5_mutations.html"
             },
             {
-                "title": "You an turn the notification by email or other off in your user settings.",
+                "title": "Manage your preferences in settings.",
                 "template": "notifications/messages/welcome_6_settings.html"
             },
             {
-                "title": "You an turn the notification by email or other off in your user settings.",
+                "title": "Have a look at your reports",
                 "template": "notifications/messages/welcome_7_reports.html"
             }
         ]
@@ -55,8 +55,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Get all users we can notify..
-        week_ago = datetime.datetime.today().replace(tzinfo=pytz.utc) - datetime.timedelta(days=7)
-        users_to_notify = self.get_user_joined_since(week_ago)
+        since = datetime.datetime.today().replace(tzinfo=pytz.utc) - datetime.timedelta(days=len(self.MESSAGES))
+        users_to_notify = self.get_user_joined_since(since)
         self.stdout.write(self.style.SUCCESS('Found {} user to notify with an introduction'.format(len(users_to_notify))))
 
         # Generate a notification for each user:

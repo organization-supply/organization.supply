@@ -1,10 +1,4 @@
-We're happy to have you! This might be one of your first notifications.
+We're happy to have you! This might be one of your first notifications. 
 
-{% if user.organizations_organization.all %}
-    Try creating a <a href="{% url 'organization_product_new' user.organizations_organization.all.0.slug %}">new product</a>
-    in {{ user.organizations_organization.all.0.name }}.
-{% else %}
-    It looks like you're not a member of an organization yet. <a href="{% url 'create_organization' %}">Create an organization</a> 
-    or ask someone to invite you with your email-address: <code>{{ user.email }}</code>. 
-    Once you are a member of an organization, creating a product should be one of the first things you can do!
-{% endif %}
+Organization.supply uses notifications to keep you updated for low inventory, member changes and 
+other events like the creation of products and locations. You can manage notifications in <a href="{% url 'user_settings' %}">your settings</a>.
