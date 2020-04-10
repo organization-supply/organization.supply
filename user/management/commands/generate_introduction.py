@@ -43,6 +43,10 @@ class Command(BaseCommand):
             {
                 "title": "Have a look at your reports",
                 "template": "notifications/messages/welcome_7_reports.html"
+            },
+            {
+                "title": "Shortcut support",
+                "template": "notifications/messages/welcome_8_shortcuts.html"
             }
         ]
         super().__init__(*args, **kwargs) # Init base command
