@@ -1,56 +1,32 @@
 {% load i18n %}
 {% load cookie_consent_tags %}
 
-
 <div class="cookie-group">
-  <div class="cookie-group-title">
-    <h3>{{ cookie_group.name }}</h3>
+    <h3>
+        {{ cookie_group.name }}
 
-    {% if not cookie_group.is_required %}
-      <div class="cookie-group-form">
-       {% if request|cookie_group_accepted:cookie_group.varname %}
-         <span class="cookie-consent-accepted">{% trans "Accepted" %}</span>
-       {% else %}
-         <form class="cookie-consent-accept" action="{% url "cookie_consent_accept" cookie_group.varname %}" method="POST">
-           {% csrf_token %}
-           <input type="submit" value="{% trans "Accept" %}">
-         </form>
-       {% endif %}
+        {% if not cookie_group.is_required %}
+            {% if request|cookie_group_accepted:cookie_group.varname %}
+                <span class="cookie-consent-accepted f6 br-pill ph3 pv2 mb2 dib white bg-green white">Accepted</span>
+            {% else %}
+                <span class="cookie-consent-declined f6 br-pill ph3 pv2 mb2 dib white bg-red white">Declined</span>
+            {% endif %}
 
-       {% if request|cookie_group_declined:cookie_group.varname %}
-         <span class="cookie-consent-declined">{% trans "Declined" %}</span>
-       {% else %}
-         <form class="cookie-consent-decline" action="{% url "cookie_consent_decline" cookie_group.varname %}" method="POST">
-           {% csrf_token %}
-           <input type="submit" value="{% trans "Decline" %}">
-         </form>
-       {% endif %}
-      </div>
-    {% endif %}
+            
+            {% if request|cookie_group_declined:cookie_group.varname %}
+                <form class="cookie-consent-accept dib" action="{% url "cookie_consent_accept" cookie_group.varname %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="f6 link dim b--green pointer br-pill ba bw2 ph3 pv1 mb2 dib green" value="Accept">
+                </form>
+            {% endif %}
 
-  </div>
+            {% if request|cookie_group_accepted:cookie_group.varname %}
+                <form class="cookie-consent-decline dib" action="{% url "cookie_consent_decline" cookie_group.varname %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="f6 link dim b--red pointer br-pill ba bw2 ph3 pv1 mb2 dib red" value="Decline">
+                </form>
+            {% endif %}
 
-  <p>
-    {{ cookie_group.description }}
-  </p>
-
-
-  <table>
-  {% for cookie in cookie_group.cookie_set.all %}
-   <tr>
-     <th>
-        {{ cookie.name }}
-        {% if cookie.domain %}
-          ({{ cookie.domain }})
         {% endif %}
-     </th>
-     <td>
-       {% if cookie.description %}
-        {{ cookie.description }}
-       {% endif %}
-     </td>
-   </tr>
-  {% endfor %}
-  </table>
-
+    </h3>
 </div>
