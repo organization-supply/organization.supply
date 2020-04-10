@@ -4,10 +4,10 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.template.loader import render_to_string
 from django.db import models
 from django.db.models import QuerySet
 from django.dispatch import Signal
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.timesince import timesince as timesince_
 from model_utils import Choices
@@ -18,6 +18,7 @@ from organization.models.organization import Organization
 
 class NotificationQuerySet(models.query.QuerySet):
     """ Notification QuerySet """
+
     def unread(self):
         return self.filter(unread=True)
 
@@ -106,19 +107,21 @@ class Notification(TimeStampedModel):
             self.save()
 
 
-class NotificationFactory():
+class NotificationFactory:
     def __init__(self):
         self.users = []
 
     def for_user(self, user):
         self.users = [user]
         return self
-    
+
     def for_users(self, users):
         self.users = users
         return self
-    
-    def send_notification(self, title, template=None, organization=None, sender=None, **kwargs):
+
+    def send_notification(
+        self, title, template=None, organization=None, sender=None, **kwargs
+    ):
         # TODO: warning if template is non existant?
         if template:
             description = self._render_template(template, kwargs)
@@ -131,7 +134,7 @@ class NotificationFactory():
                 sender=sender,
                 organization=organization,
                 title=title,
-                description=description
+                description=description,
             )
 
     def _render_template(self, template, data):
@@ -195,7 +198,8 @@ class NotificationFactory():
             new_notifications.append(newnotify)
 
         return new_notifications
-            
+
+
 class NotificationSubscription(models.Model):
     """
     This model allows a user to subscribe to notifications to certain objects

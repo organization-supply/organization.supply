@@ -91,8 +91,8 @@ def settings_change_password(request):
 def notifications(request):
     if request.user.notifications.count() == 0:
         NotificationFactory().for_user(request.user).send_notification(
-            sender=request.user, #using the user themselves as actor.
-            title="This is your first notification!"
+            sender=request.user,  # using the user themselves as actor.
+            title="This is your first notification!",
         )
 
     notifications = request.user.notifications_all

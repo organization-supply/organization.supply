@@ -10,7 +10,6 @@ from django.utils.text import slugify
 from organizations.backends import invitation_backend
 from organizations.forms import OrganizationUserAddForm
 from organizations.models import OrganizationUser
-from organization.models.notifications import NotificationFactory 
 from taggit.forms import TagWidget
 from taggit.models import Tag
 
@@ -22,6 +21,7 @@ from organization.models.inventory import (
     OrganizationTaggedItem,
     Product,
 )
+from organization.models.notifications import NotificationFactory
 from organization.models.organization import CURRENCY_CHOICES, Organization
 
 FORBIDDEN_SLUGS = [
@@ -89,7 +89,7 @@ class OrganizationInviteForm(OrganizationUserAddForm):
                 sender=self.request.user,
                 template="notifications/messages/organization_invite.html",
                 invite_organization=self.organization,
-                invite_invitee=self.request.user
+                invite_invitee=self.request.user,
             )
         except get_user_model().MultipleObjectsReturned:
             raise forms.ValidationError(
@@ -102,7 +102,7 @@ class OrganizationInviteForm(OrganizationUserAddForm):
                     "domain": get_current_site(self.request),
                     "organization": self.organization,
                     "sender": self.request.user,
-                }
+                },
             )
 
         return OrganizationUser.objects.create(

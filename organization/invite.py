@@ -11,6 +11,7 @@ from django.template import loader
 from django.urls import path, reverse
 from organizations.backends.defaults import BaseBackend
 from organizations.backends.tokens import RegistrationTokenGenerator
+
 from organization.models.notifications import NotificationFactory
 from user.forms import OrganizationAcceptForm
 from user.models import User
@@ -75,7 +76,7 @@ class OrganizationInvitationBackend(BaseBackend):
         if not user.is_active:
             return False
 
-        print(user,sender,kwargs)
+        print(user, sender, kwargs)
         # NotificationFactory().for_user(user).send_notification(
         #     title="",
         #     sender=

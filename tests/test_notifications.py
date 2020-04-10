@@ -12,7 +12,7 @@ class TestUserNotifications(TestBaseWithInventory):
             title="Testing a notification",
             user=self.user,
             sender=self.product,
-            organization=self.product.organization
+            organization=self.product.organization,
         )
         response = self.client.get("/user/notifications")
         self.assertEqual(response.status_code, 200)

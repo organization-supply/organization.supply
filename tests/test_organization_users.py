@@ -13,9 +13,7 @@ from user.models import User
 class TestOrganizationUsers(TestBase):
     def setUp(self):
         super(TestOrganizationUsers, self).setUp()
-        self.user_2 = User.objects.create_user(
-            "mccartney@thebeatles.com", 
-        )
+        self.user_2 = User.objects.create_user("mccartney@thebeatles.com")
         self.organization.add_user(self.user_2)
 
     def test_organization_leave_admin(self):
@@ -28,9 +26,7 @@ class TestOrganizationUsers(TestBase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn(
-            "You left Test Organization".format(
-                self.organization.name
-            ),
+            "You left Test Organization".format(self.organization.name),
             response.content.decode(),
         )
 
