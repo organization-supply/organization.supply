@@ -16,7 +16,13 @@
 </footer>
 
 {% include "utils/mousetrap.html" %}
-{% include "utils/analytics.html" %}
+
+{% load cookie_consent_tags %}
+{% if request|cookie_group_accepted:"analytics" %}
+    {% include "utils/analytics.html" %}
+{% endif %}
+
+{% include "utils/cookies.html" %}
 
 </body>
 </html>

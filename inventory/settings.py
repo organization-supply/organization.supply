@@ -61,10 +61,12 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",  # API key access
     "import_export",  # Import export functionality
     "taggit",  # Tagging support
+    'cookie_consent', # Cookie bar (for GDPR etc..)
     # Apps
     "organization.apps.OrganizationConfig",  # Main application for inventory
     "user.apps.UserConfig",  # User pages and settings
     "api.apps.ApiConfig",  # REST API
+
 ]
 
 if DEBUG:
@@ -88,6 +90,8 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "inventory.middleware.OrganizationMiddleware",
 ]
+
+COOKIE_CONSENT_NAME = 'cookie_consent'
 
 ROOT_URLCONF = "inventory.urls"
 

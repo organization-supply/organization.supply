@@ -1,0 +1,24 @@
+{% load static %}
+{% load cookie_consent_tags %}
+
+{% if request|cookie_consent_enabled %}
+  {% not_accepted_or_declined_cookie_groups request as cookie_groups %}
+  {% if cookie_groups %}
+
+    {% url "cookie_consent_cookie_group_list" as url_cookies %}
+    {% cookie_consent_accept_url cookie_groups as url_accept %}
+    {% cookie_consent_decline_url cookie_groups as url_decline %}
+      <div class="fixed left-0 bottom-0 right-0 flex items-center justify-center pa4 bg-lightest-blue navy">
+        This site uses cookies for better performance and user experience. Do you agree to use cookies?
+
+        <form class="cookie-consent-accept" action="{{ url_accept }}" method="POST">
+          <input type="submit" value="Accept">
+          {% csrf_token %}
+        </form>
+        
+        <form class="cookie-consent-decline" action="{{ url_decline }}" method="POST">
+          <input type="submit" value="Decline">
+          {% csrf_token %}
+        </form>
+    {% endif %}
+{% endif %}
