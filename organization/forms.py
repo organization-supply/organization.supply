@@ -21,6 +21,7 @@ from organization.models.inventory import (
     OrganizationTaggedItem,
     Product,
 )
+from organization.models.notifications import NotificationFactory
 from organization.models.organization import CURRENCY_CHOICES, Organization
 
 FORBIDDEN_SLUGS = [
@@ -83,6 +84,13 @@ class OrganizationInviteForm(OrganizationUserAddForm):
             user = get_user_model().objects.get(
                 email__iexact=self.cleaned_data["email"]
             )
+            NotificationFactory().for_user(user).send_notification(
+                title=f"You've been invited to a organization!",
+                sender=self.request.user,
+                template="notifications/messages/organization_invite.html",
+                invite_organization=self.organization,
+                invite_invitee=self.request.user,
+            )
         except get_user_model().MultipleObjectsReturned:
             raise forms.ValidationError(
                 "This email address has been used multiple times."
@@ -94,7 +102,7 @@ class OrganizationInviteForm(OrganizationUserAddForm):
                     "domain": get_current_site(self.request),
                     "organization": self.organization,
                     "sender": self.request.user,
-                }
+                },
             )
 
         return OrganizationUser.objects.create(
