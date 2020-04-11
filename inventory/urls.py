@@ -36,10 +36,8 @@ urlpatterns = [
     # Admin
     path("admin/", admin.site.urls),
     path("deck/", include("deck.urls")),
-
     # Cookies
-    path('cookies/', include('cookie_consent.urls')),
-
+    path("cookies/", include("cookie_consent.urls")),
     # Tags
     path(
         "tags/autocomplete",
