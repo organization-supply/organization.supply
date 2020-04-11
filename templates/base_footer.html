@@ -7,7 +7,7 @@
                 - <a class="link bw1 gray" href="{% url 'help' %}">Help</a>
                 - <a class="link bw1 gray" href="{% url 'privacy' %}">Privacy Policy</a>
                 - <a class="link bw1 gray" href="{% url 'terms' %}">Terms of Service</a>
-                
+                - <a class="link bw1 gray" href="{% url 'cookie_consent_cookie_group_list' %}">Cookies</a>
 
                 {% if request.user.is_superuser %}
                 - <a class="link bw1 dark-blue" href="{% url 'deck_index' %}">Deck</a>
@@ -18,7 +18,14 @@
 </footer>
 
 {% include "utils/mousetrap.html" %}
-{% include "utils/analytics.html" %}
+
+{% load cookie_consent_tags %}
+
+{% if request|cookie_group_accepted:"analytics" %}
+    {% include "utils/analytics.html" %}
+{% endif %}
+
+{% include "utils/cookies.html" %}
 
 </body>
 </html>

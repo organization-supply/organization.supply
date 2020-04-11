@@ -1,0 +1,33 @@
+{% load i18n %}
+{% load cookie_consent_tags %}
+
+
+<div class="cookie-group">
+    <h3>
+        {{ cookie_group.name }}
+
+        {% if not cookie_group.is_required %}
+            {% if request|cookie_group_accepted:cookie_group.varname %}
+                <span class="cookie-consent-accepted f6 br-pill ph3 pv2 mb2 dib white bg-green white">Accepted</span>
+            {% else %}
+                <span class="cookie-consent-declined f6 br-pill ph3 pv2 mb2 dib white bg-red white">Declined</span>
+            {% endif %}
+
+            
+            {% if request|cookie_group_declined:cookie_group.varname %}
+                <form class="cookie-consent-accept dib" action="{% url "cookie_consent_accept" cookie_group.varname %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="f6 link dim b--green pointer br-pill ba bw2 ph3 pv1 mb2 dib green" value="Accept">
+                </form>
+            {% endif %}
+
+            {% if request|cookie_group_accepted:cookie_group.varname %}
+                <form class="cookie-consent-decline dib" action="{% url "cookie_consent_decline" cookie_group.varname %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="f6 link dim b--red pointer br-pill ba bw2 ph3 pv1 mb2 dib red" value="Decline">
+                </form>
+            {% endif %}
+
+        {% endif %}
+    </h3>
+</div>
