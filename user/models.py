@@ -13,7 +13,7 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.authtoken.models import Token
 
-from organization.models.notifications import Notification, notify
+from organization.models.notifications import Notification
 
 
 class UserManager(BaseUserManager):

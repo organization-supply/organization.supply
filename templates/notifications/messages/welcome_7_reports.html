@@ -1,0 +1,7 @@
+{% if user.organizations_organization.all %}
+    Organization.supply keeps an entire <a href="{% url 'reports_index' user.organizations_organization.all.0.slug %}">report</a> 
+    page for your organization. All statistics & graphs on one page, with the option to drill down into details.
+{% else %}
+    It looks like you're still not a member of any organization. Is there anything we can do? Get in touch through 
+    <a href="mailto:contact@organization.supply">contact@organization.supply</a> if there's something you would like to know!
+{% endif %}

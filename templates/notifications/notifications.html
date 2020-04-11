@@ -29,11 +29,13 @@
         {% if notifications %}
             {% for notification in notifications %}
                 <tr>
+                    <!-- Mark as read -->
                     <td class="pl3 bb b--black-20">
                         {% if notification.unread %}
                             <a href="{% url 'user_notification_action' notification.id %}?action=mark_as_read{% if request.organization %}&organization={{ request.organization.slug }}{% endif%}" class="no-underline gold">◉</a>
                         {% endif %}
                     </td>
+
                     <!-- If we are not dealing with a organization page, we render a org column -->
                     {% if not request.organization %}
                     <td class="pa2 bb b--black-20">
@@ -44,17 +46,18 @@
                         {% endif %}
                     </td>
                     {% endif %}
+                    
                     <td class="pa2 bb b--black-20">
-                        {{ notification.verb }}
+                        <span class="f6 fw5">{{ notification.title }}</span class="f6">
+                        {% if notification.description %}
+                            <span class="fw3 lh-copy db">{{ notification.description|safe }}</span>
+                        {% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
-                        {% if notification.description %} - {{ notification.description }}{% endif %}
+                        
                     </td>
                     <td class="pa2 bb b--black-20">
                         <span class="fr">{{ notification.timesince }} ago</span>
-                    </td>
-                    <td>
-
                     </td>
                 </tr>
             {% endfor %}

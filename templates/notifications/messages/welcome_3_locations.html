@@ -1,0 +1,7 @@
+{% if user.organizations_organization.all %}
+    Products are stored in locations, which have their own page and you can see the inventory at a specific location. 
+    If you don't have a location yet. Try <a href="{% url 'organization_location_new' user.organizations_organization.all.0.slug %}">creating a location</a> and editing it's information. 
+{% else %}
+    Having trouble setting up an organization? Or are you still waiting for an invite? If you're looking for information, 
+    you might find it on the <a href="{% url 'help' %}">help pages</a>.
+{% endif %}
