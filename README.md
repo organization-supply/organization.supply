@@ -1,6 +1,6 @@
 # [Organization.supply](https://organization.supply)
 
-[![CircleCI](https://circleci.com/gh/jplattel/organization.supply.svg?style=svg)](https://circleci.com/gh/jplattel/organization.supply)
+[![CircleCI](https://circleci.com/gh/organization-supply/organization.supply.svg?style=svg)](https://circleci.com/gh/jplattel/organization.supply)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 This is a Django application that aspires to be a Saas startup, we currently use it for [our brewery](https://brouwerijnooitgedacht.nl). The primary goals is to have one simple interface to manage inventory. We build integrations as we require them. For example integration with financial parts or our webshop which runs woocommerce.
