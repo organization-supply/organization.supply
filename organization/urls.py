@@ -25,6 +25,7 @@ from organization.views import (
     views_organization,
     views_product,
     views_shortcuts,
+    views_integration
 )
 
 urlpatterns = [
@@ -57,6 +58,11 @@ urlpatterns = [
         "integrations",
         views_organization.organization_integrations,
         name="organization_integrations",
+    ),
+    path(
+        "integrations/<str:service_id>/authenticate",
+        views_integration.organization_integration_authenticate,
+        name="organization_integration_authenticate",
     ),
     path("export", views_organization.organization_export, name="organization_export"),
     path(

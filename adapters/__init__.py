@@ -1,1 +1,1 @@
-from adapters import woo
+from adapters import _woocommerce

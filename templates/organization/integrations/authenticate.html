@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load extra_filters %}
+
+{% block title %}{{ request.organization.name }} - Settings{% endblock title %}
+
+{% block content %}
+
+<h1 class="pl3">
+    🛠️ Organization 
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_settings' request.organization.slug %}">Settings</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_users' request.organization.slug %}">Users</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_billing' request.organization.slug %}">Billing</a>
+    <a class="f4 black fw6 underline-hover" href="{% url 'organization_integrations' request.organization.slug %}">Integrations</a>
+    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_export' request.organization.slug %}">Export</a>
+</h1>
+
+<div class="fl w-100 w-50-m w-third-l ph3">
+    <h1 class="f4 bold">Authenticate with {{ adapter.service_name }}</h1>
+
+
+    <form action="" method="POST">
+        {% csrf_token%}
+        {% if adapter.service_id == "woocommerce" %}
+            <div class="mb3">
+                <label class="db fw6 mb1 lh-copy f6" for="url">
+                    URL
+                    <span class="red f5">*</span>
+                </label>    
+                <input type="text" value="{{ request.organization.adapter_auth.url }}" name="url" placeholder="https://example.com" class="pa2 input-reset ba br2 bg-transparent w-100" required="">
+            </div>
+            <div class="mb3">
+                <label class="db fw6 mb1 lh-copy f6" for="consumer_key">
+                    Consumer Key
+                    <span class="red f5">*</span>
+                </label>    
+                <input type="text" value="{{ request.organization.adapter_auth.consumer_key|hide_data:10 }}" name="consumer_key" placeholder="ck_with_a_very_long_key" class="pa2 input-reset ba br2 bg-transparent w-100" required="">
+            </div>
+            <div class="mb3">
+                <label class="db fw6 mb1 lh-copy f6" for="consumer_secret">
+                    Consumer Secret
+                    <span class="red f5">*</span>
+                </label>    
+                <input type="text" value="{{ request.organization.adapter_auth.consumer_secret|hide_data:10 }}" name="consumer_secret" placeholder="cs_with_a_very_long_secret_key" class="pa2 input-reset ba br2 bg-transparent w-100" required="">
+            </div>
+
+            <input class="no-underline f5 tc db w-100 pv3 bg-animate pointer bg-blue hover-bg-dark-blue white br2" type="submit" value="Authenticate &raquo;">
+        {% endif %}
+    </form>
+    
+</div>
+
+{% endblock %}

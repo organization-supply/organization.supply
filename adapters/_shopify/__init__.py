@@ -1,0 +1,1 @@
+import adapters._shopify.shopify_adapter

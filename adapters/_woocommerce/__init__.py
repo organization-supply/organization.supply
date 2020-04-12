@@ -1,0 +1,1 @@
+import adapters._woocommerce.woocommerce_adapter

@@ -7,7 +7,6 @@ from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
 from django.contrib.postgres.fields import JSONField
-from adapters.factory import AdapterFactory
 
 CURRENCY_CHOICES = Choices(
     ("euro", "Euro (€)"),

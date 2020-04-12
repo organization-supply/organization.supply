@@ -17,6 +17,12 @@ def to_class_name(value):
 def is_organization_admin_in(user, organization):
     return organization.is_admin(user)
 
+@register.filter
+def hide_data(value, onwards_from=None):
+    if not onwards_from:
+        return len(value) * "x"
+    else:
+        return value[:onwards_from] + "...."
 
 @register.simple_tag
 def replace_query_param(url, attr, val):

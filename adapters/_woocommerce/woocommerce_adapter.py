@@ -1,4 +1,4 @@
-from adapters.woo.auth import WooCommerceAuth
+from adapters._woocommerce.auth import WooCommerceAuth
 from adapters import factory
 
 @factory.register
