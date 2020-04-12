@@ -15,9 +15,10 @@ from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.notifications import Notification
 from user.models import User
 
+from adapters import factory as adapter_factory
+
 # Set the strip API key
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
 
 @login_required
 def organization_dashboard(request):
@@ -266,7 +267,8 @@ def organization_users(request):
 
 @login_required
 def organization_integrations(request):
-    return render(request, "organization/settings/integrations.html", {})
+    a = adapter_factory.REGISTERED_ADAPTERS.values()
+    return render(request, "organization/settings/integrations.html", {'adapters': a})
 
 
 @login_required

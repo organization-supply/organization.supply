@@ -15,6 +15,11 @@
 
 <div class="fl w-100 w-50-m w-third-l ph3">
     <h1 class="f4 bold">External Services</h1>
+    <ul>
+        {% for adapter in adapters %}
+        <li>{{ adapter }}</li>
+        {% endfor %}
+    </ul>
     <p class="lh-copy">
         To be build...
     </p>

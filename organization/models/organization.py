@@ -6,6 +6,8 @@ from model_utils import Choices
 from model_utils.fields import MonitorField, StatusField
 from model_utils.models import TimeStampedModel
 from organizations.models import Organization as DjangoOrganization
+from django.contrib.postgres.fields import JSONField
+from adapters.factory import AdapterFactory
 
 CURRENCY_CHOICES = Choices(
     ("euro", "Euro (€)"),
@@ -50,6 +52,11 @@ class Organization(DjangoOrganization, TimeStampedModel):
     currency = models.CharField(
         choices=CURRENCY_CHOICES, default=CURRENCY_CHOICES.euro, max_length=255
     )
+
+    # Integrations
+    adapter_service_id = models.CharField(default='', max_length=255)
+    adapter_auth = JSONField(default=dict) # Authentication details for integrations
+    adapter_settings = JSONField(default=dict) # Settings for the integration
 
     @property
     def stats(self):
