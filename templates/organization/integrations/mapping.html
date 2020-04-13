@@ -15,8 +15,14 @@
     <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_export' request.organization.slug %}">Export</a>
 </h1>
 
-<div class="fl w-100 ph3">
+<div class="fl w-two-thirds">
     <h1 class="f4 bold">Map {{ entity_name }} with {{ adapter.service_name }}</h1>
+
+    <p class="lh-copy">
+        To synchronize inventory with {{ adapter.service_name }}. You will need to map each
+        {{ entity_name }} in Organization.supply with a {{ entity_name }} in {{ adapter.service_name }}.
+        After mapping, we can keep track of inventory automatically.
+    </p>
 
     <form action="" method="POST">
     {% if mapper.entities_local %}
@@ -57,15 +63,25 @@
     {% else %}
         <p>No {{ entity_name }} to map. Import from  {{ adapter.service_name }} with the form below</p>
     {% endif %}
+        <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Save mappings">
     </form>
+</div>
 
+<div class="fl w-third ph3">
     <h3>Import from {{ adapter.service_name }}</h3>
+
+    <p class="lh-copy">
+        If the any of the {{ entity_name }} do not yet exist in Organization.supply you can choose to import 
+        the selected one with a click!
+    </p>
     
-    <select name="" id="">
+    <select class="pv3" name="" id="">
         {% for entity_external in mapper.entities_external%}
             <option value="{{ entity_external.id }}">{{ entity_external.name }}</option>
         {% endfor %}
     </select>
+
+    <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Import">
 </div>
 
 {% endblock %}
