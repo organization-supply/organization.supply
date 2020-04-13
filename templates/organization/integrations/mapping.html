@@ -15,16 +15,57 @@
     <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_export' request.organization.slug %}">Export</a>
 </h1>
 
-<div class="fl w-100 w-50-m w-third-l ph3">
-    <h1 class="f4 bold">Map {{ entity_name|title }} with {{ adapter.service_name }}</h1>
+<div class="fl w-100 ph3">
+    <h1 class="f4 bold">Map {{ entity_name }} with {{ adapter.service_name }}</h1>
 
+    <form action="" method="POST">
+    {% if mapper.entities_local %}
+        {% for entity_local in mapper.entities_local%}
+        <div class="br3 pa3 mv3 ba b--black-10">
+            <div class="flex justify-center">
+                <div class="w-40">
+                    <div class="ba br2 b--black" style="padding: 10px">
+                    {% if entity_local.url %}
+                        <a class="black no-underline href="{{ entity_local.url }}">{{ entity_local.name }}</a>
+                    {% else %}
+                        {{ entity_local.name }}
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="w-20 tc f2">
+                    ⇆
+                </div>
+                <div class="w-40">
+                    <select name="{{ entity_local.id }}" id="">
+                        <option value="">— (do not map this product)</option>
+                        {% for entity_external in mapper.entities_external%}
+                            <option value="{{ entity_external.id }}" {% if entity_local.external_service_id is entity_external.id %}selected{% endif %}>{{ entity_external.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-center mt2">
+                <div class="w-50 mid-gray i">
+                    {{ request.organization.name }} (organization.supply)
+                </div>
+                <div class="w-50 tr mid-gray i">
+                    {{ adapter.service_name }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No {{ entity_name }} to map. Import from  {{ adapter.service_name }} with the form below</p>
+    {% endif %}
+    </form>
 
-    <div class="w-50">
-        {{ mapper.entities_local }}
-    </div>
-    <div class="w-50">
-        {{ mapper.entities_external }}
-    </div>
+    <h3>Import from {{ adapter.service_name }}</h3>
+    
+    <select name="" id="">
+        {% for entity_external in mapper.entities_external%}
+            <option value="{{ entity_external.id }}">{{ entity_external.name }}</option>
+        {% endfor %}
+    </select>
 </div>
 
 {% endblock %}

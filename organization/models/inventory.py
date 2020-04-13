@@ -106,6 +106,9 @@ class Product(TimeStampedModel):
 
     objects = OrganizationManager()  # Filters by organization on default
 
+    external_service_id = models.CharField(default="", max_length=255)
+    # external_service_settings = JSONField(default=dict) # We might need this in the future
+
     @property
     def data(self):
         inventory_count = (
