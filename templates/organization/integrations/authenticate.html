@@ -18,7 +18,6 @@
 <div class="fl w-100 w-50-m w-third-l ph3">
     <h1 class="f4 bold">Authenticate with {{ adapter.service_name }}</h1>
 
-
     <form action="" method="POST">
         {% csrf_token%}
         {% if adapter.service_id == "woocommerce" %}
@@ -44,7 +43,13 @@
                 <input type="text" value="{{ request.organization.adapter_auth.consumer_secret|hide_data:10 }}" name="consumer_secret" placeholder="cs_with_a_very_long_secret_key" class="pa2 input-reset ba br2 bg-transparent w-100" required="">
             </div>
 
-            <input class="no-underline f5 tc db w-100 pv3 bg-animate pointer bg-blue hover-bg-dark-blue white br2" type="submit" value="Authenticate &raquo;">
+            <div class="mb3">
+            {% if adapter.is_authenticated %}
+                <input disabled class="no-underline f5 tc db w-100 pv3 b--black-20 bg-green disabled white br2" type="submit" value="You are currently authenticated!">
+            {% else %}
+                <input class="no-underline f5 tc db w-100 pv3 bg-animate pointer bg-blue hover-bg-dark-blue white br2" type="submit" value="Authenticate &raquo;">
+            {% endif %}
+        </div>
         {% endif %}
     </form>
     

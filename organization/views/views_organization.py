@@ -14,9 +14,7 @@ from organization.forms import MutationForm, OrganizationForm, OrganizationInvit
 from organization.models.inventory import Inventory, Location, Mutation, Product
 from organization.models.notifications import Notification
 from user.models import User
-
-from adapters import factory as adapter_factory
-
+from adapters.factory import AdapterFactory
 # Set the strip API key
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -267,8 +265,11 @@ def organization_users(request):
 
 @login_required
 def organization_integrations(request):
-    a = adapter_factory.REGISTERED_ADAPTERS.values()
-    return render(request, "organization/settings/integrations.html", {'adapters': a})
+    adapters = AdapterFactory().available_adapters()
+    print(adapters)
+    return render(request, "organization/settings/integrations.html", {
+        'adapters': adapters
+    })
 
 
 @login_required

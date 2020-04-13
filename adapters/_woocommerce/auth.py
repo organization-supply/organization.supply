@@ -30,28 +30,39 @@ class WooCommerceAuth():
             version=version
         )
 
-        response = wc_api.get("products")
+        response = wc_api.get("system_status")
         if response.status_code == 200:
             self._save_authentication(request.organization, url, consumer_key, consumer_secret, version)
             messages.add_message(request, messages.SUCCESS, f"Authenticated with {form.cleaned_data['url']}")
         else:
             messages.add_message(request, messages.ERROR, f"Unable to authenticate with {form.cleaned_data['url']}")
 
-    def is_authenticated(self):
-        # pass
-        # Check if the user is authenticated
-        # return True
-        pass
+    def is_authenticated(self, organization):
+        # if adapter auth
+        if not organization.adapter_auth:
+            return False
 
-    def api(self):
-        # Return an API instance that is authenticated:
-        # return API(
-        #     url="http://example.com",
-        #     consumer_key="",
-        #     consumer_secret="cs_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        #     version="wc/v3"
-        # )
-        pass
+        # Create an api instance
+        wc_api = API(
+            url=organization.adapter_auth.get('url'),
+            consumer_key=organization.adapter_auth.get('consumer_key'),
+            consumer_secret=organization.adapter_auth.get('consumer_secret'),
+            version=organization.adapter_auth.get('version')
+        )
+        response = wc_api.get("system_status")
+        
+        if response.status_code == 200:
+            return True
+
+        return False
+
+    def create_api(self, organization):
+        return API(
+            url=organization.adapter_auth.get('url'),
+            consumer_key=organization.adapter_auth.get('consumer_key'),
+            consumer_secret=organization.adapter_auth.get('consumer_secret'),
+            version=organization.adapter_auth.get('version')
+        )
 
     def _save_authentication(self, organization, url, consumer_key, consumer_secret, version):
         organization.adapter_auth = {
@@ -61,7 +72,3 @@ class WooCommerceAuth():
             'version': version
         }
         organization.save()
-    
-    def _get_authentication():
-        # Get auth details
-        pass

@@ -4,21 +4,19 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from adapters.factory import AdapterFactory
 
-
 @login_required
 def organization_integration_authenticate(request, service_id):
-    adapter = AdapterFactory().create_for_service(service_id)
+    adapter = AdapterFactory().create(service_id, request.organization)
 
     if request.method == "POST":
-        authentication = adapter.authentication()
 
         # For password based auth, we check within the authenticate method
-        if authentication.method == "password":
-            authentication.authenticate(request)
+        if adapter.authentication.method == "password":
+            adapter.authentication.authenticate(request)
 
         # For the oauth, we return a redirect url for authentication
-        elif authentication.method == "oauth":
-            return redirect(authentication.authenticate())
+        elif adapter.authentication.method == "oauth":
+            return redirect(adapter.authentication.authenticate())
 
         # Other menthods are not known.. raise a 404
         else:
@@ -28,3 +26,14 @@ def organization_integration_authenticate(request, service_id):
         "adapter": adapter
     })
 
+
+@login_required
+def organization_integration_map_entities(request, service_id, entity_name):
+    adapter = AdapterFactory().create(service_id, request.organization)
+    mapper = adapter.get_mapper(entity_name)
+
+    return render(request, "organization/integrations/mapping.html", {
+        "adapter": adapter,
+        "entity_name": entity_name,
+        "mapper": mapper
+    })
