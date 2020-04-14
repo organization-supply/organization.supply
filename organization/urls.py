@@ -69,8 +69,11 @@ urlpatterns = [
         views_integration.organization_integration_map_entities,
         name="organization_integration_map_entities",
     ),
-
-    
+    path(
+        "integrations/<str:service_id>/map/<str:entity_name>/import",
+        views_integration.organization_integration_map_entities__import,
+        name="organization_integration_map_entities__import",
+    ),
 
     path("export", views_organization.organization_export, name="organization_export"),
     path(

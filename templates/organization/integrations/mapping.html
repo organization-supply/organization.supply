@@ -45,7 +45,7 @@
                     <select name="{{ entity_local.id }}" id="">
                         <option value="">— (do not map this product)</option>
                         {% for entity_external in mapper.entities_external%}
-                            <option value="{{ entity_external.id }}" {% if entity_local.external_service_id is entity_external.id %}selected{% endif %}>{{ entity_external.name }}</option>
+                            <option value="{{ entity_external.id }}" {% if entity_local.external_service_id == entity_external.id %}selected{% endif %}>{{ entity_external.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -74,14 +74,18 @@
         If the any of the {{ entity_name }} do not yet exist in Organization.supply you can choose to import 
         the selected one with a click!
     </p>
-    
-    <select class="pv3" name="" id="">
+
+    <form action="{% url 'organization_integration_map_entities__import' request.organization.slug adapter.service_id entity_name %}" method="POST">
+    {% csrf_token %}
+    <select class="pv3" name="external_service_id" id="">
         {% for entity_external in mapper.entities_external%}
             <option value="{{ entity_external.id }}">{{ entity_external.name }}</option>
         {% endfor %}
     </select>
 
-    <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Import">
+    <input class="mt3 no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Import">
+
+</form>
 </div>
 
 {% endblock %}
