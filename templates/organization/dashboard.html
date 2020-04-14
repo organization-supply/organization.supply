@@ -103,8 +103,7 @@
         <thead>
             <tr class="">
                 <th class="fw6 bb b--black-20 tl pa2"></th>
-                <th class="fw6 bb b--black-20 tl pa2">Title</th>
-                <th class="fw6 bb b--black-20 tl pa2"></th>
+                <th class="fw6 bb b--black-20 tl pa2">Title</th
                 <th class="fw6 bb b--black-20 tl pa2">Date</th>
             </tr>
         </thead>
@@ -117,9 +116,7 @@
                         {% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
-                        {{ notification.verb }}
-                    </td>
-                    <td class="pa2 bb b--black-20">
+                        {{ notification.title }}
                         {% if notification.description %} - {{ notification.description }}{% endif %}
                     </td>
                     <td class="pa2 bb b--black-20">
