@@ -71,4 +71,5 @@ class WooCommerceAuth():
             'consumer_secret': consumer_secret,
             'version': version
         }
+        organization.adapter_service_id = 'woocommerce'
         organization.save()
