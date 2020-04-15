@@ -24,15 +24,15 @@
         </dl>
         <dl class="fl pa3 w-100 w-33-ns">
             <dd class="f6 f5-ns b ml0 pb2 bb b--black-20">Total Costs</dd>
-            <dd class="f3 f2-ns b ml0 mt2">{% include "utils/currency.html" %} {{ products.total_price_cost }}</dd>
+            <dd class="f3 f2-ns b ml0 mt2">{% include "utils/currency.html" %} {{ products.total_price_cost|floatformat:2 }}</dd>
         </dl>
         <dl class="fl pa3 w-100 w-33-ns">
             <dd class="f6 f5-ns b ml0 pb2 bb b--black-20">Total Sales</dd>
-            <dd class="f3 f2-ns b ml0 mt2">{% include "utils/currency.html" %} {{ products.total_price_sale }}</dd>
+            <dd class="f3 f2-ns b ml0 mt2">{% include "utils/currency.html" %} {{ products.total_price_sale|floatformat:2 }}</dd>
         </dl>
         <dl class="fl pa3 w-100 w-33-ns">
             <dd class="f6 f5-ns b ml0 pb2 bb b--black-20">Total Profit</dd>
-            <dd class="f3 f2-ns b ml0 mt2">{% include "utils/currency.html" %} {{ products.total_profit }}</dd>
+            <dd class="f3 f2-ns b ml0 mt2">{% include "utils/currency.html" %} {{ products.total_profit|floatformat:2 }}</dd>
         </dl>
     </div>    
     <div class="w-50-ns w-100 db">
