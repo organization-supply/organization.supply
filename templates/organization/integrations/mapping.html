@@ -25,6 +25,7 @@
     </p>
 
     <form action="" method="POST">
+        {% csrf_token %}
     {% if mapper.entities_local %}
         {% for entity_local in mapper.entities_local%}
         <div class="br3 pa3 mv3 ba b--black-10">
@@ -42,9 +43,9 @@
                     ⇆
                 </div>
                 <div class="w-40">
-                    <select name="{{ entity_local.id }}" id="">
+                    <select name="product-{{ entity_local.id }}" id="">
                         <option value="">— (do not map this product)</option>
-                        {% for entity_external in mapper.entities_external%}
+                        {% for entity_external in mapper.entities_external %}
                             <option value="{{ entity_external.id }}" {% if entity_local.external_service_id == entity_external.id %}selected{% endif %}>{{ entity_external.name }}</option>
                         {% endfor %}
                     </select>
@@ -72,7 +73,7 @@
 
     <p class="lh-copy">
         If the any of the {{ entity_name }} do not yet exist in Organization.supply you can choose to import 
-        the selected one with a click!
+        and create the product in Organization.supply with one click!
     </p>
 
     <form action="{% url 'organization_integration_map_entities__import' request.organization.slug adapter.service_id entity_name %}" method="POST">

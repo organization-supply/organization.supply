@@ -9,9 +9,9 @@ class Mapper():
         self.field_mapping_id = field_mapping_id
         self.import_function = import_function
 
-    def assign(local_id, external_id):
+    def assign(self, local_id, external_id):
         # Get the local entity from the list of django objects
-        entity_local = self.entities_local.filter(**{self.field_id_local: local_id})
+        entity_local = self.entities_local.filter(**{self.field_id_local: local_id}).first()
 
         # Set the attribute to the external id
         setattr(entity_local, self.field_mapping_id, external_id)

@@ -29,10 +29,16 @@ def organization_integration_authenticate(request, service_id):
 
 @login_required
 def organization_integration_map_entities(request, service_id, entity_name):
+    # Create an adapter and get the mapper for the entity (for example mapping a product)
     adapter = AdapterFactory().create(service_id, request.organization)
     mapper = adapter.get_mapper(entity_name)
 
-    # TODO: deal with submitting the form and parsing all the mapped items...
+    # Get each product from the mapping form (name is prefixed with 'product-')
+    for (product_field_id, external_id) in filter(lambda item: item[0].startswith('product-'),request.POST.items()):
+        
+        # If an external id is assign, we map it:
+        if external_id:
+            mapper.assign(product_field_id[8:], external_id)    
 
     return render(request, "organization/integrations/mapping.html", {
         "adapter": adapter,
@@ -43,9 +49,11 @@ def organization_integration_map_entities(request, service_id, entity_name):
 @login_required
 def organization_integration_map_entities__import(request, service_id, entity_name):
     if request.method == "POST":
+        # Create an adapter and get the mapper for the entity (for example importing a product)
         adapter = AdapterFactory().create(service_id, request.organization)
         mapper = adapter.get_mapper(entity_name)
 
+        # Get the external id 
         external_service_id = request.POST.get("external_service_id")
         imported_product = mapper.import_function(external_service_id)
 

@@ -28,7 +28,7 @@ class WooCommerceAdapter():
                 field_id_local='id',
                 field_id_external='id',
                 field_mapping_id='external_service_id',
-                import_function=self.import_product
+                import_function=self.import_product # Used for import functionality
             )
         }
         return mappers.get(mapper)
@@ -48,7 +48,7 @@ class WooCommerceAdapter():
             desc=strip_tags(response.get("description")),
             price_sale=response.get('price'),
             external_service_id=external_service_id
-            # TODO: tags
+            # TODO: Can we also import tags? Or other fields?
         )
         product.save()
         return product

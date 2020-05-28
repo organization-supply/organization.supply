@@ -14,8 +14,6 @@ services:
       - /usr/src/app # for gunicorn
       - /usr/src/app/static # for gunicorn
       - .:/code # code for reloading
-
-    
     environment: 
       - POSTGRES_ENABLED=True # We are using postgres within this docker compose project instead of sqlite
       - POSTGRES_USER=postgres
