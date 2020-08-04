@@ -61,4 +61,4 @@ class MutationSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = ["id", "timestamp", "description", "verb"]
+        fields = ["id", "timestamp", "description", "title"]
