@@ -14,7 +14,6 @@ CURRENCY_CHOICES = Choices(
     ("yen", "Yen (¥)"),
 )
 
-
 class OrganizationManager(models.Manager):
     def __str__(self):
         return self.slug
@@ -47,6 +46,7 @@ class Organization(DjangoOrganization, TimeStampedModel):
 
     # Organization data
     contact_email = models.EmailField(max_length=254, unique=True)
+    description = models.TextField()
     currency = models.CharField(
         choices=CURRENCY_CHOICES, default=CURRENCY_CHOICES.euro, max_length=255
     )
@@ -62,3 +62,6 @@ class Organization(DjangoOrganization, TimeStampedModel):
             "location_count": Location.objects.for_organization(self).count(),
             "mutation_count": Mutation.objects.for_organization(self).count(),
         }
+
+    def __str__(self):
+        return f"<Organization ${self.name}>"

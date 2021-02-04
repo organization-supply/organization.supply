@@ -2,7 +2,7 @@
 {% if debug %}<pre><code>{{ product.mutations }}</code></pre>{% endif %}
 
 {% if product %}
-<canvas style="box-sizing: border-box;" class="pa2" id="{{ wrapper }}"></canvas>
+<canvas style="box-sizing: border-box;" id="{{ wrapper }}"></canvas>
 <script>
     
 const days = [...new Array(30)].map((i, idx) => moment().startOf("day").subtract(idx, "days"))

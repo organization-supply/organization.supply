@@ -1,61 +1,48 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <!-- Meta -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <!-- Title -->
-  <title>Organization.supply - Login</title>
-		
-  <!-- Standard Favicon -->
-  <link rel="icon" href="{% static 'favicon-16x16.png' %}">
-  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png">
+{% include 'base_header.html' %}
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
-  <link rel="stylesheet" href="{% static 'style.css' %}"/>
+<body>
+  
+<main class="container">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <h1 class="text-center fs-5 fw-bold py-4">
+        <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" style="width: 20px; margin-top: -4px; margin-right: 10px; "/>
+        Organization.supply
+      </h1>
+      
+      {% if form.errors %}
+        {% for key, value in form.errors.items %}
+        <div class="mb-3 alert alert-danger">
+            {{ value }}
+        </div>
+        {% endfor %}
+      {% endif %}
     
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-</head>
+      <form class="border rounded-2 p-2 clearfix" method="POST" autocomplete="on">        
 
-<body class="avenir">
-{% if form.errors %}
-    {% for key, value in form.errors.items %}
-    <div class="flex items-center justify-center pa4 bg-washed-red dark-red">
-        <span class="lh-title ml3">{{ value }}</span>
+        <h2>Log in</h2>
+
+        {% csrf_token %}        
+
+        <div class="mb-3">
+            <label for="email-address" class="col-form-label">Email</label>
+            <input class="form-control" type="text" name="username" id="username">
+        </div>
+        
+        <div class="mb-3">
+            <label for="password" class="col-form-label">Password</label>
+            <input class="form-control" type="password" name="password" id="password">
+        </div>
+
+        <a class="btn btn-link" href="{% url 'user_signup' %}">Signup</a>
+        <a class="btn btn-link" href="{% url 'password_reset' %}">Forgot your password?</a>
+        <input class="btn btn-primary float-end mb-3" type="submit" value="Login">
+        
+      </form>
     </div>
-    {% endfor %}
-{% endif %}
-
-<main class="pa2 black-80">
-  <div class="tc pb5">
-    <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" class="dib" style="width: 15px; margin-top: 3px; margin-right: 5px"/>
-    <h1 class="f4 dib">Organization.supply</h1>
   </div>
-  <form class="measure center b--light-silver br2 ba pa3 bg-white" method="POST" autocomplete="on">        
-    {% csrf_token %}        
-    <h2>Login</h2>
-    <div class="mt3">
-        <label class="db fw6 lh-copy f6" for="email-address">Email</label>
-        <input class="pa2 input-reset ba br2 w-100" type="text" name="username" id="username">
-    </div>
-    <div class="mv3">
-        <label class="db fw6 lh-copy f6" for="password">Password</label>
-        <input class="pa2 input-reset ba br2 w-100" type="password" name="password" id="password">
-    </div>
-    <div class="w-100 dib">
-        <input class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr pointer b--none" type="submit" value="Login">
-        <span class="fl mv2"><a href="{% url 'user_signup' %}" class="mv2 f6 link dim black">Signup</a> | 
-        <a href="{% url 'password_reset' %}" class="mv2 f6 link dim black">Forgot your password?</a></span>
-    </div>
-  </form>
 </main>
 
 {% include "base_footer.html" %}

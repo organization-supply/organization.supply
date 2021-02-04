@@ -13,7 +13,7 @@
 </h1>
 
 <div class="mh3 overflow-auto">
-    <form action="" method="GET">
+    <form action="" class="mb-3" method="GET">
         <!-- The onfocus part is a hacky way of repositioning the cursor to the end.. -->
         <input 
             value="{{ q }}" 
@@ -21,8 +21,8 @@
             onfocus="var val=this.value; this.value=''; this.value=val;"
             name="q" 
             id="q" 
-            class="lh-copy br2 outline-transparent pa2 input-reset ba bg-transparent w-100" 
-            placeholder="Searchterms.."/>
+            class="form-control" 
+            placeholder="Search.."/>
     </form>
     {% if results %}
         {% for result in results%}

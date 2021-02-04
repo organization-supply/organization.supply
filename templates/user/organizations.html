@@ -7,52 +7,46 @@
 
 {% block content %}
 
-<h1 class="ph3 tc">
-    Organizations
+<h1 class="mt-3 clearfix">
+    📚 Organizations
     {% include 'utils/information.html' with id='user-organization' content="This is a list of organizations you are a member of." %}
+    <a href="{% url 'create_organization' %}" class="btn btn-primary float-end">Create a new organization</a>
 </h1>
 
-<div class="ph3 measure center">
+<div class="row justify-content-start">
     {% if organizations %}
         {% for organization in organizations %}
-            <article class="br2 ba dark-gray b--black-10 mv4 w-100">
-                <div class="pa2 ph3-ns pb3-ns">
-                    <div class="dt w-100 mt1">
-                        <div class="dtc">
-                            <h1 class="f5 f4-ns mv1">{{ organization.name|title }}</h1>
-                            <span class="f6 lh-copy measure mid-gray">
-                                <a href="{% url 'organization_dashboard' organization.slug %}">Dashboard</a>
-                                | <a href="{% url 'organization_notifications' organization.slug %}">Notifications</a>
-                                | <a href="{% url 'organization_settings' organization.slug %}">Settings</a>
-                            </span>
-                        </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ organization.name|title }}</h5>
+                        <p class="card-text">{{ organization.description }}</p>
+                        <a href="{% url 'organization_dashboard' organization.slug %}">Dashboard</a>
+                        | <a href="{% url 'organization_notifications' organization.slug %}">Notifications</a>
+                        | <a href="{% url 'organization_settings' organization.slug %}">Settings</a>
                     </div>
                 </div>
-            </article>
+            </div>
         {% endfor %}
     {% else %}
-        <article class="br2 ba dark-gray b--black-10 mv4 w-100">
-            <div class="pa2 ph3-ns">
-                <p class='lh-copy'>
-                    You currently don't have any organizations. 
-                    You can <a href="{% url 'create_organization' %}">create an organization</a> or 
-                    ask a collegue to invite you with your email: 
-                    <a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a>. 
-                    Organizations you are invited will be listed here.
-                </p>
-                <p class="lh-copy">
-                    In case you are in need of help, feel free to browse the reference page or email
-                    <a href="mailto:jsplattel@gmail.com">jsplattel@gmail.com</a> with any questions you might have.
+        <div class="col-md-4">
+            <div class="card">    
+                <div class="card-body">
+                    <p>
+                        You currently don't have any organizations. 
+                        You can <a href="{% url 'create_organization' %}">create an organization</a> or 
+                        ask a collegue to invite you with your email: 
+                        <a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a>. 
+                        Organizations you are invited will be listed here.
+                    </p>
+                    <p>
+                        In case you are in need of help, feel free to browse <a href="{% url 'help' %}">the help page</a> or email
+                        <a href="mailto:joost@organization.supply">joost@organization.supply</a> with any questions you might have.
+                    </p>
                 </p>
             </div>
-        </article>
+        </div>
     {% endif %}
-    
-    <!-- Link to add organization form  -->
-    <article class="br2 mv4 w-100">
-        <a class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" href="{% url 'create_organization' %}">Create a new organization</a>
-    </article>
-
 </div>
 
 {% endblock %}

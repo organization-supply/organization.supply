@@ -13,26 +13,25 @@
 
 {% block content %}
 
-<h1 class="ph3 db cf">
+<h1 class="mt-3">
     🔔 Notifications
     {% include 'utils/information.html' with id='user-notifications' content="Here you will find all notifications for this organization" %}
-    <a 
-        class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr" 
-        href="{% url 'notifications_action' %}?action=mark_all_as_read{% if request.organization %}&organization={{ request.organization.slug }}{% endif%}">
-        Mark all as read
+
+    <a class="btn btn-warning float-end" href="{% url 'notifications_action' %}?action=mark_all_as_read{% if request.organization %}&organization={{ request.organization.slug }}{% endif%}">
+        Mark all notifications as read
     </a>
 </h1>
 
 <div class="mh3 overflow-auto">
-    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
-        <tbody class="lh-copy">
+    <table class="table border">
+        <tbody>
         {% if notifications %}
             {% for notification in notifications %}
                 <tr>
                     <!-- Mark as read -->
                     <td class="pl3 bb b--black-20">
                         {% if notification.unread %}
-                            <a href="{% url 'user_notification_action' notification.id %}?action=mark_as_read{% if request.organization %}&organization={{ request.organization.slug }}{% endif%}" class="no-underline gold">◉</a>
+                            <a href="{% url 'user_notification_action' notification.id %}?action=mark_as_read{% if request.organization %}&organization={{ request.organization.slug }}{% endif%}" class="text-decoration-none">◉</a>
                         {% endif %}
                     </td>
 

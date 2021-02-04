@@ -1,19 +1,16 @@
-<footer class="fixed left-0 bottom-0 right-0 tc bg-white">
-    <div class="dt dt--fixed w-100">
-        <div class="dn dtc-ns v-mid">
-            <p class="f7 black dib pr3 mb3">
-                <a href="https://organization.supply" class="link bw1 gray">Organization.supply</a> 
-                - <a class="link bw1 gray" href="https://status.organization.supply">Status</a>
-                - <a class="link bw1 gray" href="{% url 'help' %}">Help</a>
-                - <a class="link bw1 gray" href="{% url 'privacy' %}">Privacy Policy</a>
-                - <a class="link bw1 gray" href="{% url 'terms' %}">Terms of Service</a>
-                - <a class="link bw1 gray" href="{% url 'cookie_consent_cookie_group_list' %}">Cookies</a>
-
-                {% if request.user.is_superuser %}
-                - <a class="link bw1 dark-blue" href="{% url 'deck_index' %}">Deck</a>
-                {% endif %}
-            </p>
-        </div>
+<footer class="fixed-bottom">
+    <div class="container">
+        <p class="text-center text-muted" style="font-size: 12px;">
+              <a href="https://organization.supply" class="text-reset">Organization.supply</a> 
+            - <a class="text-reset" href="https://status.organization.supply">Status</a>
+            - <a class="text-reset" href="{% url 'help' %}">Help</a>
+            - <a class="text-reset" href="{% url 'privacy' %}">Privacy Policy</a>
+            - <a class="text-reset" href="{% url 'terms' %}">Terms of Service</a>
+            - <a class="text-reset" href="{% url 'cookie_consent_cookie_group_list' %}">Cookies</a>
+            {% if request.user.is_superuser %}
+            - <a class="text-reset" href="{% url 'deck_index' %}">Deck</a>
+            {% endif %}
+        </p>
     </div>
 </footer>
 
@@ -24,8 +21,6 @@
 {% if request|cookie_group_accepted:"analytics" %}
     {% include "utils/analytics.html" %}
 {% endif %}
-
-{% include "utils/cookies.html" %}
 
 </body>
 </html>

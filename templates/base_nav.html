@@ -1,87 +1,90 @@
 {% load static %}
 {% load extra_filters %}
 
-<nav class="pa3 bg-near-white">
-    
-    <a href="{% url 'user_organizations' %}" class="no-underline">
-        <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" style="width: 15px; margin-top: 3px; margin-right: 10px"/>
-    </a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
 
-    <div class="dib mr2">
+        <!-- Logo Organization.supply -->
+        <a href="{% url 'user_organizations' %}">
+            <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" style="width: 20px; margin-top: -4px; margin-right: 10px; filter: invert(1)"/>
+        </a>
+        
+        <!-- Tenant name -->
         {% if request.organization.name %}
-            <a class="near-black no-underline underline-hover" href="{% url 'organization_dashboard' request.organization.slug %}">
-                <h1 class="f4 mv1">{{ request.organization.name|title }}</h1>
+            <a class="navbar-tenant" href="{% url 'organization_dashboard' request.organization.slug %}">
+                {{ request.organization.name|title }}
             </a>
         {% else %}
-            <a class="near-black no-underline underline-hover" href="{% url 'user_organizations' %}">
-                <h1 class="f4 mv1">Organization.supply</h1>
+            <a class="navbar-tenant" href="{% url 'user_organizations' %}">
+                Organization.supply
             </a>
         {% endif %}
-    </div>
-
-    <div class="dn di-ns">
-        <!-- Organization links -->
-        {% if request.organization.slug %}
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_dashboard' request.organization.slug %}" title="Dashboard">Dashboard</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_notifications' request.organization.slug %}" title="Notifications">Notifications</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_search' request.organization.slug %}" title="Search">Search</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_products' request.organization.slug %}" title="Products">Products</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_locations' request.organization.slug %}" title="Locations">Locations</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_inventory_location' request.organization.slug %}" title="Inventory">Inventory</a>
-            <a class="link dim mid-gray f6 f5-ns dib mh2 mv2" href="{% url 'organization_mutations' request.organization.slug %}" title="Transactions">Transactions</a>
-        {% endif %}
-
-    </div>
-
-    <div class="dib pl3 nt2 fr hide-child-dn">
-        
-
-        <!-- Avatar -->
-        {% if request.user.image %}
-            <img class="br-pill h2 w2 mt2 dib" alt="avatar" src="{{ request.user.image.url }}" alt="">
-        {% elif request.user.name %}
-            <span class="link mid-gray db f6 f5-ns pa2 mv2">{{ request.user.name }}</span>
-        {% else %}
-            <span class="link mid-gray db f6 f5-ns pa2 mv2">{{ request.user.email }}</span>
-        {% endif %}
-        
-        <!-- Dropdown menu -->
-        <div class="child-dn absolute tr bg-near-white pt3 ph2" style="right: 0px;">
-
-            <!-- Organization links on mobile -->
-            <div class="db dn-ns">
-            {% if request.organization.slug %}
-                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_dashboard' request.organization.slug %}" title="Dashboard">Dashboard</a>
-                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_notifications' request.organization.slug %}" title="Dashboard">Notications</a>
-                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_search' request.organization.slug %}" title="Dashboard">Search</a>
-                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_products' request.organization.slug %}" title="Producten">Products</a>
-                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_locations' request.organization.slug %}" title="Locaties">Locations</a>
-                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_inventory_location' request.organization.slug %}" title="Locaties">Inventory</a>
-                <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_mutations' request.organization.slug %}" title="Transacties">Transactions</a>
-                {% if request.user|is_organization_admin_in:request.organization %}
-                    <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'organization_settings' request.organization.slug %}" title="Settings">Organization Settings</a>
-                {% endif %}
-                <hr>
-            {% endif %}
-            </div>
-
             
-            {% if request.user|is_organization_admin_in:request.organization %}
-                <a class="link dn dib-ns dim mid-gray f6 f5-ns pa2" href="{% url 'organization_settings' request.organization.slug %}" title="Settings">Organization Settings</a>
-            {% endif %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <!-- User links -->
-            <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'user_organizations' %}" title="Organizations">Organizations</a>    
-            <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'user_notifications' %}" title="Notifications">Notifications</a>    
-            <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'user_settings' %}" title="Settings">Settings</a>    
-            <a class="link dim mid-gray db f6 f5-ns pa2" href="{% url 'logout' %}" title="Logout">Logout</a>  
+        <!-- Menu -->
+        <div class="collapse navbar-collapse" id="navbarToggle">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Organization links -->
+                {% if request.organization.slug %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'organization_dashboard' request.organization.slug %}" title="Dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'organization_notifications' request.organization.slug %}" title="Notifications">Notifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'organization_search' request.organization.slug %}" title="Search">Search</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'organization_products' request.organization.slug %}" title="Products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'organization_locations' request.organization.slug %}" title="Locations">Locations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'organization_inventory_location' request.organization.slug %}" title="Inventory">Inventory</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'organization_mutations' request.organization.slug %}" title="Transactions">Transactions</a></li>
+                {% endif %}
+            </ul>
+
+            <div class="d-flex">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <!-- Dropdown menu -->
+                    <li class="dropdown">
+                        
+                        <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+
+                            {% if request.user.notifications_unread %}
+                            <span class="badge bg-light text-dark">{{ request.user.notifications_unread|length }}</span>
+                            {% endif %}
+                            
+                            <!-- Avatar -->
+                            {% if request.user.image %}
+                                <img class="avatar rounded" width="30px" alt="avatar" src="{{ request.user.image.url }}" alt="">
+                                {{ request.user.name }}
+                            {% elif request.user.name %}
+                                {{ request.user.name }}
+                            {% else %}
+                                {{ request.user.email }}
+                            {% endif %}
+
+                        </a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <!-- Organization links on mobile -->
+                            {% if request.organization.slug %}
+                                {% if request.user|is_organization_admin_in:request.organization %}
+                                    <li><a class="dropdown-item" href="{% url 'organization_settings' request.organization.slug %}" title="Settings">Organization Settings</a></li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+                            <!-- </span> -->
+    
+                            <!-- User links (always visible) -->
+                            <li><a class="dropdown-item" href="{% url 'user_organizations' %}" title="Organizations">Organizations</a></li>
+                            <li><a class="dropdown-item" href="{% url 'user_notifications' %}" title="Notifications">Notifications 
+                                <span class="badge bg-light text-dark">{{ request.user.notifications_unread|length }}</span>
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'user_settings' %}" title="Settings">Settings</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}" title="Logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
         </div>
 
         
+        </div>
     </div>
-
-        
-
-    
-    
 </nav>

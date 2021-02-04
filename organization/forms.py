@@ -47,17 +47,24 @@ class OrganizationForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Organization name",
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "class": "form-control",
             }
         ),
         validators=[validate_organization_name],
     )
-
+    description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "A short description of your organization",
+                "class": "form-control",
+            }
+        )
+    )
     contact_email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
                 "placeholder": "contact@example.com",
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "class": "form-control",
             }
         )
     )
@@ -65,13 +72,13 @@ class OrganizationForm(ModelForm):
         required=False,
         choices=CURRENCY_CHOICES,
         widget=forms.Select(
-            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
+            attrs={"class": "form-control"}
         ),
     )
 
     class Meta:
         model = Organization
-        fields = ["name", "contact_email", "currency"]
+        fields = ["name", "contact_email", "currency", "description"]
 
 
 class OrganizationInviteForm(OrganizationUserAddForm):
@@ -115,7 +122,7 @@ class ProductAddForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Product name",
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "class": "form-control",
             }
         )
     )
@@ -125,7 +132,7 @@ class ProductAddForm(ModelForm):
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Description..",
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "class": "form-control",
             }
         ),
     )
@@ -140,7 +147,7 @@ class ProductEditForm(autocomplete.FutureModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Product name",
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "class": "form-control",
             }
         )
     )
@@ -150,7 +157,7 @@ class ProductEditForm(autocomplete.FutureModelForm):
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Description..",
-                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+                "class": "form-control",
             }
         ),
     )
@@ -158,14 +165,14 @@ class ProductEditForm(autocomplete.FutureModelForm):
     price_cost = forms.FloatField(
         required=False,
         widget=forms.NumberInput(
-            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
+            attrs={"class": "form-control"}
         ),
     )
 
     price_sale = forms.FloatField(
         required=False,
         widget=forms.NumberInput(
-            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
+            attrs={"class": "form-control"}
         ),
     )
 
@@ -174,7 +181,7 @@ class ProductEditForm(autocomplete.FutureModelForm):
         widget=forms.FileInput(
             attrs={
                 "placeholder": "Profile Image",
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "class": "form-control",
                 "style": "box-sizing: border-box",
             }
         ),
@@ -203,7 +210,7 @@ class LocationAddForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Location name",
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "class": "form-control",
             }
         )
     )
@@ -212,7 +219,7 @@ class LocationAddForm(ModelForm):
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Description..",
-                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+                "class": "form-control",
             }
         ),
     )
@@ -227,7 +234,7 @@ class LocationEditForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Location name",
-                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+                "class": "form-control",
             }
         )
     )
@@ -236,7 +243,7 @@ class LocationEditForm(ModelForm):
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Description..",
-                "class": "pa2 input-reset ba bb br2 bg-transparent w-100",
+                "class": "form-control",
             }
         ),
     )
@@ -244,7 +251,7 @@ class LocationEditForm(ModelForm):
     size = forms.FloatField(
         required=False,
         widget=forms.NumberInput(
-            attrs={"class": "pa2 input-reset ba br2 bg-transparent w-100"}
+            attrs={"class": "form-control"}
         ),
     )
 
@@ -253,7 +260,7 @@ class LocationEditForm(ModelForm):
         widget=forms.FileInput(
             attrs={
                 "placeholder": "Profile Image",
-                "class": "pa2 input-reset ba br2 bg-transparent w-100",
+                "class": "form-control",
                 "style": "box-sizing: border-box",
             }
         ),
@@ -317,7 +324,7 @@ class MutationForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Amount",
-                "class": "lh-copy pa2 input-reset ba br2 bg-transparent w-100",
+                "class": "lh-copy form-control",
             }
         ),
     )

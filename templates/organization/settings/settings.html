@@ -4,33 +4,37 @@
 
 {% block content %}
 
-<h1 class="pl3 db cf">
-    <span class="db dib-ns">🛠️ Organization </span>
-    <a class="f4 black fw6 underline-hover" href="{% url 'organization_settings' request.organization.slug %}">Settings</a>
-    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_users' request.organization.slug %}">Users</a>
-    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_billing' request.organization.slug %}">Billing</a>
-    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_integrations' request.organization.slug %}">Integrations</a>
-    <a class="f4 black fw6 no-underline underline-hover" href="{% url 'organization_export' request.organization.slug %}">Export</a>
+<h1 class="mt-3">
+    🛠️ Organization
+    <a class="link-active" href="{% url 'organization_settings' request.organization.slug %}">Settings</a>
+    <a class="" href="{% url 'organization_users' request.organization.slug %}">Users</a>
+    <a class="" href="{% url 'organization_billing' request.organization.slug %}">Billing</a>
+    <a class="" href="{% url 'organization_integrations' request.organization.slug %}">Integrations</a>
+    <a class="" href="{% url 'organization_export' request.organization.slug %}">Export</a>
 </h1>
 
-<div class="fl w-100 w-50-m w-third-l ph3">
-    <h1 class="f4 bold">Organization details</h1>
+<div class="col-md-4">
+    <h1>Organization details</h1>
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="mt3">
-            <label class="db fw6 lh-copy f6" for="name">Name</label>            
+        <div class="mb-3">
+            <label class="col-form-label" for="name">Name</label>            
             {{ organization_form.name }}
         </div>
-        <div class="mt3">
-            <label class="db fw6 lh-copy f6" for="email-address">Contact Email</label>            
+        <div class="mb-3">
+            <label class="col-form-label" for="description">Description</label>            
+            {{ organization_form.description }}
+        </div>
+        <div class="mb-3">
+            <label class="col-form-label" for="email-address">Contact Email</label>            
             {{ organization_form.contact_email }}
         </div>
-        <div class="mt3">
-            <label class="db fw6 lh-copy f6" for="currency">Currency</label>            
+        <div class="mb-3">
+            <label class="col-form-label" for="currency">Currency</label>            
             {{ organization_form.currency }}
         </div>
-        <div class="mt3">
-            <input class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Save details &raquo;">
+        <div class="mb-3">
+            <input class="btn btn-primary" type="submit" value="Save organization details &raquo;">
         </div>
     </form>
 </div>

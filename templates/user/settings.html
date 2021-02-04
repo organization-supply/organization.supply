@@ -6,115 +6,115 @@
 
 {% block content %}
 
-<h1 class="pl3">
+<h1 class="py-3">
     🛠️ Settings
     {% include 'utils/information.html' with id='user-settings' content="These are your personal settings and are shared across all organizations that you are a member of." %}
 </h1>
 
-<div class="fl w-100 w-50-m w-third-l ph3">
-    <h1 class="f4 bold">Profile</h1>
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="mt3">
-            <label class="db fw6 mb1 lh-copy f6" for="name">Name</label>
-            {{ user_form.name }}
-        </div>
-        <div class="mt3">
-            <label class="db fw6 mb1 lh-copy f6" for="image">
-                Profile Image
-                <span class="fr di fw3">(<a id="clearProfilePicture" href="#">clear</a>)</span>
-            </label>
-            
-            {{ user_form.image }}
-        </div>
+<div class="row pb-4">
+    <div class="col-sm">
+        <h2 >Profile</h2>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="col-form-label" for="name">Name</label>
+                {{ user_form.name }}
+            </div>
+            <div class="mb-3">
+                <label class="col-form-label" for="image">
+                    Profile Image
+                    <span class="">(<a id="clearProfilePicture" href="#">clear</a>)</span>
+                </label>
+                {{ user_form.image }}
+            </div>
 
-        <div class="mt3">
-            <label class="db fw6 mb1 lh-copy f6" for="image">Information tooltips</label>
-            <label for="">
-                {{ user_form.show_information_tooltips }}
-                Show information tooltips like these:
-                <span class="bn ph2 b br-100 v-mid bg-moon-gray hover-bg-gray i white f5 lh-title tippy mb2 dib" id="tippy-{{id}}" data-tippy-content="{{ content }}">
-                    i
-                </span>                
-            </label>
-        </div>
+            <div class="mb-3">
+                <label class="col-form-label" for="image">Information tooltips</label>
+                <label for="">
+                    {{ user_form.show_information_tooltips }}
+                    Show information tooltips like these:
+                    <span class="" id="tippy-{{id}}" data-tippy-content="{{ content }}">
+                        i
+                    </span>                
+                </label>
+            </div>
 
-    
-        <div class="mt2">
-            <input class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Save profile &raquo;">
-        </div>
-    </form>
+            <div class="mb-2">
+                <input class="btn btn-primary" type="submit" value="Save profile">
+            </div>
+        </form>
+        
 
-    <h1 class="f4 bold pt3">Change Password</h1>
-    <form action="{% url 'settings_change_password' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+        <h2 class="f4 bold pt3">Change Password</h2>
+        <form action="{% url 'settings_change_password' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
 
-        <div class="mt3">
-            <label class="db fw6 mb1 lh-copy f6" for="image">
-                Current password
-                <span class="red f5">*</span>
-            </label>    
-            <input type="password" name="old_password" placeholder="Your current password" class="pa2 input-reset ba br2 bg-transparent w-100" required="" id="old_password_id">
-        </div>
+            <div class="mb-3">
+                <label class="col-form-label" for="image">
+                    Current password
+                    <span class="red f5">*</span>
+                </label>    
+                <input type="password" name="old_password" placeholder="Your current password" class="form-control" required="" id="old_password_id">
+            </div>
 
-        <div class="mt3">
-            <label class="db fw6 mb1 lh-copy f6" for="image">
-                New password
-                <span class="red f5">*</span>
-            </label>    
-            <input type="password" name="new_password1" placeholder="A new password" class="pa2 input-reset ba br2 bg-transparent w-100" required="" id="new_password1_id">
-        </div>
+            <div class="mb-3">
+                <label class="col-form-label" for="image">
+                    New password
+                    <span class="red f5">*</span>
+                </label>    
+                <input type="password" name="new_password1" placeholder="A new password" class="form-control" required="" id="new_password1_id">
+            </div>
 
-        <div class="mt3">
-            <label class="db fw6 mb1 lh-copy f6" for="image">
-                New password (confirmation)
-                <span class="red f5">*</span>
-            </label>    
-            <input type="password" name="new_password2" placeholder="Confirm your new password" class="pa2 input-reset ba br2 bg-transparent w-100" required="" id="new_password2_id">
-        </div>
+            <div class="mb-3">
+                <label class="col-form-label" for="image">
+                    New password (confirmation)
+                    <span class="red f5">*</span>
+                </label>    
+                <input type="password" name="new_password2" placeholder="Confirm your new password" class="form-control" required="" id="new_password2_id">
+            </div>
 
-        <div class="mt2">
-            <input class="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2" type="submit" value="Change password &raquo;">
-        </div>
-    </form>
-</div>
-
-<div class="fl w-100 w-50-m w-third-l ph3">
-    <h1 class="f4 bold">Keyboard shortcuts</h1>
-
-    <p class="lh-copy">
-        We support shortcuts for most pages. They work the same way like gmail. 
-        So pressing <code class="pa1 br1 bg-light-blue">g d</code> in sequence navigates you towards dashboard. The entire list is below:
-    </p>
-
-    <ul class="lh-copy">
-        <li><code class="pa1 br1 bg-light-blue">g d</code> or <code class="pa1 br1 bg-light-blue">g h</code>: Dashboard</li>
-        <li><code class="pa1 br1 bg-light-blue">g p</code>: Products</li>
-        <li><code class="pa1 br1 bg-light-blue">g l</code>: Locations</li>
-        <li><code class="pa1 br1 bg-light-blue">g i</code>: Inventory</li>
-        <li><code class="pa1 br1 bg-light-blue">g s</code>: Transaction</li>
-        <li><code class="pa1 br1 bg-light-blue">g n</code>: Notifications</li>
-
-        <li><code class="pa1 br1 bg-light-blue">s s</code>: Shortcut to adding a sale</li>
-        <li><code class="pa1 br1 bg-light-blue">s m</code>: Shortcut for moving inventory</li>
-
-    </ul>
-</div>
-
-
-<div class="fl w-100 w-50-m w-third-l ph3">
-    <h1 class="f4 bold">API keys</h1>
-
-    <p class="lh-copy">
-        For access to our API you will need an API-key. Here's your personal one:
-    </p>
-    <div class="mt3">
-        <label class="db fw6 mb1 lh-copy f6" for="api-key">API Key</label>
-        <input type="text" name="api-key" value="{{ token }}" placeholder="API Key" class="pa2 input-reset br2 ba bg-transparent w-100" required="" id="api-key">
+            <div class="mb-3">
+                <input class="btn btn-primary" type="submit" value="Change password">
+            </div>
+        </form>
     </div>
-    <p class="lh-copy">
-        Have a look at <a href="http://organization.supply/api/">the documentation</a> to see which endpoints are available to you!
-    </p>
+
+    <div class="col-sm">
+        <h2>Keyboard shortcuts</h2>
+
+        <p>
+            We support shortcuts for most pages. They work the same way like gmail. 
+            So pressing <code>g d</code> in sequence navigates you towards dashboard. The entire list is below:
+        </p>
+
+        <ul>
+            <li><code class="pa1 br1 bg-light-blue">g d</code> or <code class="pa1 br1 bg-light-blue">g h</code>: Dashboard</li>
+            <li><code class="pa1 br1 bg-light-blue">g p</code>: Products</li>
+            <li><code class="pa1 br1 bg-light-blue">g l</code>: Locations</li>
+            <li><code class="pa1 br1 bg-light-blue">g i</code>: Inventory</li>
+            <li><code class="pa1 br1 bg-light-blue">g s</code>: Transaction</li>
+            <li><code class="pa1 br1 bg-light-blue">g n</code>: Notifications</li>
+
+            <li><code class="pa1 br1 bg-light-blue">s s</code>: Shortcut to adding a sale</li>
+            <li><code class="pa1 br1 bg-light-blue">s m</code>: Shortcut for moving inventory</li>
+        </ul>
+    </div>
+
+
+    <div class="col-sm">
+        <h2>API keys</h2>
+
+        <p>
+            For access to our API you will need an API-key. Here's your personal one:
+        </p>
+        <div class="mb-3">
+            <label class="col-form-label" for="api-key">API Key</label>
+            <input type="text" name="api-key" value="{{ token }}" placeholder="API Key" class="form-control" required="" id="api-key">
+        </div>
+        <p>
+            Have a look at <a href="http://organization.supply/api/">the documentation</a> to see which endpoints are available to you!
+        </p>
+    </div>
 </div>
 
 {% endblock %}

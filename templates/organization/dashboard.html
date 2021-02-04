@@ -4,165 +4,121 @@
 
 {% block content %}
 
-<h1 class="ph3">
+<h1 class="mt-3">
     🏠 Dashboard
     {% include 'utils/information.html' with id='dashboard' content="The dashboard provides an overview of all your inventory"%}
 </h1>
 
-<div class="fl ph3 w-100 w-50-m w-third-l">
-    <h1 class="f4 bold">Quick actions</h1>
-    
-    <ul style="margin-block-end: 0; margin-block-start: 0;" class="list pl0 ml0 ba b--light-silver br2">
-        <a href="{% url 'organization_shortcut_sales' request.organization.slug %}" class="black no-underline">
-            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+<div class="row pb-4">
+    <div class="col-sm">
+        <h2>Quick actions</h2>
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action" href="{% url 'organization_shortcut_sales' request.organization.slug %}">
                 I sold a product
-                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
-                    <title>chevronRight icon</title>
-                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
-                </svg>
-            </li>
-        </a>
-        <a href="{% url 'organization_shortcut_move' request.organization.slug %}" class="black no-underline">
-            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+            </a>
+            <a class="list-group-item list-group-item-action" href="{% url 'organization_shortcut_move' request.organization.slug %}">
                 I moved a product
-                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
-                    <title>chevronRight icon</title>
-                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
-                </svg>
-            </li>
-        </a>
-        <a href="{% url 'organization_mutations' request.organization.slug %}" class="black no-underline">
-            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+            </a>
+            <a class="list-group-item list-group-item-action" href="{% url 'organization_mutations' request.organization.slug %}">
                 I want to add new inventory
-                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
-                    <title>chevronRight icon</title>
-                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
-                </svg>
-            </li>
-        </a>
-        <a href="{% url 'organization_product_new' request.organization.slug %}" class="black no-underline">
-            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+            </a>
+            <a class="list-group-item list-group-item-action" href="{% url 'organization_product_new' request.organization.slug %}">
                 I would like to create a new product
-                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
-                    <title>chevronRight icon</title>
-                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
-                </svg>
-            </li>
-        </a>
-        <a href="{% url 'organization_location_new' request.organization.slug %}" class="black no-underline">
-            <li class="ph3 pv3 b--light-silver bg-animate hover-bg-black hover-white">
+            </a>
+            <a class="list-group-item list-group-item-action" href="{% url 'organization_location_new' request.organization.slug %}">
                 I would like to create a new location
-                <svg class="w1 fr" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
-                    <title>chevronRight icon</title>
-                    <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
-                </svg>
-            </li>
-        </a>
-    </ul>
-</div>
-
-<div class="fl ph3 w-100 w-50-m w-third-l">
-    <h1 class="f4 bold">
-        Inventory in the last month
-        <a class="f6 fr mt2 fw6 no-underline underline-hover black" href="{% url 'reports_index' request.organization.slug %}">more reports &raquo;</a>
-    </h1>
-    <div class="ba b--light-silver br2">
+            </a>
+        </div>
+    </div>
+    <div class="col-sm">
+        <h2>
+            Inventory 
+            <a class="text-end fs-6" href="{% url 'reports_index' request.organization.slug %}">more reports &raquo;</a>
+        </h2>
         {% include 'charts/products_mutations.html' with data=product_mutations wrapper='mutations' debug=False %}
+    </div>
+    <div class="col-sm">
+        <h2>
+            Last transactions
+            <a class="text-end fs-6" href="{% url 'organization_mutations' request.organization.slug %}">all mutations &raquo;</a>
+        </h2>
+        <div class="list-group">
+            {% if mutations %}
+                {% for mutation in mutations %}
+                <li class="list-group-item">
+                    <strong>
+                        {% if mutation.operation == 'add' %}+{% endif %}{{ mutation.amount }}
+                    </strong>
+                    {{ mutation.product.name }} - 
+                    <i>{{ mutation.location }}</i>
+                    {{ mutation.created|date:"Y-m-d" }}</span>
+                </li>
+                {% endfor %}
+                {% else %}
+                <li class="ph3 pv3 b--light-silver">No transactions found.</li>
+            {% endif %}
+        </div>
     </div>
 </div>
 
-<div class="fl ph3 w-100 w-50-m w-third-l">
-    <h1 class="f4 bold">Last transactions
-        <a class="f6 fr mt2 fw6 no-underline underline-hover black" href="{% url 'organization_mutations' request.organization.slug %}">all mutations &raquo;</a>
-    </h1>
-    <ul style="margin-block-end: 0; margin-block-start: 0;" class="list pl0 ml0 ba b--light-silver br2">
-        {% if mutations %}
-        {% for mutation in mutations %}
-        <li class="ph3 pv3 b--light-silver">
-            <strong>
-                {% if mutation.operation == 'add' %}+{% endif %}{{ mutation.amount }}
-            </strong>
-            {{ mutation.product.name }} - 
-            <i>{{ mutation.location }}</i>
-            <span class="fr">{{ mutation.created|date:"Y-m-d" }}</span>
-        </li>
-        {% endfor %}
-        {% else %}
-        <li class="ph3 pv3 b--light-silver">No transactions found.</li>
-        {% endif %}
-    </ul>
-</div>
-
-{% if notifications %}
-<div class="fl ph3 w-100 w-50-m w-50-l">
-    <h1 class="f4 bold">
-        Notifications 
-        <a class="f6 fr mt2 fw6 no-underline underline-hover black" href="{% url 'organization_notifications' request.organization.slug %}">see more notifications &raquo;</a>
-    </h1>
-    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
-        <thead>
-            <tr class="">
-                <th class="fw6 bb b--black-20 tl pa2"></th>
-                <th class="fw6 bb b--black-20 tl pa2">Title</th>
-                <th class="fw6 bb b--black-20 tl pa2"></th>
-                <th class="fw6 bb b--black-20 tl pa2">Date</th>
-            </tr>
-        </thead>
-        <tbody class="lh-copy">
-            {% for notification in notifications %}
+<div class="row pb-4">
+    <div class="col-sm">
+        <h2>
+            Notifications
+            <a class="text-end fs-6" href="{% url 'organization_notifications' request.organization.slug %}">see more notifications &raquo;</a>
+        </h2>
+        <table class="table border">
+            <thead>
                 <tr>
-                    <td class="pl3 bb b--black-20">
-                        {% if notification.unread %}
-                            <a href="{% url 'user_notification_action' notification.id %}?action=mark_as_read{% if request.organization %}&organization={{ request.organization.slug }}{% endif%}" class="no-underline gold">◉</a>
-                        {% endif %}
-                    </td>
-                    <td class="pa2 bb b--black-20">
-                        {{ notification.title }}
-                    </td>
-                    <td class="pa2 bb b--black-20">
-                        {% if notification.description %} - {{ notification.description }}{% endif %}
-                    </td>
-                    <td class="pa2 bb b--black-20">
-                        {{ notification.created|date:"d-m-Y" }}
+                    <th></th>
+                    <th>Title</th>
+                    <th></th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notification in notifications %}
+                    <tr>
+                        <td class="pl3 bb b--black-20">
+                            {% if notification.unread %}
+                                <a class="text-decoration-none" href="{% url 'user_notification_action' notification.id %}?action=mark_as_read{% if request.organization %}&organization={{ request.organization.slug }}{% endif%}">◉</a>
+                            {% endif %}
+                        </td>
+                        <td>{{ notification.title }}</td>
+                        <td>{% if notification.description %} - {{ notification.description }}{% endif %}</td>
+                        <td>{{ notification.created|date:"d-m-Y" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>  
+        </table>
+    </div>
+    <div class="col-sm">
+        <h2>Reservations</h2>
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.created|date:"Y-m-d h:i:s" }}</td>
+                    <td>{{ reservation.amount }}</td>
+                    <td>{{ reservation.desc }}</td>
+                    <td>
+                        <a href="{% url 'organization_reservation_action' request.organization.slug reservation.id %}?action=confirm">Confirm</a>
+                        or 
+                        <a href="{% url 'organization_reservation_action' request.organization.slug reservation.id %}?action=cancel">Cancel</a>
                     </td>
                 </tr>
-            {% endfor %}
-        </tbody>  
-    </table>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-{% endif %}
-    
-{% if reservations %}
-<div class="fl ph3 w-100 w-50-m w-50-l">
-    <h1 class="f4 bold">Reservations</h1>
-    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
-        <thead>
-            <tr class="">
-                <th class="fw6 bb b--black-20 tl pa2">Date</th>
-                <th class="fw6 bb b--black-20 tl pa3">Amount</th>
-                <th class="fw6 bb b--black-20 tl pa3">Description</th>
-                <th class="fw6 bb b--black-20 tl pa3">Actions</th>
-            </tr>
-        </thead>
-        <tbody class="lh-copy">
-            {% for reservation in reservations %}
-            <tr>
-                <td class="pa2 bb b--black-20">{{ reservation.created|date:"Y-m-d h:i:s" }}</td>
-                <td class="pa2 bb b--black-20">{{ reservation.amount }}</td>
-                <td class="pa2 bb b--black-20">{{ reservation.desc }}</td>
-                <td class="pa2 bb b--black-20">
-                    <a class="f6 link ba ph3 pv2 dib black hover-bg-green" href="{% url 'organization_reservation_action' request.organization.slug reservation.id %}?action=confirm">
-                        Confirm
-                    </a>
-                    <a class="f6 link ba ph3 pv2 dib black hover-bg-red" href="{% url 'organization_reservation_action' request.organization.slug reservation.id %}?action=cancel">
-                        Cancel
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endif %}
 
 {% endblock %}

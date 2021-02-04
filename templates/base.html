@@ -1,54 +1,28 @@
-{% load static %}
+{% include "base_header.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <!-- Meta -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-  <!-- Title -->
-  <title>{% block title %}{% endblock %}</title>
-
-  <!-- Standard Favicon -->
-  <link rel="icon" href="{% static 'favicon-16x16.png' %}">
-  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png">
-  
-
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
-  <link rel="stylesheet" href="{% static 'style.css' %}"/>
-  
-  <!-- Scripts -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/3.4.1/tippy.min.js" integrity="sha256-40Df9zwhwAOyOM6Lp2plp+Czdy2PlVxTuY07maOlXeY=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/3.4.1/themes/light.css" integrity="sha256-i6Q0EFfGpI7TQTMlmEHRu/8HWFrmGCbZBkRbg+oP9fc=" crossorigin="anonymous" />
-</head>
-
-<body class="avenir">
+{% include "utils/cookies.html" %}
 
 {% if user.is_authenticated %}
   {% include "base_nav.html" %}
 {% endif %}
-
-{% if messages %}
-  {% for message in messages %}
-    <div class="flex items-center justify-center pa4 
-      {% if message.tags == 'info' %}bg-lightest-blue navy
-      {% elif message.tags == 'error' %}bg-washed-red dark-red
-      {% elif message.tags == 'success' %}bg-light-green dark-green{% endif %}
-      ">
-      <span class="lh-title ml3">{{ message }}</span>
-    </div>
-  {% endfor %}
-{% endif %}
     
-<main class="pa pa2-ns mw9 center cf mb5">
+<main class="container mb-5 pt-3">
+  <!-- Messages -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert
+        {% if message.tags == 'info' %}alert-info
+        {% elif message.tags == 'warning' %}alert-warning
+        {% elif message.tags == 'error' %}alert-danger
+        {% elif message.tags == 'success' %}alert-success
+        {% endif %}
+        ">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Main content -->
   {% block content %}{% endblock %}
 </main>
 
