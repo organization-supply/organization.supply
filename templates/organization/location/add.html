@@ -4,34 +4,24 @@
 
 {% block content %}
 
-<main class="mh3 black-80">
-    <h1 class="tc">
-        Create a new location
-    </h1>
+<h1 class="text-center mt-3">
+    Create a new location
+</h1>
 
-    <form class="measure center" action="" method="POST">
-        {% csrf_token %}
-
-        <fieldset id="location_form" class="ba b--transparent ph0 mh0">
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="email-address">
-                    Name
-                    <span class="red f5">*</span>
-                </label>
-                {{ form.name }}
-            </div>
-            <div class="mv3">
-                <label class="db fw6 lh-copy f6" for="password">Description</label>
-                {{ form.desc }}
-                <span class="pv2 db grey f6">
-                    You will be able to add additional data and settings like notifications to the location once it is created.
-                </span>
-            </div>
-        </fieldset>
-        <div class="">
-            <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Save location &raquo;">
-        </div>
-    </form>
-</main>
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form class="" action="" method="POST">
+            {% csrf_token %}
+            <label class="col-form-label" for="name">Name *</label>
+            {{ form.name }}
+            <label class="col-form-label" for="desc">Description</label>
+            {{ form.desc }}
+            <p class="text-muted">
+                You will be able to add additional data and settings like notifications to the location once it is created.
+            </p>
+            <input class="btn btn-primary float-end" type="submit" value="Save location &raquo;">
+        </form>
+    </div>
+</div>
 
 {% endblock %}

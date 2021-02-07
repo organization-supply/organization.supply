@@ -4,82 +4,80 @@
 
 {% block content %}
 
-<h1 class="ph3 db cf">
+<h1 class="mt-3">
     🧮 Transactions
     {% include 'utils/information.html' with id='location' content="This is the entire transaction history of your inventory"%}
 </h1>
 
-<div class="mh3 overflow-auto">
-    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
-        <thead>
+<table class="table border" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Product</th>
+            <th>Location</th>
+            <th colspan="2">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <form method="POST" id="mutation_form" action="{% url 'organization_mutation_insert' request.organization.slug %}">
+                <td>
+                    {% now "Y-m-d" %}
+                    {% csrf_token %}
+                </td>
+                <td>
+                    {{ form.amount }}
+                </df>
+                <td>
+                    {{ form.product }}
+                </td>
+                <td>
+                    {{ form.location }}
+                </td>
+                <td>
+                    {{ form.desc }}
+                </td>
+                <td>
+                    <input class="btn btn-primary" type="submit" value="Save transaction">
+                </td>
+            </form>
+        </tr>
+        
+        {% if mutations %}
+        {% for mutation in mutations %}
             <tr>
-                <th class="fw6 bb b--black-20 tl pa3">Date</th>
-                <th class="fw6 bb b--black-20 tl pa3">Amount</th>
-                <th class="fw6 bb b--black-20 tl pa3">Product</th>
-                <th class="fw6 bb b--black-20 tl pa3">Location</th>
-                <th class="fw6 bb b--black-20 tl pa3" colspan="2">Description</th>
+                <td>
+                    {{ mutation.created|date:"Y-m-d h:i:s" }}
+                </td>
+                <td>
+                    {% if mutation.operation == 'add' %}+{% endif %}
+                    {{ mutation.amount }}
+                    {% if mutation.operation == 'reserved' %}(reserved){% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'organization_product_view' request.organization.slug mutation.product.id %}">{{ mutation.product.name }}</a>
+                </td>
+                <td>
+                    <a href="{% url 'organization_location_view' request.organization.slug mutation.location.id %}">{{ mutation.location.name }}</a>
+                </td>
+                <td>
+                    {{ mutation.desc }}
+                </td>
+                <td>
+                    <img class="avatar rounded" width="30px" alt="avatar" src="{{ mutation.user.image.url }}" alt="">
+                </td>
             </tr>
-        </thead>
-        <tbody class="lh-copy">
+        {% endfor %}
+        {% else %}
             <tr>
-                <form method="POST" id="mutation_form" action="{% url 'organization_mutation_insert' request.organization.slug %}">
-                    <td class="pl3 bb b--black-20">
-                        {% now "Y-m-d" %}
-                        {% csrf_token %}
-                    </td>
-                    <td class="pa2 bb b--black-20">
-                        {{ form.amount }}
-                    </df>
-                    <td class="pa2 bb b--black-20">
-                        {{ form.product }}
-                    </td>
-                    <td class="pa2 bb b--black-20">
-                        {{ form.location }}
-                    </td>
-                    <td class="pa2 bb b--black-20">
-                        {{ form.desc }}
-                    </td>
-                    <td class="pa2 bb b--black-20">
-                        <input class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib b--none lh-copy" type="submit" value="Save transaction">
-                    </td>
-                </form>
+                <td colspan="6">
+                    <p>No transactions found. Add one with the form above.</p>
+                </td>
             </tr>
-            
-            {% if mutations %}
-            {% for mutation in mutations %}
-                <tr>
-                    <td class="pl3 bb b--black-20">
-                        {{ mutation.created|date:"Y-m-d h:i:s" }}
-                    </td>
-                    <td class="pa3 bb b--black-20">
-                        {% if mutation.operation == 'add' %}+{% endif %}
-                        {{ mutation.amount }}
-                        {% if mutation.operation == 'reserved' %}(reserved){% endif %}
-                    </td>
-                    <td class="pa3 bb b--black-20">
-                        <a href="{% url 'organization_product_view' request.organization.slug mutation.product.id %}">{{ mutation.product.name }}</a>
-                    </td>
-                    <td class="pa3 bb b--black-20">
-                        <a href="{% url 'organization_location_view' request.organization.slug mutation.location.id %}">{{ mutation.location.name }}</a>
-                    </td>
-                    <td class="pa3 bb b--black-20">
-                        {{ mutation.desc }}
-                    </td>
-                    <td class="pa3 bb b--black-20">
-                        <img class="br-pill h2 w2 dib" alt="avatar" src="{{ mutation.user.image.url }}" alt="">
-                    </td>
-                </tr>
-            {% endfor %}
-            {% else %}
-                <tr>
-                    <td class="pv2 pl3 bb b--black-20" colspan="6">
-                        <p>No transactions found. Add one with the form above.</p>
-                    </td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
-</div>
+        {% endif %}
+    </tbody>
+</table>
 
 {% include 'utils/pagination.html' with paginator=mutations  %}
 <style>
@@ -89,7 +87,7 @@
     font-family: inherit;
     font-size: 100%;
     line-height: 150%;
-    margin-top: 5px;
+    /* margin-top: 5px; */
     /* margin-bottom: -4px; */
 }
 </style>

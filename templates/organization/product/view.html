@@ -4,146 +4,132 @@
 
 {% block content %}
 
-    <h1 class="mh3">
-        📦 <a class="no-underline gray link underline-hover" href="{% url 'organization_products' request.organization.slug %}">Products</a>
-            <span class="gray">/</span> {{ product.name|title }}
-
-        <a 
-            class="no-underline f6 fw3 pa2 bg-animate bg-yellow hover-bg-gold black br2 dib fr" 
-            href="{% url 'organization_product_edit' request.organization.slug product.id %}">Edit Product</a>
-
+<h1 class="mt-3">
+    📦 <a class="text-decoration-none" href="{% url 'organization_products' request.organization.slug %}">Products</a>
+        / {{ product.name|title }}
         {% include 'utils/information.html' with id='product_view' content="An overview all about a single product"%}
-    </h1>
+        <a class="float-end btn btn-warning" href="{% url 'organization_product_edit' request.organization.slug product.id %}">Edit Product</a>
+</h1>
 
-    <article class="mh3 cf">
-        <div class="fl w-100 w-50-l pr2">
-            {% if product.desc %}
-
-            <h3>Product Description</h3>
-
-            <div class="ba b--light-silver br2 pa2">
-                <span class="lh-copy pb2 db">{{ product.desc }}</span>
-                <img class="dib br2" src="{{ product.image.url }}" alt="Image of {{ product.name }}">
-            </div>
-            
-            {% endif %}
-            <h3>
-                Current Inventory
-            </h3>
-            {% if inventories %}
-            <div class="fl w-100">
-                <div class="overflow-auto">
-                        <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th class="fw6 bb b--black-20 tl pa2 bg-white">Amount</th>
-                                <th class="fw6 bb b--black-20 tl pa2 bg-white">Location</th>
-                            </tr>
-                        </thead>
-                        <tbody class="lh-copy">
-                            {% for inventory in inventories %}
-                            <tr>
-                                {{ total|add:inventory.amount }}
-                                <td class="pa2 bb b--black-20">{{ inventory.amount }}</td>
-                                <td class="pa2 bb b--black-20">
-                                    <a href="{% url 'organization_location_view' request.organization.slug    inventory.location.id %}">
-                                        {{ inventory.location.name }}
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th class="fw6 pa2 bb b--black-20 tl bg-white">
-                                    {{ product_total.amount__sum }}
-                                </th>
-                                <th class="fw6 pa2 bb b--black-20 tl bg-white">
-                                    Total
-                                </th>
-                            </tr>          
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-            {% else %}
-            <p>No inventory found for this product.</p>
-            {% endif %}
-        </div>
-        <div class="fl w-100 w-50-l"> 
-                <h3>Transactions</h3>
-
-                {% if product.mutations %}
-                <div class="ba b--light-silver br2 mb2">
-                    {% include 'charts/product_mutations.html' with product=product wrapper="product" debug=False %}
-                </div>                
-                {% endif %}
-
-                <h3>Add a transaction for this product</h3>
-                
-                <table class="f6 w-100 center" cellspacing="0">
+<div class="row">
+    <div class="col-md-6">
+        <h3>
+            Current Inventory
+        </h3>
+        {% if inventories %}
+            <table class="table border" cellspacing="0">
+                <thead>
                     <tr>
-                        <form method="POST" id="mutation_form" action="{% url 'organization_mutation_insert' request.organization.slug %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="product" value="{{ product.id }}">
-                            <td class="pr2">
-                                {{ mutation_form.amount }}
-                            </td>
-                            <td class="pr2">
-                                {{ mutation_form.location }}
-                            </td>
-                            <td class="pr2">
-                                {{ mutation_form.desc }}
-                            </td>
-                            <td class="">
-                                <input class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib b--none lh-copy" type="submit" value="Save transaction">
-                            </td>
-                        </form>
+                        <th>Amount</th>
+                        <th>Location</th>
                     </tr>
-                </table>
+                </thead>
+                <tbody>
+                    {% for inventory in inventories %}
+                    <tr>
+                        {{ total|add:inventory.amount }}
+                        <td>{{ inventory.amount }}</td>
+                        <td>
+                            <a href="{% url 'organization_location_view' request.organization.slug    inventory.location.id %}">
+                                {{ inventory.location.name }}
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>
+                            {{ product_total.amount__sum }}
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                    </tr>          
+                </tfoot>
+            </table>
+        {% else %}
+        <p>No inventory found for this product.</p>
+        {% endif %}
 
-                <h3>Transaction history</h3>
+        <h3>Transactions</h3>
+
+        <table cellspacing="0">
+            <tr>
+                <form method="POST" id="mutation_form" action="{% url 'organization_mutation_insert' request.organization.slug %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product" value="{{ product.id }}">
+                    <td>
+                        {{ mutation_form.amount }}
+                    </td>
+                    <td>
+                        {{ mutation_form.location }}
+                    </td>
+                    <td>
+                        {{ mutation_form.desc }}
+                    </td>
+                    <td>
+                        <input class="btn btn-primary" type="submit" value="Save transaction">
+                    </td>
+                </form>
+            </tr>
+        </table>
                 
-                <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th class="fw6 bb b--black-20 tl pa2 bg-white">Date</th>
-                            <th class="fw6 bb b--black-20 tl pa2 bg-white">Amount</th>
-                            <th class="fw6 bb b--black-20 tl pa2 bg-white">Location</th>
-                            <th class="fw6 bb b--black-20 tl pa2 bg-white">User</th>
-                        </tr>
-                    </thead>
-                    <tbody class="lh-copy">
-                        {% for mutation in mutations %}
-                        <tr>
-                            <td class="pa2 bb b--black-20">
-                                {{ mutation.created|date:"Y-m-d" }}
-                            </td>
-                            <td class="pa2 bb b--black-20">
-                                {% if mutation.operation == 'remove' %}
-                                    {{ mutation.amount }} 
-                                {% elif mutation.operation == 'reserved' %}    
-                                    {{ mutation.amount }} (reserved)
-                                {% else %}
-                                    +{{ mutation.amount }}
-                                {% endif %}
-                            </td>
-                            <td class="pa2 bb b--black-20">
-                                <a href="{% url 'organization_location_view' request.organization.slug    mutation.location.id %}">{{ mutation.location.name }}</a>
-                            </td>
-                            <td class="pa2 bb b--black-20">
-                                {% if mutation.user.name %}
-                                    {{ mutation.user.name }}
-                                {% else %}
-                                    {{ mutation.user.email }}
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-    </article>
+        <table class="table border" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Location</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mutation in mutations %}
+                <tr>
+                    <td>
+                        {{ mutation.created|date:"Y-m-d" }}
+                    </td>
+                    <td>
+                        {% if mutation.operation == 'remove' %}
+                            {{ mutation.amount }} 
+                        {% elif mutation.operation == 'reserved' %}    
+                            {{ mutation.amount }} (reserved)
+                        {% else %}
+                            +{{ mutation.amount }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'organization_location_view' request.organization.slug    mutation.location.id %}">{{ mutation.location.name }}</a>
+                    </td>
+                    <td>
+                        {% if mutation.user.name %}
+                            {{ mutation.user.name }}
+                        {% else %}
+                            {{ mutation.user.email }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if product.mutations %}
+        <div class="border">
+            {% include 'charts/product_mutations.html' with product=product wrapper="product" debug=False %}
+        </div>                
+        {% endif %}
+
+    </div>
+    <div class="col-md-6">
+        {% if product.desc %}
+        <h3>Product Description</h3>
+        <p>{{ product.desc }}</>
+        <img width="100%" src="{{ product.image.url }}" alt="Image of {{ product.name }}">
+        {% endif %}
+    </div>
+</div>
+                
 <style>
 #id_desc{
     display: inline-block;
@@ -151,8 +137,11 @@
     font-family: inherit;
     font-size: 100%;
     line-height: 150%;
-    margin-top: 5px;
+    margin-top: 6px;
     /* margin-bottom: -4px; */
+}
+#id_location{
+    min-width: 50px;
 }
 </style>
 {% endblock %}

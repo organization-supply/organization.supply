@@ -1,6 +1,6 @@
 {% load extra_filters %}
 
-<span class="fr">
-    <a class="no-underline gray hover-black link" href="{% replace_query_param request.get_full_path 'order_by' field %}">↑</a>
-    <a class="no-underline gray hover-black link" href="{% replace_query_param request.get_full_path 'order_by' '-'|add:field %}">↓</a>
+<span>
+    <a class="text-decoration-none" href="{% replace_query_param request.get_full_path 'order_by' field %}">↑</a>
+    <a class="text-decoration-none" href="{% replace_query_param request.get_full_path 'order_by' '-'|add:field %}">↓</a>
 </span>

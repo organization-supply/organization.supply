@@ -7,13 +7,13 @@
 
 {% block content %}
 
-<h1 class="ph3 db">
+<h1 class="mt-3">
     🔍 Search
     {% include 'utils/information.html' with id='search' content="You can search for users, mutations, product & locations"%}
 </h1>
 
-<div class="mh3 overflow-auto">
-    <form action="" class="mb-3" method="GET">
+<div>
+    <form class="mb-3" action="" method="GET">
         <!-- The onfocus part is a hacky way of repositioning the cursor to the end.. -->
         <input 
             value="{{ q }}" 
@@ -26,35 +26,29 @@
     </form>
     {% if results %}
         {% for result in results%}
-            <article class="br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-50-l center">
-                <div class="pa2 ph3-ns pb3-ns">
-                    <div class="dt w-100 mt1">
-                        <div class="dtc">
-                            <h1 class="f5 f4-ns mv0">
-                                {% if result.name %}
-                                    {% if result.url %}
-                                    <a href="{{ result.url }}">
-                                        {{ result.name }}
-                                    </a>
-                                    {% elif result.name %}
-                                        {{ result.name }}  
-                                    {% elif result.email %}
-                                        {{ result.email }}  
-                                    {% endif %}
-                                {% else %}
-                                    {{ result }}
-                                {% endif%}
-                            </h1>
-                        </div>
-                        <div class="dtc tr">
-                            <h2 class="f5 mv0">{{ result|to_class_name }}</h2>
-                        </div>
-                    </div>
-                    <p class="f6 lh-copy measure mt2 mid-gray">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h1 class="card-title">
+                        {% if result.name %}
+                            {% if result.url %}
+                            <a href="{{ result.url }}">
+                                {{ result.name|title }}
+                            </a>
+                            {% elif result.name %}
+                                {{ result.name|title }}  
+                            {% elif result.email %}
+                                {{ result.email }}  
+                            {% endif %}
+                        {% else %}
+                            {{ result }}
+                        {% endif%}
+                    </h1>
+                    <h4 class="card-subtitle">{{ result|to_class_name }}</h4>
+                    <p class="card-text">
                         {{ result.desc }}
                     </p>
                 </div>
-            </article>
+            </div>
         {% endfor %}
     {% elif not results and q %}
         <p>No results found..</p>
@@ -63,7 +57,7 @@
 
 <!-- Set focus when page is loaded on search field -->
 <script>
-document.getElementById("q").focus();
+    document.getElementById("q").focus();
 </script>
 
 {% endblock %}

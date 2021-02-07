@@ -52,7 +52,7 @@
                             
                             <!-- Avatar -->
                             {% if request.user.image %}
-                                <img class="avatar rounded" width="30px" alt="avatar" src="{{ request.user.image.url }}" alt="">
+                                <img class="avatar rounded" width="30px" alt="{{ request.user.name }}" src="{{ request.user.image.url }}" alt="">
                                 {{ request.user.name }}
                             {% elif request.user.name %}
                                 {{ request.user.name }}

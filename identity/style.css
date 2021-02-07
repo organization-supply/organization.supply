@@ -5,29 +5,19 @@ body{
   /* Better dropdown */
 select:not(#id_tags){
     width: 100%;
-    padding:10px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border-style: solid;
-    border-width: 1px;
-    box-sizing: border-box;
-    border-color: initial;
-    border-top-color: initial;
-    border-right-color: initial;
-    border-bottom-color: initial;
-    border-left-color: initial;
+    padding: 6px;
     border-radius: .25rem;
-    color: black;
-    outline: none; 
+    border: 1px solid #ced4da;
     background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right 10px center;
+    padding-right: 20px;
 }
 
-span.select2{
-  border: 1px solid black;
-  width: 100%;
-  border-radius: .25rem;
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
+
 .select2-container--default .select2-selection--multiple {
   border: 0px!important;
 }

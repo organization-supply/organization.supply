@@ -6,91 +6,90 @@
 
 {% block content %}
 
-<h1 class="ph3 db">
+<h1 class="mt-3">
     📦 Products
     {% include 'utils/information.html' with id='products' content="View all of your products here, add or edit a product, move it around or record a sale"%}
-    <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib fr-ns" href="{% url 'organization_product_new' request.organization.slug %}">Add a product</a>
+    <a class="float-end btn btn-primary" href="{% url 'organization_product_new' request.organization.slug %}">Add a product</a>
 </h1>
 
 
-<div class="mh3 overflow-auto cf">
     
     {% include "utils/table_operations.html" %}
 
-    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
+    <table class="table border" cellspacing="0">
         <thead>
             <tr>
-                <th class="fw6 bb b--black-20 tl pa3" style="min-width: 100px;">
+                <th style="min-width: 100px;">
                     Name
                     {% include "utils/order_by.html" with field='name' %}
                 </th>
-                <th class="fw6 bb b--black-20 tl pa2" style="min-width: 150px;">
+                <th style="min-width: 160px;">
                     Date (modified)
                     {% include "utils/order_by.html" with field='modified' %}
                 </th>
-                <th class="fw6 bb b--black-20 tl pa2" style="min-width: 150px;">
+                <th style="min-width: 150px;">
                     Description & tags
                 </th>
-                <th class="fw6 bb b--black-20 tl pa2" style="min-width: 150px;">
+                <th style="min-width: 160px;">
                     Total inventory
                     {% include "utils/order_by.html" with field='inventory' %}
                 </th>
-                <th class="fw6 bb b--black-20 tl pa2" style="min-width: 150px;">Shortcuts</th>
-                <th class="fw6 bb b--black-20 tl pa2" style="min-width: 200px">Actions</th>
+                <th style="min-width: 150px;">Shortcuts</th>
+                <th style="min-width: 200px">Actions</th>
             </tr>
         </thead>
-        <tbody class="lh-copy">
+        <tbody>
             {% if products %}
             {% for product in products %}
                 <tr>
-                    <td class="pl3 bb b--black-20">
+                    <td>
                         <a href="{% url 'organization_product_view' request.organization.slug product.id %}">{{ product.name }}</a>
                     </td>
-                    <td class="pa2 bb b--black-20">
+                    <td>
                         {{ product.modified|date:"Y-m-d"}}
                     </td>
-                    <td class="pa2 bb b--black-20">
+                    <td>
                         {{ product.desc }}
-                        <ul class="list dib mv0 fr">
+                        <ul>
                             {% include "utils/tags.html" with tags=product.tags %}
                         </ul>
                     </td>
-                    <td class="pa2 bb b--black-20">
+                    <td>
                         {% if product.inventory_count %}
                             {{ product.inventory_count }}
                         {% else %}
                             -
                         {% endif %}
                     </td>
-                    <td class="pa2 bb b--black-20">
+                    <td>
                         {% if product.inventory_count %}
-                            <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_shortcut_move' request.organization.slug %}?product={{product.id}}">
+                            <a class="btn btn-sm btn-secondary" href="{% url 'organization_shortcut_move' request.organization.slug %}?product={{product.id}}">
                                 Move
                             </a>
-                            <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_shortcut_sales' request.organization.slug %}?product={{product.id}}">
+                            <a class="btn btn-sm btn-dark" href="{% url 'organization_shortcut_sales' request.organization.slug %}?product={{product.id}}">
                                 Sale
                             </a>
                         {% endif %}
                     </td>
-                    <td class="pa2 bb b--black-20">
-                        <a class="no-underline f6 fw3 pa2 bg-animate bg-blue hover-bg-dark-blue white br2 dib mr1" href="{% url 'organization_product_view' request.organization.slug product.id %}">
+                    <td>
+                        <a class="btn btn-sm btn-info" href="{% url 'organization_product_view' request.organization.slug product.id %}">
                             Details
                         </a>
-                        <a class="no-underline f6 fw3 pa2 bg-animate bg-yellow hover-bg-gold black br2 dib mr1" href="{% url 'organization_product_edit' request.organization.slug product.id %}">
+                        <a class="btn btn-sm btn-warning" href="{% url 'organization_product_edit' request.organization.slug product.id %}">
                             Edit
                         </a>
                         <!-- Django doesn't support DELETE requests -->
-                        <form method="POST" action="{% url 'organization_product_edit' request.organization.slug product.id %}" class="dib">
+                        <form class="d-inline-block" method="POST" action="{% url 'organization_product_edit' request.organization.slug product.id %}">
                             {% csrf_token %}
                             <input type="hidden" name="action" value="delete">
-                            <input type="submit" value="Delete" class="b--none br2 hover-bg-dark-red lh-copy f6 link bg-red pa2 pointer dib white input-reset">
+                            <input type="submit" value="Delete" class="btn btn-sm btn-danger">
                         </form>
                     </td>
                 </tr>
             {% endfor %}
             {% else %}
                 <tr>
-                    <td class="pv2 pl3 bb b--black-20" colspan="5">
+                    <td class="-20" colspan="5">
                         <p>No products found. Want to <a href="{% url 'organization_product_new' request.organization.slug %}">add a product</a>?</p>
                     </td>
                 </tr>

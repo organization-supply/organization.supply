@@ -324,7 +324,7 @@ class MutationForm(ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Amount",
-                "class": "lh-copy form-control",
+                "class": "form-control",
             }
         ),
     )
@@ -337,7 +337,7 @@ class MutationForm(ModelForm):
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Description..",
-                "class": "pa2 input-reset br2 bg-transparent w-100",
+                "class": "form-control",
             }
         ),
     )
@@ -380,7 +380,7 @@ class ShortcutMoveForm(Form):
         widget=forms.NumberInput(
             attrs={
                 "placeholder": "Amount",
-                "class": "pa2 input-reset ba bg-transparent w-100",
+                "class": "form-control",
             }
         )
     )
