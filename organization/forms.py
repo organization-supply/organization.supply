@@ -45,10 +45,7 @@ def validate_organization_name(organization_name):
 class OrganizationForm(ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
-            attrs={
-                "placeholder": "Organization name",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Organization name", "class": "form-control"}
         ),
         validators=[validate_organization_name],
     )
@@ -59,22 +56,17 @@ class OrganizationForm(ModelForm):
                 "placeholder": "A short description of your organization",
                 "class": "form-control",
             }
-        )
+        ),
     )
     contact_email = forms.EmailField(
         widget=forms.EmailInput(
-            attrs={
-                "placeholder": "contact@example.com",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "contact@example.com", "class": "form-control"}
         )
     )
     currency = forms.ChoiceField(
         required=False,
         choices=CURRENCY_CHOICES,
-        widget=forms.Select(
-            attrs={"class": "form-control"}
-        ),
+        widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     class Meta:
@@ -121,20 +113,14 @@ class OrganizationInviteForm(OrganizationUserAddForm):
 class ProductAddForm(ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
-            attrs={
-                "placeholder": "Product name",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Product name", "class": "form-control"}
         )
     )
 
     desc = forms.CharField(
         required=False,
         widget=forms.Textarea(
-            attrs={
-                "placeholder": "Description..",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Description..", "class": "form-control"}
         ),
     )
 
@@ -146,35 +132,23 @@ class ProductAddForm(ModelForm):
 class ProductEditForm(autocomplete.FutureModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
-            attrs={
-                "placeholder": "Product name",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Product name", "class": "form-control"}
         )
     )
 
     desc = forms.CharField(
         required=False,
         widget=forms.Textarea(
-            attrs={
-                "placeholder": "Description..",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Description..", "class": "form-control"}
         ),
     )
 
     price_cost = forms.FloatField(
-        required=False,
-        widget=forms.NumberInput(
-            attrs={"class": "form-control"}
-        ),
+        required=False, widget=forms.NumberInput(attrs={"class": "form-control"})
     )
 
     price_sale = forms.FloatField(
-        required=False,
-        widget=forms.NumberInput(
-            attrs={"class": "form-control"}
-        ),
+        required=False, widget=forms.NumberInput(attrs={"class": "form-control"})
     )
 
     image = forms.FileField(
@@ -209,19 +183,13 @@ class ProductEditForm(autocomplete.FutureModelForm):
 class LocationAddForm(ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
-            attrs={
-                "placeholder": "Location name",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Location name", "class": "form-control"}
         )
     )
     desc = forms.CharField(
         required=False,
         widget=forms.Textarea(
-            attrs={
-                "placeholder": "Description..",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Description..", "class": "form-control"}
         ),
     )
 
@@ -233,27 +201,18 @@ class LocationAddForm(ModelForm):
 class LocationEditForm(ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(
-            attrs={
-                "placeholder": "Location name",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Location name", "class": "form-control"}
         )
     )
     desc = forms.CharField(
         required=False,
         widget=forms.Textarea(
-            attrs={
-                "placeholder": "Description..",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Description..", "class": "form-control"}
         ),
     )
 
     size = forms.FloatField(
-        required=False,
-        widget=forms.NumberInput(
-            attrs={"class": "form-control"}
-        ),
+        required=False, widget=forms.NumberInput(attrs={"class": "form-control"})
     )
 
     image = forms.FileField(
@@ -323,10 +282,7 @@ class MutationForm(ModelForm):
     amount = forms.FloatField(
         required=True,
         widget=forms.TextInput(
-            attrs={
-                "placeholder": "Amount",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Amount", "class": "form-control"}
         ),
     )
 
@@ -336,10 +292,7 @@ class MutationForm(ModelForm):
     desc = forms.CharField(
         required=False,
         widget=forms.Textarea(
-            attrs={
-                "placeholder": "Description..",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Description..", "class": "form-control"}
         ),
     )
 
@@ -379,10 +332,7 @@ class MutationForm(ModelForm):
 class ShortcutMoveForm(Form):
     amount = forms.FloatField(
         widget=forms.NumberInput(
-            attrs={
-                "placeholder": "Amount",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Amount", "class": "form-control"}
         )
     )
     product = ModelChoiceField(Product.objects.none(), empty_label=None)

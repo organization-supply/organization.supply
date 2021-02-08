@@ -57,7 +57,11 @@ class TestOrganizationSettings(TestBase):
 
         response = self.client.post(
             "/{}/settings".format(self.organization.slug),
-            {"name": "New Organization Name", "contact_email": "org@thebeatles.com", "desc": "The Beatles"},
+            {
+                "name": "New Organization Name",
+                "contact_email": "org@thebeatles.com",
+                "desc": "The Beatles",
+            },
             follow=True,
         )
         self.assertEqual(response.status_code, 200)

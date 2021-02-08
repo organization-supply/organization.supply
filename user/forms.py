@@ -15,12 +15,7 @@ class UserSignupForm(ModelForm):
         fields = ("email", "password")
 
     email = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Email",
-                "class": "form-control",
-            }
-        )
+        widget=forms.TextInput(attrs={"placeholder": "Email", "class": "form-control"})
     )
     password = forms.CharField(
         widget=forms.TextInput(
@@ -43,29 +38,18 @@ class OrganizationAcceptForm(ModelForm):
 
     email = forms.CharField(
         max_length=30,
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Email",
-                "class": "form-control",
-            }
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "Email", "class": "form-control"}),
     )
     password = forms.CharField(
         max_length=30,
         widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Password",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Password", "class": "form-control"}
         ),
     )
     password_confirm = forms.CharField(
         max_length=30,
         widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Password (confirmation)",
-                "class": "form-control",
-            }
+            attrs={"placeholder": "Password (confirmation)", "class": "form-control"}
         ),
     )
 
@@ -87,12 +71,7 @@ class UserForm(ModelForm):
         fields = ["name", "image", "show_information_tooltips"]
 
     name = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Name",
-                "class": "form-control",
-            }
-        )
+        widget=forms.TextInput(attrs={"placeholder": "Name", "class": "form-control"})
     )
 
     image = forms.FileField(

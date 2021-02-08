@@ -14,6 +14,7 @@ CURRENCY_CHOICES = Choices(
     ("yen", "Yen (¥)"),
 )
 
+
 class OrganizationManager(models.Manager):
     def __str__(self):
         return self.slug
