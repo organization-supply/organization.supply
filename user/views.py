@@ -32,7 +32,6 @@ def signup(request):
         messages.add_message(request, messages.SUCCESS, "Signup succesfull!")
         return redirect("user_organizations")
     else:
-        print(form.errors)
         messages.add_message(request, messages.ERROR, form.errors)
     return render(request, "registration/signup.html", {"form": form})
 
