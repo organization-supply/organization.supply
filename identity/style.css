@@ -52,6 +52,7 @@ a.navbar-tenant{
   text-decoration: none;
   font-weight: bold;
   color: white;
+  white-space: nowrap;
 }
 
 
