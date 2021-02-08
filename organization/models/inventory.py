@@ -128,7 +128,6 @@ class Product(TimeStampedModel):
             created__lte=date,
             product=self,
         ).aggregate(Sum('amount'))
-        print(inventory_count)
         return inventory_count.get("amount__sum") or 0
 
     @property
