@@ -64,4 +64,4 @@ class Organization(DjangoOrganization, TimeStampedModel):
         }
 
     def __str__(self):
-        return f"<Organization ${self.name}>"
+        return self.name

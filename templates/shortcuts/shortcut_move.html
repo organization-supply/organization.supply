@@ -4,60 +4,25 @@
 
 {% block content %}
 
-<main class="pa4 black-80">
-    <form class="measure center" action="" method="POST">
-        <h1>
-            Move inventory
-        </h1>
+<h1 class="mt-3 text-center">Move inventory</h1>
 
-        {% csrf_token %}
-
-        <fieldset id="product_form" class="ba b--transparent ph0 mh0 mb1">
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="amount">
-                    Amount
-                    <span class="red f5">*</span>
-                </label>
-                {{ form.amount }}
-            </div>
-
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="product">
-                    Product
-                    <span class="red f5">*</span>
-                </label>
-                {{ form.product }}
-            </div>
-
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="location_from">
-                    From location
-                    <span class="red f5">*</span>
-                </label>
-                {{ form.location_from }}
-                <span class="pv2 db grey f6 lh-copy">
-                    The inventory at this location will be decreased by the amount you specify.
-                </span>
-            </div>
-
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="location_to">
-                    To location
-                    <span class="red f5">*</span>
-                </label>
-                {{ form.location_to }}
-                <span class="pv2 db grey f6 lh-copy">
-                    The inventory at this location will be increased by the same amount.
-                </span>
-            </div>
-
-            <div class="mt3">
-                <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Save move &raquo;">
-            </div>
-        </fieldset>
-
-        
-    </form>
-</main>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form class="" action="" method="POST">
+            {% csrf_token %}
+            <label class="col-form-label" for="amount">Amount *</label>
+            {{ form.amount }}
+            <label class="col-form-label" for="product">Product *</label>
+            {{ form.product }}
+            <label class="col-form-label" for="location_from">From location *</label>
+            {{ form.location_from }}
+            <div class="form-text">The inventory at this location will be decreased by the amount you specify.</div>
+            <label class="col-form-label" for="location_to">To location *</label>
+            {{ form.location_to }}
+            <div class="form-text mb-3">The inventory at this location will be increased by the same amount.</div>
+            <input class="btn btn-primary float-end" type="submit" value="Move &raquo;">
+        </form>
+    </div>
+</div>
 
 {% endblock %}

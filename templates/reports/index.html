@@ -8,38 +8,27 @@
     📊 Reports
 </h1>
 
-<div class="flex">    
-    <div class="w-50-ns w-100">
-        <dl class="fl pa3 w-100 dib w-33-ns">
-            <dd class="f6 f5-ns b ml0 pb2 bb b--black-20">Products</dd>
-            <dd class="f3 f2-ns b ml0 mt2">{{ counts.products }}</dd>
-        </dl>
-        <dl class="fl pa3 w-100 w-33-ns">
-            <dd class="f6 f5-ns b ml0 pb2 bb b--black-20">Locations</dd>
-            <dd class="f3 f2-ns b ml0 mt2">{{ counts.locations }}</dd>
-        </dl>
-        <dl class="fl pa3 w-100 w-33-ns">
-            <dd class="f6 f5-ns b ml0 pb2 bb b--black-20">Mutations</dd>
-            <dd class="f3 f2-ns b ml0 mt2">{{ counts.mutations }}</dd>
-        </dl>
-        <dl class="fl pa3 w-100 w-33-ns">
-            <dd class="f6 f5-ns b ml0 pb2 bb b--black-20">Total Costs</dd>
-            <dd class="f3 f2-ns b ml0 mt2">{% include "utils/currency.html" %} {{ products.total_price_cost }}</dd>
-        </dl>
-        <dl class="fl pa3 w-100 w-33-ns">
-            <dd class="f6 f5-ns b ml0 pb2 bb b--black-20">Total Sales</dd>
-            <dd class="f3 f2-ns b ml0 mt2">{% include "utils/currency.html" %} {{ products.total_price_sale }}</dd>
-        </dl>
-        <dl class="fl pa3 w-100 w-33-ns">
-            <dd class="f6 f5-ns b ml0 pb2 bb b--black-20">Total Profit</dd>
-            <dd class="f3 f2-ns b ml0 mt2">{% include "utils/currency.html" %} {{ products.total_profit }}</dd>
+<div class="row">    
+    <div class="col-md-6">
+        <h3>Numbers</h3>
+        <dl class="row">
+            <dt class="col-md-3">Products</dt>
+            <dd class="col-md-9">{{ counts.products }}</dd>
+            <dt class="col-md-3">Locations</dt>
+            <dd class="col-md-9">{{ counts.locations }}</dd>
+            <dt class="col-md-3">Mutations</dt>
+            <dd class="col-md-9">{{ counts.mutations }}</dd>
+            <dt class="col-md-3">Total Costs</dt>
+            <dd class="col-md-9">{% include "utils/currency.html" %} {{ products.total_price_cost|floatformat:2 }}</dd>
+            <dt class="col-md-3">Total Sales</dt>
+            <dd class="col-md-9">{% include "utils/currency.html" %} {{ products.total_price_sale|floatformat:2 }}</dd>
+            <dt class="col-md-3">Total Profit</dt>
+            <dd class="col-md-9">{% include "utils/currency.html" %} {{ products.total_profit|floatformat:2 }}</dd>
         </dl>
     </div>    
-    <div class="w-50-ns w-100 db">
-        <div class="pa3">
-            <h2 class="f6 f5-ns b ml0 pb2 bb b--black-20">Inventory over time</h2>
-            {% include 'charts/products_mutations.html' with data=product_mutations wrapper='mutations' debug=False %}
-        </div>
+    <div class="col-md-6">
+        <h2>Inventory over time</h2>
+        {% include 'charts/products_mutations.html' with data=product_mutations wrapper='mutations' debug=False %}
     </div>
 </div> 
 

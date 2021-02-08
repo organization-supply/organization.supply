@@ -4,53 +4,49 @@
 
 {% block content %}
 
-<h1 class="ph3 db">
-    Deck <span class="f4">({{ organizations.count }} organizations)</span>
+<h1 class="mt-3">
+    Deck <span class="badge badge-info">({{ organizations.count }} organizations)</span>
 </h1>
 
-
-<div class="mh3 overflow-auto">
-    <table class="f6 w-100 center b--light-silver br2 ba" cellspacing="0">
-        <thead>
-            <tr>
-                <th class="fw6 bb b--black-20 tl pa3">Date (created)</th>
-                <th class="fw6 bb b--black-20 tl pa3">Organization</th>
-                <th class="fw6 bb b--black-20 tl pa3">Plan</th>
-                <th class="fw6 bb b--black-20 tl pa3">Email</th>
-                <th class="fw6 bb b--black-20 tl pa3">Users</th>
-                <th class="fw6 bb b--black-20 tl pa3">Stats</th>
-            </tr>
-        </thead>
-        <tbody class="lh-copy">
-            {% for organization in organizations %}
-            <tr>
-                <td class="pl3 pa2 bb b--black-20">
-                    {{ organization.created|date:"Y-m-d" }}
-                </td>
-                <td class="pl3 pa2 bb b--black-20">
-                    {{ organization.name }} 
-                </td>
-                <td class="pl3 pa2 bb b--black-20">
-                    {{ organization.subscription_type }} 
-                </td>
-                <td class="pl3 pa2 bb b--black-20">
-                    <a href="mailto:{{ organization.contact_email }} ">{{ organization.contact_email }} </a>
-                </td>
-                <td class="pl3 pa2 bb b--black-20">
-                    {{ organization.users.count }}
-                </td>
-                <td class="pl3 pa2 bb b--black-20">
-                    <p class="lh-copy">
-                        Products: {{ organization.stats.product_count }}</br>
-                        Location: {{ organization.stats.location_count }}</br>
-                        Mutations: {{ organization.stats.mutation_count }}
-                    </p>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
+<table class="table border" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Date (created)</th>
+            <th>Organization</th>
+            <th>Plan</th>
+            <th>Email</th>
+            <th>Users</th>
+            <th>Stats</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for organization in organizations %}
+        <tr>
+            <td>
+                {{ organization.created|date:"Y-m-d" }}
+            </td>
+            <td>
+                {{ organization.name }} 
+            </td>
+            <td>
+                {{ organization.subscription_type }} 
+            </td>
+            <td>
+                <a href="mailto:{{ organization.contact_email }} ">{{ organization.contact_email }} </a>
+            </td>
+            <td>
+                {{ organization.users.count }}
+            </td>
+            <td>
+                <p>
+                    Products: {{ organization.stats.product_count }}</br>
+                    Location: {{ organization.stats.location_count }}</br>
+                    Mutations: {{ organization.stats.mutation_count }}
+                </p>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}

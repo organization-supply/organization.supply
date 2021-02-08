@@ -4,66 +4,34 @@
 
 {% block content %}
 
-<main class="pa4 black-80">
-    <form class="measure center" action="" method="POST">
-        <h1>
-            Add a sale
-        </h1>
+<h1 class="mt-3 text-center">
+    Add a sale
+</h1>
 
-        {% csrf_token %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form class="" action="" method="POST">
+            {% csrf_token %}
 
-        <fieldset id="product_form" class="ba b--transparent ph0 mh0 mb1">
+            <label class="col-form-label" for="product">Product *</label>
+            {{ form.product }}
 
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="product">
-                    Product
-                    <span class="red f5">*</span>
-                </label>
-                {{ form.product }}
-            </div>
-
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="amount">
-                    Amount
-                    <span class="red f5">*</span>
-                </label>
-                {{ form.amount }}
-            </div>
-
-            <div class="mt3">
-                <input type="checkbox" id="reserved" name="reserved">
-                <label for="reserved">
-                    This is a reservation
-                </label>
-                <!-- <span class="fr"> -->
-                    {% include 'utils/information.html' with id='user-notifications' content="A reservation is a draft transaction, not applied to the inventory" %}
-                <!-- </span> -->
-            </div>
-
+            <label class="col-form-label" for="amount">Amount *</label>
+            {{ form.amount }}
             
+            <input type="checkbox" id="reserved" name="reserved" class="mt-4">
+            <label for="reserved">This is a reservation</label>
+            <p class="form-text">A reservation is a draft transaction, not applied to the inventory</p>
+            
+            <label class="col-form-label" for="location_from">From location *</label>
+            {{ form.location }}
+            <p class="form-text">The inventory at this location will be decreased by the amount you specify.</p>
 
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="location_from">
-                    From location
-                    <span class="red f5">*</span>
-                </label>
-                {{ form.location }}
-                <span class="pv2 db grey f6 lh-copy">
-                    The inventory at this location will be decreased by the amount you specify.
-                </span>
-            </div>
+            <label class="col-form-label" for="desc">Description</label>
+            {{ form.desc }}
 
-            <div class="mt3">
-                <label class="db fw6 lh-copy f6" for="desc">Description</label>
-                {{ form.desc }}
-            </div>
-
-            <div class="mt3">
-                <input class="no-underline f5 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2 pointer" type="submit" value="Add this sale &raquo;">
-            </div>
-    
-        </fieldset>
-    </form>
-</main>
+            <input class="btn btn-primary mt-3 float-end" type="submit" value="Add this sale &raquo;">
+    </div>
+</div>
 
 {% endblock %}
