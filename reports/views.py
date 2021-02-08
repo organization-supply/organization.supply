@@ -72,7 +72,7 @@ def reports_at_date(request, date):
 
     total_price_cost = sum(product.inventory_at_date(at_date) * product.price_cost for product in products)
     total_price_sale = sum(product.inventory_at_date(date) * product.price_sale for product in products)
-    total_profit = total_price_cost - total_price_sale
+    total_profit = total_price_sale - total_price_cost
 
     return render(
         request,
