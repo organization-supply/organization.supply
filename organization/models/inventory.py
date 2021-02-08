@@ -123,6 +123,14 @@ class Product(TimeStampedModel):
             "sum_profit": (self.price_sale - self.price_cost) * inventory_count,
         }
 
+    def inventory_at_date(self, date):
+        inventory_count = Mutation.objects.filter(
+            created__lte=date,
+            product=self,
+        ).aggregate(Sum('amount'))
+        print(inventory_count)
+        return inventory_count.get("amount__sum") or 0
+
     @property
     def url(self):
         return reverse(

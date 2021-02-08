@@ -65,3 +65,4 @@ static/*/*
 
 # Theme for Hugo is ignored..
 hugo/themes/ananke/
+.pytest_cache
