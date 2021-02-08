@@ -2,42 +2,42 @@
 
 {% include 'base_header.html' %}
 
-<main class="container">
-  <div class="row justify-content-center">
-    <div class="col-4">
-      <h1 class="text-center fs-5 fw-bold py-4">
-        <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" style="width: 20px; margin-top: -4px; margin-right: 10px; "/>
-        Organization.supply
-      </h1>
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <h1 class="text-center">
+      <img src="{% static 'logo/organization-supply-logo-no-border.png' %}" alt="Organization.supply" style="width: 20px; margin-top: -4px; margin-right: 10px; "/>
+      Organization.supply
+    </h1>
+    
+    {% if form.errors %}
+      {% for key, value in form.errors.items %}
+      <div class="mb-3 alert alert-danger">
+        {{ value }}
+      </div>
+      {% endfor %}
+    {% endif %}
+  
+    <form class="border rounded-2 p-2 clearfix" method="POST" autocomplete="on">        
+  
+      <h2>Sign up</h2>
       
-      {% if form.errors %}
-        {% for key, value in form.errors.items %}
-        <div class="mb-3 alert alert-danger">
-            {{ value }}
-        </div>
-        {% endfor %}
-      {% endif %}
-    
-      <form class="border rounded-2 p-2 clearfix" method="POST" autocomplete="on">        
-    
-        <h2>Sign up</h2>
-        
-        {% csrf_token %}
-    
-        <div class="mb-3">
-            <label for="email-address" class="col-form-label">Email</label>
-            <input class="form-control" type="text" name="username" id="username">
-        </div>
-        <div class="mb-3">
-          <label for="password" class="col-form-label">Password</label>
-          <input class="form-control" type="password" name="password" id="password">
-        </div>
+      {% csrf_token %}
+  
+      <div class="mb-3">
+          <label for="email-address" class="col-form-label">Email</label>
+          <input class="form-control" type="text" name="email" id="email">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="col-form-label">Password</label>
+        <input class="form-control" type="password" name="password" id="password">
+      </div>
 
-        <div class="w-100 dib">
-          <a href="{% url 'login' %}" class="btn btn-secondary">&laquo; Login</a>
-          <input class="btn btn-primary float-end" type="submit" value="Sign up">
-        </div>
+      <div class="w-100 dib">
+        <a href="{% url 'login' %}" class="btn btn-secondary">&laquo; Login</a>
+        <input class="btn btn-primary float-end" type="submit" value="Sign up">
+      </div>
     </form>
-</main>
+  </div>
+</div>
 
 {% include "base_footer.html" %}

@@ -65,6 +65,9 @@ class TestOrganizationInvite(TestBase):
         )
         register_url = link.search(mail.outbox[0].body)[0]
 
+        # Log the current user out for now
+        self.client.logout()
+
         # The register url should give a 200.
         response = self.client.get(register_url)
         self.assertEqual(response.status_code, 200)

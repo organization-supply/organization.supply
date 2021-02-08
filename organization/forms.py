@@ -53,6 +53,7 @@ class OrganizationForm(ModelForm):
         validators=[validate_organization_name],
     )
     description = forms.CharField(
+        required=False,
         widget=forms.Textarea(
             attrs={
                 "placeholder": "A short description of your organization",
