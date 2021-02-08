@@ -1,0 +1,17 @@
+<ul class="nav justify-content-start nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'organization_settings' request.organization.slug %}">Settings</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'organization_users' request.organization.slug %}">Users</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'organization_billing' request.organization.slug %}">Billing</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'organization_integrations' request.organization.slug %}">Integrations</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'organization_export' request.organization.slug %}">Export</a>
+    </li>
+</ul>
