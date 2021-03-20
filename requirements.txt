@@ -43,7 +43,7 @@ idna==2.8
 importlib-metadata==0.23
 isort==4.3.21
 jdcal==1.4.1
-Jinja2==2.10.3
+Jinja2==2.11.3
 jsmin==2.2.2
 jsonfield==2.0.2
 livereload==2.6.1
