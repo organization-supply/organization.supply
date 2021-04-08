@@ -11,7 +11,7 @@ Click==7.0
 coverage==4.5.4
 defusedxml==0.6.0
 diff-match-patch==20181111
-Django==2.2.18
+Django==2.2.20
 django-appconf==1.0.4
 django-autocomplete-light==3.5.1
 django-classy-tags==1.0.0
